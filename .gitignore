@@ -1,6 +1,9 @@
 # Files Created my Mac Finder
 .DS_Store
 
+# Heroku Config File
+.env
+
 # Logs
 logs
 *.log
