@@ -3,7 +3,8 @@ This is a web app to explore Princeton University course listings and evaluation
 
 ## Building
 To build run this app on your own device, follow these instructions.
-1. This app runs on the [Node.js](https://nodejs.org/) environment. If you don't already have this installed, [download]((https://nodejs.org/)) and install it. You can check if Node.js is installed by running `node -v` (this prints the version number of the installed copy of Node).
+
+1.  This app runs on the [Node.js](https://nodejs.org/) environment. If you don't already have this installed, [download]((https://nodejs.org/)) and install it. You can check if Node.js is installed by running `node -v` (this prints the version number of the installed copy of Node).
 2. This app runs on [Heroku](http://www.heroku.com). If you don't already have the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) (Command Line Interface) installed, [download](https://devcenter.heroku.com/articles/heroku-cli) and install it. You can check if the Heroku CLI is installed by running `heroku -v` (this prints the version number of the installed copy of the Heroku CLI).
 3. Clone this repository to your computer. You can either run `git clone https://github.com/sebthedev/PrincetonCourses.git` or use the [GitHub Desktop](https://desktop.github.com) app.
 4. `cd` into the cloned repository.
