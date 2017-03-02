@@ -4,10 +4,10 @@
   "description": "An app to explore Princeton University course listings and evaluations.",
   "main": "app.js",
   "dependencies": {
-    "ejs": "2.4.1",
+    "ejs": ">=2.4.1",
     "express": ">=4.13.3",
     "cookie-session" : "latest",
-    "cas": "latest",
+    "cas": ">=0.0.3",
     "mongoose": ">=4.1.11"
   },
   "devDependencies": {},
