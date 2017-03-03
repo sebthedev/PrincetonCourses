@@ -12,5 +12,5 @@ To build run this app on your own device, follow these instructions.
 3. Clone this repository to your computer. You can either run `git clone https://github.com/sebthedev/PrincetonCourses.git` or use the [GitHub Desktop](https://desktop.github.com) app.
 4. `cd` into the cloned repository.
 5. Install dependencies by running `npm install`.
-6. Princeton Courses needs to be connected to a MongoDB database. Create a file called `.env` that contains the text `MONGODB_URI='[URI POINTING TO YOUR MONGODB DATABASE]'`.
-7. Launch the app by running `cd` into the cloned repository on your computer and run `heroku local web`.
+6. Princeton Courses needs to be connected to a MongoDB database. Create a file called `.env` that contains the text `MONGODB_URI='[URI POINTING TO YOUR MONGODB DATABASE]'`. You might like to use [mLab](https://www.mlab.com) to host your database.
+7. Launch the app by running `heroku local web`. The app should now be running at [http://localhost:5000](http://localhost:5000).
