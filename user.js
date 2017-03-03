@@ -13,13 +13,13 @@ var userSchema = new mongoose.Schema({
 })
 
 userSchema.statics.findByNetid = function (netid, callback) {
-  return this.findOne({ netid: netid }, function(error, doc){
-      if (error) {
-          console.log("An error occured in findByNetid(). Error: %s", error);
-      } else {
-          callback(doc);
-      }
-  });
+  return this.findOne({ netid: netid }, function (error, doc) {
+    if (error) {
+      console.log('An error occured in findByNetid(). Error: %s', error)
+    } else {
+      callback(doc)
+    }
+  })
 }
 
 var User = mongoose.model('User', userSchema)
