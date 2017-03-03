@@ -8,9 +8,10 @@ var instructorModel = require('./instructor.js')
 var courseSchema = new mongoose.Schema({
   _id: Number,
   courseID: Number,
-  courseNumber: {
-    type: Number,
-    min: 100
+  catalogNumber: {
+    type: String,
+    trim: true,
+    uppercase: true
   },
   title: {
     type: String,
@@ -33,19 +34,31 @@ var courseSchema = new mongoose.Schema({
   instructors: [{
     type: Number,
     ref: 'Instructor'
+  }],
+  crosslistings: [{
+    department: {
+      type: String,
+      uppercase: true,
+      trim: true
+    },
+    catalogNumber: {
+      type: String,
+      trim: true,
+      uppercase: true
+    }
   }]
 })
 
 // Create the virtual commonName property
 courseSchema.virtual('commonName').get(function () {
-  return this.department + ' ' + this.courseNumber
+  return this.department + ' ' + this.catalogNumber
 })
 
 // Save a new course in the database. Data should be the course details from the Registrar
 courseSchema.statics.createCourse = function (semester, department, data, callback) {
   var courseModel = mongoose.model('Course', courseSchema)
 
-    // Process the instructors for this course
+  // Process the instructors for this course
   var instructors = []
   for (var instructorIndex in data.instructors) {
     var thisInstructor = data.instructors[instructorIndex]
@@ -53,18 +66,29 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     instructorModel.upsertInstructorWithCourse(thisInstructor.emplid, thisInstructor.first_name, thisInstructor.last_name, data.guid)
   }
 
+  // Process the crosslistings for this course
+  var crosslistings = []
+  for (var crosslistingIndex in data.crosslistings) {
+    var thisCrosslisting = data.crosslistings[crosslistingIndex]
+    crosslistings.push({
+      department: thisCrosslisting.subject,
+      catalogNumber: thisCrosslisting.catalog_number
+    })
+  }
+
   courseModel.findOneAndUpdate({
     _id: data.guid
   }, {
     _id: data.guid,
     courseID: data.course_id,
-    courseNumber: data.catalog_number,
+    catalogNumber: data.catalog_number,
     title: data.title,
     semester: semester,
     department: department,
     description: data.detail.description,
     classes: data.classes,
-    instructors: instructors
+    instructors: instructors,
+    crosslistings: crosslistings
   }, {
     new: true,
     upsert: true,
@@ -74,14 +98,17 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     if (error) {
       console.log('Creating/updating a course failed. Error: %s', error)
     }
+    if (typeof (callback) === 'function') {
+      callback()
+    }
   })
 }
 
-courseSchema.statics.findCourse = function (department, courseNumber, callback) {
+courseSchema.statics.findCourse = function (department, catalogNumber, callback) {
   var Course = mongoose.model('Course', courseSchema)
   Course.findOne({
     department: department,
-    courseNumber: courseNumber
+    catalogNumber: catalogNumber
   }).populate('semester instructors')
     .exec(function (error, thisCourse) {
       if (error) {
