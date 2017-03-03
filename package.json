@@ -6,9 +6,11 @@
   "dependencies": {
     "ejs": ">=2.4.1",
     "express": ">=4.13.3",
-    "cookie-session" : "latest",
+    "cookie-session" : ">=2.0.0-beta.1",
     "cas": ">=0.0.3",
-    "mongoose": ">=4.1.11"
+    "mongoose": ">=4.1.11",
+    "dotenv": ">=4.0.0",
+    "loglevel" : ">=1.4.1"
   },
   "devDependencies": {},
   "scripts": {
