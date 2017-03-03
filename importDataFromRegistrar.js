@@ -1,5 +1,4 @@
 // This script populates the database with all the courses from Princeton's Registrar
-
 console.log('Starting script to update our database with latest course listings information from the Registrar.')
 
 // Load config variables from the .env file
@@ -57,21 +56,23 @@ var loadCoursesFromRegistrar = function (query, externalCallback) {
   req.end()
 }
 
-var processDataFromRegistrar = function (data) {
+var importDataFromRegistrar = function (data) {
   log.info('Processing data recieved from the Registrar.')
 
   for (var termIndex in data.term) {
     var term = data.term[termIndex]
-    processTerm(term)
+    importTerm(term)
   }
 }
 
 // Recieve a "term" of data (of the kind produced by the Registrar) and add/update the database to contain this data
-var processTerm = function (term) {
-    // Update/Add Semesters to the database
-    // Existing semesters not in data object will be untouched
-    // Existing semesters in data object will be updated
-    // New semesters in data object will be created
+var importTerm = function (term) {
+  log.info('Processing the %s semester.', term.cal_name)
+
+  // Update/Add Semesters to the database
+  // Existing semesters not in data object will be untouched
+  // Existing semesters in data object will be updated
+  // New semesters in data object will be created
   semesterModel.findOneAndUpdate({
     _id: term.code
   }, {
@@ -91,26 +92,52 @@ var processTerm = function (term) {
     }
     log.trace('Creating or updating the semester %s succeeded.', term.cal_name)
 
-        // Process each subject within this semester
+    // Process each subject within this semester
     for (var subjectIndex in term.subjects) {
       var subject = term.subjects[subjectIndex]
-      processSubject(semester, subject)
+      importSubject(semester, subject)
     }
   })
 }
 
-var processSubject = function (semester, subject) {
+var coursesPendingProcessing = 0
+
+var importSubject = function (semester, subject) {
+  log.debug('Processing the subject %s in the %s semester.', subject.code, semester.name)
+
+  // Iterate over the courses in this subject
   for (var courseIndex in subject.courses) {
     var courseData = subject.courses[courseIndex]
-        // console.log(courseData);
-        // process.exit(0);
-    courseModel.createCourse(semester, subject.code, courseData)
+
+    // Print the catalog number
+    if (log.getLevel() < 1) {
+      process.stdout.write(' ' + courseData.catalog_number)
+    }
+
+    // Increment the number of courses pending processing
+    coursesPendingProcessing++
+
+    courseModel.createCourse(semester, subject.code, courseData, function () {
+      // Decrement the number of courses pending processing
+      coursesPendingProcessing--
+
+      // If there are no courses pending processing, we should quit
+      if (coursesPendingProcessing === 0) {
+        log.info('All courses successfully processed.')
+        process.exit()
+      }
+    })
+  }
+
+  // Print a newline
+  if (log.getLevel() < 1) {
+    process.stdout.write('\n')
   }
 }
 
-loadCoursesFromRegistrar('term=all&subject=AAS', processDataFromRegistrar)
+loadCoursesFromRegistrar('term=all&subject=all', importDataFromRegistrar)
 
-courseModel.findCourse('AAS', 372, function (thisCourse) {
+courseModel.findCourse('WWS', 372, function (thisCourse) {
     // console.log(thisCourse);
     // console.log("Retrieved this course with semester %d", thisCourse.semester);
 })
