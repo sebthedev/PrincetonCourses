@@ -1,5 +1,4 @@
 var mongoose = require('mongoose')
-var courseModel = require('./course.js')
 
 // This is the schema.  Note the types, validation and trim
 // statements.  They enforce useful constraints on the data.
@@ -9,7 +8,10 @@ var userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true
   },
-  favouriteCourses: [courseModel.courseSchema]
+  favouriteCourses: [{
+    type: Number,
+    ref: 'Course'
+  }]
 })
 
 userSchema.statics.findByNetid = function (netid, callback) {
