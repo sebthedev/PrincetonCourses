@@ -27,3 +27,5 @@ userSchema.statics.findByNetid = function (netid, callback) {
 var User = mongoose.model('User', userSchema)
 
 module.exports = User
+
+// Heyyyy guyyyyys
