@@ -100,8 +100,6 @@ var importTerm = function (term) {
   })
 }
 
-var coursesPendingProcessing = 0
-
 var importSubject = function (semester, subject) {
   log.debug('Processing the subject %s in the %s semester.', subject.code, semester.name)
 
@@ -135,9 +133,8 @@ var importSubject = function (semester, subject) {
   }
 }
 
-loadCoursesFromRegistrar('term=all&subject=all', importDataFromRegistrar)
+// Initialise a counter of the number of courses pending being added to the database
+var coursesPendingProcessing = 0
 
-courseModel.findCourse('WWS', 372, function (thisCourse) {
-    // console.log(thisCourse);
-    // console.log("Retrieved this course with semester %d", thisCourse.semester);
-})
+// Execute a script to import courses from all available semesters ("terms") and all available departments ("subjects")
+loadCoursesFromRegistrar('term=all&subject=all', importDataFromRegistrar)
