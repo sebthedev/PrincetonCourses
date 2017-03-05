@@ -14,6 +14,7 @@ if (typeof (mongoDBURI) === 'undefined') {
 mongoose.connect(mongoDBURI, function (error, res) {
   if (error) {
     console.log('Connecting to the database failed. Databse URI: %s, Error: %s.', mongoDBURI, error)
+    process.exit(1)
   } else {
     console.log('Connecting to the database succeeded.')
   }
