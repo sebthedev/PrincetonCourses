@@ -2,6 +2,9 @@
 
 var mongoose = require('mongoose')
 
+// Load internal modules
+var config = require('./config.js')
+
 // Connect to the database
 // The connection is made asynchronously.  Mongoose will queue up database
 // operations and release them when the connection is complete.

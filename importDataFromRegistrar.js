@@ -15,7 +15,7 @@ if (process.argv.length > 2) {
   log.setLevel(process.argv[2])
 }
 
-// Load internal models
+// Load internal modules
 var semesterModel = require('./semester.js')
 var courseModel = require('./course.js')
 
