@@ -168,10 +168,5 @@ courseSchema.statics.findCoursesFuzzy = function (query, callback) {
 // Create the Course model from the courseSchema
 var Course = mongoose.model('Course', courseSchema)
 
-Course.on('index', function (error) {
-  // "_id index cannot be sparse"
-  console.log(error)
-})
-
 // Export the Course model
 module.exports = Course
