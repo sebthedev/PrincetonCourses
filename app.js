@@ -21,6 +21,7 @@ app.use(bodyParser.json())
 var config = require('./config')
 require('./user.js')
 var courseModel = require('./course.js')
+var semesterModel = require('./semester.js')
 var auth = require('./authentication.js')
 
 // Connect to the database
@@ -61,8 +62,15 @@ app.get('/api/whoami', function (req, res) {
 
 // Route API requests for course details
 app.post('/api/courses', function (req, res) {
-  courseModel.findCoursesFuzzy(req.body.query, function (results) {
+  console.log('Request for "%s" in %s', req.body.query, req.body.semester)
+  courseModel.findCoursesFuzzy(req.body.query, req.body.semester, function (results) {
     res.json(results)
+  })
+})
+
+app.get('/api/semesters', function (req, res) {
+  semesterModel.getAllSemesters(function (semesters) {
+    res.json(semesters)
   })
 })
 

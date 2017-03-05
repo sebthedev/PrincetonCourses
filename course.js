@@ -140,14 +140,18 @@ courseSchema.statics.findCourse = function (department, catalogNumber, callback)
     })
 }
 
-courseSchema.statics.findCoursesFuzzy = function (query, callback) {
+courseSchema.statics.findCoursesFuzzy = function (query, semester, callback) {
   var Course = mongoose.model('Course', courseSchema)
-  Course.find({
+
+  var filters = {
     $text: {
       $search: query
-    },
-    semester: 1174
-  }, {
+    }
+  }
+  if (semester) {
+    filters.semester = semester
+  }
+  Course.find(filters, {
     score: {
       $meta: 'textScore'
     }
