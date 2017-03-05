@@ -2,6 +2,18 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+
+        $.get("/api/whoami", function(data){
+            alert("Hi! Your netid is:" + data.netid);
+        })
+
+    });
+  </script>
+
 </head>
 
 <body>

@@ -61,6 +61,18 @@ app.get('/', function (req, res) {
   }
 })
 
+// Route a req for the homepage
+app.get('/api/whoami', function (req, res) {
+    // Check whether the user has authenticated
+  if (!req.session.cas) {
+        // The user in unauthenticated. Display a splash page.
+    // res.render('pages/splash')
+    res.json({ netid: 'You are not logged in' })
+  } else {
+    res.json({ netid: app.get('user').netid })
+  }
+})
+
 // Handle replies from CAS server about authentication
 app.get('/verify', function (req, res) {
   if (!req.session.cas) {
