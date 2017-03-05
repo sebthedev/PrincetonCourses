@@ -14,3 +14,6 @@ To build run this app on your own device, follow these instructions.
 5. Install dependencies by running `npm install`.
 6. Princeton Courses needs to be connected to a MongoDB database. Create a file called `.env` that contains the text `MONGODB_URI='[URI POINTING TO YOUR MONGODB DATABASE]'`. You might like to use [mLab](https://www.mlab.com) to host your database.
 7. Launch the app by running `heroku local web`. The app should now be running at [http://localhost:5000](http://localhost:5000).
+
+## Accessing the database
+Our database is a MongoDB database hosted on mLab. You can browse the database in a GUI using the [Robomongo app](https://robomongo.org).
