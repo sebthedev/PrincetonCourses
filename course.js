@@ -54,6 +54,22 @@ courseSchema.virtual('commonName').get(function () {
   return this.department + ' ' + this.catalogNumber
 })
 
+// Create an index on this schema which allows for awesome weighted text searching
+courseSchema.index({
+  title: 'text',
+  description: 'text',
+  department: 'text',
+  catalogNumber: 'text'
+}, {
+  'weights': {
+    title: 10,
+    description: 1,
+    department: 20,
+    catalogNumber: 5
+  },
+  name: 'PublicCourseSearch'
+})
+
 // Save a new course in the database. Data should be the course details from the Registrar
 courseSchema.statics.createCourse = function (semester, department, data, callback) {
   var courseModel = mongoose.model('Course', courseSchema)
@@ -124,8 +140,38 @@ courseSchema.statics.findCourse = function (department, catalogNumber, callback)
     })
 }
 
+courseSchema.statics.findCoursesFuzzy = function (query, callback) {
+  var Course = mongoose.model('Course', courseSchema)
+  Course.find({
+    $text: {
+      $search: query
+    },
+    semester: 1174
+  }, {
+    score: {
+      $meta: 'textScore'
+    }
+  }).populate('instructors')
+    .sort({
+      score: {
+        $meta: 'textScore'
+      }
+    })
+    .exec(function (err, results) {
+      if (err) {
+        console.log(err)
+      }
+      callback(results)
+    })
+}
+
 // Create the Course model from the courseSchema
 var Course = mongoose.model('Course', courseSchema)
+
+Course.on('index', function (error) {
+  // "_id index cannot be sparse"
+  console.log(error)
+})
 
 // Export the Course model
 module.exports = Course

@@ -10,7 +10,8 @@
     "cas": ">=0.0.3",
     "mongoose": ">=4.1.11",
     "dotenv": ">=4.0.0",
-    "loglevel" : ">=1.4.1"
+    "loglevel" : ">=1.4.1",
+    "body-parser" : ">=1.17.0"
   },
   "devDependencies": {},
   "scripts": {

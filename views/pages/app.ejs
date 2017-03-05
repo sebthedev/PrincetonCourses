@@ -2,10 +2,15 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-
+  <script src="/scripts/loggedin.js"></script>
 </head>
 
 <body>
-    Woohoo! Hello <%= netid %>. You are logged in! <a href="auth/logout">Logout</a>.
+    <h1>Princeton Courses</h1>
+    <div>Welcome to Princeton Courses, <%= netid %>. You are logged in! <a href="auth/logout">Logout</a>.</div>
+
+    <div>Search for a course:</div>
+    <input id="searchbox"></input>
+    <div id="results"></div>
 </body>
 </html>

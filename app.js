@@ -12,9 +12,15 @@ var express = require('express')
 var session = require('cookie-session')
 var app = express()
 
+var bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 // Load internal modules
 var config = require('./config')
 require('./user.js')
+var courseModel = require('./course.js')
 var auth = require('./authentication.js')
 
 // Connect to the database
@@ -51,6 +57,13 @@ app.get('/api/whoami', function (req, res) {
   } else {
     res.json({ netid: app.get('user').netid })
   }
+})
+
+// Route API requests for course details
+app.post('/api/courses', function (req, res) {
+  courseModel.findCoursesFuzzy(req.body.query, function (results) {
+    res.json(results)
+  })
 })
 
 // Map any files in the /public folder to the root of our domain
