@@ -33,7 +33,6 @@ var cas = new CentralAuthenticationService({
 })
 app.use(session({ keys: ['key1', 'key2'] }))
 
-//OMG I WROTE SOME COMMENTS DOPE
 // If the user is authenticated, load the user for the lifetime of this req
 app.use('*', function (req, res, next) {
   if (req.session.cas) {
