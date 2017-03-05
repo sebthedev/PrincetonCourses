@@ -14,6 +14,7 @@ var userSchema = new mongoose.Schema({
   }]
 })
 
+// Find a user by their netID
 userSchema.statics.findByNetid = function (netid, callback) {
   return this.findOne({ netid: netid }, function (error, doc) {
     if (error) {
