@@ -73,7 +73,12 @@ app.get('/api/whoami', function (req, res) {
   }
 })
 
-// Handle replies from CAS server about authentication
+// Redirect the user to Princeton's CAS server
+app.get('/login', function (req, res) {
+  res.redirect(casURL + 'login?service=' + app.get('host') + '/verify')
+})
+
+// Handle replies from Princeton's CAS server about authentication
 app.get('/verify', function (req, res) {
   if (!req.session.cas) {
     var ticket = req.param('ticket')
@@ -114,22 +119,21 @@ app.get('/verify', function (req, res) {
   }
 })
 
-app.get('/login', function (req, res) {
-  res.redirect(casURL + 'login?service=' + app.get('host') + '/verify')
-})
-
+// Log the user out
 app.get('/logout', function (req, res) {
   req.session = null
   res.redirect('/')
 })
 
+// Map any files in the /public folder to the root of our domain
+// For example, if there is a file at /public/cat.jpg of this app,
+// it can be accessed on the web at [APP DOMAIN NAME]/cat.jpg
 app.use(express.static(path.join(__dirname, '/public')))
 
-// views is directory for all template files
-app.set('views', path.join(__dirname, '/views'))
+// Configure the EJS templating system (http://www.embeddedjs.com)
 app.set('view engine', 'ejs')
 
-// Start listening for reqs
+// Start listening for requests
 app.listen(app.get('port'), function () {
   console.log('Listening for reqs on port %d.', app.get('port'))
 })
