@@ -1,4 +1,4 @@
-div#topbar-cont {
+#topbar-cont {
     width:100%;
     position:fixed;
     background:#F0F0F0;
@@ -7,12 +7,12 @@ div#topbar-cont {
     line-height:55px;
     top:0px;
 }
-div#topbar {
+#topbar {
     line-height:55px;
-    width:95%;
+    width:98%;
     margin:0px auto;
 }
-div#topbar h1{
+#topbar h1{
     font-size:1.5em;
     display:inline-block;
     vertical-align: middle;
@@ -20,16 +20,44 @@ div#topbar h1{
     margin:0px;
     line-height:55px;
 }
-div#topbar p{
+#topbar p{
     font-size:1em;
     float:right;
     display:inline-block;
     vertical-align: middle;
     line-height:55px;
 }
+#searchbar-cont {
+	width:100%;
+    position:fixed;
+    background:#F0F0F0;
+    border:1px solid #CCC;
+    line-height:40px;
+    margin:0px;
+    top:55px;
+}
+#searchbar {
+	line-height:40px;
+    width:98%;
+    margin:0px auto;
+}
+input#searchbox {
+	line-height:20px;
+}
+select#semester {
+	height:20px;
+	line-height: 20px;
+}
+#results-cont {
+	width:98%;
+}
+#results {
+	width:90%;
+}
+
 .page {
-    width:95%;
+    width:100%;
     background: #FFF;
     height: 2000px;
-    margin: 70px auto;
+    margin-top:100px;
 }

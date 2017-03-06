@@ -8,11 +8,16 @@
 
 <body>
     <%include ../partials/topbar.ejs %>
+    <div id="searchbar-cont">
+    	<div id="searchbar">
+	    	<input id="searchbox" autofocus placeholder="Search for a course"></input>
+	   		<select id="semester"></select>
+	    </div>
+    </div>
     <div class="page">
-	    <div>Search for a course:</div>
-	    <input id="searchbox" autofocus></input>
-	    <select id="semester"></select>
-	    <div id="results"></div>
+	    <div id = "results-cont">
+	    	<div id="results"></div>
+	    </div>
 	</div>
 </body>
 </html>
