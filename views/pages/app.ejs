@@ -3,15 +3,16 @@
 <head>
   <% include ../partials/header.ejs %>
   <script src="/scripts/loggedin.js"></script>
+  <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
 </head>
 
 <body>
-    <h1>Princeton Courses</h1>
-    <div>Welcome to Princeton Courses, <%= netid %>. You are logged in! <a href="auth/logout">Logout</a>.</div>
-
-    <div>Search for a course:</div>
-    <input id="searchbox" autofocus></input>
-    <select id="semester"></select>
-    <div id="results"></div>
+    <%include ../partials/topbar.ejs %>
+    <div class="page">
+	    <div>Search for a course:</div>
+	    <input id="searchbox" autofocus></input>
+	    <select id="semester"></select>
+	    <div id="results"></div>
+	</div>
 </body>
 </html>

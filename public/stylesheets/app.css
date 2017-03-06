@@ -1,0 +1,35 @@
+div#topbar-cont {
+    width:100%;
+    position:fixed;
+    background:#F0F0F0;
+    border:1px solid #CCC;
+    height:55px;
+    line-height:55px;
+    top:0px;
+}
+div#topbar {
+    line-height:55px;
+    width:95%;
+    margin:0px auto;
+}
+div#topbar h1{
+    font-size:1.5em;
+    display:inline-block;
+    vertical-align: middle;
+    float:left;
+    margin:0px;
+    line-height:55px;
+}
+div#topbar p{
+    font-size:1em;
+    float:right;
+    display:inline-block;
+    vertical-align: middle;
+    line-height:55px;
+}
+.page {
+    width:95%;
+    background: #FFF;
+    height: 2000px;
+    margin: 70px auto;
+}
