@@ -7,7 +7,6 @@ require('dotenv').config()
 // Load external dependencies
 var http = require('http')
 var log = require('loglevel')
-// var mongoose = require('mongoose')
 
 // Set the level of the logger to the first command line argument
 // Valid values: "trace", "debug", "info", "warn", "error"
