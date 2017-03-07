@@ -7,7 +7,7 @@ var instructorModel = require('./instructor.js')
 // Define the courseSchema
 var courseSchema = new mongoose.Schema({
   _id: Number,
-  courseID: Number,
+  courseID: String,
   catalogNumber: {
     type: String,
     trim: true,
