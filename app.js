@@ -50,6 +50,20 @@ app.get('/', function (req, res) {
   }
 })
 
+// Route a request for the alternative homepage
+app.get('/appalt', function (req, res) {
+  // Check whether the user sending this request is authenticated
+  if (!auth.userIsAuthenticated(req)) {
+        // The user in unauthenticated. Display a splash page.
+    res.render('pages/splash')
+  } else {
+    // The user has authenticated. Display the app
+    res.render('pages/appalt', {
+      netid: app.get('user').netid
+    })
+  }
+})
+
 // Route a req for the homepage
 app.get('/api/whoami', function (req, res) {
   // Check whether the user sending this request is authenticated
