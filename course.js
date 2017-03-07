@@ -46,7 +46,14 @@ var courseSchema = new mongoose.Schema({
       trim: true,
       uppercase: true
     }
-  }]
+  }],
+  evaluations: {
+    scores: {},
+    studentComments: [{
+      type: String,
+      trim: true
+    }]
+  }
 })
 
 // Create the virtual commonName property
@@ -120,29 +127,8 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
   })
 }
 
-courseSchema.statics.findCourse = function (department, catalogNumber, callback) {
-  var Course = mongoose.model('Course', courseSchema)
-  Course.findOne({
-    department: department,
-    catalogNumber: catalogNumber
-  }).populate('semester instructors')
-    .exec(function (error, thisCourse) {
-      if (error) {
-        console.log('Error on finding a course.')
-      } else {
-        if (thisCourse == null) {
-          console.log('No such course could be found.')
-        } else {
-          console.log('Found the course!')
-          callback(thisCourse)
-        }
-      };
-    })
-}
-
 courseSchema.statics.findCoursesFuzzy = function (query, semester, callback) {
-  var Course = mongoose.model('Course', courseSchema)
-
+  // Define the filtering parameters
   var filters = {
     $text: {
       $search: query
@@ -151,22 +137,22 @@ courseSchema.statics.findCoursesFuzzy = function (query, semester, callback) {
   if (semester) {
     filters.semester = semester
   }
-  Course.find(filters, {
+
+  // Perform the search
+  this.find(filters, {
     score: {
       $meta: 'textScore'
     }
-  }).populate('instructors')
-    .sort({
-      score: {
-        $meta: 'textScore'
-      }
-    })
-    .exec(function (err, results) {
-      if (err) {
-        console.log(err)
-      }
-      callback(results)
-    })
+  }).sort({
+    score: {
+      $meta: 'textScore'
+    }
+  }).exec(function (err, results) {
+    if (err) {
+      console.log(err)
+    }
+    callback(results)
+  })
 }
 
 // Create the Course model from the courseSchema
