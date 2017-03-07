@@ -77,6 +77,16 @@ courseSchema.index({
   name: 'PublicCourseSearch'
 })
 
+// Automatically populate instructors and semester
+var autoPopulate = function (next) {
+  this.populate('instructors semester')
+  next()
+}
+
+// Bind the autoPopulate function to the courseModel's find and findOne methods
+courseSchema.pre('find', autoPopulate)
+courseSchema.pre('findOne', autoPopulate)
+
 // Save a new course in the database. Data should be the course details from the Registrar
 courseSchema.statics.createCourse = function (semester, department, data, callback) {
   var courseModel = mongoose.model('Course', courseSchema)
