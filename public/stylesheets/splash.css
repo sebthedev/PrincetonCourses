@@ -1,11 +1,12 @@
 .fullpage{
   height: 100vh;
   width: 100vw;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .jumbotron-banner {
-  height: 100%;
   text-align: center;
   background-color: #f58025;
   color: #ffffff;
@@ -13,11 +14,4 @@
 
 .banner-button {
   margin-top: 40px;
-}
-
-.banner {
-  position: absolute;
-  top: 50%;
-  margin-top: -150px;
-  width: 100vw;
 }
