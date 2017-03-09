@@ -84,11 +84,7 @@ var getCourseListingData = function (semester, courseID, callback) {
     } else {
       results.pdf.required = false
     }
-    if (attributes.indexOf('P/D/F') > -1) {
-      results.pdf.permitted = true
-    } else if (attributes.indexOf('npdf') > -1) {
-      results.pdf.permitted = false
-    }
+    results.pdf.permitted = (attributes.indexOf('P/D/F') > -1)
 
     // Get Audit Status
     if (attributes.indexOf('Audit') > -1) {
