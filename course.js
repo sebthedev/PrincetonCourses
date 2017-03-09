@@ -53,6 +53,38 @@ var courseSchema = new mongoose.Schema({
       type: String,
       trim: true
     }]
+  },
+  distribution: {
+    type: String,
+    uppercase: true,
+    trim: true
+  },
+  pdf: {
+    permitted: Boolean,
+    required: Boolean
+  },
+  audit: Boolean,
+  assignments: [String],
+  grading: Array,
+  prerequisites: {
+    type: String,
+    trim: true
+  },
+  equivalentcourses: {
+    type: String,
+    trim: true
+  },
+  otherinformation: {
+    type: String,
+    trim: true
+  },
+  otherrequirements: {
+    type: String,
+    trim: true
+  },
+  website: {
+    type: String,
+    trim: true
   }
 })
 
