@@ -159,7 +159,7 @@ var getCourseListingData = function (semester, courseID, callback) {
 }
 
 // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-courseModel.find({department: 'FRS', semester: 1152}, function (error, courses) {
+courseModel.find({}, function (error, courses) {
   if (error) {
     console.log(error)
   }
