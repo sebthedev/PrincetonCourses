@@ -1,7 +1,10 @@
 // An example script that shows how the page can make a request to our server
 
 // something crude to try to get course data to pop up
-var displayCourseData = function(course_id) {
+var displayCourseData = function(course_id, object) {
+   $(".search-result").removeClass("active");
+   object.addClass("active");
+
    $.post('/api/course_by_id',
           {
              course_id: course_id
@@ -42,7 +45,8 @@ $(document).ready(function () {
 
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
-        $('#results').append('<a onclick="displayCourseData(' + thisCourse._id + ')" class="list-group-item list-square"><div>' +
+        $('#results').append('<a onclick="displayCourseData(' + thisCourse._id +
+                           ',$(this))" class="list-group-item list-square search-result"><div>' +
                              thisCourse.department + ' ' + thisCourse.catalogNumber +
                              ' <span class="label label-info">dist</span></div><div>' +
                              thisCourse.title + '</div></a>')
