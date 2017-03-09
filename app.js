@@ -74,7 +74,9 @@ app.get('/api/whoami', function (req, res) {
   }
 })
 
-// Route API requests for course given course id
+// MEL: Route API requests for course given course id
+// MEL: Not entirely sure how this works but its a copy of the /api/courses thing below
+// MEL: go to course.js to find the findCoursesById function.
 app.post('/api/course_by_id', function (req, res) {
   console.log('Request for course with id %s', req.body.course_id)
   courseModel.findCoursesById(req.body.course_id, function (results) {

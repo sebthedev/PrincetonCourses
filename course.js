@@ -137,6 +137,9 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
   })
 }
 
+// MEL: This finds an element given its database id, I think.
+// MEL: no idea how it works, just copied from findCoursesFuzzy with
+// MEL: a different filter which seems to work
 courseSchema.statics.findCoursesById = function (course_id, callback) {
    this.find({
       _id: course_id

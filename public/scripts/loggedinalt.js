@@ -1,20 +1,26 @@
 // An example script that shows how the page can make a request to our server
 
-// something crude to try to get course data to pop up
+// MEL: copied from loggedin.js and edited
+// MEL: something crude to get course data to pop up and update highlighting of active search result
+// MEL: does this constitute a global var??
 var displayCourseData = function(course_id, object) {
+   // MEL: updates which search result is highlighted.
    $(".search-result").removeClass("active");
    object.addClass("active");
 
+   // MEL: This thing asks for /api/course_by_id in app.js I think.
    $.post('/api/course_by_id',
           {
              course_id: course_id
           },
           function (courses) {
+             // MEL: Clear these elements?
              $('#disp-title').html('')
              $('#disp-profs').html('')
              $('#disp-desc').html('')
              $('#disp-body').html('')
 
+             // MEL: Display the thing. Not sure if for loop is necessary but it works so I won't touch it
              for (var courseIndex in courses) {
                var thisCourse = courses[courseIndex]
                $('#disp-title').append(thisCourse.department + ' ' + thisCourse.catalogNumber +
@@ -45,6 +51,10 @@ $(document).ready(function () {
 
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
+
+        // MEL: editted to print out an <a> element instead for the search panel
+        // MEL: note the onclick event calls displayCourseData (above) with the course id
+        // MEL: and the object itself
         $('#results').append('<a onclick="displayCourseData(' + thisCourse._id +
                            ',$(this))" class="list-group-item list-square search-result"><div>' +
                              thisCourse.department + ' ' + thisCourse.catalogNumber +
