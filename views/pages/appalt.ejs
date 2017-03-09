@@ -10,7 +10,7 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Some course listing thing</a>
+        <a class="navbar-brand" href="#">Princeton Courses</a>
       </div>
       <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
@@ -28,19 +28,24 @@
       <div class="col-sm-6 max-col">
         <div class="panel panel-default search-panel">
           <div class="panel-body panel-marginless">
-           <div class="form-group">
-             <input class="form-control input-lg" id="searchbox" autofocus type="text" placeholder="Search for courses..." />
-             <select id="semester"></select>
-           </div>
-           <div>
-             <h4>Search Results</h4>
-           </div>
-           <div class="course-search-list scroll-window">
-             <div class="scrollable">
-               <ul class="list-group list-group-search" id="results">
-                 <a href="#" class="list-group-item list-square">
-                   <div>COS000 <span class="label label-info">QR</span></div>
-                   <div>Nonexistent Computer Science</div>
+            <div class="row">
+              <div class="col-xs-8">
+                 <input class="form-control" id="searchbox" type="text" placeholder="Search for courses..." />
+              </div>
+              <div class="col-xs-4">
+                <select class="form-control" id="semester">
+                </select>
+              </div>
+            </div>
+            <div>
+              <h4>Search Results</h4>
+            </div>
+            <div class="course-search-list scroll-window">
+              <div class="scrollable">
+                <ul class="list-group list-group-search" id="results">
+                  <a href="#" class="list-group-item list-square active">
+                    <div>COS333 <span class="label label-info">QR</span></div>
+                    <div>Advanced Programming Techniques</div>
                   </a>
                 </ul>
               </div>
@@ -53,14 +58,14 @@
           <div class="scrollable">
             <div class="panel panel-default marginless">
               <div class="panel-heading">
-                <h1>COS333 <small>Advanced Programming Techniques <span class="label label-info">QR</span> <span class="label label-warning">NA</span> <span class="label label-warning">NPDF</span></small></h1>
-                <h3>Brian W. Kernighan, Christopher M. Moretti </h3>
-                <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                <h1 id="disp-title">COS333 <small>Advanced Programming Techniques <span class="label label-info">QR</span> <span class="label label-warning">NA</span> <span class="label label-warning">NPDF</span></small></h1>
+                <h3 id="disp-profs">Brian W. Kernighan, Christopher M. Moretti </h3>
+                <p id="disp-desc">This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
                   by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code and
                   in group projects.
                 </p>
               </div>
-              <div class="panel-body">
+              <div id="disp-body" class="panel-body">
                  <p>Stuff.</p>
               </div>
             </div>

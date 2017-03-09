@@ -137,6 +137,17 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
   })
 }
 
+courseSchema.statics.findCoursesById = function (course_id, callback) {
+   this.find({
+      _id: course_id
+   }).exec(function (err, results) {
+     if (err) {
+       console.log(err)
+     }
+     callback(results)
+   })
+}
+
 courseSchema.statics.findCoursesFuzzy = function (query, semester, callback) {
   // Define the filtering parameters
   var filters = {
