@@ -10,19 +10,20 @@ const path = require('path')
 require('mongoose')
 var express = require('express')
 var session = require('cookie-session')
-var app = express()
-
 var bodyParser = require('body-parser')
 
+// Initialise Express, which makes the server work
+var app = express()
+
+// Initialise bodyParser, which parses the data out of web requests
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Load internal modules
 var config = require('./config')
 require('./user.js')
-var courseModel = require('./course.js')
-var semesterModel = require('./semester.js')
 var auth = require('./authentication.js')
+var api = require('./api.js')
 
 // Connect to the database
 require('./database.js')
@@ -35,12 +36,13 @@ app.use('*', auth.loadUser)
 
 // Attach routers (these are modules that contain a distinct set of routes)
 app.use('/auth', auth.router)
+app.use('/api', api.router)
 
 // Route a request for the homepage
 app.get('/', function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
-        // The user in unauthenticated. Display a splash page.
+    // The user in unauthenticated. Display a splash page.
     res.render('pages/splash')
   } else {
     // The user has authenticated. Display the app
@@ -48,30 +50,6 @@ app.get('/', function (req, res) {
       netid: app.get('user').netid
     })
   }
-})
-
-// Route a req for the homepage
-app.get('/api/whoami', function (req, res) {
-  // Check whether the user sending this request is authenticated
-  if (!auth.userIsAuthenticated(req)) {
-    res.json({ netid: 'You are not logged in' })
-  } else {
-    res.json({ netid: app.get('user').netid })
-  }
-})
-
-// Route API requests for course details
-app.post('/api/courses', function (req, res) {
-  console.log('Request for "%s" in %s', req.body.query, req.body.semester)
-  courseModel.findCoursesFuzzy(req.body.query, req.body.semester, function (results) {
-    res.json(results)
-  })
-})
-
-app.get('/api/semesters', function (req, res) {
-  semesterModel.getAllSemesters(function (semesters) {
-    res.json(semesters)
-  })
 })
 
 // Map any files in the /public folder to the root of our domain
