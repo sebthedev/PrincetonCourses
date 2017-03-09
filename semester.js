@@ -13,8 +13,7 @@ var semesterSchema = new mongoose.Schema({
 })
 
 semesterSchema.statics.getAllSemesters = function (callback) {
-  var Semester = mongoose.model('Semester', semesterSchema)
-  Semester.find({}, function (err, semesters) {
+  this.find({}, function (err, semesters) {
     if (err) {
       console.log(err)
     }
