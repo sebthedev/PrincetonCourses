@@ -106,7 +106,7 @@ var getCourseListingData = function (semester, courseID, callback) {
     // Get Grading Components
     var insideGrading
     var gradingComponentsRaw = detailsContainer.first().contents().filter(function () {
-      if ($(this).is('strong')) {
+      if ($(this).is('strong, b')) {
         insideGrading = $(this).text().indexOf('Requirements/Grading') > -1
       }
       return (this.nodeType === 3 && insideGrading)
