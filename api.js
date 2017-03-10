@@ -71,6 +71,7 @@ router.post('/courses', function (req, res) {
   }
   if (typeof (req.body.sort) === 'string') {
     if (['title', 'department'].indexOf(req.body.sort) > -1) {
+      sort = {}
       sort[req.body.sort] = 1
     } else if (req.body.sort === 'code') {
       sort = {
