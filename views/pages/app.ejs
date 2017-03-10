@@ -10,8 +10,14 @@
     <%include ../partials/topbar.ejs %>
     <div id="searchbar-cont">
     	<div id="searchbar">
-	    	<input id="searchbox" autofocus placeholder="Search for a course"></input>
+	    	<input id="searchbox" autofocus placeholder="Search for a course" autocomplete="off"></input>
 	   		<select id="semester"></select>
+            <select id="sort">
+                <option value="relevance" selected>Relevance</option>
+                <option value="title">Title</option>
+                <option value="department">Department</option>
+                <option value="code">Course Code</option>
+            </select>
 	    </div>
     </div>
     <div class="page">

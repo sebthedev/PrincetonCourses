@@ -104,7 +104,7 @@ courseSchema.index({
     title: 10,
     description: 1,
     department: 20,
-    catalogNumber: 5
+    catalogNumber: 10
   },
   name: 'PublicCourseSearch'
 })
