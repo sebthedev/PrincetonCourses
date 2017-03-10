@@ -21,7 +21,6 @@ app.use(bodyParser.json())
 
 // Load internal modules
 var config = require('./config')
-require('./user.js')
 var auth = require('./authentication.js')
 var api = require('./api.js')
 
