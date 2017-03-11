@@ -169,34 +169,6 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
   })
 }
 
-courseSchema.statics.findCoursesFuzzy = function (query, semester, callback) {
-  // Define the filtering parameters
-  var filters = {
-    $text: {
-      $search: query
-    }
-  }
-  if (semester) {
-    filters.semester = semester
-  }
-
-  // Perform the search
-  this.find(filters, {
-    score: {
-      $meta: 'textScore'
-    }
-  }).sort({
-    score: {
-      $meta: 'textScore'
-    }
-  }).exec(function (err, results) {
-    if (err) {
-      console.log(err)
-    }
-    callback(results)
-  })
-}
-
 // Create the Course model from the courseSchema
 var Course = mongoose.model('Course', courseSchema)
 
