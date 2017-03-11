@@ -26,8 +26,15 @@ $(document).ready(function () {
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
 
+        // string for course listings
+        var listings = thisCourse.department + ' ' + thisCourse.catalogNumber
+        for (var listing in thisCourse.crosslistings) {
+          listings += '/' + thisCourse.crosslistings[listing].department
+                    + ' ' + thisCourse.crosslistings[listing].catalogNumber
+        }
+
         $('#results').append('<a class="list-group-item search-result"><div>' +
-                             thisCourse.department + ' ' + thisCourse.catalogNumber +
+                             listings +
                              (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>') +
                              '</div><div>' + thisCourse.title + '</div></a>')
 
@@ -37,13 +44,8 @@ $(document).ready(function () {
     })
   }
 
-  // Every time a key is pressed inside the #searchbox, call the getCourseData function
-  $('#searchbox').keyup(getCourseData)
-  $('#semester').change(getCourseData)
-
-  // displays information in right pane on click of search result
-  $('#results').on('click', 'a.search-result', function() {
-
+  // function for displaying course details
+  var dispCourseData = function() {
     $(".search-result").removeClass("active");
     $(this).addClass("active")
 
@@ -53,15 +55,31 @@ $(document).ready(function () {
     $('#disp-body').html('')
 
     var thisCourse = this.course
-    $('#disp-title').append(thisCourse.department + ' ' + thisCourse.catalogNumber +
-                         ' <small>' + thisCourse.title + '</small>')
+
+    // string for course listings
+    var listings = thisCourse.department + ' ' + thisCourse.catalogNumber
+    for (var listing in thisCourse.crosslistings) {
+      listings += '/' + thisCourse.crosslistings[listing].department
+                + ' ' + thisCourse.crosslistings[listing].catalogNumber
+    }
+
+    $('#disp-title').append(listings + ' <small>' + thisCourse.title
+                            + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
+                            + '</small>')
 
     $('#disp-desc').append(thisCourse.description)
 
     $('#disp-body').append('<p>' + thisCourse.description + '</p><p>' + thisCourse.description + '</p><p>' +
                            thisCourse.description + '</p><p>' + thisCourse.description + '</p><p>' +
                            thisCourse.description + '</p><p>' +thisCourse.description + '</p>')
-  })
+  }
+
+  // Every time a key is pressed inside the #searchbox, call the getCourseData function
+  $('#searchbox').keyup(getCourseData)
+  $('#semester').change(getCourseData)
+
+  // displays information in right pane on click of search result
+  $('#results').on('click', 'a.search-result', dispCourseData)
 
   // load the semesters for the dropdown
   $.get('/api/semesters', function (semesters) {
