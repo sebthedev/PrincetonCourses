@@ -87,7 +87,7 @@ $(document).ready(function () {
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
   $('#searchbox').keyup(getCourseData)
-  $('#semester').change(getCourseData)
+  $('#semester, #sort').change(getCourseData)
 
   // displays information in right pane on click of search result
   $('#results').on('click', 'a.search-result', dispCourseData)
