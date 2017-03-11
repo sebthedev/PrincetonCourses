@@ -23,6 +23,16 @@ $(document).ready(function () {
       // clear results
       $('#results').html('')
 
+      /* SEB'S EXAMPLE
+
+      // Insert the course results into the area
+      for (var courseIndex in courses) {
+        var thisCourse = courses[courseIndex]
+        $('#results').append('<div class="course"><span style="font-weight:bold">' + thisCourse.department + ' ' + thisCourse.catalogNumber + '</span> ' + thisCourse.title + '</div>')
+        $('#results').children().last()[0].course = thisCourse
+
+      */
+
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
 
@@ -61,6 +71,7 @@ $(document).ready(function () {
     for (var listing in thisCourse.crosslistings) {
       listings += '/' + thisCourse.crosslistings[listing].department
                 + ' ' + thisCourse.crosslistings[listing].catalogNumber
+
     }
 
     $('#disp-title').append(listings + ' <small>' + thisCourse.title
@@ -80,6 +91,20 @@ $(document).ready(function () {
 
   // displays information in right pane on click of search result
   $('#results').on('click', 'a.search-result', dispCourseData)
+
+  /* SEB' EXAMPLE
+
+  // $('#results div').click(function () {
+  //   console.log($(this).text())
+  // })
+
+  $('#results').on('click', 'div.course', function () {
+    // window.alert('Handler for .click() called.')
+    // console.log(this.course)
+    window.alert('You just clicked on the course ' + this.course.title + '!')
+  })
+
+  */
 
   // load the semesters for the dropdown
   $.get('/api/semesters', function (semesters) {
