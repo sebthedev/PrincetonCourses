@@ -34,7 +34,8 @@ router.get('/verify', function (req, res) {
       // Check if the user has a valid ticket
       cas.validate(ticket, function (err, status, netid) {
         if (err) {
-          res.send({ error: err })
+          console.log(err)
+          res.sendStatus(500)
         } else {
           console.log('Setting session for user %s', netid)
           req.session.cas = {
@@ -50,14 +51,15 @@ router.get('/verify', function (req, res) {
               })
               User.save(function (error) {
                 if (error) {
-                  console.log('An error occured saving a user: %s', error)
+                  console.log(error)
+                  res.sendStatus(500)
                 }
+                res.redirect('/')
               })
+            } else {
+              res.redirect('/')
             }
-            req.app.set('user', user)
           })
-
-          res.redirect('/')
         }
       })
     } else {

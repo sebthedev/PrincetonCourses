@@ -26,7 +26,7 @@ require('./database.js')
 // For example, the query "term=1174&subject=COS" will return all COS courses in
 // the Spring 2017 semester. Learn about valid query strings at https://webfeeds.princeton.edu/#feed,19
 var loadCoursesFromRegistrar = function (query, externalCallback) {
-  log.debug("Preparing to make request to the Registrar for course listings data with query '%s'.", query)
+  console.log("Preparing to make request to the Registrar for course listings data with query '%s'.", query)
 
     // Define the HTTP request options
   var options = {
@@ -120,7 +120,7 @@ var importSubject = function (semester, subject) {
 
       // If there are no courses pending processing, we should quit
       if (coursesPendingProcessing === 0) {
-        log.info('All courses successfully processed.')
+        console.log('All courses successfully processed.')
         process.exit()
       }
     })

@@ -53,6 +53,38 @@ var courseSchema = new mongoose.Schema({
       type: String,
       trim: true
     }]
+  },
+  distribution: {
+    type: String,
+    uppercase: true,
+    trim: true
+  },
+  pdf: {
+    permitted: Boolean,
+    required: Boolean
+  },
+  audit: Boolean,
+  assignments: [String],
+  grading: Array,
+  prerequisites: {
+    type: String,
+    trim: true
+  },
+  equivalentcourses: {
+    type: String,
+    trim: true
+  },
+  otherinformation: {
+    type: String,
+    trim: true
+  },
+  otherrequirements: {
+    type: String,
+    trim: true
+  },
+  website: {
+    type: String,
+    trim: true
   }
 })
 
@@ -72,7 +104,7 @@ courseSchema.index({
     title: 10,
     description: 1,
     department: 20,
-    catalogNumber: 5
+    catalogNumber: 10
   },
   name: 'PublicCourseSearch'
 })
@@ -134,48 +166,6 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     if (typeof (callback) === 'function') {
       callback()
     }
-  })
-}
-
-// MEL: This finds an element given its database id, I think.
-// MEL: no idea how it works, just copied from findCoursesFuzzy with
-// MEL: a different filter which seems to work
-courseSchema.statics.findCoursesById = function (course_id, callback) {
-   this.find({
-      _id: course_id
-   }).exec(function (err, results) {
-     if (err) {
-       console.log(err)
-     }
-     callback(results)
-   })
-}
-
-courseSchema.statics.findCoursesFuzzy = function (query, semester, callback) {
-  // Define the filtering parameters
-  var filters = {
-    $text: {
-      $search: query
-    }
-  }
-  if (semester) {
-    filters.semester = semester
-  }
-
-  // Perform the search
-  this.find(filters, {
-    score: {
-      $meta: 'textScore'
-    }
-  }).sort({
-    score: {
-      $meta: 'textScore'
-    }
-  }).exec(function (err, results) {
-    if (err) {
-      console.log(err)
-    }
-    callback(results)
   })
 }
 

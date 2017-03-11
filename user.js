@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true
   },
-  favouriteCourses: [{
+  favoriteCourses: [{
     type: Number,
     ref: 'Course'
   }]

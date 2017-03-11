@@ -126,7 +126,7 @@ courseModel.find({}, function (error, courses) {
             })
           }
         })
-      }, 500)
+      }, 200)
     } else {
       process.exit(0)
     }
