@@ -27,7 +27,8 @@ var getCourseData = function () {
     // Insert the course results into the area
     for (var courseIndex in courses) {
       var thisCourse = courses[courseIndex]
-      $('#results').append('<div><span style="font-weight:bold">' + thisCourse.department + ' ' + thisCourse.catalogNumber + '</span> ' + thisCourse.title + '</div>')
+      $('#results').append('<div class="course"><span style="font-weight:bold">' + thisCourse.department + ' ' + thisCourse.catalogNumber + '</span> ' + thisCourse.title + '</div>')
+      $('#results').children().last()[0].course = thisCourse
     }
   })
 }
@@ -37,6 +38,16 @@ $(document).ready(function () {
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
   $('#searchbox').keyup(getCourseData)
   $('#semester, #sort').change(getCourseData)
+
+  // $('#results div').click(function () {
+  //   console.log($(this).text())
+  // })
+
+  $('#results').on('click', 'div.course', function () {
+    // window.alert('Handler for .click() called.')
+    // console.log(this.course)
+    window.alert('You just clicked on the course ' + this.course.title + '!')
+  })
 
   $.get('/api/semesters', function (semesters) {
     for (var semesterIndex in semesters) {
