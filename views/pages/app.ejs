@@ -33,11 +33,19 @@
               <div class="panel-body vmax search-panel-body">
                 <div class="search-search">
                   <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-sm-6">
                       <input class="form-control" id="searchbox" type="text" placeholder="Search for courses... (try NES for fall 15)" autofocus/>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-sm-3">
                       <select class="form-control" id="semester">
+                      </select>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="sort">
+                        <option value="relevance" selected>Relevance</option>
+                        <option value="title">Title</option>
+                        <option value="department">Department</option>
+                        <option value="code">Course Code</option>
                       </select>
                     </div>
                   </div>
