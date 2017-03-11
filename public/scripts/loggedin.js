@@ -80,9 +80,16 @@ $(document).ready(function () {
 
     $('#disp-desc').append(thisCourse.description)
 
-    $('#disp-body').append('<p>' + thisCourse.description + '</p><p>' + thisCourse.description + '</p><p>' +
-                           thisCourse.description + '</p><p>' + thisCourse.description + '</p><p>' +
-                           thisCourse.description + '</p><p>' +thisCourse.description + '</p>')
+    $('#disp-body').append((thisCourse.prerequisites == undefined ? '' :
+                            '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
+                            + (thisCourse.equivalentcourses == undefined ? '' :
+                            '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')
+                            + (thisCourse.otherinformation == undefined ? '' :
+                            '<h3>Other Information</h3><p>' + thisCourse.otherinformation + '</p>')
+                            + (thisCourse.otherrequirements == undefined ? '' :
+                            '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
+                            + (thisCourse.website == undefined ? '' :
+                            '<h3>Website</h3><p>' + thisCourse.website + '</p>'))
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
