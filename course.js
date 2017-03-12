@@ -159,7 +159,7 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     classes: data.classes,
     instructors: instructors,
     crosslistings: crosslistings,
-    track : data.detail.track
+    track: data.detail.track
   }, {
     new: true,
     upsert: true,
