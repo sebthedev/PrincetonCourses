@@ -85,6 +85,11 @@ var courseSchema = new mongoose.Schema({
   website: {
     type: String,
     trim: true
+  },
+  track: {
+    type: String,
+    trim: true,
+    uppercase: true
   }
 })
 
@@ -153,7 +158,8 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     description: data.detail.description,
     classes: data.classes,
     instructors: instructors,
-    crosslistings: crosslistings
+    crosslistings: crosslistings,
+    track : data.detail.track
   }, {
     new: true,
     upsert: true,
