@@ -80,7 +80,20 @@ $(document).ready(function () {
 
     $('#disp-desc').append(thisCourse.description)
 
-    $('#disp-body').append((thisCourse.prerequisites == undefined ? '' :
+    // stuff for course evaluations
+    var evals = ""
+    for (var field in thisCourse.evaluations.scores) {
+      var val = thisCourse.evaluations.scores[field]
+      evals += '<div class="row"><div class="col-xs-3"><p><strong>' + field + '</p></div>'
+             + '<div class="col-xs-9"><div class="progress">'
+             + '<div class="progress-bar progress-bar-success" role="progressbar"'
+                 + ' style="width: ' + (val*20) + '%;">' + val + '</div>'// as percentage of 5
+             + '<div class="progress-bar progress-bar-warning" role="progressbar"'
+                 + ' style="width: ' + (100 - val*20) + '%;">' + '</div></div></div></div>'
+    }
+
+    $('#disp-body').append(evals
+                            + (thisCourse.prerequisites == undefined ? '' :
                             '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
                             + (thisCourse.equivalentcourses == undefined ? '' :
                             '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')
