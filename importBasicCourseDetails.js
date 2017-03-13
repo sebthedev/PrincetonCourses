@@ -7,6 +7,7 @@ require('dotenv').config()
 // Load external dependencies
 var http = require('http')
 var log = require('loglevel')
+var $ = require('cheerio')
 
 // Set the level of the logger to the first command line argument
 // Valid values: "trace", "debug", "info", "warn", "error"
@@ -99,6 +100,11 @@ var importTerm = function (term) {
   })
 }
 
+// Decode escaped HTML characters in a string, for example changing "Foo&amp;bar" to "Foo&bar"
+var decodeEscapedCharacters = function (html) {
+  return $('<div>' + $('<div>' + html + '</div>').text() + '</div>').text()
+}
+
 var importSubject = function (semester, subject) {
   log.debug('Processing the subject %s in the %s semester.', subject.code, semester.name)
 
@@ -109,6 +115,16 @@ var importSubject = function (semester, subject) {
     // Print the catalog number
     if (log.getLevel() < 1) {
       process.stdout.write(' ' + courseData.catalog_number)
+    }
+
+    // Decode escaped HTML characters in the course title
+    if (typeof (courseData.title) !== 'undefined') {
+      courseData.title = decodeEscapedCharacters(courseData.title)
+    }
+
+    // Decode escaped HTML characters in the course description
+    if (typeof (courseData.detail.description) !== 'undefined') {
+      courseData.detail.description = decodeEscapedCharacters(courseData.detail.description)
     }
 
     // Increment the number of courses pending processing
