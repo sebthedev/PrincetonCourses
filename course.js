@@ -109,9 +109,17 @@ courseSchema.index({
     title: 10,
     description: 1,
     department: 20,
-    catalogNumber: 10
+    catalogNumber: 10,
+    distribution: 10
   },
-  name: 'PublicCourseSearch'
+  name: 'CourseRelevance'
+})
+
+// Catch errors when creating the textindex
+courseSchema.on('index', function (error) {
+  if (error) {
+    console.log(error.message)
+  }
 })
 
 // Automatically populate instructors and semester

@@ -73,6 +73,10 @@ router.post('/courses', function (req, res) {
     if (['title', 'department'].indexOf(req.body.sort) > -1) {
       sort = {}
       sort[req.body.sort] = 1
+    } else if (req.body.sort === 'rating') {
+      sort = {
+        'evaluations.scores.Overall Quality of the Course': -1
+      }
     } else if (req.body.sort === 'code') {
       sort = {
         department: 1,
