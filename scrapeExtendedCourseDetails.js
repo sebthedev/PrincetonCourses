@@ -35,6 +35,10 @@ var loadPage = function (term, courseID, externalCallback) {
     res.on('end', function () {
       externalCallback(str)
     })
+
+    res.on('error', function (err) {
+      console.log(err)
+    })
   })
   req.end()
 }
@@ -60,99 +64,95 @@ var extractSingle = function ($, container, title) {
 
 // Return the course evaluation data for the given semester/courseID to the function callback
 var getCourseListingData = function (semester, courseID, callback) {
-  try {
-    loadPage(semester, courseID, function (data) {
-      console.log('\tRecieved data for course %s in semester %s.', courseID, semester)
+  loadPage(semester, courseID, function (data) {
+    console.log('\tRecieved data for course %s in semester %s.', courseID, semester)
 
             // Prepare to Extract Data From Page
-      var $ = cheerio.load(data)
-      var results = {}
-      var detailsContainer = $('#timetable')
+    var $ = cheerio.load(data)
+    var results = {}
+    var detailsContainer = $('#timetable')
 
             // Get Distrubution Area
-      const regex = /\((LA|SA|HA|EM|EC|QR|STN|STL)\)/
-      let m
-      if ((m = regex.exec(detailsContainer.text())) !== null) {
-        results.distribution = m[0].substring(1, m[0].length - 1)
-      }
+    const regex = /\((LA|SA|HA|EM|EC|QR|STN|STL)\)/
+    let m
+    if ((m = regex.exec(detailsContainer.text())) !== null) {
+      results.distribution = m[0].substring(1, m[0].length - 1)
+    }
 
-      var attributes = detailsContainer.find('em').first().text()
+    var attributes = detailsContainer.find('em').first().text()
 
             // Get PDF Status
-      results.pdf = {
-        required: (attributes.indexOf('Audit') > -1),
-        permitted: (attributes.indexOf('P/D/F') > -1)
-      }
+    results.pdf = {
+      required: (attributes.indexOf('P/D/F Only') > -1),
+      permitted: (attributes.indexOf('P/D/F') > -1)
+    }
 
       // Get Audit Status
-      results.audit = (attributes.indexOf('Audit') > -1)
+    results.audit = (attributes.indexOf('Audit') > -1)
 
       // Get Assignments
-      var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')
-      if (typeof (assignments) !== 'undefined') {
-        results.assignments = assignments
-      }
+    var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')
+    if (typeof (assignments) !== 'undefined') {
+      results.assignments = assignments
+    }
 
             // Get Grading Components
-      var insideGrading
-      var gradingComponentsRaw = detailsContainer.first().contents().filter(function () {
-        if ($(this).is('strong, b')) {
-          insideGrading = $(this).text().indexOf('Requirements/Grading') > -1
-        }
-        return (this.nodeType === 3 && insideGrading)
-      }).text()
-      var gradingComponentLines = gradingComponentsRaw.split('\n')
-      results.grading = []
-      for (var gradingComponentLinesIndex in gradingComponentLines) {
-        var thisGradingComponentLine = gradingComponentLines[gradingComponentLinesIndex].trim()
-        if (thisGradingComponentLine.length > 0) {
-          var thisGradingComponent = thisGradingComponentLine.split('-')
-          results.grading.push({
-            component: thisGradingComponent[0].trim(),
-            weight: parseInt(thisGradingComponent[1].trim())
-          })
-        }
+    var insideGrading
+    var gradingComponentsRaw = detailsContainer.first().contents().filter(function () {
+      if ($(this).is('strong, b')) {
+        insideGrading = $(this).text().indexOf('Requirements/Grading') > -1
       }
+      return (this.nodeType === 3 && insideGrading)
+    }).text()
+    var gradingComponentLines = gradingComponentsRaw.split('\n')
+    results.grading = []
+    for (var gradingComponentLinesIndex in gradingComponentLines) {
+      var thisGradingComponentLine = gradingComponentLines[gradingComponentLinesIndex].trim()
+      if (thisGradingComponentLine.length > 0) {
+        var thisGradingComponent = thisGradingComponentLine.split('-')
+        results.grading.push({
+          component: thisGradingComponent[0].trim(),
+          weight: parseInt(thisGradingComponent[1].trim())
+        })
+      }
+    }
 
             // Get Prerequisites
-      var prerequisites = extractSingle($, detailsContainer, 'Prerequisites and Restrictions')
-      if (typeof (prerequisites) !== 'undefined') {
-        results.prerequisites = prerequisites
-      }
+    var prerequisites = extractSingle($, detailsContainer, 'Prerequisites and Restrictions')
+    if (typeof (prerequisites) !== 'undefined') {
+      results.prerequisites = prerequisites
+    }
 
             // Get Equivalent Courses
-      var equivalentcourses = extractSingle($, detailsContainer, 'Equivalent Courses')
-      if (typeof (equivalentcourses) !== 'undefined') {
-        results.equivalentcourses = equivalentcourses
-      }
+    var equivalentcourses = extractSingle($, detailsContainer, 'Equivalent Courses')
+    if (typeof (equivalentcourses) !== 'undefined') {
+      results.equivalentcourses = equivalentcourses
+    }
 
             // Get Other Information
-      var otherinformation = extractSingle($, detailsContainer, 'Other information')
-      if (typeof (otherinformation) !== 'undefined') {
-        results.otherinformation = otherinformation
-      }
+    var otherinformation = extractSingle($, detailsContainer, 'Other information')
+    if (typeof (otherinformation) !== 'undefined') {
+      results.otherinformation = otherinformation
+    }
 
             // Get Other Requirements
-      var otherrequirements = extractSingle($, detailsContainer, 'Other Requirements')
-      if (typeof (otherrequirements) !== 'undefined') {
-        results.otherrequirements = otherrequirements
-      }
+    var otherrequirements = extractSingle($, detailsContainer, 'Other Requirements')
+    if (typeof (otherrequirements) !== 'undefined') {
+      results.otherrequirements = otherrequirements
+    }
 
             // Get Website
-      var website = detailsContainer.find('strong:contains(Website)').next('a').attr('href')
-      if (typeof (website) !== 'undefined') {
-        results.website = website
-      }
+    var website = detailsContainer.find('strong:contains(Website)').next('a').attr('href')
+    if (typeof (website) !== 'undefined') {
+      results.website = website
+    }
 
-      callback(results)
-    })
-  } catch (err) {
-
-  }
+    callback(results)
+  })
 }
 
 // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-courseModel.find({audit: {$exists: false}}, function (error, courses) {
+courseModel.find({}, function (error, courses) {
   if (error) {
     console.log(error)
   }
@@ -199,7 +199,7 @@ courseModel.find({audit: {$exists: false}}, function (error, courses) {
             }
           })
         })
-      }, 200)
+      }, 1000)
     } else {
       process.exit(0)
     }
