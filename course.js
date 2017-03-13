@@ -103,14 +103,18 @@ courseSchema.index({
   title: 'text',
   description: 'text',
   department: 'text',
-  catalogNumber: 'text'
+  catalogNumber: 'text',
+  'crosslistings.department': 'text',
+  'crosslistings.catalogNumber': 'text'
 }, {
   'weights': {
     title: 10,
     description: 1,
     department: 20,
     catalogNumber: 10,
-    distribution: 10
+    distribution: 10,
+    'crosslistings.department': 5,
+    'crosslistings.catalogNumber': 3
   },
   name: 'CourseRelevance'
 })
