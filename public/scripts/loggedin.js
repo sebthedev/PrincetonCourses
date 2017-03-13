@@ -37,16 +37,19 @@ $(document).ready(function () {
         var thisCourse = courses[courseIndex]
 
         // string for course listings
-        var listings = thisCourse.department + ' ' + thisCourse.catalogNumber
+        var listings = thisCourse.department + thisCourse.catalogNumber
         for (var listing in thisCourse.crosslistings) {
           listings += '/' + thisCourse.crosslistings[listing].department
-                    + ' ' + thisCourse.crosslistings[listing].catalogNumber
+                          + thisCourse.crosslistings[listing].catalogNumber
         }
 
-        $('#results').append('<a class="list-group-item search-result"><div>' +
-                             listings +
-                             (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>') +
-                             '</div><div>' + thisCourse.title + '</div></a>')
+        $('#results').append('<a class="list-group-item search-result"><div><strong>' + listings + '</strong>'
+                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
+                             + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
+                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
+                                                                    : ' <span class="label label-warning">NPDF</span>'))
+                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
+                             + '</div><div>' + thisCourse.title + '</div></a>')
 
         // attach object to DOM element
         $('#results').children().last()[0].course = thisCourse
@@ -67,15 +70,19 @@ $(document).ready(function () {
     var thisCourse = this.course
 
     // string for course listings
-    var listings = thisCourse.department + ' ' + thisCourse.catalogNumber
+    var listings = thisCourse.department + thisCourse.catalogNumber
     for (var listing in thisCourse.crosslistings) {
       listings += '/' + thisCourse.crosslistings[listing].department
-                + ' ' + thisCourse.crosslistings[listing].catalogNumber
+                      + thisCourse.crosslistings[listing].catalogNumber
 
     }
 
     $('#disp-title').append(listings + ' <small>' + thisCourse.title
                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
+                            + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
+                            : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
+                                                                   : ' <span class="label label-warning">NPDF</span>'))
+                            + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
                             + '</small>')
 
     $('#disp-desc').append(thisCourse.description)
@@ -84,7 +91,7 @@ $(document).ready(function () {
     var evals = ""
     for (var field in thisCourse.evaluations.scores) {
       var val = thisCourse.evaluations.scores[field]
-      evals += '<div class="row"><div class="col-xs-3"><p><strong>' + field + '</p></div>'
+      evals += '<div class="row"><div class="col-xs-3"><p><strong>' + field + '</strong></p></div>'
              + '<div class="col-xs-9"><div class="progress">'
              + '<div class="progress-bar progress-bar-success" role="progressbar"'
                  + ' style="width: ' + (val*20) + '%;">' + val + '</div>'// as percentage of 5
