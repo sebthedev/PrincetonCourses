@@ -89,8 +89,8 @@ function getListings(course) {
 
 // returns an SVG DOM element with the given score
 function newEvalDispDial(score) {
-  const r0 = 30                      // radius of display (height = width = 2*r0)
-  const r1 = 20                      // inner radius
+  const r0 = 20                      // radius of display (height = width = 2*r0)
+  const r1 = 15                      // inner radius
   const a0 = 0.5*Math.PI             // angle of dial cover (in rad)
   const c0 = 'rgb(50,50,50)'         // main color
   const c1 = 'rgb(130,130,130)'      // unfilled dial color
@@ -124,8 +124,8 @@ function newEvalDispDial(score) {
   newCircle.setAttributeNS(null, 'fill', c1)
   newSVG.appendChild(newCircle)
 
-  x = r0+30*Math.sin(a0) // x-coordinate for base of dial cover
-  y = r0-30*Math.cos(a0) // y-coordinate for base of dial cover
+  x = r0+r0*Math.sin(a0) // x-coordinate for base of dial cover
+  y = r0-r0*Math.cos(a0) // y-coordinate for base of dial cover
 
   // create base of dial cover
   var newSector = document.createElementNS( "http://www.w3.org/2000/svg", "path")
@@ -134,8 +134,8 @@ function newEvalDispDial(score) {
   newSector.setAttributeNS(null, 'transform', 'rotate(' + (180 - a0*180/Math.PI/2) + ', ' + r0 + ', ' + r0 + ')')
   newSVG.appendChild(newSector)
 
-  x = r0+30*Math.sin(angle)     // x-coordinate for dial arc
-  y = r0-30*Math.cos(angle)     // y-coordinate for dial arc
+  x = r0+r0*Math.sin(angle)     // x-coordinate for dial arc
+  y = r0-r0*Math.cos(angle)     // y-coordinate for dial arc
   t = (angle < Math.PI ? 0 : 1) // some sweep thing see https://www.w3.org/TR/SVG/images/paths/arcs02.svg
 
   // create dial arc
@@ -160,6 +160,7 @@ function newEvalDispDial(score) {
   newText.setAttributeNS(null, 'fill', c2)
   newText.setAttributeNS(null, 'text-anchor', 'middle')
   newText.setAttributeNS(null, 'alignment-baseline', 'central')
+  newText.setAttributeNS(null, 'style', 'font-size: 85%; font-weight: bold')
   newText.appendChild(document.createTextNode(score))
   newSVG.appendChild(newText)
 
