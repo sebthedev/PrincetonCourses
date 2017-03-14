@@ -36,13 +36,6 @@ $(document).ready(function () {
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
 
-        // string for course listings
-        var listings = thisCourse.department + thisCourse.catalogNumber
-        for (var listing in thisCourse.crosslistings) {
-          listings += '/' + thisCourse.crosslistings[listing].department
-                          + thisCourse.crosslistings[listing].catalogNumber
-        }
-
         // append result into results pane
         $('#results')[0].appendChild(newResultEntry(thisCourse))
 
@@ -65,12 +58,7 @@ $(document).ready(function () {
     var thisCourse = this.course
 
     // string for course listings
-    var listings = thisCourse.department + thisCourse.catalogNumber
-    for (var listing in thisCourse.crosslistings) {
-      listings += '/' + thisCourse.crosslistings[listing].department
-                      + thisCourse.crosslistings[listing].catalogNumber
-
-    }
+    var listings =  getListings(thisCourse)
 
     $('#disp-title').append(listings + ' <small>' + thisCourse.title
                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
@@ -94,10 +82,12 @@ $(document).ready(function () {
                  + ' style="width: ' + (100 - val*20) + '%;">' + '</div></div></div></div>'
     }
 
-    var score = thisCourse.evaluations.scores["Overall Quality of the Course"]
-    if (score != undefined) {
-      var svg = newEvalDispDial(thisCourse.evaluations.scores["Overall Quality of the Course"])
-      $('#disp-body')[0].appendChild(svg)
+    // create dial
+    var newSVG
+    if (thisCourse.evaluations.hasOwnProperty('scores') &&
+        thisCourse.evaluations.scores.hasOwnProperty('Overall Quality of the Course')) {
+      newSVG = newEvalDispDial(thisCourse.evaluations.scores['Overall Quality of the Course'])
+      $('#disp-body')[0].appendChild(newSVG)
     }
 
     $('#disp-body').append(evals
