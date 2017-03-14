@@ -9,7 +9,7 @@ function newResultEntry(course) {
       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course')) {
     newSVG = newEvalDispDial(course.evaluations.scores['Overall Quality of the Course'])
   } else {
-    newSVG = newEvalDispDial(1.0)
+    newSVG = newEvalDispDial(0)
   }
   newResult.append(newSVG)
 
@@ -105,16 +105,22 @@ function newEvalDispDial(score) {
   const maxscore = 5.0               // max value of score
   const midscore = 3.5               // mid value of score (for gradient)
   const minscore = 1.0               // min value of score
+  const valid = (minscore <= score && score <= maxscore) // if score is in range
 
-  // angle to be displayed (in rad)
-  var angle = (score-minscore)/(maxscore-minscore) * (2*Math.PI-a0)
+  if (valid) {
+    // angle to be displayed (in rad)
+    var angle = (score-minscore)/(maxscore-minscore) * (2*Math.PI-a0)
 
-  // dial color (gradient between red and blue)
-  var c2
-  if (score > midscore) {
-    c2 = 'hsl' + HSLcolorAt(60, 80, 60, 180, 80, 60, (score-midscore)/(maxscore-midscore))
+    // dial color (gradient between red and blue)
+    var c2
+    if (score > midscore) {
+      c2 = 'hsl' + HSLcolorAt(60, 80, 60, 180, 80, 60, (score-midscore)/(maxscore-midscore))
+    } else {
+      c2 = 'hsl' + HSLcolorAt(0, 80, 60, 60, 80, 60, (score-minscore)/(midscore-minscore))
+    }
   } else {
-    c2 = 'hsl' + HSLcolorAt(0, 80, 60, 60, 80, 60, (score-minscore)/(midscore-minscore))
+    var angle = 0
+    var c2 = 'rgb(200,200,200)'
   }
 
   // coordinates
@@ -170,7 +176,8 @@ function newEvalDispDial(score) {
   newText.setAttributeNS(null, 'text-anchor', 'middle')
   newText.setAttributeNS(null, 'alignment-baseline', 'central')
   newText.setAttributeNS(null, 'style', 'font-size: 85%; font-weight: bold')
-  newText.appendChild(document.createTextNode(score))
+  var text = (valid ? score : '?')
+  newText.appendChild(document.createTextNode(text))
   newSVG.appendChild(newText)
 
   return newSVG
