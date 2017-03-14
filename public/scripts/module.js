@@ -3,6 +3,20 @@ function newResultEntry(course) {
   var newResult = document.createElement('a')
   newResult.setAttribute('class', 'list-group-item search-result')
 
+  // create dial
+  var newSVG
+  if (course.evaluations.hasOwnProperty('scores') &&
+      course.evaluations.scores.hasOwnProperty('Overall Quality of the Course')) {
+    newSVG = newEvalDispDial(course.evaluations.scores['Overall Quality of the Course'])
+  } else {
+    newSVG = newEvalDispDial(1.0)
+  }
+  newResult.append(newSVG)
+
+  // div to hold text
+  var newHolder = document.createElement('div')
+  newHolder.setAttribute('class', 'result-text')
+
   // first row
   var newDiv = document.createElement('div')
 
@@ -50,12 +64,14 @@ function newResultEntry(course) {
     newDiv.appendChild(newSpan)
   }
 
-  newResult.appendChild(newDiv) // append first row
+  newHolder.appendChild(newDiv) // append first row
 
   // second row
   newDiv = document.createElement('div')
   newDiv.appendChild(document.createTextNode(course.title))
-  newResult.appendChild(newDiv)
+  newHolder.appendChild(newDiv)
+
+  newResult.appendChild(newHolder)
 
   return newResult
 }
@@ -98,6 +114,7 @@ function newEvalDispDial(score) {
   // create svg element
   var newSVG = document.createElementNS( "http://www.w3.org/2000/svg", "svg")
   newSVG.setAttributeNS(null, 'style', "width: "+(2*r0)+"px; height: "+(2*r0)+"px")
+  newSVG.setAttributeNS(null, 'class', 'result-dial')
 
   // create background circle
   var newCircle = document.createElementNS( "http://www.w3.org/2000/svg", "circle")

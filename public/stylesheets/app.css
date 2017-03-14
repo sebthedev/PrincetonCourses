@@ -48,6 +48,25 @@
   align-items: stretch;
 }
 
+
+.search-result {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.result-dial {
+  flex-grow: 0;
+}
+
+.result-text {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  margin-left: 15px;
+}
+
 .scroll-window {
   position: relative;
   height: 100%;
