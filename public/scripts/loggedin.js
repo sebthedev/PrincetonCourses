@@ -99,6 +99,13 @@ $(document).ready(function () {
                  + ' style="width: ' + (100 - val*20) + '%;">' + '</div></div></div></div>'
     }
 
+    var score = thisCourse.evaluations.scores["Overall Quality of the Course"]
+    if (score != undefined) {
+      var svg = newEvalDispDial(thisCourse.evaluations.scores["Overall Quality of the Course"])
+      $('#disp-body')[0].appendChild(svg)
+      console.log(svg)
+    }
+
     $('#disp-body').append(evals
                             + (thisCourse.prerequisites == undefined ? '' :
                             '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
