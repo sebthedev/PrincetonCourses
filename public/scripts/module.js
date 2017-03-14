@@ -87,6 +87,14 @@ function getListings(course) {
   return listings
 }
 
+// returns as a string (a,b%,c%) at the given fraction between (a1,b1%,c1%) and (a2,b2%,c2%)
+function HSLcolorAt(a1, b1, c1, a2, b2, c2, fraction) {
+  var a = a1 + (a2-a1)*fraction
+  var b = b1 + (b2-b1)*fraction
+  var c = c1 + (c2-c1)*fraction
+  return '(' + a + ',' + b + '%,' + c + '%)'
+}
+
 // returns an SVG DOM element with the given score
 function newEvalDispDial(score) {
   const r0 = 20                      // radius of display (height = width = 2*r0)
@@ -95,17 +103,18 @@ function newEvalDispDial(score) {
   const c0 = 'rgb(50,50,50)'         // main color
   const c1 = 'rgb(130,130,130)'      // unfilled dial color
   const maxscore = 5.0               // max value of score
+  const midscore = 3.5               // mid value of score (for gradient)
   const minscore = 1.0               // min value of score
 
   // angle to be displayed (in rad)
   var angle = (score-minscore)/(maxscore-minscore) * (2*Math.PI-a0)
 
-  // dial color (gradient between red and green)
+  // dial color (gradient between red and blue)
   var c2
-  if (score > (maxscore - minscore)/2.0) {
-    c2 = 'rgb(' + Math.floor(255*2*(maxscore - score)/(maxscore-minscore)) + ',' + 255 + ',' + 0 + ')'
+  if (score > midscore) {
+    c2 = 'hsl' + HSLcolorAt(60, 80, 60, 180, 80, 60, (score-midscore)/(maxscore-midscore))
   } else {
-    c2 = 'rgb(' + 255 + ',' + Math.floor(255*2*(score - minscore)/(maxscore-minscore)) + ',' + 0 + ')'
+    c2 = 'hsl' + HSLcolorAt(0, 80, 60, 60, 80, 60, (score-minscore)/(midscore-minscore))
   }
 
   // coordinates
