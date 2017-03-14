@@ -43,13 +43,8 @@ $(document).ready(function () {
                           + thisCourse.crosslistings[listing].catalogNumber
         }
 
-        $('#results').append('<a class="list-group-item search-result"><div><strong>' + listings + '</strong>'
-                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
-                             + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
-                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
-                                                                    : ' <span class="label label-warning">NPDF</span>'))
-                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
-                             + '</div><div>' + thisCourse.title + '</div></a>')
+        // append result into results pane
+        $('#results')[0].appendChild(newResultEntry(thisCourse))
 
         // attach object to DOM element
         $('#results').children().last()[0].course = thisCourse
@@ -103,7 +98,6 @@ $(document).ready(function () {
     if (score != undefined) {
       var svg = newEvalDispDial(thisCourse.evaluations.scores["Overall Quality of the Course"])
       $('#disp-body')[0].appendChild(svg)
-      console.log(svg)
     }
 
     $('#disp-body').append(evals

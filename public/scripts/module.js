@@ -1,5 +1,78 @@
+// returns a DOM element for results pane for the given course
+function newResultEntry(course) {
+  var newResult = document.createElement('a')
+  newResult.setAttribute('class', 'list-group-item search-result')
+
+  // first row
+  var newDiv = document.createElement('div')
+
+  // course listing as title
+  var newStrong = document.createElement('strong')
+  newStrong.appendChild(document.createTextNode(getListings(course)))
+  newDiv.appendChild(newStrong)
+
+  // handle various labels
+  var newSpan
+
+  if (course.distribution != undefined) {
+    newSpan = document.createElement('span')
+    newSpan.setAttribute('class', 'label label-info')
+    newSpan.appendChild(document.createTextNode(course.distribution))
+    newDiv.appendChild(document.createTextNode(' '))
+    newDiv.appendChild(newSpan)
+  }
+
+  if (course.pdf["required"]) {
+    newSpan = document.createElement('span')
+    newSpan.setAttribute('class', 'label label-warning')
+    newSpan.appendChild(document.createTextNode('PDF ONLY'))
+    newDiv.appendChild(document.createTextNode(' '))
+    newDiv.appendChild(newSpan)
+  } else if (course.pdf["permitted"]) {
+    newSpan = document.createElement('span')
+    newSpan.setAttribute('class', 'label label-warning')
+    newSpan.appendChild(document.createTextNode('PDF'))
+    newDiv.appendChild(document.createTextNode(' '))
+    newDiv.appendChild(newSpan)
+  } else {
+    newSpan = document.createElement('span')
+    newSpan.setAttribute('class', 'label label-warning')
+    newSpan.appendChild(document.createTextNode('NPDF'))
+    newDiv.appendChild(document.createTextNode(' '))
+    newDiv.appendChild(newSpan)
+  }
+
+  if (course.audit) {
+    newSpan = document.createElement('span')
+    newSpan.setAttribute('class', 'label label-warning')
+    newSpan.appendChild(document.createTextNode('AUDIT'))
+    newDiv.appendChild(document.createTextNode(' '))
+    newDiv.appendChild(newSpan)
+  }
+
+  newResult.appendChild(newDiv) // append first row
+
+  // second row
+  newDiv = document.createElement('div')
+  newDiv.appendChild(document.createTextNode(course.title))
+  newResult.appendChild(newDiv)
+
+  return newResult
+}
+
+// returns a string of the course listings of the given course
+function getListings(course) {
+  listings = course.department + course.catalogNumber
+  for (var listing in course.crosslistings) {
+    listings += '/' + course.crosslistings[listing].department
+                    + course.crosslistings[listing].catalogNumber
+  }
+
+  return listings
+}
+
 // returns an SVG DOM element with the given score
-function newEvalDispDial (score) {
+function newEvalDispDial(score) {
   const r0 = 30                      // radius of display (height = width = 2*r0)
   const r1 = 20                      // inner radius
   const a0 = 0.5*Math.PI             // angle of dial cover (in rad)
