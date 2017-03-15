@@ -28,103 +28,118 @@
     <div class="page-content">
       <div class="container-fluid vmax">
         <div class="row vmax">
-          <div class="col-sm-5 vmax">
-            <div class="panel panel-default vmax">
-              <div class="panel-body vmax search-panel-body">
-                <div class="search-search">
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <input class="form-control" id="searchbox" type="text" placeholder="Search for courses... (try NES for fall 15)" autofocus/>
-                    </div>
-                    <div class="col-sm-3">
-                      <select class="form-control" id="semester">
-                      </select>
-                    </div>
-                    <div class="col-sm-3">
-                      <select class="form-control" id="sort">
-                        <option value="relevance" selected>Relevance</option>
-                        <option value="rating">Rating</option>
-                        <option value="title">Title</option>
-                        <option value="department">Department</option>
-                        <option value="code">Course Code</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <h4>Search Results</h4>
-                  </div>
+          <div class="col-sm-3 vmax search-panel-body">
+            <div class="search-search">
+              <input class="form-control" id="searchbox" type="text" placeholder="Search for courses..." autofocus/>
+              <div class="row" style="margin-top:15px"> <!-- MEL: sorry for temporary styling fix here -->
+                <div class="col-sm-6">
+                  <select class="form-control" id="semester">
+                  </select>
                 </div>
-                <div class="search-results">
-                  <div class="vmax">
-                    <div class="scroll-window">
-                      <div class="scroll-content">
-                        <ul class="list-group marginless" id="results">
-                          <a href="#" class="list-group-item list-square">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                          <a href="#" class="list-group-item list-square">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                          <a href="#" class="list-group-item list-square active">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                          <a href="#" class="list-group-item list-square">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                          <a href="#" class="list-group-item list-square">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                          <a href="#" class="list-group-item list-square">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                          <a href="#" class="list-group-item list-square">
-                            <div>COS 333 <span class="label label-info">QR</span></div>
-                            <div>Advanced Programming Techniques</div>
-                          </a>
-                        </ul>
-                      </div>
-                    </div>
+                <div class="col-sm-6">
+                  <select class="form-control" id="sort">
+                    <option value="relevance" selected>Relevance</option>
+                    <option value="rating">Rating</option>
+                    <option value="title">Title</option>
+                    <option value="department">Department</option>
+                    <option value="code">Course Code</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <h4>Search Results</h4>
+              </div>
+            </div>
+            <div class="search-results">
+              <div class="vmax">
+                <div class="scroll-window">
+                  <div class="scroll-content">
+                    <ul class="list-group marginless" id="results">
+                      <a href="#" class="list-group-item list-square">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                      <a href="#" class="list-group-item list-square">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                      <a href="#" class="list-group-item list-square active">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                      <a href="#" class="list-group-item list-square">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                      <a href="#" class="list-group-item list-square">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                      <a href="#" class="list-group-item list-square">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                      <a href="#" class="list-group-item list-square">
+                        <div>COS 333 <span class="label label-info">QR</span></div>
+                        <div>Advanced Programming Techniques</div>
+                      </a>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-sm-7 vmax">
-            <div class="scroll-window">
-              <div class="scroll-content">
-                <div class="panel panel-default marginless">
-                  <div class="panel-heading">
-                    <h1 id="disp-title">COS 333 <small>Advanced Programming Techniques <span class="label label-info">QR</span> <span class="label label-warning">NA</span> <span class="label label-warning">NPDF</span></small></h1>
-                    <h3 id="disp-profs">Brian W. Kernighan, Christopher M. Moretti </h3>
-                    <p id="disp-desc">This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
-                      by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
-                      and in group projects.
-                    </p>
+          <div class="col-sm-6 vmax result-panel-body">
+            <div class="result-heading">
+              <h1 id="disp-title">COS 333 <small>Advanced Programming Techniques <span class="label label-info">QR</span> <span class="label label-warning">NA</span> <span class="label label-warning">NPDF</span></small></h1>
+              <h3 id="disp-profs">Brian W. Kernighan, Christopher M. Moretti </h3>
+              <p id="disp-desc">This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
+                and in group projects.
+              </p>
+            </div>
+            <div class="result-body scroll-window">
+              <div class="scroll-content result-detail" id="disp-body">
+                <p>Stuff.</p>
+                <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                  by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
+                  and in group projects.
+                </p>
+                <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                  by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
+                  and in group projects.
+                </p>
+                <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                  by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
+                  and in group projects.
+                </p>
+                <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                  by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
+                  and in group projects.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3 vmax eval-panel-body">
+            <h4>Evaluations</h4>
+            <div id="evals">
+              <div>Overall Quality of the Course</div>
+              <div>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
+                            3.0
                   </div>
-                  <div id="disp-body" class="panel-body">
-                    <p>Stuff.</p>
-                    <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
-                      by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
-                      and in group projects.
-                    </p>
-                    <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
-                      by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
-                      and in group projects.
-                    </p>
-                    <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
-                      by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
-                      and in group projects.
-                    </p>
-                    <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
-                      by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
-                      and in group projects.
-                    </p>
+                  <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
+                  </div>
+                </div>
+              </div>
+              <div>Overall Quality of the Course</div>
+              <div>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
+                            3.0
+                  </div>
+                  <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
                   </div>
                 </div>
               </div>

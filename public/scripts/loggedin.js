@@ -54,6 +54,7 @@ $(document).ready(function () {
     $('#disp-profs').html('')
     $('#disp-desc').html('')
     $('#disp-body').html('')
+    $('#evals').html('')
 
     var thisCourse = this.course
 
@@ -74,24 +75,14 @@ $(document).ready(function () {
     var evals = ""
     for (var field in thisCourse.evaluations.scores) {
       var val = thisCourse.evaluations.scores[field]
-      evals += '<div class="row"><div class="col-xs-3"><p><strong>' + field + '</strong></p></div>'
-             + '<div class="col-xs-9"><div class="progress">'
-             + '<div class="progress-bar progress-bar-success" role="progressbar"'
-                 + ' style="width: ' + (val*20) + '%;">' + val + '</div>'// as percentage of 5
-             + '<div class="progress-bar progress-bar-warning" role="progressbar"'
-                 + ' style="width: ' + (100 - val*20) + '%;">' + '</div></div></div></div>'
+      evals += '<div>' + field + '</div>'
+             + '<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" '
+             + 'style="width: ' + (val*20) + '%;">' + val + '</div></div>' // as percentage of 5
     }
 
-    // create dial
-    var newSVG
-    if (thisCourse.evaluations.hasOwnProperty('scores') &&
-        thisCourse.evaluations.scores.hasOwnProperty('Overall Quality of the Course')) {
-      newSVG = newEvalDispDial(thisCourse.evaluations.scores['Overall Quality of the Course'])
-      $('#disp-body')[0].appendChild(newSVG)
-    }
+    $('#evals').append(evals)
 
-    $('#disp-body').append(evals
-                            + (thisCourse.prerequisites == undefined ? '' :
+    $('#disp-body').append(   (thisCourse.prerequisites == undefined ? '' :
                             '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
                             + (thisCourse.equivalentcourses == undefined ? '' :
                             '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')

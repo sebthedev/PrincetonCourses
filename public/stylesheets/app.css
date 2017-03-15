@@ -13,10 +13,11 @@
 
 .page-menu {
   flex-grow: 0;
+  margin-bottom: 0;
+  border-radius: 0;
 }
 
 .page-content {
-  margin-bottom: 20px;
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
@@ -28,6 +29,9 @@
 }
 
 .search-panel-body {
+  background-color: #ddd;
+  padding-top: 15px;
+  padding-bottom: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -48,7 +52,6 @@
   align-items: stretch;
 }
 
-
 .search-result {
   display: flex;
   flex-direction: row;
@@ -62,8 +65,6 @@
 
 .result-text {
   flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
   margin-left: 15px;
 }
 
@@ -82,8 +83,44 @@
   overflow-y: auto;
 }
 
-.marginless {
+.result-panel-body {
+  padding: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.result-heading {
+  padding: 15px;
+  background-color: #eee;
+  flex-grow: 0;
+}
+
+.result-body {
+  padding: 15px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+}
+
+.result-detail {
+  padding: 15px;
+}
+
+.eval-panel-body {
+  background-color: #ddd;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.progress {
   margin: 0;
+}
+
+.progress-bar {
+  text-align: left;
+  padding: 0px 15px;
 }
 
 
