@@ -91,7 +91,7 @@ $(document).ready(function () {
                             + (thisCourse.otherrequirements == undefined ? '' :
                             '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
                             + (thisCourse.website == undefined ? '' :
-                            '<h3>Website</h3><p>' + thisCourse.website + '</p>'))
+                            '<h3>Website</h3><p><a href="' + thisCourse.website + '" target="_blank">' + thisCourse.website + '</a></p>'))
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
