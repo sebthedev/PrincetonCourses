@@ -16,7 +16,9 @@ courseModel.find({department: 'COS', semester: 1174}, function (err, courses) {
       if (err) {
         console.log(err)
       } else {
-        console.log(clashDetector.detectClash(favoriteCourses, courses, false))
+        var clashDetectorResponse = clashDetector.detectClash(favoriteCourses, courses, false)
+        console.log(clashDetectorResponse)
+        process.exit(0)
       }
     })
   }
