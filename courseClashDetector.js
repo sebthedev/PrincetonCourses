@@ -1,22 +1,22 @@
 
-var detectClash = function(favoriteCourses, courses, excludeClashingCourses) {
-	//check exclude boolean, retu
-	//run initial path search for favoriteCourses
+var detectClash = function (favoriteCourses, courses, excludeClashingCourses) {
+  // check exclude boolean, retu
+  // run initial path search for favoriteCourses
 
-	for (var courseIndex in courses) {
-		var thisCourse = courses[courseIndex]
-		
-		if (thisCourse.title === 'American Economic History') {
-			thisCourse.clash = {
-				clash: true
-				with: 'Math 202'
-			}
-		}
+  for (var courseIndex in courses) {
+    var thisCourse = courses[courseIndex]
 
-		courses[courseIndex] = thisCourse
-	}
+    if (thisCourse.title === 'American Economic History') {
+      thisCourse.clash = {
+        clash: true,
+        with: 'Math 202'
+      }
+    }
 
-	return courses
+    courses[courseIndex] = thisCourse
+  }
+
+  return 2017
 }
 
 module.exports.detectClash = detectClash
