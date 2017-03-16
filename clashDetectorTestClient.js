@@ -1,3 +1,4 @@
+// To run this test client, at the command prompt run "node clashDetectorTestClient.js"
 
 require('dotenv').config()
 

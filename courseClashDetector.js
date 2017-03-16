@@ -1,4 +1,3 @@
-
 var detectClash = function (favoriteCourses, courses, excludeClashingCourses) {
   // check exclude boolean, retu
   // run initial path search for favoriteCourses
