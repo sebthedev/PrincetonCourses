@@ -35,6 +35,10 @@ var loadPage = function (term, courseID, externalCallback) {
     res.on('end', function () {
       externalCallback(str)
     })
+
+    res.on('err', function (err) {
+      console.log(err)
+    })
   })
   req.end()
 }
@@ -47,6 +51,12 @@ var getCourseEvaluationData = function (semester, courseID, callback) {
     console.log('\tRecieved data for course %s in semester %s.', courseID, semester)
 
     var evaluations = {}
+
+    // If this course is in the current semester, then the Registrar's page defaults back to the most recent semester for which course evaluations exist. This checks that we have indeed scraped the evaluations for the correct semester.
+    if ($("td[bgcolor=Gainsboro] a[href*='terminfo=" + semester + "']").length !== 1) {
+      callback(evaluations)
+      return
+    }
 
     // Get Chart Data
     var b64EncodedChartData = $('#chart_settings').attr('value')
@@ -111,22 +121,20 @@ courseModel.find({}, function (error, courses) {
           coursesPendingProcessing--
 
           // Save the evaluation data (if it exists)
-          if (Object.keys(courseEvaluationData).length > 0) {
-            thisCourse.evaluations = courseEvaluationData
-            thisCourse.save(function (error) {
-              if (error) {
-                console.log(error)
-              }
+          thisCourse.evaluations = courseEvaluationData
+          thisCourse.save(function (error) {
+            if (error) {
+              console.log(error)
+            }
 
-              // Quit if there are no more courses pending processing
-              if (coursesPendingProcessing <= 1) {
-                console.log('Fetched and saved all the requested course evaluations.')
-                process.exit(0)
-              }
-            })
-          }
+            // Quit if there are no more courses pending processing
+            if (coursesPendingProcessing <= 1) {
+              console.log('Fetched and saved all the requested course evaluations.')
+              process.exit(0)
+            }
+          })
         })
-      }, 1000)
+      }, 100)
     } else {
       process.exit(0)
     }
