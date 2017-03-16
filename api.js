@@ -5,6 +5,7 @@ var router = express.Router()
 var auth = require('./authentication.js')
 var courseModel = require('./course.js')
 var semesterModel = require('./semester.js')
+var instructorModel = require('./instructor.js')
 
 // Check that the user is authenticated
 router.all('*', function (req, res, next) {
@@ -92,6 +93,29 @@ router.post('/courses', function (req, res) {
       res.sendStatus(500)
     } else {
       res.json(courses)
+    }
+  })
+})
+
+// Respond to requests for an instructor
+router.get('/instructor/:id', function (req, res) {
+  // Validate that the request is correct
+  if ((typeof (req.params.id) === 'undefined') || isNaN(req.params.id)) {
+    res.sendStatus(400)
+    return
+  }
+
+  // Search for the instructor in the database
+  instructorModel.findOne({_id: req.params.id}).populate('courses').exec(function (err, instructor) {
+    if (err) {
+      console.log(err)
+      res.send(500)
+    } else {
+      if (instructor === null) {
+        res.sendStatus(404)
+      } else {
+        res.json(instructor)
+      }
     }
   })
 })
