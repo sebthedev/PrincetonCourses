@@ -97,6 +97,23 @@ function HSLcolorAt(a1, b1, c1, a2, b2, c2, fraction) {
   return '(' + a + ',' + b + '%,' + c + '%)'
 }
 
+// returns as a string hsl(a,b%,c%) at the given score
+function colorAt(score) {
+  const maxscore = 5.0               // max value of score
+  const midscore = 3.5               // mid value of score (for gradient)
+  const minscore = 1.0               // min value of score
+
+  // gradient between red and blue
+  var c
+  if (score > midscore) {
+    c = 'hsl' + HSLcolorAt(60, 80, 60, 180, 80, 60, (score-midscore)/(maxscore-midscore))
+  } else {
+    c = 'hsl' + HSLcolorAt(0, 80, 60, 60, 80, 60, (score-minscore)/(midscore-minscore))
+  }
+
+  return c
+}
+
 // returns an SVG DOM element with the given score
 function newEvalDispDial(score) {
   const r0 = 20                      // radius of display (height = width = 2*r0)

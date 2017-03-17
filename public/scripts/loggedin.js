@@ -79,8 +79,9 @@ $(document).ready(function () {
     for (var field in thisCourse.evaluations.scores) {
       var val = thisCourse.evaluations.scores[field]
       evals += '<div>' + field + '</div>'
-             + '<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" '
-             + 'style="width: ' + (val*20) + '%;">' + val + '</div></div>' // as percentage of 5
+             + '<div class="progress"><div class="progress-bar" role="progressbar" '
+             + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '">'
+             + val + '</div></div>' // as percentage of 5
     }
 
     $('#evals').append(evals)
