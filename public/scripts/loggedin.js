@@ -22,6 +22,7 @@ $(document).ready(function () {
 
       // clear results
       $('#results').html('')
+      $('#search-title').html('')
 
       /* SEB'S EXAMPLE
 
@@ -32,6 +33,8 @@ $(document).ready(function () {
         $('#results').children().last()[0].course = thisCourse
 
       */
+
+      $('#search-title').append(courses.length + ' Search Results')
 
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
