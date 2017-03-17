@@ -61,13 +61,13 @@ $(document).ready(function () {
     // string for course listings
     var listings =  getListings(thisCourse)
 
-    $('#disp-title').append(listings + ' <small>' + thisCourse.title
+    $('#disp-title').append(listings + ' <small>'
                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
                             + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
                                                                    : ' <span class="label label-warning">NPDF</span>'))
                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
-                            + '</small>')
+                            + '<br/>'  + thisCourse.title + '</small>')
 
     $('#disp-desc').append(thisCourse.description)
 
