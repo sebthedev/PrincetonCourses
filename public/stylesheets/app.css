@@ -149,7 +149,7 @@ ul.comments-list {
 }
 ul.comments-list li {
    margin: 0;
-   padding: 3px;
+   padding: 5px 3px 5px 3px;
    border-bottom: 1px solid #ccc;
 }
 ul.comments-list li:hover {

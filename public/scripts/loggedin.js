@@ -86,7 +86,12 @@ $(document).ready(function () {
              + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '">'
              + val.toFixed(2) + '</div></div>' // as percentage of 5
     }
-    $('#evals').append(evals)
+    if (evals == "") {
+      $('#evals').append('No course evaluations available.')
+    }
+    else {
+      $('#evals').append(evals)
+    }
 
     // stuff for student comments
     var comments = ""
@@ -94,7 +99,12 @@ $(document).ready(function () {
         var val = thisCourse.evaluations.studentComments[studentComment]
         comments += '<li class="comments-list-comment">' + val + '</li>'
     }
-    $('#comments').append(comments)
+    if (comments == "") {
+      $('#comments').append('No student comments available.')
+    }
+    else {
+      $('#comments').append(evals)
+    }
 
     $('#disp-body').append(   (thisCourse.prerequisites == undefined ? '' :
                             '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
