@@ -92,6 +92,15 @@ $(document).ready(function () {
                             '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
                             + (thisCourse.website == undefined ? '' :
                             '<h3>Website</h3><p><a href="' + thisCourse.website + '" target="_blank">' + thisCourse.website + '</a></p>'))
+
+    for (var instructor in thisCourse.instructors) {
+      var name = thisCourse.instructors[instructor].name['first'] + ' '
+               + thisCourse.instructors[instructor].name['last']
+        if ($('#disp-profs').html() !== '') {
+          $('#disp-profs').append(', ')
+        }
+        $('#disp-profs').append(name)
+    }
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
