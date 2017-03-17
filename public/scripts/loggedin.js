@@ -74,7 +74,8 @@ $(document).ready(function () {
                             + '<br/>'  + thisCourse.title + '</small>')
 
     $('#disp-desc').append(thisCourse.description)
-    $('#comments').append(thisCourse.evaluations.studentComments)
+
+    //$('#comments').append(thisCourse.evaluations.studentComments)
 
     // stuff for course evaluations
     var evals = ""
@@ -85,8 +86,15 @@ $(document).ready(function () {
              + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '">'
              + val.toFixed(2) + '</div></div>' // as percentage of 5
     }
-
     $('#evals').append(evals)
+
+    // stuff for student comments
+    var comments = ""
+    for (var studentComment in thisCourse.evaluations.studentComments) {
+        var val = thisCourse.evaluations.studentComments[studentComment]
+        comments += '<li class="comments-list-comment">' + val + '</li>'
+    }
+    $('#comments').append(comments)
 
     $('#disp-body').append(   (thisCourse.prerequisites == undefined ? '' :
                             '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')

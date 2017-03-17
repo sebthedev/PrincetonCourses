@@ -143,6 +143,24 @@
   display: flex;
   flex-direction: column;
 }
+ul.comments-list {
+   list-style: none;
+   padding: 0; 
+}
+ul.comments-list li {
+   margin: 0;
+   padding: 3px;
+   border-bottom: 1px solid #ccc;
+}
+ul.comments-list li:hover {
+   background-color: #eee; 
+}
+
+.evals-title {
+  margin-top:10px;
+  margin-bottom:10px;
+  font-weight: bold;
+}
 
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
 
