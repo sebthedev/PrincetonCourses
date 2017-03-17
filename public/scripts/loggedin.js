@@ -103,7 +103,7 @@ $(document).ready(function () {
       $('#comments').append('No student comments available.')
     }
     else {
-      $('#comments').append(evals)
+      $('#comments').append(comments)
     }
 
     $('#disp-body').append(   (thisCourse.prerequisites == undefined ? '' :
