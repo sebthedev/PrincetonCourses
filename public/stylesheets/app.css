@@ -62,11 +62,21 @@
 
 .result-dial {
   flex-grow: 0;
+  width: 40px;
 }
 
 .result-text {
   flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
   margin-left: 15px;
+  overflow: hidden;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .scroll-window {
@@ -84,7 +94,11 @@
   overflow-y: auto;
 }
 
-.result-panel-body {
+.marginless {
+  margin: 0;
+}
+
+.display-panel-body {
   padding: 0;
   display: flex;
   flex-flow: column nowrap;
@@ -92,20 +106,20 @@
   align-items: stretch;
 }
 
-.result-heading {
+.display-heading {
   padding: 15px;
   background-color: #eee;
   flex-grow: 0;
 }
 
-.result-body {
+.display-body {
   padding: 15px;
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
 }
 
-.result-detail {
+.display-detail {
   padding: 15px;
 }
 

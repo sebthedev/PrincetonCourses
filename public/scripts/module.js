@@ -1,4 +1,4 @@
-// returns a DOM element for results pane for the given course
+// returns a DOM element for results in the search pane for the given course
 function newResultEntry(course) {
   var newResult = document.createElement('a')
   newResult.setAttribute('class', 'list-group-item search-result')
@@ -19,6 +19,7 @@ function newResultEntry(course) {
 
   // first row
   var newDiv = document.createElement('div')
+  newDiv.setAttribute('class', 'truncate')
 
   // course listing as title
   var newStrong = document.createElement('strong')
@@ -68,6 +69,7 @@ function newResultEntry(course) {
 
   // second row
   newDiv = document.createElement('div')
+  newDiv.setAttribute('class', 'truncate')
   newDiv.appendChild(document.createTextNode(course.title))
   newHolder.appendChild(newDiv)
 
