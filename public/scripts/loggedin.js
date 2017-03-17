@@ -81,7 +81,7 @@ $(document).ready(function () {
       evals += '<div>' + field + '</div>'
              + '<div class="progress"><div class="progress-bar" role="progressbar" '
              + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '">'
-             + val + '</div></div>' // as percentage of 5
+             + val.toFixed(2) + '</div></div>' // as percentage of 5
     }
 
     $('#evals').append(evals)

@@ -195,7 +195,7 @@ function newEvalDispDial(score) {
   newText.setAttributeNS(null, 'text-anchor', 'middle')
   newText.setAttributeNS(null, 'alignment-baseline', 'central')
   newText.setAttributeNS(null, 'style', 'font-size: 85%; font-weight: bold')
-  var text = (valid ? score : '?')
+  var text = (valid ? score.toFixed(2) : '?')
   newText.appendChild(document.createTextNode(text))
   newSVG.appendChild(newText)
 
