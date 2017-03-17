@@ -58,6 +58,7 @@ $(document).ready(function () {
     $('#disp-desc').html('')
     $('#disp-body').html('')
     $('#evals').html('')
+    $('#comments').html('')
 
     var thisCourse = this.course
 
@@ -73,6 +74,7 @@ $(document).ready(function () {
                             + '<br/>'  + thisCourse.title + '</small>')
 
     $('#disp-desc').append(thisCourse.description)
+    $('#comments').append(thisCourse.evaluations.studentComments)
 
     // stuff for course evaluations
     var evals = ""

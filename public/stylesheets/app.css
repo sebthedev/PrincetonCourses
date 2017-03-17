@@ -139,6 +139,10 @@
   padding: 0px 15px;
 }
 
+.evaluations {
+  display: flex;
+  flex-direction: column;
+}
 
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
 
