@@ -183,6 +183,18 @@ $(document).ready(function () {
 
   */
 
+  // feedback form toggling
+  var toggleFeedback = function() {
+   $('.feedback-form').slideToggle()
+   if ($('#feedback-toggle').hasClass("active")) {
+     $('#feedback-toggle').removeClass("active")
+   } else {
+     $('#feedback-toggle').addClass("active")
+   }
+ }
+
+ $('#feedback-toggle').click(toggleFeedback)
+
   // load the semesters for the dropdown
   $.get('/api/semesters', function (semesters) {
     for (var semesterIndex in semesters) {

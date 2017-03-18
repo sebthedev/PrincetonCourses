@@ -33,6 +33,7 @@
 }
 
 .page-menu {
+  z-index: 200;
   margin-bottom: 0;
   border-radius: 0;
 }
@@ -148,6 +149,17 @@ ul.comments-list li:hover {
 
 #class-table {
   width:100%;
+}
+
+.feedback-form {
+  position: fixed;
+  top: 0;
+  padding-top: 50px;
+  right: 50px;
+  width: 30vw;
+  z-index: 100;
+  border-color: #f58025;
+  border-width: 2px;
 }
 
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
