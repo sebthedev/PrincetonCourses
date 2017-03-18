@@ -54,8 +54,8 @@ $(document).ready(function () {
     $(this).addClass("active")
 
     $('#disp-title').html('')
+    $('#disp-subtitle').html('')
     $('#disp-profs').html('')
-    $('#disp-desc').html('')
     $('#disp-body').html('')
     $('#evals').html('')
     $('#comments').html('')
@@ -65,15 +65,14 @@ $(document).ready(function () {
     // string for course listings
     var listings =  getListings(thisCourse)
 
-    $('#disp-title').append(listings + ' <small>'
+    $('#disp-title').append(thisCourse.title)
+
+    $('#disp-subtitle').append(listings + ' '
                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
                             + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
                                                                    : ' <span class="label label-warning">NPDF</span>'))
-                            + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
-                            + '<br/>'  + thisCourse.title + '</small>')
-
-    $('#disp-desc').append(thisCourse.description)
+                            + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : ''))
 
     //$('#comments').append(thisCourse.evaluations.studentComments)
 
@@ -107,7 +106,9 @@ $(document).ready(function () {
     }
 
     var dispbody = ''
-    dispbody += (thisCourse.prerequisites == undefined ? '' :
+    dispbody += '<h3 id="disp-profs"></h3>' +
+                '<p>' + thisCourse.description + '</p>'
+                + (thisCourse.prerequisites == undefined ? '' :
                 '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
                 + (thisCourse.equivalentcourses == undefined ? '' :
                 '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')
@@ -136,11 +137,11 @@ $(document).ready(function () {
                 + (val.schedule.meetings[0].end_time == undefined ? '' :
                   val.schedule.meetings[0].end_time) + '</td>'
                 + '<td>' + (val.schedule.meetings[0].building == undefined ? '' :
-                  val.schedule.meetings[0].building.name) + ' ' 
+                  val.schedule.meetings[0].building.name) + ' '
                 + (val.schedule.meetings[0].room == undefined ? '' :
                   val.schedule.meetings[0].room) + '</td>'
               )
-      classes += '<td>' + val['enrollment'] + ' / ' + val['capacity'] + '</td>' 
+      classes += '<td>' + val['enrollment'] + ' / ' + val['capacity'] + '</td>'
                 + '<td>' + val['status'] + '</td>'
                 + '</tr>'
     }
@@ -148,7 +149,7 @@ $(document).ready(function () {
                 '<table id="class-table">' +
                 '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrollment</th><th>Status</th>' +
                 '<h3>Classes</h3>' + classes + '</table>')
-    
+
     $('#disp-body').append(dispbody)
 
     for (var instructor in thisCourse.instructors) {

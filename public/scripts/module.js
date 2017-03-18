@@ -36,7 +36,7 @@ function newResultEntry(course) {
     newDiv.appendChild(document.createTextNode(' '))
     newDiv.appendChild(newSpan)
   }
-
+  /* MEL: PDF AND AUDIT LABELS REMOVED 17 mar 17
   if (course.pdf["required"]) {
     newSpan = document.createElement('span')
     newSpan.setAttribute('class', 'label label-warning')
@@ -63,7 +63,7 @@ function newResultEntry(course) {
     newSpan.appendChild(document.createTextNode('AUDIT'))
     newDiv.appendChild(document.createTextNode(' '))
     newDiv.appendChild(newSpan)
-  }
+  }*/
 
   newHolder.appendChild(newDiv) // append first row
 
