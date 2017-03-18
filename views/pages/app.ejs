@@ -8,8 +8,8 @@
 
 <body>
   <!-- MEL: body is on codepen at https://codepen.io/melyshu/pen/ryjpPE -->
-  <div class="fullpage">
-    <nav class="navbar navbar-default page-menu">
+  <div class="fullpage flex-container-col">
+    <nav class="navbar navbar-default page-menu flex-item-rigid">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Princeton Courses</a>
@@ -25,11 +25,11 @@
         </ul>
       </div>
     </nav>
-    <div class="page-content">
+    <div class="flex-item-stretch">
       <div class="container-fluid vmax">
         <div class="row vmax">
-          <div class="col-sm-3 vmax search-panel-body">
-            <div class="search-search">
+          <div class="col-sm-3 vmax search-panel-body flex-container-col">
+            <div class="flex-item-rigid">
               <input class="form-control" id="searchbox" type="text" placeholder="Search for courses..." autofocus/>
               <div class="row" style="margin-top:15px"> <!-- MEL: sorry for temporary styling fix here -->
                 <div class="col-sm-6">
@@ -50,7 +50,7 @@
                 <h4 id="search-title">Search Results</h4>
               </div>
             </div>
-            <div class="search-results">
+            <div class="flex-item-stretch">
               <div class="vmax">
                 <div class="scroll-window">
                   <div class="scroll-content">
@@ -89,8 +89,8 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 vmax display-panel-body">
-            <div class="display-heading">
+          <div class="col-sm-6 vmax display-panel-body flex-container-col">
+            <div class="display-heading flex-item-rigid">
               <h1 id="disp-title">COS 333 <small>Advanced Programming Techniques <span class="label label-info">QR</span> <span class="label label-warning">NA</span> <span class="label label-warning">NPDF</span></small></h1>
               <h3 id="disp-profs">Brian W. Kernighan, Christopher M. Moretti </h3>
               <p id="disp-desc">This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
@@ -98,7 +98,7 @@
                 and in group projects.
               </p>
             </div>
-            <div class="display-body scroll-window">
+            <div class="display-body flex-item-stretch scroll-window">
               <div class="scroll-content display-detail" id="disp-body">
                 <p>Stuff.</p>
                 <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
@@ -120,32 +120,34 @@
               </div>
             </div>
           </div>
-            <div class="col-sm-3 vmax eval-panel-body evaluations" id="evals-pane">
-              <h4 class="evals-title">Evaluations</h4>
-              <div id="evals">
-                <div>Overall Quality of the Course</div>
-                <div>
-                  <div class="progress">
-                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
-                              3.0
+            <div class="col-sm-3 vmax eval-panel-body flex-container-col" id="evals-pane">
+              <div class="flex-item-rigid">
+                <h4 class="evals-title">Evaluations</h4>
+                <div id="evals">
+                  <div>Overall Quality of the Course</div>
+                  <div>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
+                                3.0
+                      </div>
+                      <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
+                      </div>
                     </div>
-                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
+                  </div>
+                  <div>Overall Quality of the Course</div>
+                  <div>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
+                                3.0
+                      </div>
+                      <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div>Overall Quality of the Course</div>
-                <div>
-                  <div class="progress">
-                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
-                              3.0
-                    </div>
-                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
-                    </div>
-                  </div>
-                </div>
+                <h4 class="evals-title">Student Comments</h4>
               </div>
-              <h4 class="evals-title">Student Comments</h4>
-              <div class ="col-sm-3 vmax scroll-window">
+              <div class="flex-item-stretch scroll-window">
                 <div class="scroll-content">
                  <ul class="comments-list marginless" id="comments">
                     <li href="#" class="comments-list-comment">

@@ -2,25 +2,39 @@
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
 
-.fullpage {
+.flex-container-col {
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
   justify-content: space-between;
   align-items: stretch;
+}
+
+.flex-container-row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.flex-item-rigid {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.flex-item-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+}
+
+.fullpage {
   height: 100vh;
   width: 100vw;
 }
 
 .page-menu {
-  flex-grow: 0;
   margin-bottom: 0;
   border-radius: 0;
-}
-
-.page-content {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
 }
 
 .vmax {
@@ -32,25 +46,6 @@
   background-color: #ddd;
   padding-top: 15px;
   padding-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-.search-search {
-  flex-grow: 0;
-}
-
-.search-results {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-  cursor: pointer;
 }
 
 .search-result {
@@ -58,6 +53,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
+  cursor: pointer;
 }
 
 .result-dial {
@@ -100,23 +96,15 @@
 
 .display-panel-body {
   padding: 0;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: stretch;
 }
 
 .display-heading {
   padding: 15px;
   background-color: #eee;
-  flex-grow: 0;
 }
 
 .display-body {
   padding: 15px;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
 }
 
 .display-detail {
@@ -139,13 +127,9 @@
   padding: 0px 15px;
 }
 
-.evaluations {
-  display: flex;
-  flex-direction: column;
-}
 ul.comments-list {
    list-style: none;
-   padding: 0; 
+   padding: 0;
 }
 ul.comments-list li {
    margin: 0;
@@ -153,7 +137,7 @@ ul.comments-list li {
    border-bottom: 1px solid #ccc;
 }
 ul.comments-list li:hover {
-   background-color: #eee; 
+   background-color: #eee;
 }
 
 .evals-title {
