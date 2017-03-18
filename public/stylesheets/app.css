@@ -162,6 +162,10 @@ ul.comments-list li:hover {
   font-weight: bold;
 }
 
+#class-table {
+  width:100%;
+}
+
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
 
 ::-webkit-scrollbar {

@@ -106,16 +106,50 @@ $(document).ready(function () {
       $('#comments').append(comments)
     }
 
-    $('#disp-body').append(   (thisCourse.prerequisites == undefined ? '' :
-                            '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
-                            + (thisCourse.equivalentcourses == undefined ? '' :
-                            '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')
-                            + (thisCourse.otherinformation == undefined ? '' :
-                            '<h3>Other Information</h3><p>' + thisCourse.otherinformation + '</p>')
-                            + (thisCourse.otherrequirements == undefined ? '' :
-                            '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
-                            + (thisCourse.website == undefined ? '' :
-                            '<h3>Website</h3><p><a href="' + thisCourse.website + '" target="_blank">' + thisCourse.website + '</a></p>'))
+    var dispbody = ''
+    dispbody += (thisCourse.prerequisites == undefined ? '' :
+                '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
+                + (thisCourse.equivalentcourses == undefined ? '' :
+                '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')
+                + (thisCourse.otherinformation == undefined ? '' :
+                '<h3>Other Information</h3><p>' + thisCourse.otherinformation + '</p>')
+                + (thisCourse.otherrequirements == undefined ? '' :
+                '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
+                + (thisCourse.website == undefined ? '' :
+                '<h3>Website</h3><p><a href="' + thisCourse.website + '" target="_blank">' + thisCourse.website + '</a></p>')
+    '<h3>Classes</h3><p>' + thisCourse.classes[0] + '</p>'
+
+    var classes = ''
+    for (var field in thisCourse.classes) {
+      var val = thisCourse.classes[field]
+      classes += '<tr class = "course-classes-tr">'
+              + '<td>' + val['section'] + '</td>'
+              + '<td>'
+      for (var day in val.schedule.meetings[0].days) {
+        //classes += thisCourse.classes.schedule.meetings[0].days[day]
+        classes += val.schedule.meetings[0].days[day] + ' '
+      }
+      classes += '</td>'
+      classes += (val.schedule.meetings[0] == undefined ? '' :
+                '<td>' + (val.schedule.meetings[0].start_time == undefined ? '' :
+                  val.schedule.meetings[0].start_time) + ' - '
+                + (val.schedule.meetings[0].end_time == undefined ? '' :
+                  val.schedule.meetings[0].end_time) + '</td>'
+                + '<td>' + (val.schedule.meetings[0].building == undefined ? '' :
+                  val.schedule.meetings[0].building.name) + ' ' 
+                + (val.schedule.meetings[0].room == undefined ? '' :
+                  val.schedule.meetings[0].room) + '</td>'
+              )
+      classes += '<td>' + val['enrollment'] + ' / ' + val['capacity'] + '</td>' 
+                + '<td>' + val['status'] + '</td>'
+                + '</tr>'
+    }
+    dispbody += (classes == ''? '' :
+                '<table id="class-table">' +
+                '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrollment</th><th>Status</th>' +
+                '<h3>Classes</h3>' + classes + '</table>')
+    
+    $('#disp-body').append(dispbody)
 
     for (var instructor in thisCourse.instructors) {
       var name = thisCourse.instructors[instructor].name['first'] + ' '
