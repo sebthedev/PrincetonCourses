@@ -30,9 +30,13 @@
       <div class="container-fluid vmax">
         <div class="row vmax">
           <div class="col-sm-3 vmax search-panel-body flex-container-col">
-            <div class="flex-item-rigid">
-              <input class="form-control" id="searchbox" type="text" placeholder="Search for courses..." autofocus/>
-              <div class="row" style="margin-top:15px"> <!-- MEL: sorry for temporary styling fix here -->
+            <form class="flex-item-rigid">
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <input class="form-control" id="searchbox" type="text" placeholder="Search for courses..." autofocus/>
+                </div>
+              </div>
+              <div class="form-group row">
                 <div class="col-sm-6">
                   <select class="form-control" id="semester">
                   </select>
@@ -50,7 +54,7 @@
               <div>
                 <h4 id="search-title">Search Results</h4>
               </div>
-            </div>
+            </form>
             <div class="flex-item-stretch">
               <div class="vmax">
                 <div class="scroll-window">
