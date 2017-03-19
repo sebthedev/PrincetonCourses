@@ -72,7 +72,9 @@ $(document).ready(function () {
                             + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
                                                                    : ' <span class="label label-warning">NPDF</span>'))
-                            + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : ''))
+                            + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
+                            + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
+                                                                      + '" target="_blank"><i class="fa fa-external-link"></i></a>'))
 
     //$('#comments').append(thisCourse.evaluations.studentComments)
 
@@ -116,8 +118,6 @@ $(document).ready(function () {
                 '<h3>Other Information</h3><p>' + thisCourse.otherinformation + '</p>')
                 + (thisCourse.otherrequirements == undefined ? '' :
                 '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
-                + (thisCourse.website == undefined ? '' :
-                '<h3>Website</h3><p><a href="' + thisCourse.website + '" target="_blank">' + thisCourse.website + '</a></p>')
     '<h3>Classes</h3><p>' + thisCourse.classes[0] + '</p>'
 
     var classes = ''

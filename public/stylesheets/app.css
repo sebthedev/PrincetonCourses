@@ -25,6 +25,7 @@
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
+  overflow: hidden;
 }
 
 .fullpage {
@@ -76,19 +77,28 @@
   text-overflow: ellipsis;
 }
 
-.scroll-window {
+.scroll-window-col {
   position: relative;
   height: 100%;
   width: 100%;
 }
 
-.scroll-content {
+.scroll-window-row {
+  width: 100%;
+}
+
+.scroll-content-col {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   overflow-y: auto;
+}
+
+.scroll-content-row {
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .marginless {
@@ -102,6 +112,7 @@
 .display-heading {
   padding: 15px;
   background-color: #eee;
+  justify-content: flex-start;
 }
 
 .display-body {
