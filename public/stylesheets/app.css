@@ -90,12 +90,17 @@
 
 .progress {
   margin: 0;
+  background-color: #eee;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .progress-bar {
   text-align: left;
-  color: black;
   padding: 0px 15px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .evals-title {

@@ -43,12 +43,15 @@ $(document).ready(function () {
         $('#results').append(
           '<a class="list-group-item search-result"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
            + getListings(thisCourse)
-           + '</strong></div><div class="flex-item-rigid"><span class="badge">'
+           + '</strong></div><div class="flex-item-rigid"><span class="badge"'
 
            + ((thisCourse.evaluations.hasOwnProperty('scores') &&
                thisCourse.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-             ? thisCourse.evaluations.scores['Overall Quality of the Course'].toFixed(2)
-             : 'N/A')
+             ? (' style="background-color: '
+                + colorAt(thisCourse.evaluations.scores['Overall Quality of the Course'])
+                + '">'
+                + thisCourse.evaluations.scores['Overall Quality of the Course'].toFixed(2))
+             : '>N/A')
            + '</span></div></div><div class="truncate">'
            + thisCourse.title
            + '</div></a>'
@@ -97,8 +100,8 @@ $(document).ready(function () {
       var val = thisCourse.evaluations.scores[field]
       evals += '<div>' + field + '</div>'
              + '<div class="progress"><div class="progress-bar" role="progressbar" '
-             + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '">'
-             + val.toFixed(2) + '</div></div>' // as percentage of 5
+             + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '"><strong>'
+             + val.toFixed(2) + '</strong></div></div>' // as percentage of 5
     }
     if (evals == "") {
       $('#evals').append('No course evaluations available.')
@@ -215,4 +218,12 @@ $(document).ready(function () {
       $('#semester').append('<option value="' + thisSemester.code + '">' + thisSemester.name + '</select>')
     }
   })
+
+  for (var i = 1.0; i < 5.05; i += 0.1) {
+    $('#disp-body').append('<span class="badge" style="background-color: '
+      + colorAt(i) + '">'
+      + i.toFixed(2)
+      + '</span>')
+  }
+  $('#disp-body').append('<span class="badge">N/A</span>')
 })

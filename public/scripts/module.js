@@ -89,29 +89,35 @@ function getListings(course) {
   return listings
 }
 
-// returns as a string (a,b%,c%) at the given fraction between (a1,b1%,c1%) and (a2,b2%,c2%)
-function HSLcolorAt(a1, b1, c1, a2, b2, c2, fraction) {
-  var a = a1 + (a2-a1)*fraction
-  var b = b1 + (b2-b1)*fraction
-  var c = c1 + (c2-c1)*fraction
-  return '(' + a + ',' + b + '%,' + c + '%)'
-}
-
-// returns as a string hsl(a,b%,c%) at the given score
+// returns as a string a color at the given score
 function colorAt(score) {
-  const maxscore = 5.0               // max value of score
-  const midscore = 3.5               // mid value of score (for gradient)
-  const minscore = 1.0               // min value of score
+  // gradient points
+  const score_0 = 1.0
+  const score_1 = 1.5
+  const score_2 = 2.0
+  const score_3 = 2.5
+  const score_4 = 3.0
+  const score_5 = 3.5
+  const score_6 = 4.0
+  const score_7 = 4.5
+  const score_8 = 5.0
 
-  // gradient between red and blue
-  var c
-  if (score > midscore) {
-    c = 'hsl' + HSLcolorAt(60, 80, 60, 180, 80, 60, (score-midscore)/(maxscore-midscore))
-  } else {
-    c = 'hsl' + HSLcolorAt(0, 80, 60, 60, 80, 60, (score-minscore)/(midscore-minscore))
-  }
-
-  return c
+  if (score > score_7)
+    return '#2e7d32'
+  else if (score > score_6)
+    return '#4caf50'
+  else if (score > score_5)
+    return '#8bc34a'
+  else if (score > score_4)
+    return '#c6cf37'
+  else if (score > score_3)
+    return '#ffca28'
+  else if (score > score_2)
+    return '#ef9100'
+  else if (score > score_1)
+    return '#d9534f'
+  else
+    return '#bf360c'
 }
 
 // returns an SVG DOM element with the given score
