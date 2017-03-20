@@ -40,7 +40,20 @@ $(document).ready(function () {
         var thisCourse = courses[courseIndex]
 
         // append result into results pane
-        $('#results')[0].appendChild(newResultEntry(thisCourse))
+        $('#results').append(
+          '<a class="list-group-item search-result"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
+           + getListings(thisCourse)
+           + '</strong></div><div class="flex-item-rigid"><span class="badge">'
+
+           + ((thisCourse.evaluations.hasOwnProperty('scores') &&
+               thisCourse.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
+             ? thisCourse.evaluations.scores['Overall Quality of the Course'].toFixed(2)
+             : 'N/A')
+           + '</span></div></div><div class="truncate">'
+           + thisCourse.title
+           + '</div></a>'
+        )
+        //$('#results')[0].appendChild(newResultEntry(thisCourse))
 
         // attach object to DOM element
         $('#results').children().last()[0].course = thisCourse
