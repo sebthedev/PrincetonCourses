@@ -26,7 +26,7 @@
         </ul>
       </div>
     </nav>
-    <div class="flex-item-stretch">
+    <div class="flex-item-stretch left-pane">
       <div class="container-fluid vmax">
         <div class="row vmax">
           <div id="search-pane" class="col-sm-3 vmax flex-container-col">
@@ -51,10 +51,49 @@
                   </select>
                 </div>
               </div>
-              <div>
-                <h4 id="search-title">Search Results</h4>
-              </div>
             </form>
+            <div id ="favorite-courses" class="flex-item-stretch">
+              <div> 
+                <h4 id="favorite-title">Favorite Courses</h4>
+              </div>
+              <div class="scroll-window-col">
+                <div class="scroll-content-col">
+                  <ul id="favs" class="list-group marginless">
+                    <a href="#" class="list-group-item list-square">
+                      <div>COS 123 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                    <a href="#" class="list-group-item list-square">
+                      <div>COS 123 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                    <a href="#" class="list-group-item list-square active">
+                      <div>COS 123 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                    <a href="#" class="list-group-item list-square">
+                      <div>COS 123 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                    <a href="#" class="list-group-item list-square">
+                      <div>COS 333 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                    <a href="#" class="list-group-item list-square">
+                      <div>COS 333 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                    <a href="#" class="list-group-item list-square">
+                      <div>COS 333 <span class="label label-info">QR</span></div>
+                      <div>Advanced Programming Techniques</div>
+                    </a>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 id="search-title">Search Results</h4>
+            </div>
             <div class="flex-item-stretch">
               <div class="vmax">
                 <div class="scroll-window-col">
@@ -103,6 +142,7 @@
                     <span class="label label-info">QR</span>
                     <span class="label label-warning">NA</span>
                     <span class="label label-warning">NPDF</span>
+                    <span type="button" class="btn-primary btn-default btn-sm" id="fav-button">Favorite</span>
                     <a href="http://www.cs.princeton.edu/courses/archive/spring17/cos333/" target="_blank">
                       <i class="fa fa-external-link"></i>
                     </a>

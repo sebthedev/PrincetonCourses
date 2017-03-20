@@ -1,6 +1,29 @@
 // when document loads
 $(document).ready(function () {
 
+  // get User
+  var thisUser = this.User
+  $.get('/api/whoami', function (data) {
+    thisUser = data;
+    if (typeof(thisUser.favoriteCourses) != 'undefined')
+    {
+      getFavorites();
+    }
+  })
+
+  var getFavorites = function() {
+    $('#favs').html('');
+    // display favorites
+    var toalert = '';
+    for (var courseIndex in thisUser.favoriteCourses) {
+      var favCourse = thisUser.favoriteCourses[courseIndex];
+      toalert.append(favCourse + ' ');
+      alert(favCourse);
+      // Bensu TODO: append result into #favs list
+    }
+    alert("Favorite courses are :" + toalert);
+  }
+
   // function for updating search results
   var getCourseData = function () {
     var query = {
@@ -9,6 +32,8 @@ $(document).ready(function () {
       },
       semester: $('#semester').val()
     }
+
+
 
     $.post('/api/courses',
     {
@@ -23,16 +48,6 @@ $(document).ready(function () {
       // clear results
       $('#results').html('')
       $('#search-title').html('')
-
-      /* SEB'S EXAMPLE
-
-      // Insert the course results into the area
-      for (var courseIndex in courses) {
-        var thisCourse = courses[courseIndex]
-        $('#results').append('<div class="course"><span style="font-weight:bold">' + thisCourse.department + ' ' + thisCourse.catalogNumber + '</span> ' + thisCourse.title + '</div>')
-        $('#results').children().last()[0].course = thisCourse
-
-      */
 
       $('#search-title').append(courses.length + ' Search Results')
 
@@ -74,8 +89,10 @@ $(document).ready(function () {
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
                                                                    : ' <span class="label label-warning">NPDF</span>'))
                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
+                            + ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button">Favorite</span>'
                             + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
                                                                       + '" target="_blank"><i class="fa fa-external-link"></i></a>'))
+
 
     //$('#comments').append(thisCourse.evaluations.studentComments)
 
@@ -112,14 +129,14 @@ $(document).ready(function () {
     dispbody += '<h3 id="disp-profs"></h3>' +
                 '<p>' + thisCourse.description + '</p>'
                 + (thisCourse.prerequisites == undefined ? '' :
-                '<h3>Prerequisites</h3><p>' + thisCourse.prerequisites + '</p>')
+                '<h4 style="font-weight:bold">Prerequisites</h4><p>' + thisCourse.prerequisites + '</p>')
                 + (thisCourse.equivalentcourses == undefined ? '' :
-                '<h3>Equivalent Courses</h3><p>' + thisCourse.equivalentcourses + '</p>')
+                '<h4 style="font-weight:bold">Equivalent Courses</h4><p>' + thisCourse.equivalentcourses + '</p>')
                 + (thisCourse.otherinformation == undefined ? '' :
-                '<h3>Other Information</h3><p>' + thisCourse.otherinformation + '</p>')
+                '<h4 style="font-weight:bold">Other Information</h4><p>' + thisCourse.otherinformation + '</p>')
                 + (thisCourse.otherrequirements == undefined ? '' :
-                '<h3>Equivalent Courses</h3><p>' + thisCourse.otherrequirements + '</p>')
-    '<h3>Classes</h3><p>' + thisCourse.classes[0] + '</p>'
+                '<h4 style="font-weight:bold">Equivalent Courses</h4><p>' + thisCourse.otherrequirements + '</p>')
+                '<h4 style="font-weight:bold">Classes</h4><p>' + thisCourse.classes[0] + '</p>'
 
     var classes = ''
     for (var field in thisCourse.classes) {
@@ -138,7 +155,7 @@ $(document).ready(function () {
                 + (val.schedule.meetings[0].end_time == undefined ? '' :
                   val.schedule.meetings[0].end_time) + '</td>'
                 + '<td>' + (val.schedule.meetings[0].building == undefined ? '' :
-                  val.schedule.meetings[0].building.name) + ' '
+                  val.schedule.meetings[0].building.short_name) + ' '
                 + (val.schedule.meetings[0].room == undefined ? '' :
                   val.schedule.meetings[0].room) + '</td>'
               )
@@ -148,8 +165,8 @@ $(document).ready(function () {
     }
     dispbody += (classes == ''? '' :
                 '<table id="class-table">' +
-                '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrollment</th><th>Status</th>' +
-                '<h3>Classes</h3>' + classes + '</table>')
+                '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrolled</th><th>Status</th>' +
+                '<h4 style="font-weight:bold">Classes</h4>' + classes + '</table>')
 
     $('#disp-body').append(dispbody)
 
@@ -161,6 +178,16 @@ $(document).ready(function () {
         }
         $('#disp-profs').append(name)
     }
+
+    // favorite a course
+    $("#fav-button").click(function() {
+      var thisCourseId = thisCourse._id;
+      if (thisUser.favoriteCourses == undefined) {
+        thisUser.favoriteCourses = [];
+      }
+      thisUser.favoriteCourses.push(thisCourseId);
+      getFavorites();
+    })
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function

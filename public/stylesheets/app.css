@@ -148,6 +148,11 @@ ul.comments-list li:hover {
   padding-bottom: 15px;
 }
 
+#left-pane {
+  display: flex;
+  flex-flow: column;
+}
+
 #display-pane {
   padding: 0;
 }

@@ -4,3 +4,4 @@ $(document).ready(function () {
   //   window.alert('Hi! Your netid is:' + data.netid)
   // })
 })
+
