@@ -8,8 +8,8 @@
 
 <body>
   <!-- MEL: body is on codepen at https://codepen.io/melyshu/pen/ryjpPE -->
-  <div class="fullpage flex-container-col">
-    <nav class="navbar navbar-default page-menu flex-item-rigid">
+  <div id="full-page" class="flex-container-col">
+    <nav id="menu-bar" class="navbar navbar-default flex-item-rigid">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Princeton Courses</a>
@@ -29,20 +29,20 @@
     <div class="flex-item-stretch">
       <div class="container-fluid vmax">
         <div class="row vmax">
-          <div class="col-sm-3 vmax search-panel-body flex-container-col">
+          <div id="search-pane" class="col-sm-3 vmax flex-container-col">
             <form class="flex-item-rigid">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <input class="form-control" id="searchbox" type="text" placeholder="Search for courses..." autofocus/>
+                  <input id="searchbox" class="form-control" type="text" placeholder="Search for courses..." autofocus/>
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-6">
-                  <select class="form-control" id="semester">
+                  <select id="semester" class="form-control">
                   </select>
                 </div>
                 <div class="col-sm-6">
-                  <select class="form-control" id="sort">
+                  <select id="sort" class="form-control">
                     <option value="relevance" selected>Relevance</option>
                     <option value="rating">Rating</option>
                     <option value="title">Title</option>
@@ -59,7 +59,7 @@
               <div class="vmax">
                 <div class="scroll-window-col">
                   <div class="scroll-content-col">
-                    <ul class="list-group marginless" id="results">
+                    <ul id="results" class="list-group marginless">
                       <a href="#" class="list-group-item list-square">
                         <div>COS 333 <span class="label label-info">QR</span></div>
                         <div>Advanced Programming Techniques</div>
@@ -94,8 +94,8 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-9 vmax display-panel-body flex-container-col">
-            <div class="flex-item-rigid display-heading">
+          <div id="display-pane" class="col-sm-9 vmax flex-container-col">
+            <div id="display-header" class="flex-item-rigid">
               <div class="scroll-window-row">
                 <div class="scroll-content-row">
                   <h2 id="disp-title">Advanced Programming Techniques</h2>
@@ -112,9 +112,9 @@
             </div>
             <div class="flex-item-stretch">
               <div class="row vmax marginless">
-                <div class="col-sm-6 vmax display-body">
+                <div id="info-pane" class="col-sm-6 vmax">
                   <div class="scroll-window-col">
-                    <div class="scroll-content-col display-detail" id="disp-body">
+                    <div id="disp-body" class="scroll-content-col">
                       <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
                         by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
                         and in group projects.
@@ -139,7 +139,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-6 vmax eval-panel-body flex-container-col" id="evals-pane">
+                <div id="evals-pane" class="col-sm-6 vmax flex-container-col">
                   <div class="flex-item-rigid">
                     <h4 class="evals-title">Evaluations</h4>
                     <div id="evals">
@@ -186,7 +186,7 @@
       </div>
     </div>
   </div>
-  <div class="feedback-form panel" style="display: none;">
+  <div id="feedback-form" class="panel" style="display: none;">
     <form class="panel-body text-center">
       <div class="form-group">
         <label for="feedback-text">Any thoughts, comments or complaints?</label>
