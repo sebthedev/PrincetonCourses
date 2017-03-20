@@ -201,7 +201,7 @@ $(document).ready(function () {
 
   // feedback form toggling
   var toggleFeedback = function() {
-   $('.feedback-form').slideToggle()
+   $('#feedback-form').slideToggle()
    if ($('#feedback-toggle').hasClass("active")) {
      $('#feedback-toggle').removeClass("active")
    } else {
