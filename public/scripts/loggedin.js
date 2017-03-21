@@ -16,6 +16,13 @@ $(document).ready(function () {
 
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
+      if (courses == undefined)
+      {
+        document.getElementById("favorite-courses").style.display = "none";
+      }
+      else {
+        document.getElementById("favorite-courses").style.display = "inline";
+      }
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex];
 
@@ -197,31 +204,15 @@ $(document).ready(function () {
 
     // favorite a course
     $("#fav-button").click(function() {
-      // var thisCourseId = thisCourse._id;
-      // if (thisUser.favoriteCourses == undefined) {
-      //   thisUser.favoriteCourses = [];
-      // }
-      // if (!thisUser.favoriteCourses.includes(thisCourseId))
-      // {
-      //   thisUser.favoriteCourses.push(thisCourseId);
-      // }
-      // else {
-      //   var i = thisUser.favoriteCourses.indexOf(thisCourseId);
-      //   if(i != -1) {
-      //     thisUser.favoriteCourses.splice(i, 1);
-      //   }
-      // }
-      // getFavorites();
-
       var thisCourseId = this.course["_id"];
-
-      // update database
-      $.ajax({
-        url: '/api/user/favorite',
-        type: 'PUT',
-        data: {'course': thisCourseId},
-        success: function() {dispFavorites();}
-      });
+        //thisUser.favoriteCourses.push(thisCourseId);
+        // update database
+        $.ajax({
+          url: '/api/user/favorite',
+          type: 'PUT',
+          data: {'course': thisCourseId},
+          success: function() {dispFavorites();}
+        });
     })
     /*
     $.ajax({
