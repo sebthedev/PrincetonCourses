@@ -283,7 +283,10 @@ $(document).ready(function () {
     } else {
       $('#feedback-toggle').addClass("active")
   }
-  $('#feedback-toggle').submit(function() {
+  $('#feedback-form').submit(function() {
+    return false;
+  });
+  $('#search-form').submit(function() {
     return false;
   });
  }
