@@ -32,12 +32,27 @@ $(document).ready(function () {
         {
           document.getElementById("favorite-courses").style.display = "inline";
           document.getElementById("favorite-title").style.display = "inline";
+          if (courses.length == 1)
+          {
+            $("#search-results-cont").css("flex-grow", 8);
+          }
+          else if (courses.length == 2)
+          {
+            $("#search-results-cont").css("flex-grow", 4);
+          }
+          else if (courses.length == 3)
+          {
+            $("#search-results-cont").css("flex-grow", 2.5);
+          }
+          else
+          {
+            $("#search-results-cont").css("flex-grow", 2);
+          }
         }
 
       }
 
       $('#favorite-title').append(courses.length + ' Favorite Courses')
-
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex];
 
