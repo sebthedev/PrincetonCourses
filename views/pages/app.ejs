@@ -30,7 +30,7 @@
       <div class="container-fluid vmax">
         <div class="row vmax">
           <div id="search-pane" class="col-sm-3 vmax flex-container-col">
-            <form class="flex-item-rigid" id="search-form">
+            <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode != 13">
               <div class="form-group row">
                 <div class="col-sm-12">
                   <input id="searchbox" class="form-control" type="text" placeholder="Search for courses..." autofocus/>
@@ -126,7 +126,7 @@
                     <span class="label label-info">QR</span>
                     <span class="label label-warning">NA</span>
                     <span class="label label-warning">NPDF</span>
-                    <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span>
+                    <!-- <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span> -->
                     <a href="http://www.cs.princeton.edu/courses/archive/spring17/cos333/" target="_blank">
                       <i class="fa fa-external-link"></i>
                     </a>
@@ -194,7 +194,7 @@
     </div>
   </div>
   <div id="feedback-form" class="panel" style="display: none;">
-    <form class="panel-body text-center">
+    <form class="panel-body text-center" onkeypress="return event.keyCode != 13">
       <div class="form-group">
         <label for="feedback-text">Any thoughts, comments or complaints?</label>
         <textarea class="form-control" id="feedback-text" rows="3"></textarea>

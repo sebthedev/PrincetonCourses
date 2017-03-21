@@ -157,14 +157,12 @@ $(document).ready(function () {
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
                                                                    : ' <span class="label label-warning">NPDF</span>'))
                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
-                            + ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span>'
+                            /*+ ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span>'*/
                             + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
                                                                       + '" target="_blank"><i class="fa fa-external-link"></i></a>'))
 
-    $('#fav-button')[0].course = thisCourse;
-
+    //$('#fav-button')[0].course = thisCourse;
     //$('#comments').append(thisCourse.evaluations.studentComments)
-
     // stuff for course evaluations
     var evals = ""
     for (var field in thisCourse.evaluations.scores) {
@@ -298,12 +296,6 @@ $(document).ready(function () {
     } else {
       $('#feedback-toggle').addClass("active")
   }
-  $('#feedback-form').submit(function() {
-    return false;
-  });
-  $('#search-form').submit(function() {
-    return false;
-  });
  }
 
 
@@ -323,7 +315,7 @@ $(document).ready(function () {
       + i.toFixed(2)
       + '</span>')
   }
-  $('#disp-body').append('<span class="badge">N/A</span>')
+  $('#disp-body').append('<span class="badge"> N/A </span>')
 
   dispFavorites();
 })
