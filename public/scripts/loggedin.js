@@ -13,16 +13,21 @@ $(document).ready(function () {
 
   var dispFavorites = function() {
     $('#favs').html('');
+    $('$favorite-title').html('');
 
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
-      if (courses == undefined)
+      if (courses.length === 0)
       {
         document.getElementById("favorite-courses").style.display = "none";
+        return;
       }
       else {
         document.getElementById("favorite-courses").style.display = "inline";
       }
+
+      $('#favorite-title').append(courses.length + ' Favorite Courses')
+
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex];
 
