@@ -222,15 +222,28 @@ $(document).ready(function () {
 
     // favorite a course
     $("#fav-button").click(function() {
+      // var thisCourseId = thisCourse._id;
+      // if (thisUser.favoriteCourses == undefined) {
+      //   thisUser.favoriteCourses = [];
+      // }
       var thisCourseId = this.course["_id"];
-        //thisUser.favoriteCourses.push(thisCourseId);
-        // update database
+      if (thisUser.favoriteCourses.includes(thisCourseId))
+      {
         $.ajax({
           url: '/api/user/favorite',
           type: 'PUT',
           data: {'course': thisCourseId},
           success: function() {dispFavorites();}
         });
+      }
+      else {
+        $.ajax({
+          url: '/api/user/favorite',
+          type: 'DELETE',
+          data: {'course': thisCourseId},
+          success: function() {dispFavorites();}
+        });
+      }    
     })
     /*
     $.ajax({
