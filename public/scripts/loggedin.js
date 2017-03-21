@@ -13,16 +13,31 @@ $(document).ready(function () {
 
   var dispFavorites = function() {
     $('#favs').html('');
+    $('#favorite-title').html('');
 
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
       if (courses == undefined)
       {
         document.getElementById("favorite-courses").style.display = "none";
+        document.getElementById("favorite-title").style.display = "none";
       }
       else {
-        document.getElementById("favorite-courses").style.display = "inline";
+        if (courses.length == 0)
+        {
+          document.getElementById("favorite-courses").style.display = "none";
+          document.getElementById("favorite-title").style.display = "none";
+        }
+        else
+        {
+          document.getElementById("favorite-courses").style.display = "inline";
+          document.getElementById("favorite-title").style.display = "inline";
+        }
+
       }
+
+      $('#favorite-title').append(courses.length + ' Favorite Courses')
+
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex];
 
@@ -222,15 +237,28 @@ $(document).ready(function () {
 
     // favorite a course
     $("#fav-button").click(function() {
+      // var thisCourseId = thisCourse._id;
+      // if (thisUser.favoriteCourses == undefined) {
+      //   thisUser.favoriteCourses = [];
+      // }
       var thisCourseId = this.course["_id"];
-        //thisUser.favoriteCourses.push(thisCourseId);
-        // update database
+      if (thisUser.favoriteCourses.includes(thisCourseId))
+      {
         $.ajax({
           url: '/api/user/favorite',
           type: 'PUT',
           data: {'course': thisCourseId},
           success: function() {dispFavorites();}
         });
+      }
+      else {
+        $.ajax({
+          url: '/api/user/favorite',
+          type: 'DELETE',
+          data: {'course': thisCourseId},
+          success: function() {dispFavorites();}
+        });
+      }
     })
     /*
     $.ajax({
@@ -249,17 +277,14 @@ $(document).ready(function () {
   $('#favs').on('click', 'li.search-result', dispCourseData)
 
   /* SEB' EXAMPLE
-
   // $('#results div').click(function () {
   //   console.log($(this).text())
   // })
-
   $('#results').on('click', 'div.course', function () {
     // window.alert('Handler for .click() called.')
     // console.log(this.course)
     window.alert('You just clicked on the course ' + this.course.title + '!')
   })
-
   */
 
   // feedback form toggling
