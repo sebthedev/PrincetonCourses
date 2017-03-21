@@ -17,8 +17,7 @@ $(document).ready(function () {
     var toalert = '';
     for (var courseIndex in thisUser.favoriteCourses) {
       var favCourse = thisUser.favoriteCourses[courseIndex];
-      toalert.append(favCourse + ' ');
-      alert(favCourse);
+      toalert += favCourse + ' ';
       // Bensu TODO: append result into #favs list
     }
     alert("Favorite courses are :" + toalert);
