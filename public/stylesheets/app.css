@@ -218,6 +218,13 @@ li.list-group-item:hover {
   flex-grow: 3;
 }
 
+#welcome-display-pane {
+  display: flex;
+  align-items : center;
+  align-content: center;
+  justify-content: center;
+}
+
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
 
 ::-webkit-scrollbar {

@@ -135,6 +135,9 @@ $(document).ready(function () {
   // function for displaying course details
   var dispCourseData = function() {
     $(".search-result").removeClass("active");
+    $("#welcome-display-pane").css("display", "none");
+    $("#display-pane").css("visibility", "visible");
+    //document.getElementById("display-pane").style.display = "inline";
     $(this).addClass("active")
 
     $('#disp-title').html('')
