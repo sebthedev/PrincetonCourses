@@ -73,8 +73,6 @@ $(document).ready(function () {
       semester: $('#semester').val()
     }
 
-
-
     $.post('/api/courses',
     {
       query: JSON.stringify(query),
@@ -237,10 +235,6 @@ $(document).ready(function () {
 
     // favorite a course
     $("#fav-button").click(function() {
-      // var thisCourseId = thisCourse._id;
-      // if (thisUser.favoriteCourses == undefined) {
-      //   thisUser.favoriteCourses = [];
-      // }
       var thisCourseId = this.course["_id"];
       if (thisUser.favoriteCourses.includes(thisCourseId))
       {
@@ -260,12 +254,6 @@ $(document).ready(function () {
         });
       }
     })
-    /*
-    $.ajax({
-      url: '/api/user/favorite/',
-      type: 'PUT',
-      data: {course: $('#results').children()[0].course},
-      success: function (arg, status) {console.log(arg);}})*/
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
@@ -289,13 +277,17 @@ $(document).ready(function () {
 
   // feedback form toggling
   var toggleFeedback = function() {
-   $('#feedback-form').slideToggle()
-   if ($('#feedback-toggle').hasClass("active")) {
-     $('#feedback-toggle').removeClass("active")
-   } else {
-     $('#feedback-toggle').addClass("active")
-   }
+    $('#feedback-form').slideToggle()
+    if ($('#feedback-toggle').hasClass("active")) {
+      $('#feedback-toggle').removeClass("active")
+    } else {
+      $('#feedback-toggle').addClass("active")
+  }
+  $('#feedback-toggle').submit(function() {
+    return false;
+  });
  }
+
 
  $('#feedback-toggle').click(toggleFeedback)
 
