@@ -27,23 +27,26 @@ $(document).ready(function () {
         var thisCourse = courses[courseIndex];
 
         // append favorite into favs pane
-        $('#favs').append(newResultEntry(thisCourse));
+        $('#favs').append(newFavEntry(thisCourse));
+
+        $('.unfav-icon').last()[0].courseId = thisCourse["_id"];
 
         // attach object to DOM element
         $('#favs').children().last()[0].course = thisCourse;
       }
+
+      $('.unfav-icon').click(function() {
+        var thisCourseId = this.courseId;
+
+        // update database
+        $.ajax({
+          url: '/api/user/favorite',
+          type: 'DELETE',
+          data: {'course': thisCourseId},
+          success: function() {dispFavorites();}
+        });
+      })
     });
-    /*
-    // display favorites
-    var toalert = '';
-    for (var courseIndex in thisUser.favoriteCourses) {
-      var favCourse = thisUser.favoriteCourses[courseIndex];
-      toalert.append(favCourse + ' ');
-      alert(favCourse);
-      // Bensu TODO: append result into #favs list
-    }
-    alert("Favorite courses are :" + toalert);
-    */
   }
 
   // function for updating search results
@@ -82,7 +85,22 @@ $(document).ready(function () {
 
         // attach object to DOM element
         $('#results').children().last()[0].course = thisCourse
+
+
+        $('.fav-icon').last()[0].courseId = thisCourse["_id"];
       }
+
+      $('.fav-icon').click(function() {
+        var thisCourseId = this.courseId;
+
+        // update database
+        $.ajax({
+          url: '/api/user/favorite',
+          type: 'PUT',
+          data: {'course': thisCourseId},
+          success: function() {dispFavorites();}
+        });
+      })
     })
   }
 
@@ -227,8 +245,8 @@ $(document).ready(function () {
   $('#semester, #sort').change(getCourseData)
 
   // displays information in right pane on click of search result
-  $('#results').on('click', 'a.search-result', dispCourseData)
-  $('#favs').on('click', 'a.search-result', dispCourseData)
+  $('#results').on('click', 'li.search-result', dispCourseData)
+  $('#favs').on('click', 'li.search-result', dispCourseData)
 
   /* SEB' EXAMPLE
 
