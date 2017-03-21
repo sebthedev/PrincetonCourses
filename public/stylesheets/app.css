@@ -215,7 +215,7 @@ li.list-group-item:hover {
 }
 
 #search-results-cont {
-  flex-grow:3;
+  flex-grow: 3;
 }
 
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
