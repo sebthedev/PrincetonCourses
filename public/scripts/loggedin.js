@@ -12,8 +12,6 @@ $(document).ready(function () {
   })
 
   var dispFavorites = function() {
-    $('#favs').html('');
-    $('#favorite-title').html('');
 
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
@@ -30,27 +28,14 @@ $(document).ready(function () {
         }
         else
         {
-          document.getElementById("favorite-courses").style.display = "inline";
-          document.getElementById("favorite-title").style.display = "inline";
-          if (courses.length == 1)
-          {
-            $("#search-results-cont").css("flex-grow", 8);
-          }
-          else if (courses.length == 2)
-          {
-            $("#search-results-cont").css("flex-grow", 4);
-          }
-          else if (courses.length == 3)
-          {
-            $("#search-results-cont").css("flex-grow", 2.5);
-          }
-          else
-          {
-            $("#search-results-cont").css("flex-grow", 2);
-          }
+          document.getElementById("favorite-courses").style.display = "block";
+          document.getElementById("favorite-title").style.display = "block";
         }
 
       }
+
+      $('#favs').html('');
+      $('#favorite-title').html('');
 
       $('#favorite-title').append(courses.length + ' Favorite Courses')
       for (var courseIndex in courses) {
@@ -75,6 +60,8 @@ $(document).ready(function () {
           data: {'course': thisCourseId},
           success: function() {dispFavorites();}
         });
+
+        return false;
       })
     });
   }
@@ -128,6 +115,8 @@ $(document).ready(function () {
           data: {'course': thisCourseId},
           success: function() {dispFavorites();}
         });
+
+        return false;
       })
     })
   }
@@ -232,7 +221,7 @@ $(document).ready(function () {
                     val.schedule.meetings[0].room) + '</td>'
                 )
         classes.table += '<td>' + val['enrollment'] + ' / ' + val['capacity'] + '</td>'
-                  + '</tr>'    
+                  + '</tr>'
     }
 
     for (var field in thisCourse.classes) {
