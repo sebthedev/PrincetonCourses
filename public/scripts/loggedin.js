@@ -203,38 +203,59 @@ $(document).ready(function () {
                 '<h4 style="font-weight:bold">Other Information</h4><p>' + thisCourse.otherinformation + '</p>')
                 + (thisCourse.otherrequirements == undefined ? '' :
                 '<h4 style="font-weight:bold">Equivalent Courses</h4><p>' + thisCourse.otherrequirements + '</p>')
-                '<h4 style="font-weight:bold">Classes</h4><p>' + thisCourse.classes[0] + '</p>'
+                // '<h4 style="font-weight:bold">Classes</h4><p>' + thisCourse.classes[0] + '</p>'
 
-    var classes = ''
+    var openClasses = { table: '' };
+    var closedClasses = { table: '' };
+    var cancelledClasses = { table: '' };
+
+    var makeClassTable = function(val, classes) {
+      classes.table += '<tr class = "course-classes-tr">'
+                + '<td>' + val['section'] + '</td>'
+                + '<td>'
+        for (var day in val.schedule.meetings[0].days) {
+          //classes += thisCourse.classes.schedule.meetings[0].days[day]
+          classes.table += val.schedule.meetings[0].days[day] + ' '
+        }
+        classes.table += '</td>'
+        classes.table += (val.schedule.meetings[0] == undefined ? '' :
+                  '<td>' + (val.schedule.meetings[0].start_time == undefined ? '' :
+                    val.schedule.meetings[0].start_time) + ' - '
+                  + (val.schedule.meetings[0].end_time == undefined ? '' :
+                    val.schedule.meetings[0].end_time) + '</td>'
+                  + '<td>' + (val.schedule.meetings[0].building == undefined ? '' :
+                    val.schedule.meetings[0].building.short_name) + ' '
+                  + (val.schedule.meetings[0].room == undefined ? '' :
+                    val.schedule.meetings[0].room) + '</td>'
+                )
+        classes.table += '<td>' + val['enrollment'] + ' / ' + val['capacity'] + '</td>'
+                  + '</tr>'    
+    }
+
     for (var field in thisCourse.classes) {
       var val = thisCourse.classes[field]
-      classes += '<tr class = "course-classes-tr">'
-              + '<td>' + val['section'] + '</td>'
-              + '<td>'
-      for (var day in val.schedule.meetings[0].days) {
-        //classes += thisCourse.classes.schedule.meetings[0].days[day]
-        classes += val.schedule.meetings[0].days[day] + ' '
+      if (val['status'] == "Open") {
+        makeClassTable(val, openClasses);
       }
-      classes += '</td>'
-      classes += (val.schedule.meetings[0] == undefined ? '' :
-                '<td>' + (val.schedule.meetings[0].start_time == undefined ? '' :
-                  val.schedule.meetings[0].start_time) + ' - '
-                + (val.schedule.meetings[0].end_time == undefined ? '' :
-                  val.schedule.meetings[0].end_time) + '</td>'
-                + '<td>' + (val.schedule.meetings[0].building == undefined ? '' :
-                  val.schedule.meetings[0].building.short_name) + ' '
-                + (val.schedule.meetings[0].room == undefined ? '' :
-                  val.schedule.meetings[0].room) + '</td>'
-              )
-      classes += '<td>' + val['enrollment'] + ' / ' + val['capacity'] + '</td>'
-                + '<td>' + val['status'] + '</td>'
-                + '</tr>'
+      if (val['status'] == "Cancelled") {
+        makeClassTable(val, cancelledClasses);
+      }
+      if (val['status'] == "Closed") {
+        makeClassTable(val, closedClasses);
+      }
     }
-    dispbody += (classes == ''? '' :
-                '<table id="class-table">' +
-                '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrolled</th><th>Status</th>' +
-                '<h4 style="font-weight:bold">Classes</h4>' + classes + '</table>')
-
+    dispbody += (openClasses.table == ''? '' :
+              '<table id="class-table">' +
+              '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrolled</th>' +
+              '<h4 style="font-weight:bold">Open Classes</h4>' + openClasses.table + '</table>');
+    dispbody += (closedClasses.table == ''? '' :
+              '<table id="class-table">' +
+              '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrolled</th>' +
+              '<h4 style="font-weight:bold">Closed Classes</h4>' + closedClasses.table + '</table>');
+    dispbody += (cancelledClasses.table == ''? '' :
+              '<table id="class-table">' +
+              '<th>Section</th><th>Days</th><th>Time</th><th>Room</th><th>Enrolled</th>' +
+              '<h4 style="font-weight:bold">Cancelled Classes</h4>' + cancelledClasses.table + '</table>');
     $('#disp-body').append(dispbody)
 
     for (var instructor in thisCourse.instructors) {
