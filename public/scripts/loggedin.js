@@ -11,16 +11,32 @@ $(document).ready(function () {
     }
   })
 
-  var getFavorites = function() {
+  var dispFavorites = function() {
     $('#favs').html('');
+
+    // call api to get favorites and display
+    $.get('/api/user/favorites', function(courses) {
+      for (var courseIndex in courses) {
+        var thisCourse = courses[courseIndex];
+
+        // append favorite into favs pane
+        $('#favs').append(newResultEntry(thisCourse));
+
+        // attach object to DOM element
+        $('#favs').children().last()[0].course = thisCourse;
+      }
+    });
+    /*
     // display favorites
     var toalert = '';
     for (var courseIndex in thisUser.favoriteCourses) {
       var favCourse = thisUser.favoriteCourses[courseIndex];
-      toalert += favCourse + ' ';
+      toalert.append(favCourse + ' ');
+      alert(favCourse);
       // Bensu TODO: append result into #favs list
     }
     alert("Favorite courses are :" + toalert);
+    */
   }
 
   // function for updating search results
@@ -92,6 +108,7 @@ $(document).ready(function () {
                             + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
                                                                       + '" target="_blank"><i class="fa fa-external-link"></i></a>'))
 
+    $('#fav-button')[0].course = thisCourse;
 
     //$('#comments').append(thisCourse.evaluations.studentComments)
 
@@ -180,22 +197,38 @@ $(document).ready(function () {
 
     // favorite a course
     $("#fav-button").click(function() {
-      var thisCourseId = thisCourse._id;
-      if (thisUser.favoriteCourses == undefined) {
-        thisUser.favoriteCourses = [];
-      }
-      if (!thisUser.favoriteCourses.includes(thisCourseId))
-      {
-        thisUser.favoriteCourses.push(thisCourseId);
-      }
-      else {
-        var i = thisUser.favoriteCourses.indexOf(thisCourseId);
-        if(i != -1) {
-          thisUser.favoriteCourses.splice(i, 1);
-        }
-      }
-      getFavorites();
+      // var thisCourseId = thisCourse._id;
+      // if (thisUser.favoriteCourses == undefined) {
+      //   thisUser.favoriteCourses = [];
+      // }
+      // if (!thisUser.favoriteCourses.includes(thisCourseId))
+      // {
+      //   thisUser.favoriteCourses.push(thisCourseId);
+      // }
+      // else {
+      //   var i = thisUser.favoriteCourses.indexOf(thisCourseId);
+      //   if(i != -1) {
+      //     thisUser.favoriteCourses.splice(i, 1);
+      //   }
+      // }
+      // getFavorites();
+
+      var thisCourseId = this.course["_id"];
+
+      // update database
+      $.ajax({
+        url: '/api/user/favorite',
+        type: 'PUT',
+        data: {'course': thisCourseId},
+        success: function() {dispFavorites();}
+      });
     })
+    /*
+    $.ajax({
+      url: '/api/user/favorite/',
+      type: 'PUT',
+      data: {course: $('#results').children()[0].course},
+      success: function (arg, status) {console.log(arg);}})*/
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
@@ -204,6 +237,7 @@ $(document).ready(function () {
 
   // displays information in right pane on click of search result
   $('#results').on('click', 'a.search-result', dispCourseData)
+  $('#favs').on('click', 'a.search-result', dispCourseData)
 
   /* SEB' EXAMPLE
 
@@ -246,4 +280,6 @@ $(document).ready(function () {
       + '</span>')
   }
   $('#disp-body').append('<span class="badge">N/A</span>')
+
+  dispFavorites();
 })
