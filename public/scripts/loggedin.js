@@ -88,7 +88,7 @@ $(document).ready(function () {
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
                                                                    : ' <span class="label label-warning">NPDF</span>'))
                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
-                            + ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button">Favorite</span>'
+                            + ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span>'
                             + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
                                                                       + '" target="_blank"><i class="fa fa-external-link"></i></a>'))
 
@@ -184,7 +184,16 @@ $(document).ready(function () {
       if (thisUser.favoriteCourses == undefined) {
         thisUser.favoriteCourses = [];
       }
-      thisUser.favoriteCourses.push(thisCourseId);
+      if (!thisUser.favoriteCourses.includes(thisCourseId))
+      {
+        thisUser.favoriteCourses.push(thisCourseId);
+      }
+      else {
+        var i = thisUser.favoriteCourses.indexOf(thisCourseId);
+        if(i != -1) {
+          thisUser.favoriteCourses.splice(i, 1);
+        }
+      }
       getFavorites();
     })
   }
