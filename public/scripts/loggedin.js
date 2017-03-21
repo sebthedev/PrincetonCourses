@@ -19,9 +19,20 @@ $(document).ready(function () {
       if (courses == undefined)
       {
         document.getElementById("favorite-courses").style.display = "none";
+        document.getElementById("favorite-title").style.display = "none";
       }
       else {
-        document.getElementById("favorite-courses").style.display = "inline";
+        if (courses.length == 0)
+        {
+          document.getElementById("favorite-courses").style.display = "none";
+          document.getElementById("favorite-title").style.display = "none";
+        }
+        else 
+        {
+          document.getElementById("favorite-courses").style.display = "inline";
+          document.getElementById("favorite-title").style.display = "inline";
+        }
+        
       }
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex];
