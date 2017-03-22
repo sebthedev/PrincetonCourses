@@ -1,6 +1,14 @@
 // when document loads
 $(document).ready(function () {
 
+  // construct local favorites list
+  $.get('/api/user/favorites', function(courses) {
+    document.favorites = []
+    for (var course in courses) {
+      document.favorites.push(courses[course]["_id"])
+    }
+  })
+
   // get User
   var thisUser = this.User
   $.get('/api/whoami', function (data) {
@@ -15,6 +23,7 @@ $(document).ready(function () {
 
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
+
       if (courses == undefined)
       {
         document.getElementById("favorite-courses").style.display = "none";
@@ -312,7 +321,7 @@ $(document).ready(function () {
  }
 
 
- $('#feedback-toggle').click(toggleFeedback)
+  $('#feedback-toggle').click(toggleFeedback)
 
   // load the semesters for the dropdown
   $.get('/api/semesters', function (semesters) {
