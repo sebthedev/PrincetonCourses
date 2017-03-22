@@ -33,6 +33,37 @@ function newFavEntry(course) {
    + '</div></li>')
 }
 
+/* MEL: trying something, in construction...
+function newDOMResult(course, favlist) {
+  var isFav = false
+  for (var courseIndex in courses) {
+    if (courses[courseIndex]["_id"] === course["_id"]) {
+      isFav = true
+      break
+    }
+  }
+
+  var li0 = document.createElement('li')
+  li0.setAttribute('class', 'list-group-item search-result')
+
+  var div0 = document.createElement('div')
+  div0.setAttribute('class', 'flex-container-row')
+
+  var div1 = document.createElement('div')
+  div1.setAttribute('class', 'flex-item-stretch truncate')
+
+  var strong0 = document.createElement('strong')
+  strong0.appendChild(document.createTextNode(getListings(course)))
+  div1.appendChild(strong0)
+
+  var div2 = document.createElement('div')
+  div2.setAttribute('class', 'flex-item-rigid')
+
+  var i0 = document.createElement('i')
+  i0.setAttribute('class', 'fa fa-heart unfav-icon')
+
+}*/
+
 // returns a string of the course listings of the given course
 function getListings(course) {
   listings = course.department + course.catalogNumber
