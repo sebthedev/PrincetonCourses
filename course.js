@@ -110,10 +110,10 @@ courseSchema.index({
   'weights': {
     title: 10,
     description: 1,
-    department: 20,
+    department: 10,
     catalogNumber: 10,
     distribution: 10,
-    'crosslistings.department': 5,
+    'crosslistings.department': 8,
     'crosslistings.catalogNumber': 3
   },
   name: 'CourseRelevance'

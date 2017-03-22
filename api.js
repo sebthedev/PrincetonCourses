@@ -5,6 +5,7 @@ var router = express.Router()
 var auth = require('./authentication.js')
 var courseModel = require('./course.js')
 var semesterModel = require('./semester.js')
+var courseClashDetector = require('./courseClashDetector.js')
 
 // Check that the user is authenticated
 router.all('*', function (req, res, next) {
@@ -91,6 +92,8 @@ router.post('/courses', function (req, res) {
       console.log(err)
       res.sendStatus(500)
     } else {
+      var excludeClashingCourses = req.body.excludeClashingCourses
+      courses = courseClashDetector.detectClash(favoriteCourses, courses, excludeClashingCourses)
       res.json(courses)
     }
   })
