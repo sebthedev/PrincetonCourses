@@ -4,6 +4,9 @@
 
 /* GENERAL CSS (classes for general use) */
 
+body {
+  overflow:hidden;
+}
 .flex-container-col {
   display: flex;
   flex-flow: column nowrap;
@@ -27,7 +30,7 @@
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .vmax {
@@ -192,6 +195,7 @@ li.list-group-item:hover {
   background-color: #ddd;
   padding-top: 15px;
   padding-bottom: 15px;
+  order:1;
 }
 
 #left-pane {
@@ -207,6 +211,7 @@ li.list-group-item:hover {
   padding: 15px;
   background-color: #eee;
   justify-content: flex-start;
+  order:2;
 }
 
 #info-pane {
