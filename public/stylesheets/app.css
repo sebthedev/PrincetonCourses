@@ -5,9 +5,9 @@
 /* GENERAL CSS (classes for general use) */
 
 body {
-  min-height:100%; 
-  height:100%; 
-  overflow-x:hidden; 
+  min-height:100%;
+  height:100%;
+  overflow-x:hidden;
   overflow-y: hidden;
   display:block;
 }
@@ -45,6 +45,7 @@ body {
 
 .search-result {
   cursor: pointer;
+  padding: 5px 8px;
 }
 
 .result-dial {
@@ -143,7 +144,7 @@ ul#prof-courses {
 
 ul#prof-courses li {
    margin: 0;
-   padding: 5px;
+   padding: 5px 8px;
    background-color:#fff;
    border: 1px solid #eee;
 }
@@ -403,8 +404,8 @@ li.list-group-item:hover {
   }
 }
 
-@media only screen and (max-width: 770px) 
-{ 
+@media only screen and (max-width: 770px)
+{
   .flex-item-stretch {
     overflow-y:auto;
   }
@@ -435,5 +436,5 @@ li.list-group-item:hover {
   #search-results-cont {
     flex-basis:0;
   }
-  
+
 }

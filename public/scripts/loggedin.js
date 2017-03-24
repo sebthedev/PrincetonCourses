@@ -10,7 +10,7 @@ $(document).ready(function () {
   })
 
   // update favoriting in search results for course with courseId
-  var searchFav = function(courseId) {
+  /*var searchFav = function(courseId) {
     $("#results").children().each(function(index) {
       if (this.course["_id"] !== courseId) {
         return
@@ -133,7 +133,9 @@ $(document).ready(function () {
     });
 
     return false;
-  }
+  }*/
+
+
 
   // get User
   var thisUser = this.User
@@ -170,20 +172,20 @@ $(document).ready(function () {
       $('#favs').html('');
       $('#favorite-title').html('');
 
-      $('#favorite-title').append(courses.length + ' Favorite Courses')
+      $('#favorite-title').append(courses.length + ' Favorite Course' + (courses.length !== 1 ? 's' : ''))
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex];
 
         // append favorite into favs pane
-        $('#favs').append(newFavEntry(thisCourse));
+        $('#favs').append(newDOMResult(thisCourse));
 
-        $('.unfav-icon').last()[0].courseId = thisCourse["_id"];
+        /*$('.unfav-icon').last()[0].courseId = thisCourse["_id"];
 
         // attach object to DOM element
-        $('#favs').children().last()[0].course = thisCourse;
+        $('#favs').children().last()[0].course = thisCourse;*/
       }
 
-      $('.unfav-icon').click(clickToUnFav)
+      /*$('.unfav-icon').click(clickToUnFav)*/
     });
   }
 
@@ -210,11 +212,12 @@ $(document).ready(function () {
       $('#results').html('')
       $('#search-title').html('')
 
-      $('#search-title').append(courses.length + ' Search Results')
+      $('#search-title').append(courses.length + ' Search Result' + (courses.length !== 1 ? 's' : ''))
 
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
-
+        $('#results').append(newDOMResult(thisCourse))
+        /*
         var i = document.favorites.indexOf(thisCourse["_id"])
         if (i === -1) { // not a favorite
           var entry = $.parseHTML(newResultEntry(thisCourse))[0]
@@ -230,7 +233,7 @@ $(document).ready(function () {
           $(entry).find(".unfav-icon")[0].courseId = thisCourse["_id"]
           $(entry).find(".unfav-icon").click(clickToUnFav)
           $('#results').append(entry)
-        }
+        }*/
       }
     })
   }
@@ -410,15 +413,15 @@ $(document).ready(function () {
       else
       {
         $('#instructor-info').slideToggle();
-      }   
+      }
       prevInstId = instId;
     })
-    
+
     // Instructor page toggling
     var toggleInstructor = function(instId) {
       $('#instructor-info').html('');
       var instInfo = '';
-      
+
       $.get('/api/instructor/' + instId, function (data) {
         var thisInst = data;
         instInfo += '<p> Courses taught by <strong>' + thisInst.name['first'] + ' ' + thisInst.name['last'] + '</strong></p>';

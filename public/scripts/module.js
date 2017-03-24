@@ -51,36 +51,125 @@ function newInstructorCourseEntry(course) {
    + '</div></li>')
 }
 
-/* MEL: trying something, in construction...
-function newDOMResult(course, favlist) {
-  var isFav = false
-  for (var courseIndex in courses) {
-    if (courses[courseIndex]["_id"] === course["_id"]) {
-      isFav = true
-      break
-    }
+// returns a DOM object for a search or favorite result of a course
+function newDOMResult(course) {
+  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
+
+  var hasScore = (course.evaluations.hasOwnProperty('scores')
+               && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
+
+  if (hasScore)
+    var score = course.evaluations.scores['Overall Quality of the Course']
+
+  // html string for the DOM object
+  var htmlString = (
+    '<li class="list-group-item search-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + getListings(course) + '</strong>'
+      + '</div>'
+      + '<div class="flex-item-rigid">'
+        + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
+        + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+          + (hasScore ? score.toFixed(2) : 'N/A')
+        + '</span>'
+      + '</div>'
+    + '</div>'
+    + '<div class="truncate">'
+      + course.title
+    + '</div>'
+  + '</li>'
+  )
+
+  var entry = $.parseHTML(htmlString)[0]
+  entry.course = course
+  $(entry).find('i')[0].courseId = course["_id"]
+  $(entry).find('i').click(toggleFav)
+
+  return entry
+}
+
+// update the favorites data for search pane
+var updateSearchFav = function() {
+  $("#results").children().each(function() {
+    var isFav = (document.favorites.indexOf(this.course["_id"]) !== -1)
+
+    var icon = $(this).find("i")
+    icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
+    icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
+  })
+}
+
+// update the display of favorites upon new fav/unfav from course
+var updateFavList = function(course) {
+  var thisCourseId = course["_id"]
+
+  $('#favorite-title').html('')
+  $('#favorite-title').append(document.favorites.length + ' Favorite Course'+ (document.favorites.length !== 1 ? 's' : ''))
+
+  var isFav = (document.favorites.indexOf(thisCourseId) !== -1)
+
+  // toggle title if necessary
+  if ((document.favorites.length === 0 && $('#favorite-title').css('display') !== 'none')
+   || (document.favorites.length  >  0 && $('#favorite-title').css('display') === 'none')) {
+    $('#favorite-title').slideToggle()
   }
 
-  var li0 = document.createElement('li')
-  li0.setAttribute('class', 'list-group-item search-result')
+  // if newly a favorite
+  if (isFav) {
+    var entry = newDOMResult(course)
+    entry.setAttribute('style', 'display: none;')
 
-  var div0 = document.createElement('div')
-  div0.setAttribute('class', 'flex-container-row')
+    $('#favs').append(entry)
+    $(entry).slideToggle()
+    return
+  }
 
-  var div1 = document.createElement('div')
-  div1.setAttribute('class', 'flex-item-stretch truncate')
+  // if removing a favorite
+  $("#favs").children().each(function() {
+    // ignore if not this course
+    if (this.course["_id"] !== thisCourseId) return
 
-  var strong0 = document.createElement('strong')
-  strong0.appendChild(document.createTextNode(getListings(course)))
-  div1.appendChild(strong0)
+    // remove
+    $(this).slideToggle(function() {
+      this.remove()
+    })
+  })
+}
 
-  var div2 = document.createElement('div')
-  div2.setAttribute('class', 'flex-item-rigid')
+// handles click of favorite icon
+var toggleFav = function() {
+  var course = $(this).parents("li.search-result")[0].course
+  var thisCourseId = this.courseId
+  var i = document.favorites.indexOf(thisCourseId)
 
-  var i0 = document.createElement('i')
-  i0.setAttribute('class', 'fa fa-heart unfav-icon')
+  // update local list
+  if (i === -1)
+    document.favorites.push(thisCourseId)
+  else
+    document.favorites.splice(i, 1)
 
-}*/
+  // update display
+  updateSearchFav()
+  updateFavList(course)
+
+  // update database
+  if (i === -1) {
+    $.ajax({
+      url: '/api/user/favorite',
+      type: 'PUT',
+      data: {'course': thisCourseId}
+    })
+  } else {
+    $.ajax({
+      url: '/api/user/favorite',
+      type: 'DELETE',
+      data: {'course': thisCourseId}
+    })
+  }
+
+  return false;
+}
 
 // returns a string of the course listings of the given course
 function getListings(course) {
