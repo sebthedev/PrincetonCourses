@@ -4,6 +4,10 @@
 
 /* GENERAL CSS (classes for general use) */
 
+textarea {
+  resize: vertical; /* user can resize vertically, but width is fixed */
+}
+
 body {
   min-height:100%;
   height:100%;
