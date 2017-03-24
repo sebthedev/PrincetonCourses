@@ -299,8 +299,9 @@ $(document).ready(function () {
     }
 
     var dispbody = ''
-    dispbody += '<h3 id="disp-profs"></h3>' +
-                '<p>' + thisCourse.description + '</p>'
+    dispbody += '<h4 style= "font-weight:bold" id="disp-profs"></h4>'
+                + '<div id="instructor-info" style="display: none; background-color:#eeeeee;" class="col-sm-12 pre-scrollable flex-item"></div>'
+                + '<p>' + thisCourse.description + '</p>'
                 + (thisCourse.prerequisites == undefined ? '' :
                 '<h4 style="font-weight:bold">Prerequisites</h4><p>' + thisCourse.prerequisites + '</p>')
                 + (thisCourse.equivalentcourses == undefined ? '' :
@@ -315,6 +316,7 @@ $(document).ready(function () {
     var closedClasses = { table: '' };
     var cancelledClasses = { table: '' };
 
+    // Show classes of a course
     var makeClassTable = function(val, classes) {
       classes.table += '<tr class = "course-classes-tr">'
                 + '<td>' + val['section'] + '</td>'
@@ -365,8 +367,10 @@ $(document).ready(function () {
     $('#disp-body').append(dispbody)
 
     for (var instructor in thisCourse.instructors) {
-      var name = thisCourse.instructors[instructor].name['first'] + ' '
-               + thisCourse.instructors[instructor].name['last']
+      var name = '<a href="javascript:void(0)" class="course-prof" id = "'
+               + thisCourse.instructors[instructor]._id + '">'
+               + thisCourse.instructors[instructor].name['first'] + ' '
+               + thisCourse.instructors[instructor].name['last'] + '</a>'
         if ($('#disp-profs').html() !== '') {
           $('#disp-profs').append(', ')
         }
@@ -394,6 +398,46 @@ $(document).ready(function () {
         });
       }
     })
+
+    var prevInstId = 0;
+    $('.course-prof').on("click",function(){
+      var instId =  $(this).attr("id");
+      if (instId != prevInstId)
+      {
+        $('#instructor-info').hide();
+        toggleInstructor(instId);
+      }
+      else
+      {
+        $('#instructor-info').slideToggle();
+      }   
+      prevInstId = instId;
+    })
+    
+    // Instructor page toggling
+    var toggleInstructor = function(instId) {
+      $('#instructor-info').html('');
+      var instInfo = '';
+      
+      $.get('/api/instructor/' + instId, function (data) {
+        var thisInst = data;
+        instInfo += '<p> Courses taught by <strong>' + thisInst.name['first'] + ' ' + thisInst.name['last'] + '</strong></p>';
+        instInfo += '<ul id="prof-courses">'
+        $('#instructor-info').append(instInfo);
+        for (var courseIndex in thisInst.courses) {
+          var thisCourse = thisInst.courses[courseIndex];
+          var entry = $.parseHTML(newInstructorCourseEntry(thisCourse))[0];
+          entry.course = thisCourse;
+          $('#prof-courses').append(entry);
+        }
+        /*for (course in thisInst.courses)
+        {
+          var courseId = thisInst.courses[course];
+          instInfo += '<li id="prof-course"><div>' + courseId["title"] + '</div></li>';
+        }*/
+        $('#instructor-info').slideToggle();
+      })
+    }
   }
 
   // Every time a key is pressed inside the #searchbox, call the getCourseData function
@@ -403,6 +447,7 @@ $(document).ready(function () {
   // displays information in right pane on click of search result
   $('#results').on('click', 'li.search-result', dispCourseData)
   $('#favs').on('click', 'li.search-result', dispCourseData)
+  //$('#disp-profs').on('click', 'a.course-prof', toggleInstructor)
 
   /* SEB' EXAMPLE
   // $('#results div').click(function () {

@@ -113,14 +113,37 @@ ul.comments-list {
    list-style: none;
    padding: 0;
 }
+
 ul.comments-list li {
    margin: 0;
    padding: 5px 3px 5px 3px;
    border-bottom: 1px solid #ccc;
 }
+
 ul.comments-list li:hover {
    background-color: #eee;
 }
+
+ul#prof-courses {
+   list-style: none;
+   padding: 0;
+}
+
+ul#prof-courses li {
+   margin: 0;
+   padding: 5px 3px 5px 3px;
+   border-bottom: 1px solid #ddd;
+}
+
+ul#prof-courses li:hover {
+   background-color: #ddd;
+}
+
+#instructor-info {
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
 
 /* FORM FOCUS OUTLINE SHADOW COLOR ORANGE */
 
