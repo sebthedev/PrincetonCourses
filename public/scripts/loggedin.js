@@ -9,134 +9,6 @@ $(document).ready(function () {
     }
   })
 
-  // update favoriting in search results for course with courseId
-  /*var searchFav = function(courseId) {
-    $("#results").children().each(function(index) {
-      if (this.course["_id"] !== courseId) {
-        return
-      }
-
-      var icon = $(this).find("i")
-      icon.removeClass('fav-icon')
-      icon.addClass('unfav-icon')
-      icon.off('click')
-      icon.click(clickToUnFav)
-    })
-  }
-
-  // update unfavoriting in search results for course with courseId
-  var searchUnFav = function(courseId) {
-    $("#results").children().each(function(index) {
-      if (this.course["_id"] !== courseId) {
-        return
-      }
-
-      var icon = $(this).find("i")
-      icon.removeClass('unfav-icon')
-      icon.addClass('fav-icon')
-      icon.off('click')
-      icon.click(clickToFav)
-    })
-  }
-
-  // update favoriting in favorite list for course
-  var favFav = function(course) {
-    if (document.favorites.length === 1) {
-      $('#favorite-title').slideToggle()
-    }
-
-    var entry = $.parseHTML(newFavEntry(course))[0]
-
-    entry.course = course
-    $(entry).find(".unfav-icon")[0].courseId = course["_id"]
-    $(entry).find(".unfav-icon").click(clickToUnFav)
-    entry.setAttribute('style', 'display: none;')
-
-    $('#favorite-title').html('')
-    $('#favorite-title').append(document.favorites.length + ' Favorite Courses')
-    $('#favs').append(entry)
-    $(entry).slideToggle()
-  }
-
-  // update unfavoriting in favorite list for courseId
-  var favUnFav = function(courseId) {
-    $("#favs").children().each(function(index) {
-      if (this.course["_id"] !== courseId) {
-        return
-      }
-
-      $('#favorite-title').html('')
-      $('#favorite-title').append(document.favorites.length + ' Favorite Courses')
-
-      if (document.favorites.length === 0) {
-        $('#favorite-title').slideToggle()
-      }
-      $(this).slideToggle(function() {
-        this.remove()
-      })
-    })
-  }
-
-  // handle a click to favorite a course
-  var clickToFav = function() {
-    var thisCourseId = this.courseId;
-
-    // something is broken if the course is already favorited
-    var i = document.favorites.indexOf(thisCourseId)
-    if (i !== -1) {
-      return;
-    }
-
-    var course = $(this).parents("li.search-result")[0].course
-
-    // save to local list
-    document.favorites.push(thisCourseId)
-
-    searchFav(thisCourseId)
-    favFav(course)
-
-    // update database
-    $.ajax({
-      url: '/api/user/favorite',
-      type: 'PUT',
-      data: {'course': thisCourseId},
-      success: function() {
-      }
-    });
-
-    return false;
-  }
-
-  // handle a click to unfavorite a course
-  var clickToUnFav = function() {
-    var thisCourseId = this.courseId;
-
-    // something is broken if the course is not favorited
-    var i = document.favorites.indexOf(thisCourseId)
-    if (i === -1) {
-      return;
-    }
-
-    // remove from local list
-    document.favorites.splice(i, 1)
-
-    searchUnFav(thisCourseId)
-    favUnFav(thisCourseId)
-
-    // update database
-    $.ajax({
-      url: '/api/user/favorite',
-      type: 'DELETE',
-      data: {'course': thisCourseId},
-      success: function() {
-      }
-    });
-
-    return false;
-  }*/
-
-
-
   // get User
   var thisUser = this.User
   $.get('/api/whoami', function (data) {
@@ -153,21 +25,7 @@ $(document).ready(function () {
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
 
-      if (courses == undefined)
-      {
-        document.getElementById("favorite-title").style.display = "none";
-      }
-      else {
-        if (courses.length == 0)
-        {
-          document.getElementById("favorite-title").style.display = "none";
-        }
-        else
-        {
-          document.getElementById("favorite-title").style.display = "block";
-        }
-
-      }
+      $('#favorite-title').css('display', (courses == undefined || courses.length == 0) ? 'none' : 'block')
 
       $('#favs').html('');
       $('#favorite-title').html('');
@@ -178,15 +36,8 @@ $(document).ready(function () {
 
         // append favorite into favs pane
         $('#favs').append(newDOMResult(thisCourse));
-
-        /*$('.unfav-icon').last()[0].courseId = thisCourse["_id"];
-
-        // attach object to DOM element
-        $('#favs').children().last()[0].course = thisCourse;*/
       }
-
-      /*$('.unfav-icon').click(clickToUnFav)*/
-    });
+    })
   }
 
   // function for updating search results
@@ -217,23 +68,6 @@ $(document).ready(function () {
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
         $('#results').append(newDOMResult(thisCourse))
-        /*
-        var i = document.favorites.indexOf(thisCourse["_id"])
-        if (i === -1) { // not a favorite
-          var entry = $.parseHTML(newResultEntry(thisCourse))[0]
-
-          entry.course = thisCourse
-          $(entry).find(".fav-icon")[0].courseId = thisCourse["_id"]
-          $(entry).find(".fav-icon").click(clickToFav)
-          $('#results').append(entry)
-        } else { // favorite
-          var entry = $.parseHTML(newFavEntry(thisCourse))[0]
-
-          entry.course = thisCourse
-          $(entry).find(".unfav-icon")[0].courseId = thisCourse["_id"]
-          $(entry).find(".unfav-icon").click(clickToUnFav)
-          $('#results').append(entry)
-        }*/
       }
     })
   }

@@ -1,39 +1,3 @@
-// returns a string of HTML for results in the search pane for the given course
-function newResultEntry(course) {
-  return ('<li class="list-group-item search-result"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
-   + getListings(course)
-   + '</strong></div><div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge"'
-   + ((course.evaluations.hasOwnProperty('scores') &&
-       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-     ? (' style="background-color: '
-        + colorAt(course.evaluations.scores['Overall Quality of the Course'])
-        + '">'
-        + course.evaluations.scores['Overall Quality of the Course'].toFixed(2))
-     : '>N/A')
-   + '</span></div></div><div class="truncate">'
-   + course.title
-   + '</div></li>')
-}
-
-// returns a string of HTML for results in the search pane for the given course
-// basically the same as the one above except the heart icon.
-function newFavEntry(course) {
-  return ('<li class="list-group-item search-result"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
-   + getListings(course)
-   + '</strong></div><div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge"'
-   + ((course.evaluations.hasOwnProperty('scores') &&
-       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-     ? (' style="background-color: '
-        + colorAt(course.evaluations.scores['Overall Quality of the Course'])
-        + '">'
-        + course.evaluations.scores['Overall Quality of the Course'].toFixed(2))
-     : '>N/A')
-   + '</span></div></div><div class="truncate">'
-   + course.title
-   + '</div></li>')
-}
-
-
 function newInstructorCourseEntry(course) {
   return ('<li class="prof-course"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
    + getListings(course)
