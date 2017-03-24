@@ -2,8 +2,8 @@
 $(document).ready(function () {
 
   // construct local favorites list
+  document.favorites = []
   $.get('/api/user/favorites', function(courses) {
-    document.favorites = []
     for (var course in courses) {
       document.favorites.push(courses[course]["_id"])
     }
