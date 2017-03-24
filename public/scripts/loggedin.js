@@ -12,11 +12,8 @@ $(document).ready(function () {
   // get User
   var thisUser = this.User
   $.get('/api/whoami', function (data) {
-    thisUser = data;
-    if (typeof(thisUser.favoriteCourses) != 'undefined')
-    {
-      getFavorites();
-    }
+    $('#nav-netid').html('')
+    $('#nav-netid').append(data['netid'])
   })
 
   // initial displaying favorites
@@ -304,8 +301,8 @@ $(document).ready(function () {
       $('#feedback-toggle').removeClass("active")
     } else {
       $('#feedback-toggle').addClass("active")
+    }
   }
- }
 
 
   $('#feedback-toggle').click(toggleFeedback)

@@ -1,18 +1,28 @@
+// returns a html string for an instructor entry
 function newInstructorCourseEntry(course) {
-  return ('<li class="prof-course"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
-   + getListings(course)
-   + ' ' + '(' + course.semester.name + ')'
-   + '</strong></div><div class="flex-item-rigid"> <span class="badge"'
-   + ((course.evaluations.hasOwnProperty('scores') &&
-       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-     ? (' style="background-color: '
-        + colorAt(course.evaluations.scores['Overall Quality of the Course'])
-        + '">'
-        + course.evaluations.scores['Overall Quality of the Course'].toFixed(2))
-     : '>N/A')
-   + '</span></div></div><div class="truncate">'
-   + course.title
-   + '</div></li>')
+  var hasScore = (course.evaluations.hasOwnProperty('scores')
+               && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
+
+  if (hasScore)
+    var score = course.evaluations.scores['Overall Quality of the Course']
+
+  return (
+    '<li class="list-group-item search-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + getListings(course) + '(' + course.semester.name + ')' + '</strong>'
+      + '</div>'
+      + '<div class="flex-item-rigid">'
+        + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+          + (hasScore ? score.toFixed(2) : 'N/A')
+        + '</span>'
+      + '</div>'
+    + '</div>'
+    + '<div class="truncate">'
+      + course.title
+    + '</div>'
+  + '</li>'
+ )
 }
 
 // returns a DOM object for a search or favorite result of a course
