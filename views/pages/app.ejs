@@ -9,21 +9,29 @@
 <body>
   <!-- MEL: body is on codepen at https://codepen.io/melyshu/pen/ryjpPE -->
   <div id="full-page" class="flex-container-col">
-    <nav id="menu-bar" class="navbar navbar-default flex-item-stretch">
+    <nav id="menu-bar" class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Princeton Courses</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+            <!-- <span class="sr-only">Toggle navigation</span> -->
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
-        <ul class="nav navbar-nav">
-          <li><a href="/">Home</a></li>
-          <li class="active"><a href="#">Course Listings</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li><a href="auth/logout">Logout</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
+        <div class="collapse navbar-collapse" id="navigationbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="#">Course Listings</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li id="feedback-toggle"><a href="#">Feedback</a></li>
+            <li><a href="auth/logout">Logout</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">About</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
     <div class="flex-item-stretch left-pane">
@@ -118,7 +126,7 @@
             <h2>Welcome to Princeton Courses!</h2>
             <h4>Please search for a course to begin.</h4>
           </div>
-          <div id="display-pane" class="col-sm-9 vmax flex-container-col" style="visibility: collapse">
+          <div id="display-pane" class="col-sm-9 vmax flex-container-col" style="display:none">
             <div id="display-header" class="flex-item-rigid">
               <div class="scroll-window-row">
                 <div class="scroll-content-row">

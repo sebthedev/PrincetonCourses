@@ -5,8 +5,12 @@
 /* GENERAL CSS (classes for general use) */
 
 body {
-  overflow:hidden;
+  min-height:100%; 
+  height:100%; 
+  overflow-x:hidden; 
+  display:block;
 }
+
 .flex-container-col {
   display: flex;
   flex-flow: column nowrap;
@@ -30,7 +34,7 @@ body {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
-  /*overflow: hidden;*/
+  overflow: hidden;
 }
 
 .vmax {
@@ -82,7 +86,7 @@ body {
 
 .scroll-content-row {
   white-space: nowrap;
-  overflow-x: auto;
+  /*overflow-x: auto;*/
 }
 
 .marginless {
@@ -186,7 +190,7 @@ li.list-group-item:hover {
 }
 
 #menu-bar {
-  z-index: 200;
+  z-index: 100%;
   margin-bottom: 0;
   border-radius: 0;
 }
@@ -211,7 +215,7 @@ li.list-group-item:hover {
   padding: 15px;
   background-color: #eee;
   justify-content: flex-start;
-  order:2;
+  order:0;
 }
 
 #info-pane {

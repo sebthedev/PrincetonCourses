@@ -239,7 +239,7 @@ $(document).ready(function () {
   var dispCourseData = function() {
     $(".search-result").removeClass("active");
     $("#welcome-display-pane").css("display", "none");
-    $("#display-pane").css("visibility", "visible");
+    $("#display-pane").css("display", "");
     //document.getElementById("display-pane").style.display = "inline";
     $(this).addClass("active")
 
