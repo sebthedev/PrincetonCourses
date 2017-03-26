@@ -331,8 +331,10 @@ $(document).ready(function () {
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
     $('#search-results').slideToggle()
-    $('#favorite-courses').removeClass(isVisible ? 'favorite-courses-limited flex-item-rigid' : 'flex-item-stretch')
-    $('#favorite-courses').addClass(isVisible ? 'flex-item-stretch' : 'favorite-courses-limited flex-item-rigid')
+    $('#favorite-courses').removeClass(isVisible ? 'favorite-courses-limited flex-item-rigid' : 'flex-item-stretch scroll-window-col')
+    $('#favorite-courses').addClass(isVisible ? 'flex-item-stretch scroll-window-col' : 'favorite-courses-limited flex-item-rigid')
+    $('#favs').removeClass(isVisible ? '' : 'scroll-content-col')
+    $('#favs').addClass(isVisible ? 'scroll-content-col' : '')
 
     var noneVisible = isVisible && $('#favorite-courses').css('display') === 'none'
     $('#search-pane-buffer').removeClass(noneVisible ? 'flex-item-rigid' : 'flex-item-stretch')
