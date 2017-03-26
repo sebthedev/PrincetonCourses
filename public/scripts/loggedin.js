@@ -22,7 +22,7 @@ $(document).ready(function () {
     // call api to get favorites and display
     $.get('/api/user/favorites', function(courses) {
 
-      $('#favorite-title').css('display', (courses == undefined || courses.length == 0) ? 'none' : 'block')
+      $('#favorite-header').css('display', (courses == undefined || courses.length == 0) ? 'none' : '')
 
       $('#favs').html('');
       $('#favorite-title').html('');
@@ -307,6 +307,39 @@ $(document).ready(function () {
 
 
   $('#feedback-toggle').click(toggleFeedback)
+
+  // toggle display of favorite things
+  var toggleFavDisplay = function() {
+    var isVisible = $('#favorite-courses').css('display') !== 'none'
+
+    var icon = $('#fav-display-toggle')
+    icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
+    icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
+    $('#favorite-courses').slideToggle()
+
+    var noneVisible = isVisible && $('#search-results').css('display') === 'none'
+    $('#search-pane-buffer').removeClass(noneVisible ? 'flex-item-rigid' : 'flex-item-stretch')
+    $('#search-pane-buffer').addClass(noneVisible ? 'flex-item-stretch' : 'flex-item-rigid')
+  }
+  $('#fav-display-toggle').click(toggleFavDisplay)
+
+  // toggle display of search result things
+  var toggleSearchDisplay = function() {
+    var isVisible = $('#search-results').css('display') !== 'none'
+
+    var icon = $('#search-display-toggle')
+    icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
+    icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
+    $('#search-results').slideToggle()
+    $('#favorite-courses').removeClass(isVisible ? 'favorite-courses-limited flex-item-rigid' : 'flex-item-stretch')
+    $('#favorite-courses').addClass(isVisible ? 'flex-item-stretch' : 'favorite-courses-limited flex-item-rigid')
+
+    var noneVisible = isVisible && $('#favorite-courses').css('display') === 'none'
+    $('#search-pane-buffer').removeClass(noneVisible ? 'flex-item-rigid' : 'flex-item-stretch')
+    $('#search-pane-buffer').addClass(noneVisible ? 'flex-item-stretch' : 'flex-item-rigid')
+  }
+  $('#search-display-toggle').click(toggleSearchDisplay)
+
 
   // load the semesters for the dropdown
   $.get('/api/semesters', function (semesters) {

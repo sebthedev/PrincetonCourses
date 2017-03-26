@@ -65,9 +65,9 @@ var updateFavList = function(course) {
   var isFav = (document.favorites.indexOf(thisCourseId) !== -1)
 
   // toggle title if necessary
-  if ((document.favorites.length === 0 && $('#favorite-title').css('display') !== 'none')
-   || (document.favorites.length  >  0 && $('#favorite-title').css('display') === 'none')) {
-    $('#favorite-title').slideToggle()
+  if ((document.favorites.length === 0 && $('#favorite-header').css('display') !== 'none')
+   || (document.favorites.length  >  0 && $('#favorite-header').css('display') === 'none')) {
+    $('#favorite-header').slideToggle()
   }
 
   // if newly a favorite
