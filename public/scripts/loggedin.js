@@ -99,7 +99,9 @@ $(document).ready(function () {
                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
                             /*+ ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span>'*/
                             + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
-                                                                      + '" target="_blank"><i class="fa fa-external-link"></i></a>'))
+                                                                      + '" target="_blank"><i class="fa fa-link"></i></a>')
+                            + ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml?courseid=' + thisCourse["courseID"]
+                                      + '&term=' + thisCourse["semester"]["code"] + '" target="_blank"><i class="fa fa-external-link"></i></a>')
 
     //$('#fav-button')[0].course = thisCourse;
     //$('#comments').append(thisCourse.evaluations.studentComments)
