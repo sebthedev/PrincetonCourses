@@ -32,7 +32,7 @@ $(document).ready(function () {
         var thisCourse = courses[courseIndex];
 
         // append favorite into favs pane
-        $('#favs').append(newDOMResult(thisCourse));
+        $('#favs').append(newDOMResult(thisCourse, {"semester": 1}));
       }
     })
   }
@@ -64,7 +64,7 @@ $(document).ready(function () {
 
       for (var courseIndex in courses) {
         var thisCourse = courses[courseIndex]
-        $('#results').append(newDOMResult(thisCourse))
+        $('#results').append(newDOMResult(thisCourse, {}))
       }
     })
   }
@@ -260,8 +260,7 @@ $(document).ready(function () {
         $('#instructor-info').append(instInfo);
         for (var courseIndex in thisInst.courses) {
           var thisCourse = thisInst.courses[courseIndex];
-          var entry = $.parseHTML(newInstructorCourseEntry(thisCourse))[0];
-          entry.course = thisCourse;
+          var entry = newDOMResult(thisCourse, {"semester": 1})
           $('#prof-courses').append(entry);
         }
         /*for (course in thisInst.courses)

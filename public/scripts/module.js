@@ -1,32 +1,10 @@
-// returns a html string for an instructor entry
-function newInstructorCourseEntry(course) {
-  var hasScore = (course.evaluations.hasOwnProperty('scores')
-               && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-
-  if (hasScore)
-    var score = course.evaluations.scores['Overall Quality of the Course']
-
-  return (
-    '<li class="list-group-item search-result">'
-    + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + getListings(course) + '(' + course.semester.name + ')' + '</strong>'
-      + '</div>'
-      + '<div class="flex-item-rigid">'
-        + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-          + (hasScore ? score.toFixed(2) : 'N/A')
-        + '</span>'
-      + '</div>'
-    + '</div>'
-    + '<div class="truncate">'
-      + course.title
-    + '</div>'
-  + '</li>'
- )
-}
-
 // returns a DOM object for a search or favorite result of a course
-function newDOMResult(course) {
+// includes:
+//   -- course object linking
+//   -- clicking to favorite/unfavorite (+ course id linking for icon)
+// props: properties for conditional rendering:
+//  - 'semester' is defined => displays semester name too
+function newDOMResult(course, props) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
   var hasScore = (course.evaluations.hasOwnProperty('scores')
@@ -35,12 +13,15 @@ function newDOMResult(course) {
   if (hasScore)
     var score = course.evaluations.scores['Overall Quality of the Course']
 
+  // append semester if appropriate
+  var semester = props.hasOwnProperty('semester') ? ' (' + course.semester.name + ')' : ''
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + getListings(course) + '</strong>'
+        + '<strong>' + getListings(course) + semester + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
@@ -55,17 +36,17 @@ function newDOMResult(course) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]
-  entry.course = course
-  $(entry).find('i')[0].courseId = course["_id"]
-  $(entry).find('i').click(toggleFav)
+  var entry = $.parseHTML(htmlString)[0]           // create DOM object
+  entry.course = course                            // link to course object
+  $(entry).find('i')[0].courseId = course["_id"]   // link to course id for fav icon
+  $(entry).find('i').click(toggleFav)              // enable click to fav/unfav
 
   return entry
 }
 
-// update the favorites data for search pane
+// update the favorites data for search pane and professors pane
 var updateSearchFav = function() {
-  $("#results").children().each(function() {
+  $("#results, #prof-courses").children().each(function() {
     var isFav = (document.favorites.indexOf(this.course["_id"]) !== -1)
 
     var icon = $(this).find("i")
@@ -91,7 +72,7 @@ var updateFavList = function(course) {
 
   // if newly a favorite
   if (isFav) {
-    var entry = newDOMResult(course)
+    var entry = newDOMResult(course, {"semester": 1})
     entry.setAttribute('style', 'display: none;')
 
     $('#favs').append(entry)
