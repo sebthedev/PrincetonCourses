@@ -4,317 +4,322 @@
 
 /* GENERAL CSS (classes for general use) */
 
-body {
-  min-height:100%; 
-  height:100%; 
-  overflow-x:hidden; 
-  overflow-y: hidden;
-  display:block;
-}
+@media only screen and (min-width: 770px) 
+{ 
+  body {
+    min-height:100%; 
+    height:100%; 
+    overflow-x:hidden; 
+    overflow-y: hidden;
+    display:block;
+  }
+/*  #full-page-mobi {
+    display:none;
+  }*/
+  .flex-container-col {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+  }
 
-.flex-container-col {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: stretch;
-}
+  .flex-container-row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+  }
 
-.flex-container-row {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: stretch;
-}
+  .flex-item-rigid {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
 
-.flex-item-rigid {
-  flex-grow: 0;
-  flex-shrink: 0;
-}
+  .flex-item-stretch {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    overflow: hidden;
+  }
 
-.flex-item-stretch {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
-  overflow: hidden;
-}
+  .vmax {
+    height: 100%;
+    max-height: 100%;
+  }
 
-.vmax {
-  height: 100%;
-  max-height: 100%;
-}
+  .search-result {
+    cursor: pointer;
+  }
 
-.search-result {
-  cursor: pointer;
-}
+  .result-dial {
+    flex-grow: 0;
+    width: 40px;
+  }
 
-.result-dial {
-  flex-grow: 0;
-  width: 40px;
-}
+  .result-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    margin-left: 15px;
+    overflow: hidden;
+  }
 
-.result-text {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
-  margin-left: 15px;
-  overflow: hidden;
-}
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .scroll-window-col {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
 
-.scroll-window-col {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
+  .scroll-window-row {
+    width: 100%;
+  }
 
-.scroll-window-row {
-  width: 100%;
-}
+  .scroll-content-col {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+  }
 
-.scroll-content-col {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-}
+  .scroll-content-row {
+    white-space: nowrap;
+    /*overflow-x: auto;*/
+  }
 
-.scroll-content-row {
-  white-space: nowrap;
-  /*overflow-x: auto;*/
-}
+  .marginless {
+    margin: 0;
+  }
 
-.marginless {
-  margin: 0;
-}
+  /* override bootstrap progress bar styling */
 
-/* override bootstrap progress bar styling */
+  .progress {
+    margin: 0;
+    background-color: #eee;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 
-.progress {
-  margin: 0;
-  background-color: #eee;
-  border: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
+  .progress-bar {
+    text-align: left;
+    padding: 0px 15px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 
-.progress-bar {
-  text-align: left;
-  padding: 0px 15px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
+  .evals-title {
+    margin-top:10px;
+    margin-bottom:10px;
+    font-weight: bold;
+  }
 
-.evals-title {
-  margin-top:10px;
-  margin-bottom:10px;
-  font-weight: bold;
-}
+  #comments-panel {
+    height:100%;
+  }
 
-#comments-panel {
-  height:100%;
-}
+  ul.comments-list {
+     list-style: none;
+     padding: 0;
+  }
 
-ul.comments-list {
-   list-style: none;
-   padding: 0;
-}
+  ul.comments-list li {
+     margin: 0;
+     padding: 5px 3px 5px 3px;
+     border-bottom: 1px solid #ccc;
+  }
 
-ul.comments-list li {
-   margin: 0;
-   padding: 5px 3px 5px 3px;
-   border-bottom: 1px solid #ccc;
-}
+  ul.comments-list li:hover {
+     background-color: #eee;
+  }
 
-ul.comments-list li:hover {
-   background-color: #eee;
-}
+  ul#prof-courses {
+     list-style: none;
+     padding: 0;
+  }
 
-ul#prof-courses {
-   list-style: none;
-   padding: 0;
-}
+  ul#prof-courses li {
+     margin: 0;
+     padding: 5px;
+     background-color:#fff;
+     border: 1px solid #eee;
+  }
 
-ul#prof-courses li {
-   margin: 0;
-   padding: 5px;
-   background-color:#fff;
-   border: 1px solid #eee;
-}
+  ul#prof-courses li:hover {
+     /*background-color: #ddd;*/
+  }
 
-ul#prof-courses li:hover {
-   /*background-color: #ddd;*/
-}
-
-#instructor-info {
-  padding-top:10px;
-  padding-bottom:10px;
-  margin-bottom:10px;
-  border: 1px solid #eee;
-}
+  #instructor-info {
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-bottom:10px;
+    border: 1px solid #eee;
+  }
 
 
-/* FORM FOCUS OUTLINE SHADOW COLOR ORANGE */
+  /* FORM FOCUS OUTLINE SHADOW COLOR ORANGE */
 
-.form-control:focus {
-  border-color: #f58025;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(245, 128, 37, 0.6);
-}
+  .form-control:focus {
+    border-color: #f58025;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(245, 128, 37, 0.6);
+  }
 
-.unfav-icon {
-  color: #d9534f;
-  z-index: 10;
-}
+  .unfav-icon {
+    color: #d9534f;
+    z-index: 10;
+  }
 
-.unfav-icon:hover {
-  color: #f6dbdb;
-}
+  .unfav-icon:hover {
+    color: #f6dbdb;
+  }
 
-.fav-icon {
-  color: #dddddd;
-  z-index: 10;
-}
+  .fav-icon {
+    color: #dddddd;
+    z-index: 10;
+  }
 
-.fav-icon:hover {
-  color: #d9534f;
-}
+  .fav-icon:hover {
+    color: #d9534f;
+  }
 
-li.list-group-item:hover {
-  background-color: #f5f5f5;
-}
+  li.list-group-item:hover {
+    background-color: #f5f5f5;
+  }
 
-/* SPECIFIC CSS (using identifiers for specific parts of page) */
+  /* SPECIFIC CSS (using identifiers for specific parts of page) */
 
-#full-page {
-  height: 100vh;
-  width: 100vw;
-}
+  #full-page {
+    height: 100vh;
+    width: 100vw;
+  }
 
-#menu-bar {
-  z-index: 100%;
-  margin-bottom: 0;
-  border-radius: 0;
-}
+  #menu-bar {
+    z-index: 150;
+    margin-bottom: 0;
+    border-radius: 0;
+  }
 
-#search-pane {
-  background-color: #ddd;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  order:1;
-}
+  #search-pane {
+    background-color: #ddd;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    order:1;
+  }
 
-#left-pane {
-  display: flex;
-  flex-flow: column;
-}
+  #left-pane {
+    display: flex;
+    flex-flow: column;
+  }
 
-#display-pane {
-  padding: 0;
-}
+  #display-pane {
+    padding: 0;
+  }
 
-#display-header {
-  padding: 15px;
-  background-color: #eee;
-  justify-content: flex-start;
-  order:0;
-}
+  #display-header {
+    padding: 15px;
+    background-color: #eee;
+    justify-content: flex-start;
+    order:0;
+  }
 
-#info-pane {
-  padding: 0;
-}
+  #info-pane {
+    padding: 0;
+  }
 
-#disp-body {
-  padding: 15px;
-  order:2;
-}
+  #disp-body {
+    padding: 15px;
+    order:2;
+  }
 
-#evals-pane {
-  resize:horizontal;
-  background-color: #ddd;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  height:100%;
-}
+  #evals-pane {
+    resize:horizontal;
+    background-color: #ddd;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height:100%;
+  }
 
-#class-table {
-  width:100%;
-}
+  #class-table {
+    width:100%;
+  }
 
-#feedback-form {
-  position: fixed;
-  top: 0;
-  padding-top: 50px;
-  right: 50px;
-  width: 30vw;
-  z-index: 100;
-  border-color: #f58025;
-  border-width: 2px;
-}
+  #feedback-form {
+    position: fixed;
+    top: 0;
+    padding-top: 50px;
+    right: 50px;
+    width: 30vw;
+    z-index: 100;
+    border-color: #f58025;
+    border-width: 2px;
+  }
 
-#search-results-cont {
-  flex-grow: 3;
-}
+  #search-results-cont {
+    flex-grow: 3;
+  }
 
-#welcome-display-pane {
-  display: flex;
-  align-items : center;
-  align-content: center;
-  justify-content: center;
-}
+  #welcome-display-pane {
+    display: flex;
+    align-items : center;
+    align-content: center;
+    justify-content: center;
+  }
 
-#favorite-courses {
-  max-height: 30vh;
-  overflow-y: auto;
-}
+  #favorite-courses {
+    max-height: 30vh;
+    overflow-y: auto;
+  }
 
-/* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
+  /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
 
-::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
-}
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
 
-::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
-}
+  ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #f58025;
-  border: 0px none #ffffff;
-  border-radius: 0px;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #f58025;
+    border: 0px none #ffffff;
+    border-radius: 0px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #d36f22;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d36f22;
+  }
 
-::-webkit-scrollbar-thumb:active {
-  background: #9b5118;
-}
+  ::-webkit-scrollbar-thumb:active {
+    background: #9b5118;
+  }
 
-::-webkit-scrollbar-track {
-  background: #666666;
-  border: 0px solid #ffffff;
-  border-radius: 50px;
-}
+  ::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px solid #ffffff;
+    border-radius: 50px;
+  }
 
-::-webkit-scrollbar-track:hover {
-  background: #000000;
-}
+  ::-webkit-scrollbar-track:hover {
+    background: #000000;
+  }
 
-::-webkit-scrollbar-track:active {
-  background: #666666;
-}
+  ::-webkit-scrollbar-track:active {
+    background: #666666;
+  }
 
-::-webkit-scrollbar-corner {
-  background: transparent;
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }
 
 
@@ -401,39 +406,4 @@ li.list-group-item:hover {
     color: #ffffff;
     background-color: #d36f22;
   }
-}
-
-@media only screen and (max-width: 770px) 
-{ 
-  .flex-item-stretch {
-    overflow-y:auto;
-  }
-
-  h2#disp-title {
-    font-size:5vw;
-    overflow-wrap: break-word;
-    width:100%;
-  }
-
-  #disp-body {
-    overflow: auto;
-  }
-
-  #evals-pane {
-    min-height: 100vh;
-    flex-grow: 5;
-  }
-
-  #comments-panel {
-    min-height: 50vh;
-    flex-grow: 5;
-  }
-
-  .vmax {
-    max-height: none;
-  }
-  #search-results-cont {
-    flex-basis:0;
-  }
-  
 }

@@ -1,0 +1,136 @@
+
+<div class="flex-item-stretch left-pane">
+  <div class="container-fluid vmax">
+    <div class="row vmax">
+      <div id="search-pane" class="col-sm-3 col-xs-12 vmax flex-container-col">
+        <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode != 13">
+          <div class="form-group row">
+            <div class="col-sm-12 col-xs-12">
+              <input id="searchbox" class="form-control" type="text" placeholder="Search for courses..." autofocus/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6 col-xs-6">
+              <select id="semester" class="form-control">
+              </select>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+              <select id="sort" class="form-control">
+                <option value="relevance" selected>Relevance</option>
+                <option value="rating">Rating</option>
+                <option value="title">Title</option>
+                <option value="department">Department</option>
+                <option value="code">Course Code</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="flex-item-rigid">
+          <h4 id="favorite-title">Favorite Courses</h4>
+        </div>
+        <div id ="favorite-courses" class="flex-item-rigid">
+          <ul id="favs" class="list-group marginless">
+          </ul>
+        </div>
+        <div class="flex-item-rigid">
+          <h4 id="search-title">Search Results</h4>
+        </div>
+        <div class="flex-item-stretch" id="search-results-cont">
+          <div class="vmax">
+            <div class="scroll-window-col">
+              <div class="scroll-content-col">
+                <ul id="results" class="list-group marginless">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="welcome-display-pane" class="col-sm-9 vmax flex-container-col" style="visibility:visible;">
+        <img src="/media/winniepooh.png" alt="Tiger Image" style= "opacity: 0.5">
+        <h2>Welcome to Princeton Courses!</h2>
+        <h4>Please search for a course to begin.</h4>
+      </div>
+      <div id="display-pane" class="col-sm-9 vmax flex-container-col" style="display:none">
+        <div id="display-header" class="">
+          <div class="scroll-window-row">
+            <div class="scroll-content-row">
+              <h2 id="disp-title">Advanced Programming Techniques</h2>
+              <h4 id="disp-subtitle">ISC233/CHM233/COS233/MOL233/PHY233
+                <span class="label label-info">QR</span>
+                <span class="label label-warning">NA</span>
+                <span class="label label-warning">NPDF</span>
+                <a href="http://www.cs.princeton.edu/courses/archive/spring17/cos333/" target="_blank">
+                  <i class="fa fa-external-link"></i>
+                </a>
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="flex-item-stretch">
+          <div class="row vmax marginless">
+            <div id="info-pane" class="col-sm-6 vmax">
+              <div class="scroll-window-col">
+                <div id="disp-body" class="scroll-content-col">
+                  <p>This is a course about the practice of programming. Programming is more than just writing code. Programmers must also assess tradeoffs, choose among design alternatives, debug and test, improve performance, and maintain software written
+                    by themselves & others. At the same time, they must be concerned with compatibility, robustness, and reliability, while meeting specifications. Students will have the opportunity to develop these skills by working on their own code
+                    and in group projects.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div id="evals-pane" class="col-sm-6 vmax flex-container-col">
+              <div class="flex-item-rigid">
+                <h4 class="evals-title">Evaluations</h4>
+                <div id="evals">
+                  <div>Overall Quality of the Course</div>
+                  <div>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
+                                3.0
+                      </div>
+                      <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
+                      </div>
+                    </div>
+                  </div>
+                  <div>Overall Quality of the Course</div>
+                  <div>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" style="width: 60%;">
+                                3.0
+                      </div>
+                      <div class="progress-bar progress-bar-warning" role="progressbar" style="width: 40%;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4 class="evals-title">Student Comments</h4>
+              </div>
+              <div id="comments-panel" class="flex-item-stretch scroll-window-col">
+                <div class="scroll-content-col">
+                 <ul class="comments-list marginless" id="comments">
+                    <li href="#" class="comments-list-comment">
+                      Comment 1
+                    </li>
+                    <li href="#" class="comments-list-comment">
+                      Comment 2
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div id="feedback-form" class="panel" style="display: none;">
+<form class="panel-body text-center" onkeypress="return event.keyCode != 13">
+  <div class="form-group">
+    <label for="feedback-text">Any thoughts, comments or complaints?</label>
+    <textarea class="form-control" id="feedback-text" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
