@@ -1,10 +1,11 @@
 /* BENSU: CSS for mobile layout */
 
-@media only screen and (max-width: 770px) 
+@media only screen and (max-width: 767px) 
 { 
   body {
     background-color:#dddddd;
   }
+
   form #search-form {
     display:flex;
     flex-direction: row;
@@ -16,49 +17,24 @@
     width:100%;
   }
 
-  /*.flex-container-col {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .flex-container-row {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .flex-item-rigid {
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
-
-  .flex-item-stretch {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-    overflow: auto;
-  }
-*/
   #menu-bar {
+    z-index: 200;
     margin:0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
   #class-table {
     width:100%;
   }
-/*  #full-page {
-    height:100vh;
-    width:100vw;
-    background-color: #ddd;
-  }*/
 
   #welcome-display-pane {
     display:none;
   }
 
   #search-pane {
+    top:60px;
     width:100%;
     height:100%;
     background-color:#ddd;
@@ -66,6 +42,7 @@
   }
 
   #display-pane {
+    top: 20px;
     display:none;
     width: 100%;
   }
@@ -162,23 +139,6 @@
   #comments-panel {
     height:100%;
   }
-/*  .unfav-icon {
-    color: #d9534f;
-    z-index: 10;
-  }
-
-  .unfav-icon:hover {
-    color: #f6dbdb;
-  }
-
-  .fav-icon {
-    color: #dddddd;
-    z-index: 10;
-  }
-
-  .fav-icon:hover {
-    color: #d9534f;
-  }
 
   #favorite-courses {
     max-height: 30vh;
@@ -197,7 +157,8 @@
 
   .scroll-window-row {
     width: 100%;
-  }*/
+  }
+
 /*  #full-page {
     display:none;
   }

@@ -4,7 +4,37 @@
 
 /* GENERAL CSS (classes for general use) */
 
-@media only screen and (min-width: 770px) 
+.text-info-dim {
+  color: #addfee;
+}
+
+.text-warning-dim {
+  color: #f7d6a6;
+}
+
+.text-danger-dim {
+  color: #eca8a7;
+}
+
+  .unfav-icon {
+    color: #d9534f;
+    z-index: 10;
+  }
+
+  .unfav-icon:hover {
+    color: #f6dbdb;
+  }
+
+  .fav-icon {
+    color: #dddddd;
+    z-index: 10;
+  }
+
+  .fav-icon:hover {
+    color: #d9534f;
+  }
+
+@media only screen and (min-width: 767px) 
 { 
   body {
     min-height:100%; 
@@ -13,9 +43,7 @@
     overflow-y: hidden;
     display:block;
   }
-/*  #full-page-mobi {
-    display:none;
-  }*/
+
   .flex-container-col {
     display: flex;
     flex-flow: column nowrap;
@@ -234,24 +262,6 @@
   .form-control:focus {
     border-color: #f58025;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(245, 128, 37, 0.6);
-  }
-
-  .unfav-icon {
-    color: #d9534f;
-    z-index: 10;
-  }
-
-  .unfav-icon:hover {
-    color: #f6dbdb;
-  }
-
-  .fav-icon {
-    color: #dddddd;
-    z-index: 10;
-  }
-
-  .fav-icon:hover {
-    color: #d9534f;
   }
 
   li.list-group-item:hover {
@@ -511,38 +521,3 @@
     background-color: #ff5c33;
   }
 }
-
-/*@media only screen and (max-width: 770px)
-{
-  .flex-item-stretch {
-    overflow-y:auto;
-  }
-
-  h2#disp-title {
-    font-size:5vw;
-    overflow-wrap: break-word;
-    width:100%;
-  }
-
-  #disp-body {
-    overflow: auto;
-  }
-
-  #evals-pane {
-    min-height: 100vh;
-    flex-grow: 5;
-  }
-
-  #comments-panel {
-    min-height: 50vh;
-    flex-grow: 5;
-  }
-
-  .vmax {
-    max-height: none;
-  }
-  #search-results-cont {
-    flex-basis:0;
-  }
-
-}*/
