@@ -235,6 +235,16 @@ li.list-group-item:hover {
 
 /* SPECIFIC CSS (using identifiers for specific parts of page) */
 
+#nav-netid {
+  width: 9em;
+  text-align: center;
+  color: #000;
+}
+
+#nav-netid:hover {
+  color: #fff;
+}
+
 #full-page {
   height: 100vh;
   width: 100vw;
@@ -388,7 +398,6 @@ li.list-group-item:hover {
 }
 
 .navbar-default .navbar-nav > .active,
-.navbar-default .navbar-nav > .active > .navbar-text,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {

@@ -274,6 +274,12 @@ $(document).ready(function () {
   })
   */
 
+  $('#nav-netid').hover(function() {
+    $('#nav-netid').text('Logout')
+  }, function() {
+    $('#nav-netid').text(document.netid)
+  })
+
   // feedback form toggling
   var toggleFeedback = function() {
     $('#feedback-container').slideToggle()
