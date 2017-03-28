@@ -4,6 +4,18 @@
 
 /* GENERAL CSS (classes for general use) */
 
+.text-info-dim {
+  color: #addfee;
+}
+
+.text-warning-dim {
+  color: #f7d6a6;
+}
+
+.text-danger-dim {
+  color: #eca8a7;
+}
+
 textarea {
   resize: vertical; /* user can resize vertically, but width is fixed */
 }

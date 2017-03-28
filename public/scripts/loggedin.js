@@ -93,9 +93,9 @@ $(document).ready(function () {
 
     $('#disp-subtitle').append(listings + ' '
                             + (thisCourse.distribution == undefined ? '' : ' <span class="label label-info">' + thisCourse.distribution + '</span>')
-                            + (thisCourse.pdf["required"]  ? ' <span class="label label-warning">PDF ONLY</span>'
+                            + (thisCourse.pdf["required"]  ? ' <span class="label label-danger">PDF ONLY</span>'
                             : (thisCourse.pdf["permitted"] ? ' <span class="label label-warning">PDF</span>'
-                                                                   : ' <span class="label label-warning">NPDF</span>'))
+                                                                   : ' <span class="label label-danger">NPDF</span>'))
                             + (thisCourse.audit ? ' <span class="label label-warning">AUDIT</span>' : '')
                             /*+ ' <span type="button" class="btn-primary btn-default btn-sm" id="fav-button" style="font-weight:bold">Favorite</span>'*/
                             + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
@@ -318,7 +318,7 @@ $(document).ready(function () {
     $('#favorite-courses').slideToggle()
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
-  $('#favorite-courses').css('max-height', '40%')
+  $('#favorite-courses').css('max-height', '30%')
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
@@ -327,7 +327,7 @@ $(document).ready(function () {
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').animate({'max-height': (isVisible ? '100%' : '40%')})
+    $('#favorite-courses').animate({'max-height': (isVisible ? '100%' : '30%')})
 
     $('#search-results').slideToggle()
   }

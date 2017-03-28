@@ -16,12 +16,20 @@ function newDOMResult(course, props) {
   // append semester if appropriate
   var semester = props.hasOwnProperty('semester') ? ' (' + course.semester.name + ')' : ''
 
+  // tags: dist / pdf / audit
+  var tags = ''
+  if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
+  if (course.pdf["required"]) tags += ' <span class="text-danger-dim">P</span>'
+  else if (!course.pdf["permitted"]) tags += ' <span class="text-danger-dim">N</span>'
+  if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
+  if (tags !== '') tags = '\xa0\xa0' + tags
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + getListings(course) + semester + '</strong>'
+        + '<strong>' + getListings(course) + semester + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
