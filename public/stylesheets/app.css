@@ -291,7 +291,7 @@ li.list-group-item:hover {
   width:100%;
 }
 
-#feedback-form {
+#feedback-container {
   position: fixed;
   top: 0;
   padding-top: 50px;
