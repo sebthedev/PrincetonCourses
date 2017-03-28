@@ -23,6 +23,13 @@ body {
   align-items: stretch;
 }
 
+.flex-container-col-top {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
 .flex-container-row {
   display: flex;
   flex-flow: row nowrap;
@@ -40,6 +47,17 @@ body {
   flex-shrink: 1;
   flex-basis: 0;
   overflow: hidden;
+}
+
+.flex-item-scroll {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  overflow: auto;
+}
+
+.overflowable {
+  overflow-y: auto;
 }
 
 .vmax {
@@ -280,11 +298,6 @@ li.list-group-item:hover {
   align-items : center;
   align-content: center;
   justify-content: center;
-}
-
-.favorite-courses-limited {
-  max-height: 30vh;
-  overflow-y: auto;
 }
 
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */

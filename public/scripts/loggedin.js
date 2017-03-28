@@ -316,12 +316,9 @@ $(document).ready(function () {
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
     $('#favorite-courses').slideToggle()
-
-    var noneVisible = isVisible && $('#search-results').css('display') === 'none'
-    $('#search-pane-buffer').removeClass(noneVisible ? 'flex-item-rigid' : 'flex-item-stretch')
-    $('#search-pane-buffer').addClass(noneVisible ? 'flex-item-stretch' : 'flex-item-rigid')
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
+  $('#favorite-courses').css('max-height', '40%')
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
@@ -330,15 +327,9 @@ $(document).ready(function () {
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#search-results').slideToggle()
-    $('#favorite-courses').removeClass(isVisible ? 'favorite-courses-limited flex-item-rigid' : 'flex-item-stretch scroll-window-col')
-    $('#favorite-courses').addClass(isVisible ? 'flex-item-stretch scroll-window-col' : 'favorite-courses-limited flex-item-rigid')
-    $('#favs').removeClass(isVisible ? '' : 'scroll-content-col')
-    $('#favs').addClass(isVisible ? 'scroll-content-col' : '')
+    $('#favorite-courses').animate({'max-height': (isVisible ? '100%' : '40%')})
 
-    var noneVisible = isVisible && $('#favorite-courses').css('display') === 'none'
-    $('#search-pane-buffer').removeClass(noneVisible ? 'flex-item-rigid' : 'flex-item-stretch')
-    $('#search-pane-buffer').addClass(noneVisible ? 'flex-item-stretch' : 'flex-item-rigid')
+    $('#search-results').slideToggle()
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
 

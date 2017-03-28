@@ -36,7 +36,7 @@
     <div class="flex-item-stretch vmax">
       <div class="container-fluid vmax">
         <div class="row vmax">
-          <div id="search-pane" class="col-sm-3 vmax flex-container-col">
+          <div id="search-pane" class="col-sm-3 vmax flex-container-col-top">
             <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode != 13">
               <div class="form-group row">
                 <div class="col-sm-12">
@@ -63,7 +63,7 @@
               <h4 id="favorite-title" class="flex-item-stretch truncate">Favorite Courses</h4>
               <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus section-toggle"></i></h4>
             </div>
-            <div id="favorite-courses" class="flex-item-rigid favorite-courses-limited">
+            <div id="favorite-courses" class="flex-item-rigid overflowable">
               <ul id="favs" class="list-group marginless">
               </ul>
             </div>
@@ -71,8 +71,8 @@
               <h4 id="search-title" class="flex-item-stretch truncate">0 Search Results</h4>
               <h4 class="flex-item-rigid"><i id="search-display-toggle" class="fa fa-minus section-toggle"></i></h4>
             </div>
-            <div id="search-results" class="flex-item-stretch scroll-window-col">
-              <ul id="results" class="list-group marginless scroll-content-col">
+            <div id="search-results" class="flex-item-scroll">
+              <ul id="results" class="list-group marginless">
               </ul>
             </div>
             <div id="search-pane-buffer" class="flex-item-rigid"></div>
