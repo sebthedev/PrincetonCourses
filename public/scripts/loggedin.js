@@ -11,7 +11,6 @@ $(document).ready(function () {
 
   // get User
   document.netid = ""
-  var thisUser = this.User
   $.get('/api/whoami', function (data) {
     document.netid = data['netid']
     $('#nav-netid').html('')
@@ -215,28 +214,6 @@ $(document).ready(function () {
         $('#disp-profs').append(name)
     }
 
-    // favorite a course
-    $("#fav-button").click(function() {
-      var thisCourseId = this.course["_id"];
-      if (thisUser.favoriteCourses.includes(thisCourseId))
-      {
-        $.ajax({
-          url: '/api/user/favorite',
-          type: 'PUT',
-          data: {'course': thisCourseId},
-          success: function() {dispFavorites();}
-        });
-      }
-      else {
-        $.ajax({
-          url: '/api/user/favorite',
-          type: 'DELETE',
-          data: {'course': thisCourseId},
-          success: function() {dispFavorites();}
-        });
-      }
-    })
-
     var prevInstId = 0;
     $('.course-prof').on("click",function(){
       var instId =  $(this).attr("id");
@@ -304,6 +281,7 @@ $(document).ready(function () {
       $('#feedback-toggle').removeClass("active")
     } else {
       $('#feedback-toggle').addClass("active")
+      $('#feedback-text').focus()
     }
   }
 
