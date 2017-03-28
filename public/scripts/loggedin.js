@@ -7,9 +7,10 @@ $(document).ready(function () {
   var onresize = function() {
     //your code here
     //this is just an example
+    var prevWidth = winWidth;
     winWidth = document.body.clientWidth;
     winHeight = document.body.clientHeight;
-    if (winWidth > 770)
+    if ((winWidth > 767) && (prevWidth < 767))
     {
       //var backButton = '<div><button type="button" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
       $('#search-pane').css("display", "");
@@ -17,7 +18,7 @@ $(document).ready(function () {
       $('body').css("background-color", "#ffffff");
       $('#backButton').css("display", "none");
     }
-    if (winWidth < 770)
+    if ((winWidth < 767) && (prevWidth > 767))
     {
       //var backButton = '<div><button type="button" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
       $('#search-pane').css("display", "");
