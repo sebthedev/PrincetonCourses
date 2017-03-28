@@ -43,21 +43,22 @@ body {
 }
 
 .flex-item-stretch {
-  flex-grow: 1;
-  flex-shrink: 1;
+  flex-grow: 10000;
+  flex-shrink: 10000;
   flex-basis: 0;
   overflow: hidden;
 }
 
 .flex-item-scroll {
   flex-grow: 0;
-  flex-shrink: 1;
+  flex-shrink: 10000;
   flex-basis: auto;
   overflow: auto;
 }
 
-.overflowable {
-  overflow-y: auto;
+.flex-item-special {
+  flex-shrink: 1;
+  overflow: auto;
 }
 
 .vmax {
