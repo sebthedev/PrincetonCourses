@@ -1,86 +1,140 @@
-// returns a string of HTML for results in the search pane for the given course
-function newResultEntry(course) {
-  return ('<li class="list-group-item search-result"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
-   + getListings(course)
-   + '</strong></div><div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge"'
-   + ((course.evaluations.hasOwnProperty('scores') &&
-       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-     ? (' style="background-color: '
-        + colorAt(course.evaluations.scores['Overall Quality of the Course'])
-        + '">'
-        + course.evaluations.scores['Overall Quality of the Course'].toFixed(2))
-     : '>N/A')
-   + '</span></div></div><div class="truncate">'
-   + course.title
-   + '</div></li>')
-}
+// returns a DOM object for a search or favorite result of a course
+// includes:
+//   -- course object linking
+//   -- clicking to favorite/unfavorite (+ course id linking for icon)
+// props: properties for conditional rendering:
+//  - 'semester' is defined => displays semester name too
+function newDOMResult(course, props) {
+  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
-// returns a string of HTML for results in the search pane for the given course
-// basically the same as the one above except the heart icon.
-function newFavEntry(course) {
-  return ('<li class="list-group-item search-result"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
-   + getListings(course)
-   + '</strong></div><div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge"'
-   + ((course.evaluations.hasOwnProperty('scores') &&
-       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-     ? (' style="background-color: '
-        + colorAt(course.evaluations.scores['Overall Quality of the Course'])
-        + '">'
-        + course.evaluations.scores['Overall Quality of the Course'].toFixed(2))
-     : '>N/A')
-   + '</span></div></div><div class="truncate">'
-   + course.title
-   + '</div></li>')
-}
+  var hasScore = (course.evaluations.hasOwnProperty('scores')
+               && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
 
+  if (hasScore)
+    var score = course.evaluations.scores['Overall Quality of the Course']
 
-function newInstructorCourseEntry(course) {
-  return ('<li class="prof-course"><div class="flex-container-row"><div class="flex-item-stretch truncate"><strong>'
-   + getListings(course)
-   + ' ' + '(' + course.semester.name + ')'
-   + '</strong></div><div class="flex-item-rigid"> <span class="badge"'
-   + ((course.evaluations.hasOwnProperty('scores') &&
-       course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-     ? (' style="background-color: '
-        + colorAt(course.evaluations.scores['Overall Quality of the Course'])
-        + '">'
-        + course.evaluations.scores['Overall Quality of the Course'].toFixed(2))
-     : '>N/A')
-   + '</span></div></div><div class="truncate">'
-   + course.title
-   + '</div></li>')
-}
+  // append semester if appropriate
+  var semester = props.hasOwnProperty('semester') ? ' (' + course.semester.name + ')' : ''
 
-/* MEL: trying something, in construction...
-function newDOMResult(course, favlist) {
-  var isFav = false
-  for (var courseIndex in courses) {
-    if (courses[courseIndex]["_id"] === course["_id"]) {
-      isFav = true
-      break
-    }
+  // tags: dist / pdf / audit
+  var tags = ''
+  if (props.hasOwnProperty('tags')) {
+    if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
+    if (course.pdf["required"]) tags += ' <span class="text-danger-dim">P</span>'
+    else if (!course.pdf["permitted"]) tags += ' <span class="text-danger-dim">N</span>'
+    if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
+    if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
   }
 
-  var li0 = document.createElement('li')
-  li0.setAttribute('class', 'list-group-item search-result')
+  // html string for the DOM object
+  var htmlString = (
+    '<li class="list-group-item search-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + getListings(course) + semester + tags + '</strong>'
+      + '</div>'
+      + '<div class="flex-item-rigid">'
+        + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
+        + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+          + (hasScore ? score.toFixed(2) : 'N/A')
+        + '</span>'
+      + '</div>'
+    + '</div>'
+    + '<div class="truncate">'
+      + course.title
+    + '</div>'
+  + '</li>'
+  )
 
-  var div0 = document.createElement('div')
-  div0.setAttribute('class', 'flex-container-row')
+  var entry = $.parseHTML(htmlString)[0]           // create DOM object
+  entry.course = course                            // link to course object
+  $(entry).find('i')[0].courseId = course["_id"]   // link to course id for fav icon
+  $(entry).find('i').click(toggleFav)              // enable click to fav/unfav
 
-  var div1 = document.createElement('div')
-  div1.setAttribute('class', 'flex-item-stretch truncate')
+  return entry
+}
 
-  var strong0 = document.createElement('strong')
-  strong0.appendChild(document.createTextNode(getListings(course)))
-  div1.appendChild(strong0)
+// update the favorites data for search pane and professors pane
+var updateSearchFav = function() {
+  $("#results, #prof-courses").children().each(function() {
+    var isFav = (document.favorites.indexOf(this.course["_id"]) !== -1)
 
-  var div2 = document.createElement('div')
-  div2.setAttribute('class', 'flex-item-rigid')
+    var icon = $(this).find("i")
+    icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
+    icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
+  })
+}
 
-  var i0 = document.createElement('i')
-  i0.setAttribute('class', 'fa fa-heart unfav-icon')
+// update the display of favorites upon new fav/unfav from course
+var updateFavList = function(course) {
+  var thisCourseId = course["_id"]
 
-}*/
+  $('#favorite-title').html('')
+  $('#favorite-title').append(document.favorites.length + ' Favorite Course'+ (document.favorites.length !== 1 ? 's' : ''))
+
+  var isFav = (document.favorites.indexOf(thisCourseId) !== -1)
+
+  // toggle title if necessary
+  if ((document.favorites.length === 0 && $('#favorite-header').css('display') !== 'none')
+   || (document.favorites.length  >  0 && $('#favorite-header').css('display') === 'none')) {
+    $('#favorite-header').slideToggle()
+  }
+
+  // if newly a favorite
+  if (isFav) {
+    var entry = newDOMResult(course, {"semester": 1, "tags": 1})
+    entry.setAttribute('style', 'display: none;')
+
+    $('#favs').append(entry)
+    $(entry).slideToggle()
+    return
+  }
+
+  // if removing a favorite
+  $("#favs").children().each(function() {
+    // ignore if not this course
+    if (this.course["_id"] !== thisCourseId) return
+
+    // remove
+    $(this).slideToggle(function() {
+      this.remove()
+    })
+  })
+}
+
+// handles click of favorite icon
+var toggleFav = function() {
+  var course = $(this).parents("li.search-result")[0].course
+  var thisCourseId = this.courseId
+  var i = document.favorites.indexOf(thisCourseId)
+
+  // update local list
+  if (i === -1)
+    document.favorites.push(thisCourseId)
+  else
+    document.favorites.splice(i, 1)
+
+  // update display
+  updateSearchFav()
+  updateFavList(course)
+
+  // update database
+  if (i === -1) {
+    $.ajax({
+      url: '/api/user/favorite',
+      type: 'PUT',
+      data: {'course': thisCourseId}
+    })
+  } else {
+    $.ajax({
+      url: '/api/user/favorite',
+      type: 'DELETE',
+      data: {'course': thisCourseId}
+    })
+  }
+
+  return false;
+}
 
 // returns a string of the course listings of the given course
 function getListings(course) {

@@ -11,6 +11,11 @@
     flex-wrap: nowrap;
   }
 
+  #results {
+    overflow-wrap: break-word;
+    width:100%;
+  }
+
   /*.flex-container-col {
     display: flex;
     flex-flow: column nowrap;
@@ -77,14 +82,16 @@
 
   .vmax {
     max-height: none;
-    width: 95vw;
+    width: 100%;
     margin:0;
   }
+
   #backButton {
     margin-bottom:10px;
   }
+
   #search-results-cont {
-    flex-basis:0;
+    /*flex-basis:0;*/
   }
   #comments-panel {
     height:100%;

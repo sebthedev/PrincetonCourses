@@ -30,18 +30,73 @@
     align-items: stretch;
   }
 
+  .text-info-dim {
+    color: #addfee;
+  }
+
+  .text-warning-dim {
+    color: #f7d6a6;
+  }
+
+  .text-danger-dim {
+    color: #eca8a7;
+  }
+
+  textarea {
+    resize: vertical; /* user can resize vertically, but width is fixed */
+  }
+
+  body {
+    min-height:100%;
+    height:100%;
+    overflow-x:hidden;
+    overflow-y: hidden;
+    display:block;
+  }
+
+  .flex-container-col {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .flex-container-col-top {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  .flex-container-row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
   .flex-item-rigid {
     flex-grow: 0;
     flex-shrink: 0;
   }
 
   .flex-item-stretch {
-    flex-grow: 1;
-    flex-shrink: 1;
+    flex-grow: 10000;
+    flex-shrink: 10000;
     flex-basis: 0;
     overflow: hidden;
   }
 
+  .flex-item-scroll {
+    flex-grow: 0;
+    flex-shrink: 10000;
+    flex-basis: auto;
+    overflow: auto;
+  }
+  .flex-item-special {
+    flex-shrink: 1;
+    overflow: auto;
+  }
   .vmax {
     height: 100%;
     max-height: 100%;
@@ -50,7 +105,10 @@
   .search-result {
     cursor: pointer;
   }
-
+  .search-result {
+    cursor: pointer;
+    padding: 5px 8px;
+  }
   .result-dial {
     flex-grow: 0;
     width: 40px;
@@ -98,8 +156,15 @@
     margin: 0;
   }
 
-  /* override bootstrap progress bar styling */
+  .section-toggle {
+    cursor: pointer;
+  }
 
+  .section-toggle:hover {
+    color: #888;
+  }
+
+  /* override bootstrap progress bar styling */
   .progress {
     margin: 0;
     background-color: #eee;
@@ -147,7 +212,7 @@
 
   ul#prof-courses li {
      margin: 0;
-     padding: 5px;
+     padding: 5px 8px;
      background-color:#fff;
      border: 1px solid #eee;
   }
@@ -194,7 +259,6 @@
   }
 
   /* SPECIFIC CSS (using identifiers for specific parts of page) */
-
   #full-page {
     height: 100vh;
     width: 100vw;
@@ -204,6 +268,28 @@
     z-index: 150;
     margin-bottom: 0;
     border-radius: 0;
+  }
+
+  #nav-netid {
+    width: 9em;
+    text-align: center;
+    color: #000;
+  }
+
+  #nav-netid:hover {
+    color: #fff;
+  }
+
+  #full-page {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #menu-bar {
+    z-index: 200;
+    margin-bottom: 0;
+    border-radius: 0;
+    border: 0;
   }
 
   #search-pane {
@@ -261,6 +347,17 @@
     border-width: 2px;
   }
 
+  #feedback-container {
+    position: fixed;
+    top: 0;
+    padding-top: 50px;
+    right: 50px;
+    width: 30vw;
+    z-index: 100;
+    border-color: #f58025;
+    border-width: 2px;
+  }
+
   #search-results-cont {
     flex-grow: 3;
   }
@@ -278,7 +375,6 @@
   }
 
   /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
-
   ::-webkit-scrollbar {
     width: 2px;
     height: 2px;
@@ -326,8 +422,8 @@
 /* ADDING COLOR TO NAVBAR https://work.smarchal.com/twbscolor/ */
 
 .navbar-default {
-  background-color: #f58025;
-  border-color: #d36f22;
+  background-color: #EE7F2D;
+  border-color: #EE7F2D;
 }
 
 .navbar-default .navbar-brand {
@@ -352,27 +448,28 @@
   color: #ffffff;
 }
 
+.navbar-default .navbar-nav > .active,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: #d36f22;
+  background-color: #E36203;
 }
 
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
   color: #ffffff;
-  background-color: #d36f22;
+  background-color: #ff5c33;
 }
 
 .navbar-default .navbar-toggle {
-  border-color: #d36f22;
+  border-color: #ff5c33;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #d36f22;
+  background-color: #ff5c33;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -392,6 +489,13 @@
   color: #ffffff;
 }
 
+.footer {
+    width: 100%;
+    height: 30px;
+    background: #EE7F2D;
+    border-color: #ff5c33;
+}
+
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #000000;
@@ -404,6 +508,41 @@
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #ffffff;
-    background-color: #d36f22;
+    background-color: #ff5c33;
   }
 }
+
+/*@media only screen and (max-width: 770px)
+{
+  .flex-item-stretch {
+    overflow-y:auto;
+  }
+
+  h2#disp-title {
+    font-size:5vw;
+    overflow-wrap: break-word;
+    width:100%;
+  }
+
+  #disp-body {
+    overflow: auto;
+  }
+
+  #evals-pane {
+    min-height: 100vh;
+    flex-grow: 5;
+  }
+
+  #comments-panel {
+    min-height: 50vh;
+    flex-grow: 5;
+  }
+
+  .vmax {
+    max-height: none;
+  }
+  #search-results-cont {
+    flex-basis:0;
+  }
+
+}*/
