@@ -18,11 +18,13 @@ function newDOMResult(course, props) {
 
   // tags: dist / pdf / audit
   var tags = ''
-  if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
-  if (course.pdf["required"]) tags += ' <span class="text-danger-dim">P</span>'
-  else if (!course.pdf["permitted"]) tags += ' <span class="text-danger-dim">N</span>'
-  if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
-  if (tags !== '') tags = '\xa0\xa0' + tags
+  if (props.hasOwnProperty('tags')) {
+    if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
+    if (course.pdf["required"]) tags += ' <span class="text-danger-dim">P</span>'
+    else if (!course.pdf["permitted"]) tags += ' <span class="text-danger-dim">N</span>'
+    if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
+    if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
+  }
 
   // html string for the DOM object
   var htmlString = (
@@ -80,7 +82,7 @@ var updateFavList = function(course) {
 
   // if newly a favorite
   if (isFav) {
-    var entry = newDOMResult(course, {"semester": 1})
+    var entry = newDOMResult(course, {"semester": 1, "tags": 1})
     entry.setAttribute('style', 'display: none;')
 
     $('#favs').append(entry)
