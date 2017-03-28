@@ -1,6 +1,32 @@
 // when document loads
 $(document).ready(function () {
 
+  //var winWidth = $(window).height(); 
+  var winWidth = $(window).width(); 
+
+  var onresize = function() {
+    //your code here
+    //this is just an example
+    winWidth = document.body.clientWidth;
+    winHeight = document.body.clientHeight;
+    if (winWidth > 770)
+    {
+      //var backButton = '<div><button type="button" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
+      $('#search-pane').css("display", "");
+      $('#display-pane').css("display", "");
+      $('body').css("background-color", "#ffffff");
+      $('#backButton').css("display", "none");
+    }
+    if (winWidth < 770)
+    {
+      //var backButton = '<div><button type="button" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
+      $('#search-pane').css("display", "");
+      $('#display-pane').css("display", "none");
+      $('body').css("background-color", "#dddddd");
+    }
+  }
+  window.addEventListener("resize", onresize);
+
   // construct local favorites list
   $.get('/api/user/favorites', function(courses) {
     document.favorites = []
@@ -250,6 +276,16 @@ $(document).ready(function () {
     $('#evals').html('')
     $('#comments').html('')
 
+    if (winWidth < 770)
+    {
+      var backButton = '<div><button type="button" id="backButton" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
+      $('#search-pane').css("display", "none");
+      $('#display-pane').css("display", "inline");
+      $('body').css("background-color", "#ffffff");
+      $('#disp-title').append(backButton);
+      $(this).removeClass("active")
+    }
+
     var thisCourse = this.course
 
     // string for course listings
@@ -491,3 +527,9 @@ $(document).ready(function () {
 
   dispFavorites();
 })
+
+var goBackToSearchResults = function() {
+  $('#search-pane').css("display", "inline");
+  $('#display-pane').css("display", "none");
+  $('body').css("background-color", "#dddddd");
+}
