@@ -158,6 +158,9 @@
   .scroll-window-row {
     width: 100%;
   }
+  .popup{
+    width: 80%;
+  }
 
 /*  #full-page {
     display:none;

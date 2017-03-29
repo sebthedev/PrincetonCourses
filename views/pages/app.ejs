@@ -29,7 +29,7 @@
   	      <ul class="nav navbar-nav navbar-right">
   	        <li id="feedback-toggle"><a href="#">Feedback</a></li>
             <li><a href="#">FAQ</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#popup1" id="about-button">About</a></li>
             <li class="active"><a id="nav-netid" href="auth/logout"></a></li>
   	      </ul>
   	    </div>
@@ -37,5 +37,15 @@
 	 </nav>
    <% include ../partials/desktopview.ejs %>
   </div>
+  <div id="popup1" class="overlay">
+  <div class="popup">
+    <h2>About This Project</h2>
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <p>A project by Kara&nbsp;Bressler (team leader), Caterina&nbsp;Golner, Sebastian&nbsp;Hallum&nbsp;Clarke, Mel&nbsp;Shu, and Bensu&nbsp;Sicim for COS&nbsp;333. The team is advised by <a href="https://www.cs.princeton.edu/~cmoretti/">Christopher Moretti</a>.</p>
+      <p>View our <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank">design document</a>.</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
