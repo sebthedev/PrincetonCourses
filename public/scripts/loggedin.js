@@ -328,6 +328,19 @@ $(document).ready(function () {
     }
   }
 
+  // $('#feedback-form').one('submit', function() {
+  //    var submitURL = ''
+  //    submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
+  //    submitURL += 'entry.1257302391=' + document.netid
+  //    submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
+ 
+  //    $(this)[0].action = submitURL
+  //    $('#feedback-submit').text('Thank You!')
+  //    $('#feedback-submit').addClass('disabled')
+  //    $('#feedback-text').attr('disabled', true)
+  //    setTimeout(toggleFeedback, 1000)
+  //  })
+
   $('#feedback-form').one('submit', function() {
     var submitURL = ''
     submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'

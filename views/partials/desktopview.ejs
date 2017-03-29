@@ -126,11 +126,12 @@
   </div>
 </div>
 </div>
-<div id="feedback-form" class="panel" style="display: none;">
-<form class="panel-body text-center" onkeypress="return event.keyCode != 13">
-  <div class="form-group">
-    <label for="feedback-text">Any thoughts, comments or complaints?</label>
-    <textarea class="form-control" id="feedback-text" rows="3"></textarea>
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+<div id="feedback-container" class="panel" style="display: none;">
+  <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode != 13">
+    <div class="form-group">
+      <label for="feedback-text">Any thoughts, comments or complaints?</label>
+      <textarea id="feedback-text" class="form-control" rows="3"></textarea>
+    </div>
+  <button id="feedback-submit" class="btn btn-default" type="submit">Submit</button>
 </form>
+<iframe src="#" id="no-target" name="no-target" style="display: none;"></iframe>

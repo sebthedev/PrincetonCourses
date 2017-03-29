@@ -346,17 +346,6 @@
     width:100%;
   }
 
-  #feedback-form {
-    position: fixed;
-    top: 0;
-    padding-top: 50px;
-    right: 50px;
-    width: 30vw;
-    z-index: 100;
-    border-color: #f58025;
-    border-width: 2px;
-  }
-
   #feedback-container {
     position: fixed;
     top: 0;
@@ -523,6 +512,10 @@
     color: #ffffff;
     background-color: #ff5c33;
   }
+}
+
+#feedback-button {
+  transition: all 0.3s ease-out;
 }
 
 /* About popup */
