@@ -1,8 +1,11 @@
 // when document loads
 $(document).ready(function () {
 
-  //var winWidth = $(window).height(); 
-  var winWidth = $(window).width(); 
+  //var winWidth = $(window).height();
+  var winWidth = $(window).width();
+
+  // Saving the user's netid so it is globally available
+  document.netid = $("#netid").text()
 
   var onresize = function() {
     //your code here
@@ -34,14 +37,6 @@ $(document).ready(function () {
     for (var course in courses) {
       document.favorites.push(courses[course]["_id"])
     }
-  })
-
-  // get User
-  document.netid = ""
-  $.get('/api/whoami', function (data) {
-    document.netid = data['netid']
-    $('#nav-netid').html('')
-    $('#nav-netid').append(document.netid)
   })
 
   // initial displaying favorites
@@ -312,9 +307,7 @@ $(document).ready(function () {
   */
 
   $('#nav-netid').hover(function() {
-    $('#nav-netid').text('Logout')
-  }, function() {
-    $('#nav-netid').text(document.netid)
+    $(this).children().toggle()
   })
 
   // feedback form toggling
@@ -333,7 +326,7 @@ $(document).ready(function () {
   //    submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
   //    submitURL += 'entry.1257302391=' + document.netid
   //    submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
- 
+
   //    $(this)[0].action = submitURL
   //    $('#feedback-submit').text('Thank You!')
   //    $('#feedback-submit').addClass('disabled')

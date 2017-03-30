@@ -30,7 +30,12 @@
   	        <li id="feedback-toggle"><a href="#">Feedback</a></li>
             <li><a href="#">FAQ</a></li>
             <li><a href="#popup1" id="about-button">About</a></li>
-            <li class="active"><a id="nav-netid" href="auth/logout"></a></li>
+            <li class="active">
+                <a id="nav-netid" href="auth/logout">
+                    <span id="netid"><%= netid %></span>
+                    <span id="logout" style="display:none;">Logout</span>
+                </a>
+            </li>
   	      </ul>
   	    </div>
   	  </div>

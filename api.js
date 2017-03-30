@@ -16,11 +16,6 @@ router.all('*', function (req, res, next) {
   }
 })
 
-// Route a req for the homepage
-router.get('/whoami', function (req, res) {
-  res.json({ netid: req.app.get('user').netid })
-})
-
 // Respond to requests for course listings
 router.post('/courses', function (req, res) {
   // Check the request contains a query
