@@ -16,48 +16,26 @@
   color: #eca8a7;
 }
 
-  .unfav-icon {
-    color: #d9534f;
-    z-index: 10;
-  }
+.unfav-icon {
+  color: #d9534f;
+  z-index: 10;
+}
 
-  .unfav-icon:hover {
-    color: #f6dbdb;
-  }
+.unfav-icon:hover {
+  color: #f6dbdb;
+}
 
-  .fav-icon {
-    color: #dddddd;
-    z-index: 10;
-  }
+.fav-icon {
+  color: #dddddd;
+  z-index: 10;
+}
 
-  .fav-icon:hover {
-    color: #d9534f;
-  }
+.fav-icon:hover {
+  color: #d9534f;
+}
 
-@media only screen and (min-width: 767px) 
-{ 
-  body {
-    min-height:100%; 
-    height:100%; 
-    overflow-x:hidden; 
-    overflow-y: hidden;
-    display:block;
-  }
-
-  .flex-container-col {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .flex-container-row {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
+@media only screen and (min-width: 767px)
+{
   .text-info-dim {
     color: #addfee;
   }
@@ -121,10 +99,12 @@
     flex-basis: auto;
     overflow: auto;
   }
+
   .flex-item-special {
     flex-shrink: 1;
     overflow: auto;
   }
+
   .vmax {
     height: 100%;
     max-height: 100%;
