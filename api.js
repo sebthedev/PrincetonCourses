@@ -16,6 +16,29 @@ router.all('*', function (req, res, next) {
   }
 })
 
+// Respond to requests for an instructor
+router.get('/course/:id', function (req, res) {
+  // Validate that the request is correct
+  if ((typeof (req.params.id) === 'undefined') || isNaN(req.params.id)) {
+    res.sendStatus(400)
+    return
+  }
+
+  // Search for the instructor in the database
+  courseModel.findOne({_id: req.params.id}, function (err, course) {
+    if (err) {
+      console.log(err)
+      res.send(500)
+    } else {
+      if (course === null) {
+        res.sendStatus(404)
+      } else {
+        res.json(course)
+      }
+    }
+  })
+})
+
 // Respond to requests for course listings
 router.post('/courses', function (req, res) {
   // Check the request contains a query
