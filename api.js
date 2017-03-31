@@ -81,6 +81,23 @@ router.post('/courses', function (req, res) {
     }
   }
 
+  // Remove in-depth course information if the client requests "brief" results
+  if (typeof (req.body.brief) !== 'undefined' && JSON.parse(req.body.brief) === true) {
+    // Merge the existing projection parameters with the parameters filtering-out all of these attributes
+    Object.assign(projection, {
+      'evaluations.studentComments': 0,
+      assignments: 0,
+      grading: 0,
+      classes: 0,
+      description: 0,
+      otherinformation: 0,
+      otherrequirements: 0,
+      prerequisites: 0,
+      semesters: 0,
+      instructors: 0
+    })
+  }
+
   // Send the query to the database and return a JSON array of the results
   courseModel.find(query, projection).sort(sort).exec(function (err, courses) {
     if (err) {
