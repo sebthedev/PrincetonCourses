@@ -21,6 +21,10 @@ var courseSchema = new mongoose.Schema({
     type: Number,
     ref: 'Semester'
   },
+  semesters: [{
+    type: Number,
+    ref: 'Semester'
+  }],
   department: {
     type: String,
     uppercase: true,
@@ -128,7 +132,7 @@ courseSchema.on('index', function (error) {
 
 // Automatically populate instructors and semester
 var autoPopulate = function (next) {
-  this.populate('instructors semester')
+  this.populate('instructors semester semesters')
   next()
 }
 
