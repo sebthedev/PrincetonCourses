@@ -7,7 +7,7 @@
 function newDOMResult(course, props) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
-  var hasScore = (course.evaluations.hasOwnProperty('scores')
+  var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores')
                && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
 
   if (hasScore)
@@ -28,7 +28,7 @@ function newDOMResult(course, props) {
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item search-result">'
+    '<li class="list-group-item search-result" data-courseID="' + course._id + '">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + getListings(course) + semester + tags + '</strong>'

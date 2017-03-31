@@ -37,8 +37,8 @@ app.use('*', auth.loadUser)
 app.use('/auth', auth.router)
 app.use('/api', api.router)
 
-// Route a request for the homepage
-app.get('/', function (req, res) {
+// Route a request for the app
+app.get(['/', '/course/:id'], function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
     // The user in unauthenticated. Display a splash page.
