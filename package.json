@@ -28,5 +28,10 @@
   "bugs": {
     "url": "https://github.com/sebthedev/PrincetonCourses/issues"
   },
-  "homepage": "https://github.com/sebthedev/PrincetonCourses#readme"
+  "homepage": "https://github.com/sebthedev/PrincetonCourses#readme",
+  "standard": {
+      "globals": [
+          "$"
+      ]
+  }
 }
