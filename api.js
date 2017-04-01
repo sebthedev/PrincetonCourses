@@ -140,18 +140,34 @@ router.get('/course/:id', function (req, res) {
     return
   }
 
-  // Search for the instructor in the database
-  courseModel.findOne({_id: req.params.id}, function (err, course) {
-    if (err) {
-      console.log(err)
-      res.send(500)
+  // Construct the promise for the query for the requested course
+  var queryCoursePromise = courseModel.findOne({_id: req.params.id}).exec()
+
+  // Construct the promise for the query for the evaluations of all the semesters of this course
+  var courseID = req.params.id.substring(4)
+  var otherSemestersPromise = courseModel.find({
+    courseID: courseID
+  }, {
+    evaluations: 1,
+    semester: 1,
+    instructors: 1,
+    _id: 0
+  }).sort({semester: -1}).exec()
+
+  // Resolve the promises
+  Promise.all([queryCoursePromise, otherSemestersPromise]).then(function (results) {
+    var queryCourse = results[0]
+
+    if (queryCourse === null) {
+      res.sendStatus(404)
     } else {
-      if (course === null) {
-        res.sendStatus(404)
-      } else {
-        res.json(course)
-      }
+      queryCourse = queryCourse.toObject()
+      queryCourse.evaluations = results[1]
+      res.json(queryCourse)
     }
+  }).catch(function (err) {
+    console.log(err)
+    res.sendStatus(500)
   })
 })
 
