@@ -239,8 +239,13 @@ router.get('/user/favorites', function (req, res) {
 
 // Respond to requests for semester listings
 router.get('/semesters', function (req, res) {
-  semesterModel.getAllSemesters(function (semesters) {
-    res.status(200).json(semesters)
+  semesterModel.find().sort({code: -1}).exec(function (err, semesters) {
+    if (err) {
+      console.log(err)
+      res.status(500)
+    } else {
+      res.status(200).json(semesters)
+    }
   })
 })
 
