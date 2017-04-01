@@ -249,5 +249,5 @@ router.get('/semesters', function (req, res) {
   })
 })
 
-// Export the routes on this router (/login, /verify, and /logout)
+// Export the routes on this router
 module.exports.router = router
