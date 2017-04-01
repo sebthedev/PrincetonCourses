@@ -98,27 +98,28 @@ $(document).ready(function () {
   // function for displaying course details
   var displayCourseDetails = function(courseID) {
 
-    $("#welcome-display-pane").hide()
-    $("#display-pane").show()
-
-    // Remove content from any previously displayed course
-    $('#disp-title, #disp-subtitle, #disp-profs, #disp-body, #evals, #comments').html('')
-
-    if (winWidth < 770)
-    {
-      var backButton = '<div><button type="button" id="backButton" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
-      $('#search-pane').css("display", "none");
-      $('#display-pane').css("display", "inline");
-      $('body').css("background-color", "#ffffff");
-      $('#disp-title').append(backButton);
-      $(this).removeClass("active")
-    }
 
     $.get('/api/course/' + courseID, function (course, status) {
         // Basic error handling
         if (status !== 'success') {
           window.alert('An error occured and your course could not be displayed.')
           return
+        }
+
+        $("#welcome-display-pane").hide()
+        $("#display-pane").show()
+
+        // Remove content from any previously displayed course
+        $('#disp-title, #disp-subtitle, #disp-profs, #disp-body, #evals, #comments').html('')
+
+        if (winWidth < 770)
+        {
+          var backButton = '<div><button type="button" id="backButton" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
+          $('#search-pane').css("display", "none");
+          $('#display-pane').css("display", "inline");
+          $('body').css("background-color", "#ffffff");
+          $('#disp-title').append(backButton);
+          $(this).removeClass("active")
         }
 
         var thisCourse = course
