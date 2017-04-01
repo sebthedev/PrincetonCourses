@@ -16,6 +16,114 @@ router.all('*', function (req, res, next) {
   }
 })
 
+// Intelligent searching for both courses and instructors
+router.get('/search/:query', function (req, res) {
+    // Validate that the request is correct
+  if (typeof (req.params.query) === 'undefined') {
+    res.sendStatus(400)
+    return
+  }
+
+  // Basic query that performs a full-text-search with the search string
+  const initialQuery = {
+    $text: {
+      $search: req.params.query
+    }
+  }
+
+  // The basic projection that inserts the document's relevance into each returned document
+  const initialProjection = {
+    relevance: {
+      $meta: 'textScore'
+    }
+  }
+
+  // Prepare the courses collection search query and projection
+  var courseQuery = {}
+  var courseProjection = {}
+  Object.assign(courseQuery, initialQuery)
+  Object.assign(courseProjection, initialProjection)
+
+  // Filter courses by semester
+  if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
+    courseQuery.semester = req.query.semester
+  }
+
+  // Remove in-depth course information if the client requests "brief" results
+  if (typeof (req.query.detailed) !== 'string' || (typeof (req.query.detailed) === 'string' && JSON.parse(req.query.detailed) !== false)) {
+    // Merge the existing projection parameters with the parameters filtering-out all of these attributes
+    Object.assign(courseProjection, {
+      'evaluations.studentComments': 0,
+      assignments: 0,
+      grading: 0,
+      classes: 0,
+      description: 0,
+      otherinformation: 0,
+      otherrequirements: 0,
+      prerequisites: 0,
+      semesters: 0,
+      instructors: 0
+    })
+  }
+
+  // Construct the courseModel database query as a promise
+  var coursePromise = courseModel.find(courseQuery, courseProjection).exec()
+
+  // Prepare the instructors collection search query and projection
+  var instructorQuery = {}
+  var instructorProjection = {}
+  Object.assign(instructorQuery, initialQuery)
+  Object.assign(instructorProjection, initialProjection)
+
+  // Construct the courseModel database query as a promise
+  var instructorPromise = instructorModel.find(instructorQuery, instructorProjection).exec()
+
+  // Trigger both promises and wait for them to both return
+  Promise.all([coursePromise, instructorPromise]).then(values => {
+    // Merge the results from the courses and instructors collections
+    var combinedResult = values[0].concat(values[1])
+
+    // Convert from the Mongoose objects into regular objects
+    for (var i in combinedResult) {
+      combinedResult[i] = combinedResult[i].toObject()
+    }
+
+    // Determine sort parameter
+    var sortKey = 'relevance'
+    if (typeof (req.query.sort) !== 'undefined') {
+      sortKey = req.query.sort
+    }
+
+    // Invert the sort order if the sort key is relevance (for which we want the most relevant result first)
+    var invertSortOrder = Math.pow(-1, sortKey === 'relevance')
+
+    // Sort the results
+    combinedResult.sort(function (a, b) {
+      // First sort by the specified sort key
+      if (sortKey !== 'rating') {
+        if (a[sortKey] > b[sortKey]) {
+          return 1 * invertSortOrder
+        } else if (a[sortKey] < b[sortKey]) {
+          return -1 * invertSortOrder
+        }
+      }
+
+      // Then sort by course rating
+      if (a.hasOwnProperty('evaluations') && b.hasOwnProperty('evaluations') && a.evaluations.hasOwnProperty('scores') && b.evaluations.hasOwnProperty('scores') && a.evaluations.scores.hasOwnProperty('Overall Quality of the Course') && b.evaluations.scores.hasOwnProperty('Overall Quality of the Course')) {
+        return b.evaluations.scores['Overall Quality of the Course'] - a.evaluations.scores['Overall Quality of the Course']
+      } else {
+        return 0
+      }
+    })
+
+    // Send the result to the client
+    res.json(combinedResult)
+  }).catch(reason => {
+    console.log(reason)
+    res.sendStatus(500)
+  })
+})
+
 // Respond to requests for an instructor
 router.get('/course/:id', function (req, res) {
   // Validate that the request is correct
