@@ -80,13 +80,21 @@ router.get('/search/:query', function (req, res) {
 
   // Trigger both promises and wait for them to both return
   Promise.all([coursePromise, instructorPromise]).then(values => {
-    // Merge the results from the courses and instructors collections
-    var combinedResult = values[0].concat(values[1])
+    var courses = values[0]
+    var instructors = values[1]
 
-    // Convert from the Mongoose objects into regular objects
-    for (var i in combinedResult) {
-      combinedResult[i] = combinedResult[i].toObject()
+    // Insert into the course or instructor object its type
+    for (var i in values[0]) {
+      courses[i] = courses[i].toObject()
+      courses[i].type = 'course'
     }
+    for (var j in instructors) {
+      instructors[j] = instructors[j].toObject()
+      instructors[j].type = 'instructor'
+    }
+
+    // Merge the results from the courses and instructors collections
+    var combinedResult = courses.concat(instructors)
 
     // Determine sort parameter
     var sortKey = 'relevance'
