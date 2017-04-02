@@ -16,8 +16,8 @@ if (process.argv.length > 2) {
 }
 
 // Load internal modules
-var semesterModel = require.main.require('./models/semester.js')
-var courseModel = require.main.require('./models/course.js')
+var semesterModel = require('../models/semester.js')
+var courseModel = require('../models/course.js')
 
 // Connect to the database
 require('./database.js')

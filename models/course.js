@@ -2,7 +2,7 @@
 
 // Load external dependencies
 var mongoose = require('mongoose')
-var instructorModel = require.main.require('./models/instructor.js')
+var instructorModel = require('./instructor.js')
 
 // Define the courseSchema
 var courseSchema = new mongoose.Schema({

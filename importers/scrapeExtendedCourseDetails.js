@@ -10,9 +10,9 @@ var prompt = require('prompt')
 require('dotenv').config()
 
 // Load internal modules
-var courseModel = require.main.require('./models/course.js')
-require.main.require('./models/semester.js')
-require('./database.js')
+var courseModel = require('../models/course.js')
+require('../models/semester.js')
+require('../controllers/database.js')
 
 // Load a request from the server and call the function externalCallback
 var loadPage = function (term, courseID, externalCallback) {

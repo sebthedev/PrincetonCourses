@@ -2,7 +2,7 @@
 require('dotenv').config()
 
 // Load internal modules
-var courseModel = require.main.require('./models/course.js')
+var courseModel = require('../models/course.js')
 
 // Connect to the database
 require('./database.js')

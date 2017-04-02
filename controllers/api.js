@@ -132,7 +132,7 @@ router.get('/search/:query', function (req, res) {
   })
 })
 
-// Respond to requests for an instructor
+// Respond to requests for a course
 router.get('/course/:id', function (req, res) {
   // Validate that the request is correct
   if ((typeof (req.params.id) === 'undefined') || isNaN(req.params.id)) {
