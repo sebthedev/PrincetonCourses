@@ -24,25 +24,52 @@ router.get('/search/:query', function (req, res) {
     return
   }
 
-  // Basic query that performs a full-text-search with the search string
-  const initialQuery = {
-    $text: {
-      $search: req.params.query
-    }
-  }
-
-  // The basic projection that inserts the document's relevance into each returned document
-  const initialProjection = {
-    relevance: {
-      $meta: 'textScore'
-    }
-  }
-
-  // Prepare the courses collection search query and projection
+  // Initialise the queries and projections for the courses and instructors searches
   var courseQuery = {}
   var courseProjection = {}
-  Object.assign(courseQuery, initialQuery)
-  Object.assign(courseProjection, initialProjection)
+  var instructorQuery = {}
+  var instructorProjection = {}
+
+  // Permit explicit filtering based on keywords
+  var queryWords = req.params.query.split(' ')
+  let distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
+  var newQueryWords = []
+  for (var queryWordsIndex in queryWords) {
+    var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
+
+    // Check for distribution areas, pdf status, and wildcards
+    if (distributionAreas.indexOf(thisQueryWord) > -1) {
+      courseQuery.distribution = thisQueryWord
+    } else if (thisQueryWord === 'PDF') {
+      courseQuery['pdf.permitted'] = true
+    } else if (thisQueryWord !== '*') {
+      newQueryWords.push(thisQueryWord)
+    }
+  }
+
+  // Build the database queries and projections
+  if (newQueryWords.length > 0) {
+    var searchQuery = newQueryWords.join(' ')
+
+    // Basic query that performs a full-text-search with the search string
+    const initialQuery = {
+      $text: {
+        $search: searchQuery
+      }
+    }
+
+    // The basic projection that inserts the document's relevance into each returned document
+    const initialProjection = {
+      relevance: {
+        $meta: 'textScore'
+      }
+    }
+
+    Object.assign(instructorQuery, initialQuery)
+    Object.assign(courseQuery, initialQuery)
+    Object.assign(instructorProjection, initialProjection)
+    Object.assign(courseProjection, initialProjection)
+  }
 
   // Filter courses by semester
   if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
@@ -68,12 +95,6 @@ router.get('/search/:query', function (req, res) {
 
   // Construct the courseModel database query as a promise
   var coursePromise = courseModel.find(courseQuery, courseProjection).exec()
-
-  // Prepare the instructors collection search query and projection
-  var instructorQuery = {}
-  var instructorProjection = {}
-  Object.assign(instructorQuery, initialQuery)
-  Object.assign(instructorProjection, initialProjection)
 
   // Construct the courseModel database query as a promise
   var instructorPromise = instructorModel.find(instructorQuery, instructorProjection).exec()
