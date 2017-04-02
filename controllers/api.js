@@ -6,6 +6,7 @@ var auth = require('./authentication.js')
 var courseModel = require.main.require('./models/course.js')
 var semesterModel = require.main.require('./models/semester.js')
 var instructorModel = require.main.require('./models/instructor.js')
+var userModel = require.main.require('./models/user.js')
 
 // Check that the user is authenticated
 router.all('*', function (req, res, next) {
@@ -333,70 +334,45 @@ router.get('/instructor/:id', function (req, res) {
   })
 })
 
-// Respond to requests to add a course to the user's favoriteCourses list
-router.put('/user/favorite', function (req, res) {
-  var user = req.app.get('user')
-
-  // Check that the request contains a course to delete
-  if (typeof (req.body.course) === 'undefined') {
+// Respond to requests to PUT and DELETE courses into/from the user's favorite courses list
+router.route('/user/favorites/:id').all(function (req, res, next) {
+  if (typeof (req.params.id) === 'undefined' || isNaN(req.params.id)) {
     res.sendStatus(400)
     return
   }
-
-  // Check that this user has a favoriteCourses array
-  if (typeof (user.favoriteCourses) === 'undefined') {
-    user.favoriteCourses = []
-  }
-
-  // If this course is not already in the favoriteCourses array, add it
-  if (user.favoriteCourses.indexOf(req.body.course) === -1) {
-    user.favoriteCourses.push(req.body.course)
-
-    user.save(function (error) {
-      if (error) {
-        console.log(error)
-        res.sendStatus(500)
-      }
-      res.sendStatus(201)
-    })
-  } else {
-    res.sendStatus(200)
-  }
-})
-
-// Respond requests to delete a course from the user's favoriteCourses list
-router.delete('/user/favorite', function (req, res) {
+  next()
+}).put(function (req, res) {
   var user = req.app.get('user')
 
-  // Check that this user has a favoriteCourses array
-  if (typeof (user.favoriteCourses) === 'undefined') {
-    res.sendStatus(200)
-    return
-  }
-
-  // Check that the request contains a course to delete
-  if (typeof (req.body.course) === 'undefined') {
-    res.sendStatus(400)
-    return
-  }
-
-  // If the requested course is in the favoriteCourses array, remove it
-  var i = user.favoriteCourses.indexOf(req.body.course)
-  if (i !== -1) {
-    user.favoriteCourses.splice(i, 1)
-
-    user.save(function (error) {
-      if (error) {
-        console.log(error)
-        res.sendStatus(500)
-        return
-      }
-      res.sendStatus(200)
+  userModel.update({
+    _id: user._id
+  }, {
+    $addToSet: {
+      favoriteCourses: parseInt(req.params.id)
+    }
+  }, function (err) {
+    if (err) {
+      res.sendStatus(500)
       return
-    })
-  } else {
+    }
     res.sendStatus(200)
-  }
+  })
+}).delete(function (req, res) {
+  var user = req.app.get('user')
+  console.log(user)
+  userModel.update({
+    _id: user._id
+  }, {
+    $pull: {
+      favoriteCourses: parseInt(req.params.id)
+    }
+  }, function (err) {
+    if (err) {
+      res.sendStatus(500)
+      return
+    }
+    res.sendStatus(200)
+  })
 })
 
 // Respond to a request for a list of this user's favorite courses
