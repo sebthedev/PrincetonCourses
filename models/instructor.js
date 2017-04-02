@@ -21,6 +21,25 @@ instructorSchema.virtual('fullName').get(function () {
   return this.firstName + ' ' + this.name.last
 })
 
+// Create an index on this schema which allows for awesome weighted text searching
+instructorSchema.index({
+  'name.first': 'text',
+  'name.last': 'text'
+}, {
+  'weights': {
+    'name.first': 1,
+    'name.last': 2
+  },
+  name: 'InstructorRelevance'
+})
+
+// Catch errors when creating the textindex
+instructorSchema.on('index', function (error) {
+  if (error) {
+    console.log(error.message)
+  }
+})
+
 instructorSchema.statics.upsertInstructor = function (emplid, firstName, lastName) {
   var instructorModel = mongoose.model('Instructor', instructorSchema)
 

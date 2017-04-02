@@ -7,11 +7,10 @@
 function newDOMResult(course, props) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
-  var hasScore = (course.evaluations.hasOwnProperty('scores')
-               && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
+  var hasScore = (course.hasOwnProperty('scores') && course.scores.hasOwnProperty('Overall Quality of the Course'))
 
   if (hasScore)
-    var score = course.evaluations.scores['Overall Quality of the Course']
+    var score = course.scores['Overall Quality of the Course']
 
   // append semester if appropriate
   var semester = props.hasOwnProperty('semester') ? ' (' + course.semester.name + ')' : ''
@@ -28,7 +27,7 @@ function newDOMResult(course, props) {
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item search-result">'
+    '<li class="list-group-item search-result" data-courseID="' + course._id + '">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + getListings(course) + semester + tags + '</strong>'

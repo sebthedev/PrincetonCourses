@@ -20,12 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Load internal modules
-var config = require('./config')
-var auth = require('./authentication.js')
-var api = require('./api.js')
+var config = require('./controllers/config')
+var auth = require('./controllers/authentication.js')
+var api = require('./controllers/api.js')
 
 // Connect to the database
-require('./database.js')
+require('./controllers/database.js')
 
 // Configure the app to save a cookie with two attributes (for netid and status)
 app.use(session({ keys: ['key1', 'key2'] }))
@@ -37,8 +37,8 @@ app.use('*', auth.loadUser)
 app.use('/auth', auth.router)
 app.use('/api', api.router)
 
-// Route a request for the homepage
-app.get('/', function (req, res) {
+// Route a request for the app
+app.get(['/', '/course/:id'], function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
     // The user in unauthenticated. Display a splash page.
