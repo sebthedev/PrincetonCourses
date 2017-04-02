@@ -12,15 +12,6 @@ var semesterSchema = new mongoose.Schema({
   end_date: String
 })
 
-semesterSchema.statics.getAllSemesters = function (callback) {
-  this.find({}, function (err, semesters) {
-    if (err) {
-      console.log(err)
-    }
-    callback(semesters)
-  })
-}
-
 // Create the Semester model from the courseSchema
 var Semester = mongoose.model('Semester', semesterSchema)
 
