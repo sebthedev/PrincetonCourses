@@ -202,8 +202,6 @@ router.get('/course/:id', function (req, res) {
   Promise.all([queryCoursePromise, otherSemestersPromise]).then(function (results) {
     var queryCourse = results[0]
 
-    console.log(results[1].length)
-
     if (queryCourse === null) {
       res.sendStatus(404)
     } else {
