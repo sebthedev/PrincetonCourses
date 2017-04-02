@@ -1,9 +1,14 @@
+// dependencies: module.js, search.js
+
+
+// initialization
 $(document).ready(function() {
 
   init_panes();
   init_searchpane();
   init_search();
   init_globals();
+  init_favorites();
 
 })
 
@@ -64,6 +69,26 @@ var init_globals = function() {
   $.get('/api/user/favorites', function(courses) {
     for (var course in courses) {
       document.favorites.push(courses[course]["_id"])
+    }
+  })
+}
+
+// to initialize favorites list
+var init_favorites = function() {
+  // call api to get favorites and display
+  $.get('/api/user/favorites', function(courses) {
+
+    $('#favorite-header').css('display', (courses == undefined || courses.length == 0) ? 'none' : '')
+
+    $('#favs').html('');
+    $('#favorite-title').html('');
+
+    $('#favorite-title').append(courses.length + ' Favorite Course' + (courses.length !== 1 ? 's' : ''))
+    for (var courseIndex in courses) {
+      var thisCourse = courses[courseIndex];
+
+      // append favorite into favs pane
+      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1}));
     }
   })
 }
