@@ -121,18 +121,20 @@ courseModel.find({}, function (error, courses) {
           coursesPendingProcessing--
 
           // Save the evaluation data (if it exists)
-          thisCourse.evaluations = courseEvaluationData
-          thisCourse.save(function (error) {
-            if (error) {
-              console.log(error)
-            }
+          if (courseEvaluationData !== {}) {
+            thisCourse.evaluations = courseEvaluationData
+            thisCourse.save(function (error) {
+              if (error) {
+                console.log(error)
+              }
 
-            // Quit if there are no more courses pending processing
-            if (coursesPendingProcessing <= 1) {
-              console.log('Fetched and saved all the requested course evaluations.')
-              process.exit(0)
-            }
-          })
+                  // Quit if there are no more courses pending processing
+              if (coursesPendingProcessing <= 1) {
+                console.log('Fetched and saved all the requested course evaluations.')
+                process.exit(0)
+              }
+            })
+          }
         })
       }, 100)
     } else {
