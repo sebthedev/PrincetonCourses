@@ -169,9 +169,20 @@ router.get('/course/:id', function (req, res) {
   // Query the database for the evaluations of all the semesters of the requested course
   var otherSemestersPromise = courseModel.find({
     courseID: req.params.id.substring(4),
-    scores: {
-      $exists: true
-    }
+    $and: [
+      {
+        scores: {
+          $exists: true
+        }
+      },
+      {
+        scores: {
+          $not: {
+            $eq: {}
+          }
+        }
+      }
+    ]
   }, {
     scores: 1,
     semester: 1,

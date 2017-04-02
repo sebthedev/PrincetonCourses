@@ -17,7 +17,6 @@ var cas = new CentralAuthenticationService({
 })
 
 router.use('*', function (req, res, next) {
-  console.log('In router!')
   next()
 })
 
