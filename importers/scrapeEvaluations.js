@@ -114,10 +114,10 @@ courseModel.find({}, function (error, courses) {
           return
         }
 
-        console.log('Processing course %d in semester %d. (Course %d of %d).', thisCourse.courseID, thisCourse.semester.code, courseIndex, courses.length)
+        console.log('Processing course %d in semester %d. (Course %d of %d).', thisCourse.courseID, thisCourse.semester._id, courseIndex, courses.length)
 
         // Fetch the evaluation data
-        getCourseEvaluationData(thisCourse.semester.code, thisCourse.courseID, function (courseEvaluationData) {
+        getCourseEvaluationData(thisCourse.semester._id, thisCourse.courseID, function (courseEvaluationData) {
           coursesPendingProcessing--
 
           // Save the evaluation data (if it exists)

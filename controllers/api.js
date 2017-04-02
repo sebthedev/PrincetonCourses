@@ -393,7 +393,7 @@ router.get('/user/favorites', function (req, res) {
 
 // Respond to requests for semester listings
 router.get('/semesters', function (req, res) {
-  semesterModel.find().sort({code: -1}).exec(function (err, semesters) {
+  semesterModel.find().sort({_id: -1}).exec(function (err, semesters) {
     if (err) {
       console.log(err)
       res.status(500)

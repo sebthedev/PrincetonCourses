@@ -77,7 +77,6 @@ var importTerm = function (term) {
     _id: term.code
   }, {
     _id: term.code,
-    code: term.code,
     name: term.cal_name,
     start_date: term.start_date,
     end_date: term.end_date

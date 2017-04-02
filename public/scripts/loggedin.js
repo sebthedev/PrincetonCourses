@@ -139,7 +139,7 @@ $(document).ready(function () {
                                 + (thisCourse.website == undefined ? '' : ' <a href="' + thisCourse.website
                                                                           + '" target="_blank"><i class="fa fa-link"></i></a>')
                                 + ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml?courseid=' + thisCourse["courseID"]
-                                          + '&term=' + thisCourse["semester"]["code"] + '" target="_blank"><i class="fa fa-external-link"></i></a>')
+                                          + '&term=' + thisCourse["semester"]["_id"] + '" target="_blank"><i class="fa fa-external-link"></i></a>')
 
         //$('#fav-button')[0].course = thisCourse;
         //$('#comments').append(thisCourse.evaluations.studentComments)
@@ -401,7 +401,7 @@ $(document).ready(function () {
   $.get('/api/semesters', function (semesters) {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
-      $('#semester').append('<option value="' + thisSemester.code + '">' + thisSemester.name + '</select>')
+      $('#semester').append('<option value="' + thisSemester._id + '">' + thisSemester.name + '</select>')
     }
   })
 

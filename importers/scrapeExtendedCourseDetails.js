@@ -179,10 +179,10 @@ courseModel.find({}, function (error, courses) {
           return
         }
 
-        console.log('Processing course %s in semester %d. (Course %d of %d).', thisCourse.courseID, thisCourse.semester.code, courseIndex, courses.length)
+        console.log('Processing course %s in semester %d. (Course %d of %d).', thisCourse.courseID, thisCourse.semester._id, courseIndex, courses.length)
 
         // Fetch the evaluation data
-        getCourseListingData(thisCourse.semester.code, thisCourse.courseID, function (courseData) {
+        getCourseListingData(thisCourse.semester._id, thisCourse.courseID, function (courseData) {
           for (var index in courseData) {
             thisCourse[index] = courseData[index]
           }

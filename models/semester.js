@@ -6,7 +6,6 @@ var mongoose = require('mongoose')
 // Define the semesterSchema
 var semesterSchema = new mongoose.Schema({
   _id: Number,
-  code: Number,
   name: String,
   start_date: String,
   end_date: String
