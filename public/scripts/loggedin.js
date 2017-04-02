@@ -145,8 +145,8 @@ $(document).ready(function () {
         //$('#comments').append(thisCourse.evaluations.studentComments)
         // stuff for course evaluations
         var evals = ""
-        for (var field in thisCourse.evaluations[0].evaluations.scores) {
-          var val = thisCourse.evaluations[0].evaluations.scores[field]
+        for (var field in thisCourse.evaluations[0].scores) {
+          var val = thisCourse.evaluations[0].scores[field]
           evals += '<div>' + field + '</div>'
                  + '<div class="progress"><div class="progress-bar" role="progressbar" '
                  + 'style="width: ' + (val*20) + '%; background-color: ' + colorAt(val) + '"><strong>'
@@ -161,8 +161,8 @@ $(document).ready(function () {
 
         // stuff for student comments
         var comments = ""
-        for (var studentComment in thisCourse.evaluations[0].evaluations.studentComments) {
-            var val = thisCourse.evaluations[0].evaluations.studentComments[studentComment]
+        for (var studentComment in thisCourse.evaluations[0].comments) {
+            var val = thisCourse.evaluations[0].comments[studentComment].comment
             comments += '<li class="comments-list-comment">' + val + '</li>'
         }
         if (comments == "") {

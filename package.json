@@ -13,7 +13,8 @@
     "loglevel" : ">=1.4.1",
     "body-parser" : ">=1.17.0",
     "cheerio" : ">=0.22.0",
-    "prompt" : ">=1.0.0"
+    "prompt" : ">=1.0.0",
+    "prompt-promise" : ">=1.0.3"
   },
   "devDependencies": {},
   "scripts": {

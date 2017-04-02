@@ -89,7 +89,9 @@ router.get('/search/:query', function (req, res) {
       otherrequirements: 0,
       prerequisites: 0,
       semesters: 0,
-      instructors: 0
+      instructors: 0,
+      comments: 0,
+      website: 0
     })
   }
 
@@ -153,7 +155,7 @@ router.get('/search/:query', function (req, res) {
   })
 })
 
-// Respond to requests for a course
+// Return all the information about a specific semester of a course
 router.get('/course/:id', function (req, res) {
   // Validate that the request is correct
   if ((typeof (req.params.id) === 'undefined') || isNaN(req.params.id)) {
@@ -161,19 +163,28 @@ router.get('/course/:id', function (req, res) {
     return
   }
 
-  // Construct the promise for the query for the requested course
-  var queryCoursePromise = courseModel.findOne({_id: req.params.id}).exec()
+  // Query the database for the information about the requested course
+  var queryCoursePromise = courseModel.findOne({_id: req.params.id}, {scores: 0}).exec()
 
-  // Construct the promise for the query for the evaluations of all the semesters of this course for which evaluations exist
-  var courseID = req.params.id.substring(4)
+  // Query the database for the evaluations of all the semesters of the requested course
   var otherSemestersPromise = courseModel.find({
-    courseID: courseID,
-    evaluations: {$exists: true}
+    courseID: req.params.id.substring(4),
+    scores: {
+      $exists: true
+    }
   }, {
-    evaluations: 1,
+    scores: 1,
     semester: 1,
     instructors: 1,
-    _id: 0
+    _id: 1
+  }).populate({ // Populate the comments field of these courses with the evaluations of
+    path: 'comments',
+    options: {
+      sort: {
+        votes: -1,
+        comment: 1
+      }
+    }
   }).sort({semester: -1}).exec()
 
   // Resolve the promises
@@ -185,6 +196,7 @@ router.get('/course/:id', function (req, res) {
     } else {
       queryCourse = queryCourse.toObject()
       queryCourse.evaluations = results[1]
+      delete queryCourse.comments
       res.json(queryCourse)
     }
   }).catch(function (err) {
@@ -194,6 +206,7 @@ router.get('/course/:id', function (req, res) {
 })
 
 // Respond to requests for course listings
+// DEPRECATED
 router.post('/courses', function (req, res) {
   // Check the request contains a query
   if (typeof (req.body.query) === 'undefined') {
