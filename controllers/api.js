@@ -143,10 +143,11 @@ router.get('/course/:id', function (req, res) {
   // Construct the promise for the query for the requested course
   var queryCoursePromise = courseModel.findOne({_id: req.params.id}).exec()
 
-  // Construct the promise for the query for the evaluations of all the semesters of this course
+  // Construct the promise for the query for the evaluations of all the semesters of this course for which evaluations exist
   var courseID = req.params.id.substring(4)
   var otherSemestersPromise = courseModel.find({
-    courseID: courseID
+    courseID: courseID,
+    evaluations: {$exists: true}
   }, {
     evaluations: 1,
     semester: 1,
