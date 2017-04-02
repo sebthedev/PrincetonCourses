@@ -1,4 +1,14 @@
 $(document).ready(function() {
+
+  init_panes();
+  init_searchpane();
+  init_search();
+  init_globals();
+
+})
+
+// to initialize draggability
+var init_panes = function() {
   $('#search-pane').resizable({
     handles: 'e'
   })
@@ -6,8 +16,10 @@ $(document).ready(function() {
   $('#info-pane').resizable({
     handles: 'w'
   })
+}
 
-
+// to initalize search pane section collapsing
+var init_searchpane = function() {
   $('#favorite-courses').css('max-height', '30%')
 
     // toggle display of favorite things
@@ -33,4 +45,25 @@ $(document).ready(function() {
     $('#search-results').slideToggle()
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
-})
+}
+
+// to initialize searching function
+var init_search = function() {
+  // Every time a key is pressed inside the #searchbox, call the searchForCourses function
+  $('#searchbox').keyup(searchForCourses)
+  $('#semester, #sort').change(searchForCourses)
+}
+
+// to initialize global data
+var init_globals = function() {
+  // Saving the user's netid so it is globally available
+  document.netid = $("#netid").text()
+
+  // construct local favorites list
+  document.favorites = []
+  $.get('/api/user/favorites', function(courses) {
+    for (var course in courses) {
+      document.favorites.push(courses[course]["_id"])
+    }
+  })
+}
