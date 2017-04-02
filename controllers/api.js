@@ -3,9 +3,9 @@ var router = express.Router()
 
 // Load internal modules
 var auth = require('./authentication.js')
-var courseModel = require('./course.js')
-var semesterModel = require('./semester.js')
-var instructorModel = require('./instructor.js')
+var courseModel = require.main.require('./models/course.js')
+var semesterModel = require.main.require('./models/semester.js')
+var instructorModel = require.main.require('./models/instructor.js')
 
 // Check that the user is authenticated
 router.all('*', function (req, res, next) {

@@ -7,7 +7,7 @@ var CentralAuthenticationService = require('cas')
 
 // Load internal modules
 var config = require('./config.js')
-var UserModel = require('./user.js')
+var UserModel = require.main.require('./models/user.js')
 
 // Configure CAS authentication
 var casURL = 'https://fed.princeton.edu/cas/'

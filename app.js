@@ -20,12 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Load internal modules
-var config = require('./config')
-var auth = require('./authentication.js')
-var api = require('./api.js')
+var config = require('./controllers/config')
+var auth = require('./controllers/authentication.js')
+var api = require('./controllers/api.js')
 
 // Connect to the database
-require('./database.js')
+require('./controllers/database.js')
 
 // Configure the app to save a cookie with two attributes (for netid and status)
 app.use(session({ keys: ['key1', 'key2'] }))
