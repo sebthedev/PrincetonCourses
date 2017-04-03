@@ -70,6 +70,15 @@ var init_search = function() {
   // Every time a key is pressed inside the #searchbox, call the searchForCourses function
   $('#searchbox').keyup(searchForCourses)
   $('#semester, #sort').change(searchForCourses)
+
+  // load the semesters for the dropdown
+  $('#semester').html('')
+  $.get('/api/semesters', function (semesters) {
+    for (var semesterIndex in semesters) {
+      var thisSemester = semesters[semesterIndex]
+      $('#semester').append('<option value="' + thisSemester._id + '">' + thisSemester.name + '</select>')
+    }
+  })
 }
 
 // to initialize global data

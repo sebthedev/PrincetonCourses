@@ -2,34 +2,32 @@
 
 // function for updating search results
 var searchForCourses = function () {
-  // Construct the search query
-  var query = {
-    $text: {
-      $search: $('#searchbox').val()
-    },
-    semester: $('#semester').val()
-  }
+  // return if no search
+  if ($('#searchbox').val() === '') return false
 
-  // Send the query to the server
-  $.post('/api/courses', {
-    query: JSON.stringify(query),
-    sort: $('#sort').val(),
-    brief: true
-  }, function (courses, status) {
-    // Basic error handling
-    if (status !== 'success') {
+  // construct search query
+  var search = '/api/search/'
+  search += encodeURIComponent($('#searchbox').val())
+  search += '?semester=' + $('#semester').val()
+  search += '&sort=' + $('#sort').val()
+
+  // search!
+  $.get(search, function (results, success) {
+    if (!success) {
       window.alert('An error occured and your search could not be completed.')
+      return false
     }
 
     // Remove any search results already in the results pane
     $('#results').children().remove()
 
     // Update the search results sub-heading
-    $('#search-title').text(courses.length + ' Search Result' + (courses.length !== 1 ? 's' : ''))
+    $('#search-title').text(results.length + ' Search Result' + (results.length !== 1 ? 's' : ''))
 
     // List the returned courses in the search results pane
-    for (var courseIndex in courses) {
-      var thisCourse = courses[courseIndex]
+    for (var index in results) {
+      var thisCourse = results[index]
+      document.debug = thisCourse
       $('#results').append(newDOMResult(thisCourse, {"tags": 1}))
     }
   })
