@@ -30,9 +30,11 @@ function newDOMEval(eval) {
     + '<div class="flex-item-stretch">'
       + eval.comment
     + '</div>'
-    + '<div class="flex-item-rigid">'
-      + eval.votes + ' '
-      + '<i class="fa fa-thumbs-up"></i>'
+    + '<div class="flex-item-rigid flex-eval">'
+      + '<span>'
+        + eval.votes + ' '
+        + '<i class="fa fa-thumbs-up"></i>'
+      + '</span>'
     + '</div>'
   + '</li>'
   )

@@ -210,6 +210,7 @@ body {
 }
 #disp-subtitle {
   margin: 0;
+  padding-bottom: 5px;
 }
 #disp-subtitle-right {
   margin: 0;
@@ -234,14 +235,26 @@ body {
 }
 
 .disp-section-body {
-  background-color: #eee;
+  background-color: #fff;
   padding: 10px;
+  border-radius: 4px; /* consistent with bootstrap */
 }
 
 /* EVALS PANE CSS */
 #evals-pane {
   padding: 0 10px 10px;
   overflow-y: auto;
+}
+
+.eval-result {
+  padding: 5px 8px;
+}
+
+.flex-eval {
+  margin-left: 8px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
 }
 
 /* FEEDBACK CSS */
