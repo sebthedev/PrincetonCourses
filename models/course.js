@@ -8,7 +8,10 @@ require('./evaluation.js')
 // Define the courseSchema
 var courseSchema = new mongoose.Schema({
   _id: Number,
-  courseID: String,
+  courseID: {
+    type: String,
+    index: true
+  },
   catalogNumber: {
     type: String,
     trim: true,
