@@ -17,7 +17,8 @@ var evaluationSchema = new mongoose.Schema({
   course: {
     required: true,
     type: String,
-    ref: 'Course'
+    ref: 'Course',
+    index: true
   }
 })
 

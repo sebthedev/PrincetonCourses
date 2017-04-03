@@ -320,7 +320,7 @@ $(document).ready(function () {
   $(document).ready(function() {
       // On pageload, check if the URL contains a valid course
       var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
-      if (pathnameMatch.length === 2) {
+      if (pathnameMatch !== null && pathnameMatch.length === 2) {
           // Load the course
           displayCourseDetails(pathnameMatch[1])
       }

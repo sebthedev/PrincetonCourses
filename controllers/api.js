@@ -7,11 +7,12 @@ var courseModel = require.main.require('./models/course.js')
 var semesterModel = require.main.require('./models/semester.js')
 var instructorModel = require.main.require('./models/instructor.js')
 var userModel = require.main.require('./models/user.js')
+var evaluationModel = require.main.require('./models/evaluation.js')
 
 // Check that the user is authenticated
 router.all('*', function (req, res, next) {
   if (!auth.userIsAuthenticated(req)) {
-    res.sendStatus(403)
+    res.sendStatus(401)
   } else {
     next()
   }
@@ -359,7 +360,7 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
   })
 }).delete(function (req, res) {
   var user = req.app.get('user')
-  console.log(user)
+
   userModel.update({
     _id: user._id
   }, {
@@ -400,6 +401,110 @@ router.get('/semesters', function (req, res) {
     } else {
       res.status(200).json(semesters)
     }
+  })
+})
+
+router.route('/evaluations/:id/votes').all(function (req, res, next) {
+  if (typeof (req.params.id) === 'undefined') {
+    res.sendStatus(400)
+    return
+  }
+  // evaluationModel.findById(mongoose.Types.ObjectId(req.params.id)).exec(function (err, evaluation) {
+  evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+    if (evaluation === null) {
+      res.sendStatus(404)
+      return
+    }
+    next()
+  })
+}).put(function (req, res) {
+  var user = req.app.get('user')
+
+  // Determine if the user has previous upvoted or downvoted this evaluation
+  var previouslyUpvoted = typeof (user.upvotedEvaluations) !== 'undefined' && user.upvotedEvaluations.indexOf(req.params.id) > -1
+  var previouslyDownvoted = typeof (user.downvotedEvaluations) !== 'undefined' && user.downvotedEvaluations.indexOf(req.params.id) > -1
+
+  // Verify that the user has not previously upvoted this evaluation
+  if (previouslyUpvoted) {
+    res.sendStatus(403)
+    return
+  }
+
+  // Upvote the evaluation
+  evaluationModel.findByIdAndUpdate(req.params.id, {
+    $inc: {
+      votes: (previouslyDownvoted) ? 2 : 1
+    }
+  }, function (err) {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+
+    // Return success to the client
+    res.sendStatus(200)
+
+    // Add the evaluation to the user's upvotedEvaluations and remove it from the user's downvotedEvaluations
+    userModel.findByIdAndUpdate(user._id, {
+      $addToSet: {
+        upvotedEvaluations: req.params.id
+      },
+      $pull: {
+        downvotedEvaluations: req.params.id
+      }
+    }, function (err) {
+      if (err) {
+        console.log(err)
+      }
+    })
+  })
+}).delete(function (req, res) {
+  var user = req.app.get('user')
+
+  // Determine if the user has previous upvoted or downvoted this evaluation
+  var previouslyUpvoted = typeof (user.upvotedEvaluations) !== 'undefined' && user.upvotedEvaluations.indexOf(req.params.id) > -1
+  var previouslyDownvoted = typeof (user.downvotedEvaluations) !== 'undefined' && user.downvotedEvaluations.indexOf(req.params.id) > -1
+
+  // Verify that the user has not previously upvoted this evaluation
+  if (previouslyDownvoted) {
+    res.sendStatus(403)
+    return
+  }
+
+  // Upvote the evaluation
+  evaluationModel.findByIdAndUpdate(req.params.id, {
+    $inc: {
+      votes: (previouslyUpvoted) ? -2 : -1
+    }
+  }, function (err) {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+
+    // Return success to the client
+    res.sendStatus(200)
+
+    // Add the evaluation to the user's upvotedEvaluations and remove it from the user's downvotedEvaluations
+    userModel.findByIdAndUpdate(user._id, {
+      $addToSet: {
+        downvotedEvaluations: req.params.id
+      },
+      $pull: {
+        upvotedEvaluations: req.params.id
+      }
+    }, function (err) {
+      if (err) {
+        console.log(err)
+      }
+    })
   })
 })
 
