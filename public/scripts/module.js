@@ -118,13 +118,10 @@ var toggleFav = function() {
   updateFavList(course)
 
   // update database
-  console.log((i === -1) ? 'PUT' : 'DELETE')
   $.ajax({
     url: '/api/user/favorites/' + thisCourseId,
     type: (i === -1) ? 'PUT' : 'DELETE'
-}).done(function (data, status) {
-    console.log(data, status)
-})
+  })
 
   return false;
 }
