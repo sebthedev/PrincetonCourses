@@ -47,8 +47,7 @@ var updateFavList = function(course) {
 }
 
 // handles click of favorite icon
-var toggleFav = function() {
-  var course = $(this).parents("li.search-result")[0].course
+var toggleFav = function(course) {
   var thisCourseId = this.courseId
   var i = document.favorites.indexOf(thisCourseId)
 

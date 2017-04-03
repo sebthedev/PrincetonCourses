@@ -1,3 +1,5 @@
+// dependencies: module.js, fav.js
+
 // function for displaying course details for a result
 var displayResult = function() {
   // Push to the history this course
@@ -16,6 +18,8 @@ var displayCourseDetails = function(courseID) {
         window.alert('An error occured and your course could not be displayed.')
         return
       }
+
+      document.course = course;
 
       display_titles(course);
       display_instructors(course);
@@ -161,14 +165,40 @@ var displayCourseDetails = function(courseID) {
   })
 }
 
-// display course data for title and subtitle
+// display course data for title and subtitle. TODO: favoriting
 var display_titles = function(course) {
   // refresh
   $('#disp-title').html('')
+  $('#disp-title-right').html('')
   $('#disp-subtitle').html('')
   $('#disp-subtitle-right').html('')
 
-  $('#disp-title').append(course.title)
+  var website = (course.website === undefined ? '' : ' <a href="' + course.website
+                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
+
+  $('#disp-title').append(course.title + website)
+
+  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
+
+  var hasScore = false;
+  for (var index in course.evaluations) {
+    var eval = course.evaluations[index]
+    if (eval.semester._id === course.semester._id) {
+      if (eval.hasOwnProperty('scores') && eval.scores.hasOwnProperty('Overall Quality of the Course')) {
+        var score = eval.scores['Overall Quality of the Course']
+        hasScore = true;
+      }
+    }
+  }
+
+  var htmlString = '<i class="fa fa-heart ' /*+ (isFav ? 'unfav-icon' : 'fav-icon')*/ + '"></i> '
+                 + '<span class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+                   + (hasScore ? score.toFixed(2) : 'N/A')
+                 + '</span>'
+
+  $('#disp-title-right').append(htmlString)
+  $('#disp-title-right').find('i')[0].courseId = course["_id"]   // link to course id for fav icon
+  //$('#disp-title-right').find('i').click(function() {return toggleFav(course)})              // enable click to fav/unfav
 
   // string for course listings
   var listings = mainListing(course) + crossListings(course)
