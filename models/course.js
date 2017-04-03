@@ -56,6 +56,7 @@ var courseSchema = new mongoose.Schema({
     }
   }],
   scores: {},
+  scoresFromPreviousSemester: Boolean,
   distribution: {
     type: String,
     uppercase: true,
