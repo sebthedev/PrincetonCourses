@@ -1,6 +1,13 @@
 # API Documentation
 Princeton Courses uses a [RESTful API](https://en.wikipedia.org/wiki/Representational_state_transfer) to communicate between the client and server. This documentation explains the endpoints that are available for client use.
 
+### Available endpoints
+* [/auth/login](#login)
+* [/auth/logout](#logout)
+* [/api/search/:query](#search-for-courses-and-instructors)
+* [/api/course/:id](#course)
+* [/api/instructor/:id](#instructor)
+
 ## Authentication
 ### Login
 ```HTTP
