@@ -34,3 +34,37 @@ $.get('/api/search/Advanced%20Programming?semester=1164', function (results, suc
   }
 })
 ```
+
+### Course
+```HTTP
+GET /api/course/:id
+```
+Return a JSON object of all the information about the course with the ID `:id`. Returns `400 Bad Request` if `:id` is not a number and `404 Not Found` if the course doesn't exist in the database.
+
+In addition to the information contained in the database about the specified semester of the course, the JSON object returned will have an `evaluations` property. This is an array of the semesters for which evaluations exist for this course (sorted with the most recent semester first). Each semester contains the `scores`, `comments`, and `instructors` for that semester.
+
+#### Example
+The following is a JavaScript example (using jQuery) of fetching the information about COS 333 in Spring 2017.
+```JavaScript
+$.get('/api/course/1174002065', function (course, success) {
+  if (success) {
+    console.log(course)
+  }
+})
+```
+
+### Instructor
+```HTTP
+GET /api/instructor/:id
+```
+Return a JSON object of all the information about the instructor with the ID `:id`. Returns `400 Bad Request` if `:id` is not a number and `404 Not Found` if the course doesn't exist in the database.
+
+#### Example
+The following is a JavaScript example (using jQuery) of fetching the information about Brian Kernighan.
+```JavaScript
+$.get('/api/instructor/10043181', function (instructor, success) {
+  if (success) {
+    console.log(instructor)
+  }
+})
+```
