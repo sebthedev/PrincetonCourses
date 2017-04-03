@@ -1,7 +1,9 @@
 // update the favorites data for search pane
-var updateSearchFav = function() {
+var updateSearchFav = function(course) {
+  var thisCourseId = course._id
+
   $("#results").children().each(function() {
-    var isFav = (document.favorites.indexOf(this.course["_id"]) !== -1)
+    var isFav = (document.favorites.indexOf(this.course._id) !== -1)
 
     var icon = $(this).find("i")
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
@@ -11,7 +13,7 @@ var updateSearchFav = function() {
 
 // update the display of favorites upon new fav/unfav from course
 var updateFavList = function(course) {
-  var thisCourseId = course["_id"]
+  var thisCourseId = course._id
 
   $('#favorite-title').html('')
   $('#favorite-title').append(document.favorites.length + ' Favorite Course'+ (document.favorites.length !== 1 ? 's' : ''))
@@ -48,7 +50,8 @@ var updateFavList = function(course) {
 
 // handles click of favorite icon
 var toggleFav = function(course) {
-  var thisCourseId = this.courseId
+  var thisCourseId = course._id
+
   var i = document.favorites.indexOf(thisCourseId)
 
   // update local list
@@ -58,16 +61,13 @@ var toggleFav = function(course) {
     document.favorites.splice(i, 1)
 
   // update display
-  updateSearchFav()
+  updateSearchFav(course)
   updateFavList(course)
 
   // update database
-  console.log((i === -1) ? 'PUT' : 'DELETE')
   $.ajax({
     url: '/api/user/favorites/' + thisCourseId,
     type: (i === -1) ? 'PUT' : 'DELETE'
-  }).done(function (data, status) {
-    console.log(data, status)
   })
 
   return false;

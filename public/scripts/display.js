@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js
+// dependencies: module.js, fav.js, eval.js
 
 // function for displaying course details for a result
 var displayResult = function() {
@@ -30,7 +30,7 @@ var displayCourseDetails = function(courseID) {
       display_equivalent(course);
       display_other(course);
       display_classes(course);
-
+      display_evals(course); // in eval.js
   })
 }
 

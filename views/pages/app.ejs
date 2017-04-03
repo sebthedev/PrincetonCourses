@@ -3,6 +3,7 @@
 <head>
   <% include ../partials/header.ejs %>
   <script src="/scripts/module.js"></script>
+  <script src="/scripts/eval.js"></script>
   <script src="/scripts/fav.js"></script>
   <script src="/scripts/display.js"></script>
   <script src="/scripts/search.js"></script>
@@ -241,9 +242,9 @@
                 <h5 class="flex-item-stretch truncate"><strong>Student Comments</strong></h5>
                 <h5 class="flex-item-rigid"><i id="evals-comments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
-              <div id="evals-comments-body" class="disp-section-body">
-                Student comments be here
-              </div>
+              <ul id="evals-comments-body" class="list-group">
+
+              </ul>
             </div>
           </div>
           <div id="info-pane" class="flex-item-rigid">

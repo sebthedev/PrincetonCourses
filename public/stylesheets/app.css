@@ -47,6 +47,7 @@ body {
   flex-grow: 10000;
   flex-shrink: 10000;
   flex-basis: 0;
+  overflow: hidden;
 }
 .flex-item-scroll {
   flex-grow: 0;

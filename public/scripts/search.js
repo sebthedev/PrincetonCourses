@@ -33,13 +33,43 @@ var searchForCourses = function () {
   })
 }
 
+// returns a DOM object for a search result
+function newDOMResult(result, props) {
+  if (result.type === 'instructor') return newDOMinstructorResult(result, props)
+  /*if (result.type === 'course')*/ return newDOMcourseResult(result, props)
+}
+
+// returns a DOM object for a search result of an instructor
+function newDOMinstructorResult(instructor, props) {
+  var name = instructor.name.first + ' ' + instructor.name.last
+
+  // html string for the DOM object
+  var htmlString = (
+    '<li class="list-group-item search-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + name + '</strong>'
+      + '</div>'
+      + '<div class="flex-item-rigid">'
+        + instructor.courses.length
+      + '</div>'
+    + '</div>'
+  + '</li>'
+  )
+
+  var entry = $.parseHTML(htmlString)[0]           // create DOM object
+  entry.instructor = instructor
+
+  return entry
+}
+
 // returns a DOM object for a search or favorite result of a course
 // includes:
 //   -- course object linking
 //   -- clicking to favorite/unfavorite (+ course id linking for icon)
 // props: properties for conditional rendering:
 //  - 'semester' is defined => displays semester name too
-function newDOMResult(course, props) {
+function newDOMcourseResult(course, props) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
   var hasScore = (course.hasOwnProperty('scores') && course.scores.hasOwnProperty('Overall Quality of the Course'))
