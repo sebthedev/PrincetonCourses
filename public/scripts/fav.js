@@ -63,19 +63,13 @@ var toggleFav = function() {
   updateFavList(course)
 
   // update database
-  if (i === -1) {
-    $.ajax({
-      url: '/api/user/favorite',
-      type: 'PUT',
-      data: {'course': thisCourseId}
-    })
-  } else {
-    $.ajax({
-      url: '/api/user/favorite',
-      type: 'DELETE',
-      data: {'course': thisCourseId}
-    })
-  }
+  console.log((i === -1) ? 'PUT' : 'DELETE')
+  $.ajax({
+    url: '/api/user/favorites/' + thisCourseId,
+    type: (i === -1) ? 'PUT' : 'DELETE'
+  }).done(function (data, status) {
+    console.log(data, status)
+  })
 
   return false;
 }
