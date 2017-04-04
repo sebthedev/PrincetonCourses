@@ -72,11 +72,15 @@ var init_search = function() {
   $('#semester, #sort').change(searchForCourses)
 
   // load the semesters for the dropdown
-  $('#semester').html('')
+  $('#semester').children(":not([disabled])").remove()
   $.get('/api/semesters', function (semesters) {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
-      $('#semester').append('<option value="' + thisSemester._id + '">' + thisSemester.name + '</select>')
+      var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
+      if (semesterIndex == 0) {
+        option.attr('selected', true)
+      }
+      $('#semester').append(option)
     }
   })
 }
