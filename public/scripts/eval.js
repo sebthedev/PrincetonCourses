@@ -4,6 +4,10 @@
 function display_evals(course) {
   evals_semesters(course)
 
+  // refresh
+  $('#evals-numeric-body').children().remove()
+  $('#evals-comments-body').children().remove()
+
   // find correct semester
   for (var index in course.evaluations) {
     var eval = course.evaluations[index]
@@ -12,6 +16,22 @@ function display_evals(course) {
       evals_numeric(eval)
     }
   }
+
+  evals_autotoggle('comments')
+  evals_autotoggle('numeric')
+}
+
+// shows/hides sections of no content
+var evals_autotoggle = function(section) {
+  var div = $('#evals-' + section)
+  var body = $('#evals-' + section + '-body')
+  var isEmpty = body.is(':empty')
+
+  if (isEmpty) body.append(
+    '<div class="list-group-item">'
+    + 'No data to display.'
+  + '</div>'
+  )
 }
 
 // display the semesters in the evals pane
@@ -24,13 +44,12 @@ function evals_semesters(course) {
     var eval = course.evaluations[index]
     $('#evals-semesters-body').append(newDOMsemesterEval(eval))
   }
+
+  evals_autotoggle('semesters')
 }
 
 // display numeric evaluations in evals pane
 function evals_numeric(evaluation) {
-  // refresh
-  $('#evals-numeric-body').children().remove()
-
   // go through numeric evaluations
   for (var field in evaluation.scores) {
     $('#evals-numeric-body').append(newDOMnumericEval(field, evaluation.scores[field]))
@@ -39,9 +58,6 @@ function evals_numeric(evaluation) {
 
 // display student comment evals in evals pane
 function evals_comments(evaluation) {
-  // refresh
-  $('#evals-comments-body').children().remove()
-
   // go through student comments
   for (var index in evaluation.comments) {
     var comment = evaluation.comments[index]
