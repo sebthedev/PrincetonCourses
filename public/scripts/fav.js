@@ -39,7 +39,7 @@ var updateFavList = function(course) {
   // if removing a favorite
   $("#favs").children().each(function() {
     // ignore if not this course
-    if (this.course["_id"] !== thisCourseId) return
+    if (this.course._id !== thisCourseId) return
 
     // remove
     $(this).slideToggle(function() {

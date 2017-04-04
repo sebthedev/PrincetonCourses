@@ -112,6 +112,7 @@ function newDOMcourseResult(course, props) {
 
   var entry = $.parseHTML(htmlString)[0]                       // create DOM object
   $(entry).find('i').click(function() {toggleFav(course)})     // enable click to fav/unfav
+  entry.course = course                                        // attach course object
   $(entry).click(function() {displayResult($(entry), course)}) // enable click to display
 
   return entry
