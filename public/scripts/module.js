@@ -1,21 +1,29 @@
 // returns as a string a color at the given score
 function colorAt(score) {
-  if (score > 4.5)
-    return '#2e7d32' // deeper green
-  else if (score > 4.0)
-    return '#4caf50' // brighter green
-  else if (score > 3.5)
-    return '#8bc34a' // lighter green
-  else if (score > 3.0)
-    return '#c6cf37' // olive
-  else if (score > 2.5)
-    return '#ffca28' // yellow
-  else if (score > 2.0)
-    return '#ef9100' // orange
-  else if (score > 1.5)
-    return '#d9534f' // brighter red
-  else
-    return '#bf360c' // deeper red
+
+  var val = score / 5.0;
+  var r = Math.floor( 255 * (1 - val) )
+  var g = Math.floor( 255 * val )
+  var b = 0;
+
+  return "rgb(" + r + "," + g + "," + b + ")"
+  
+  // if (score > 4.5)
+  //   return '#2e7d32' // deeper green
+  // else if (score > 4.0)
+  //   return '#4caf50' // brighter green
+  // else if (score > 3.5)
+  //   return '#8bc34a' // lighter green
+  // else if (score > 3.0)
+  //   return '#c6cf37' // olive
+  // else if (score > 2.5)
+  //   return '#ffca28' // yellow
+  // else if (score > 2.0)
+  //   return '#ef9100' // orange
+  // else if (score > 1.5)
+  //   return '#d9534f' // brighter red
+  // else
+  //   return '#bf360c' // deeper red
 }
 
 // returns a string of the main course listing of the given course
