@@ -1,6 +1,8 @@
+// dependencies: module.js
 
 // display course evals in the eval pane
 function display_evals(course) {
+  evals_semesters(course)
 
   // find correct semester
   for (var index in course.evaluations) {
@@ -9,6 +11,18 @@ function display_evals(course) {
       evals_comments(eval)
       evals_numeric(eval)
     }
+  }
+}
+
+// display the semesters in the evals pane
+function evals_semesters(course) {
+  // refresh
+  $('#evals-semesters-body').children().remove()
+
+  // go through semesters
+  for (var index in course.evaluations) {
+    var eval = course.evaluations[index]
+    $('#evals-semesters-body').append(newDOMsemesterEval(eval))
   }
 }
 
@@ -33,6 +47,38 @@ function evals_comments(evaluation) {
     var comment = evaluation.comments[index]
     $('#evals-comments-body').append(newDOMcommentEval(comment))
   }
+}
+
+// returns a DOM object for a semester entry of the displayed course
+function newDOMsemesterEval(evaluation) {
+  var professors = ''
+  for (var index in evaluation.instructors) {
+    var professor = evaluation.instructors[index]
+    professors += ', ' + professor.name.first + ' ' + professor.name.last
+  }
+  if (professors !== '') professors = '\xa0' + professors.substring(1)
+
+  var hasScore = (evaluation.hasOwnProperty('scores') && evaluation.scores.hasOwnProperty('Overall Quality of the Course'))
+
+  if (hasScore)
+    var score = evaluation.scores['Overall Quality of the Course']
+
+  var htmlString= (
+    '<li class="list-group-item flex-container-row">'
+    + '<div class="flex-item-stretch truncate">'
+      + '<strong>' + evaluation.semester.name + '</strong>'
+      + professors
+    + '</div>'
+    + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+      + (hasScore ? score.toFixed(2) : 'N/A')
+    + '</span>'
+  + '</li>'
+  )
+
+  var entry = $.parseHTML(htmlString)[0]       // create DOM object
+  entry.evaluation = evaluation
+
+  return entry
 }
 
 // returns a DOM object for a numeric eval of the displayed course
