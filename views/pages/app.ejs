@@ -31,8 +31,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#popup1" id="about-button">About</a></li>
+          <li><a href="#" id="about-button">About</a></li>
           <li class="active">
             <a id="nav-netid" href="auth/logout">
               <span id="netid">mshu</span>
@@ -71,124 +70,21 @@
           </div>
         </form>
         <div id="favorite-header" class="flex-item-rigid flex-container-row">
-          <h4 id="favorite-title" class="flex-item-stretch truncate">16 Favorite Courses</h4>
+          <h4 id="favorite-title" class="flex-item-stretch truncate">0 Favorite Courses</h4>
           <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus text-button"></i></h4>
         </div>
         <div id="favorite-courses" class="flex-item-shrink">
           <ul id="favs" class="list-group marginless">
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS126/EGR126 (Spring 2017)<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-danger-dim">N</span> <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge" style="background-color: #4caf50">4.27</span></div>
-              </div>
-              <div class="truncate">Computer Science: An Interdisciplinary Approach</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS518 (Spring 2017)<small>&nbsp; <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge" style="background-color: #c6cf37">3.35</span></div>
-              </div>
-              <div class="truncate">Advanced Computer Systems</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS583/ELE583 (Spring 2017)<small>&nbsp; <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge" style="background-color: #2e7d32">4.67</span></div>
-              </div>
-              <div class="truncate">Great Moments in Computing</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS217 (Spring 2017)<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge" style="background-color: #c6cf37">3.50</span></div>
-              </div>
-              <div class="truncate">Introduction to Programming Systems</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS226 (Spring 2017)<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart unfav-icon"></i> <span class="badge" style="background-color: #8bc34a">3.66</span></div>
-              </div>
-              <div class="truncate">Algorithms and Data Structures</div>
-            </li>
+            <!-- favorite list loads here -->
           </ul>
         </div>
         <div id="search-header" class="flex-item-rigid flex-container-row">
-          <h4 id="search-title" class="flex-item-stretch truncate">34 Search Results</h4>
+          <h4 id="search-title" class="flex-item-stretch truncate">0 Search Results</h4>
           <h4 class="flex-item-rigid"><i id="search-display-toggle" class="fa fa-minus text-button"></i></h4>
         </div>
         <div id="search-results" class="flex-item-scroll">
           <ul id="results" class="list-group marginless">
-            <li class="list-group-item search-result active">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS487/MAT407<small>&nbsp; <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #c6cf37">3.40</span></div>
-              </div>
-              <div class="truncate">Theory of Computation</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS109/EGR109<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-danger-dim">N</span> <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #8bc34a">3.98</span></div>
-              </div>
-              <div class="truncate">Computers in Our World</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS126/EGR126<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #4caf50">4.13</span></div>
-              </div>
-              <div class="truncate">General Computer Science</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS217<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #4caf50">4.22</span></div>
-              </div>
-              <div class="truncate">Introduction to Programming Systems</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS226<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #4caf50">4.23</span></div>
-              </div>
-              <div class="truncate">Algorithms and Data Structures</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS318<small>&nbsp; <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #8bc34a">3.64</span></div>
-              </div>
-              <div class="truncate">Operating Systems</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS326<small>&nbsp; <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #4caf50">4.12</span></div>
-              </div>
-              <div class="truncate">Functional Programming</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS340<small>&nbsp; <span class="text-info-dim">QR</span> <span class="text-warning-dim">A</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #8bc34a">3.72</span></div>
-              </div>
-              <div class="truncate">Reasoning about Computation</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS375/ELE375<small>&nbsp; <span class="text-info-dim">STN</span> <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge" style="background-color: #8bc34a">3.71</span></div>
-              </div>
-              <div class="truncate">Computer Architecture and Organization</div>
-            </li>
-            <li class="list-group-item search-result">
-              <div class="flex-container-row">
-                <div class="flex-item-stretch truncate"><strong>COS397<small>&nbsp; <span class="text-danger-dim">N</span></small></strong></div>
-                <div class="flex-item-rigid"><i class="fa fa-heart fav-icon"></i> <span class="badge">N/A</span></div>
-              </div>
-              <div class="truncate">Junior Independent Work (B.S.E. candidates only)</div>
-            </li>
+            <!-- results load here -->
           </ul>
         </div>
       </div>
@@ -196,15 +92,15 @@
       <div id="display-pane" class="flex-item-stretch flex-container-col">
         <div id="display-header" class="flex-item-rigid">
           <div class="flex-container-row">
-            <h3 id="disp-title" class="flex-item-stretch">COS487<small>/MAT407 <span class="label label-warning">PDF</span> <span class="label label-warning">AUDIT</span></small></h3>
+            <h3 id="disp-title" class="flex-item-stretch">Welcome to Princeton Courses!</h3>
             <h3 id="disp-title-right" class="flex-item-rigid">
-              <i class="fa fa-heart fav-icon"></i> <span id="disp-eval" class="badge badge-large" style="background-color: #c6cf37">3.40</span>
+              <!-- fav icon and eval badge go here -->
             </h3>
           </div>
           <div class="flex-container-row">
-            <h4 id="disp-subtitle" class="flex-item-stretch">Theory of Computation</h4>
+            <h4 id="disp-subtitle" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Search for a course to begin!</h4>
             <h4 id="disp-subtitle-right" class="flex-item-rigid">
-              <a href="https://registrar.princeton.edu/course-offerings/course_details.xml?courseid=002081&amp;term=1152" target="_blank"><i class="fa fa-external-link"></i></a>
+              <!-- link to registrar's page goes here -->
             </h4>
           </div>
         </div>
@@ -234,76 +130,76 @@
           </div>
           <div id="info-resizer" class="flex-item-rigid resizer"></div>
           <div id="info-pane" class="flex-item-rigid">
-            <div id="disp-instructors">
+            <div id="disp-instructors" style="display: none;">
               <div id="disp-instructors-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Instructors</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-instructors-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-instructors-body" class="list-group marginless">
-                Instructors be here
+                <!-- instructors go here -->
               </div>
             </div>
-            <div id="disp-description">
+            <div id="disp-description" style="display: none;">
               <div id="disp-description-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Description</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-description-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-description-body" class="list-group marginless">
-                Description be here
+                <!-- description goes here -->
               </div>
             </div>
-            <div id="disp-assignments">
+            <div id="disp-assignments" style="display: none;">
               <div id="disp-assignments-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Assignments</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-assignments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-assignments-body" class="list-group marginless">
-                Assignments be here
+                <!-- assignments go here -->
               </div>
             </div>
-            <div id="disp-grading">
+            <div id="disp-grading" style="display: none;">
               <div id="disp-grading-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Grading</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-grading-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-grading-body" class="list-group marginless">
-                Grading be here
+                <!-- grading goes here -->
               </div>
             </div>
-            <div id="disp-prerequisites">
+            <div id="disp-prerequisites" style="display: none;">
               <div id="disp-prerequisites-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Prerequisites</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-prerequisites-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-prerequisites-body" class="list-group marginless">
-                Prerequisites be here
+                <!-- prerequisites go here -->
               </div>
             </div>
-            <div id="disp-equivalent">
+            <div id="disp-equivalent" style="display: none;">
               <div id="disp-equivalent-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Equivalent Courses</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-equivalent-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-equivalent-body" class="list-group marginless">
-                Equivalent Courses be here
+                <!-- equivalent courses go here -->
               </div>
             </div>
-            <div id="disp-other">
+            <div id="disp-other" style="display: none;">
               <div id="disp-other-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Other Information</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-other-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-other-body" class="list-group marginless">
-                Other Information be here
+                <!-- other information goes here -->
               </div>
             </div>
-            <div id="disp-classes">
+            <div id="disp-classes" style="display: none;">
               <div id="disp-classes-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Classes</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-classes-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <div id="disp-classes-body" class="list-group marginless">
-                Classes be here
+                <!-- classes go here -->
               </div>
             </div>
           </div>

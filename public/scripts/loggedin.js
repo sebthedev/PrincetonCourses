@@ -1,3 +1,5 @@
+// MEL 4/4/17: DEPRECATED */
+
 // when document loads
 $(document).ready(function () {
 
