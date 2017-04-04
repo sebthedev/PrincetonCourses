@@ -61,6 +61,14 @@ var detectSectionClash = function(section1, section2) {
   return false
 } 
 
+var checkedAll = function(sectionIndex, maxLength) {
+	for (var i = 0; i < sectionIndex.length; i++) {
+		if (sectionIndex[i] != maxLength[i] - 1)
+			return false
+	}
+
+	return true
+}
 
 /* Seb, if you're reading this, I want you to know, I decided to not use a graph 
 for this because we would have to implement all the aspects of graphs here 
@@ -76,17 +84,15 @@ have to make a lot of sense. */
 
 var detectCourseClash = function (favoriteCourses, courses, excludeClashingCourses) {
   
-  //if no courses are favorited, no clashes can exist
-  if (favoriteCourses == []) {
+  //if no courses are favorited, or only one is no clashes can exist
+  if (favoriteCourses.length <= 1) {
     return courses
   }
-
 
   //since favorite courses exist, do initial clash detection within them
   //WARNING: THIS HINGES ON THE SECTIONS BEING ORDERED BY SECTION TYPE
 
   //populate all the sections of all the favorite courses
-
   var favCourseSectionsAll = [] //holds all the sections
   var favCourseSectionsInc = [] //holds whether a section can exist in a non-clash schedule
   var maxLength = [] //lengths of nested arrays in favCourseSectionsAll
@@ -98,13 +104,12 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
     var courseSectionsAll = []
     var courseSectionsInc = []
     var maxLengthIndex = 0
-    var sectionIndex = []
 
     for (var section in course.classes) {
       if (prevSectionType != null && section.section != null) {
         //new section type within a course, push previous information into arrays
         if (prevSectionType != section.section.charAt(0)) {
-          favCourseSectionsAll.push(courseSections)
+          favCourseSectionsAll.push(courseSectionsAll)
           courseSectionsAll = []    
           favCourseSectionsInc.push(courseSectionsInc)
           courseSectionsInc = []    
@@ -129,61 +134,160 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
     }
   }
 
+  //if no more than 1 section within all favorite courses (odd but technically possible) return all courses, no clashes
+  if (sectionIndex.length == 0)
+  	return courses
 
 
+  var done = false
+  var i = 1
   //now check for all possible schedules to include only possible sections
+  //note that if sectionIndex[0] >= maxLengthIndex[0] all possibilities have been checked and the algorithm should terminate
+  //while (!checkedAll(sectionIndex, maxLength)  && !runBack) {
+  while (!done) {
+  	while (i < sectionIndex.length) {
+  		for (var j = 0; j < i; j++) {
+  			while (detectSectionClash(favCourseSectionsAll[sectionsIndex[j]], favCourseSectionsAll[sectionIndex[i]])) {
+  				sectionIndex[i]++
+  				while (sectionIndex[i] >= maxLength[i]) {
+  					if (i <= 0) {
+  						done = true
+  						break
+  					}
+  					sectionIndex[i] = 0
+  					i--
+  					sectionIndex[i]++
+  				}
+  				if (done)
+  					break
+  			}
+  			if (done)
+  				break
+  		}
+  		if (done)
+  			break
+  		i++
+	}
+	if (done)
+		break
 
+  	for (var j = 0; j < sectionIndex.length, j++) {
+  		favCourseSectionsInc[j][sectionIndex[j]] = true
+  	}
+  	i--
+  	//update counters
+  	sectionIndex[i]++
+  	while (sectionIndex[i] >= maxLength[i]) {
+  		if (i <= 0)
+  			{
+  				done = true
+  				break
+  			}
+  		sectionIndex[i] = 0
+  		i--
+  		sectionIndex[i]++
+  	}
+  }
+
+  //favCourseSectionsInc has been updated and can now be used to populate subgraph
+  var incFavCourseSections = []
   for (var i = 0; i < favCourseSectionsAll.length; i++) {
-    for (var j = i-1; j >= 0; j--) {
-      sectionIndex[i] = 0
-      sectionCurrent = favCourseSectionsAll[i][sectionIndex[i]]
-      sectionPrevious = favCourseSectionsAll[j][sectionIndex[j]]
-      while (detectSectionClash(sectionCurrent, sectionPrevious)) {
-        sectionIndex[i]++ 
-      }
-    }
+  	var incSections = []
+  	for (var j = 0; j < favCourseSectionsAll[i].length; j++) {
+  		if (favCourseSectionsInc[i][j])
+  			incSections.push(favCourseSectionsAll[i][j])
+  	}
+  	incFavCourseSections.push(incSections)
   }
+ 
 
-
-
-
-
-
-
-
-  /* Extra code from when I was foolish enough to include hash tables. (Accessing in
-  a nested fashion became a nightmare.)
-  var favCoursesCourses = []
-  for (course in favoriteCourses) {
-    var courseSectionsLists = {}
-    for (var section in course.classes) {
-      var sectionName = course.classes[classindex].section
-      if (courseSectionsLists[sectionName.charAt(0)] == null) {
-        courseSectionsLists[sectionName.charAt[0]] = []       
-      }
-      courseSectionsLists[sectionName.charAt[0]].push(section)
-    }
-    favCoursesCourses.push(courseSectionsLists)
-  }
-  */
-
-  //now run courseclash to see if any sections can be excluded due to unnegotiable clash with favorites
-
-
+  //now that the original subgraph has been made, run clash on all courses from search results
   for (var courseIndex in courses) {
-    var thisCourse = courses[courseIndex]
 
-    if (thisCourse.title === 'American Economic History') {
-      thisCourse.clash = {
-        clash: true,
-        with: 'Math 202'
+	var thisCourse = courses[courseIndex]
+
+    //each course has new, independent sections
+    var currentCourseSectionsAll = []
+    var currentMaxLength = []
+    var currentSectionIndex = []
+    
+    var prevSectionType = null
+    var courseSectionsAll = []
+    var maxLengthIndex = 0
+
+    for (var section in thisCourse.classes) {
+      if (prevSectionType != null && section.section != null) {
+        //new section type within a course, push previous information into arrays
+        if (prevSectionType != section.section.charAt(0)) {
+          currentCourseSectionsAll.push(courseSections)
+          courseSections = []       
+          currentMaxLength.push(maxLengthIndex)
+          maxLengthIndex = 0
+          currentSectionIndex.push(0)
+        }
       }
+      courseSections.push(section)
+      prevSectionType = section.section.charAt(0)
+      maxLengthIndex++
     }
 
-    courses[courseIndex] = thisCourse
+    //all sections seen within course, push information into arrays 
+    if (courseSections != null) {
+      currentCourseSectionsAll.push(courseSections)
+      currentMaxLength.push(maxLengthIndex)
+      currentSectionIndex.push(0)
+    }
+
+    //combine information to run clash
+    currentCourseSectionsAll = incFavCourseSections.concat(currentCourseSectionsAll)
+    currentMaxLength = maxLength.concat(currentMaxLength)
+    currentSectionIndex = sectionIndex.concat(currentSectionIndex)
+
+    //run a modified clash
+    var found = false
+    var ranOut = false
+  	var i = 1
+  	//now check for all possible schedules to include only possible sections
+  	//note that if sectionIndex[0] >= maxLengthIndex[0] all possibilities have been checked and the algorithm should terminate
+  	//while (!checkedAll(sectionIndex, maxLength)  && !runBack) {
+  	while (!found) {
+  		while (i < currentSectionIndex.length) {
+  			for (var j = 0; j < i; j++) {
+  				while (detectSectionClash(currentCourseSectionsAll[currentSectionIndex[j]], currentCourseSectionsAll[currentSectionIndex[i]])) {
+  					currentSectionIndex[i]++
+  					while (currentSectionIndex[i] >= currentMaxLength[i]) {
+  						if (i <= 0) {
+  							ranOut = true
+  							break
+  						}
+  						currentSectionIndex[i] = 0
+ 	 					i--
+  						currentSectionIndex[i]++
+  					}
+  					if (ranOut)
+  						break
+  				}
+  				if (ranOut)
+  					break
+  			}
+  			if (ranOut)
+  				break
+ 	 		i++
+		}
+
+		if (ranOut)
+			break
+		found = true
+	}
+	if (!found) {
+		thisCourse.clash = true
+	}
+
+	courses[courseIndex] = thisCourse
   }
 
-  return 2017
+  //it's all done OMG!
+  return courses
 }
 
 
