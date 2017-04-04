@@ -43,10 +43,15 @@ router.get('/verify', function (req, res) {
           }
 
           console.log('Searching the database for a user with netid %s', netid)
-          UserModel.findByNetid(req.session.cas.netid, function (user) {
+          UserModel.findOne({
+            _id: netid
+          }, function (err, user) {
+            if (err) {
+              console.log(err)
+            }
             if (user == null) {
               var User = new UserModel({
-                netid: netid
+                _id: netid
               })
               User.save(function (error) {
                 if (error) {
@@ -87,7 +92,10 @@ module.exports.userIsAuthenticated = userIsAuthenticated
 // Find the details of the currently logged in user
 var loadUser = function (req, res, next) {
   if (req.session.cas) {
-    UserModel.findByNetid(req.session.cas.netid, function (user) {
+    UserModel.findOne({_id: req.session.cas.netid}, function (err, user) {
+      if (err) {
+        console.log(err)
+      }
       if (user != null) {
         req.app.set('user', user)
       }

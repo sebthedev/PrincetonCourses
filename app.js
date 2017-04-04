@@ -46,7 +46,7 @@ app.get(['/', '/course/:id'], function (req, res) {
   } else {
     // The user has authenticated. Display the app
     res.render('pages/app', {
-      netid: app.get('user').netid
+      netid: app.get('user')._id
     })
   }
 })
