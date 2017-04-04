@@ -119,13 +119,13 @@ var init_favorites = function() {
 var init_feedback = function() {
   // feedback form toggling
   var toggleFeedback = function() {
-    $('#feedback-container').slideToggle()
-    if ($('#feedback-toggle').hasClass("active")) {
-      $('#feedback-toggle').removeClass("active")
-    } else {
-      $('#feedback-toggle').addClass("active")
-      $('#feedback-text').focus()
-    }
+    var isActive = $('#feedback-toggle').hasClass("active")
+    if (isActive) $('#feedback-toggle').removeClass("active")
+    else $('#feedback-toggle').addClass("active")
+
+    $('#feedback-container').slideToggle(function() {
+      if($('#feedback-toggle').hasClass("active")) $('#feedback-text').focus()
+    })
   }
 
   // submission
