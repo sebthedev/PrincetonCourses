@@ -1,9 +1,15 @@
 // dependencies: module.js, fav.js, eval.js
 
 // function for displaying course details for a result
-var displayResult = function() {
+// - icon is jQuery object of the corresponding li element
+// - course is the corresponding course object
+var displayResult = function(result, course) {
+  // mark as active
+  $('.search-result').removeClass('active')
+  result.addClass('active')
+
   // Push to the history this course
-  var courseID = this.course._id
+  var courseID = course._id
   window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID)
 
   // Display the information for this course

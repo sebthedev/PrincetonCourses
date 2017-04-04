@@ -49,6 +49,7 @@ var updateFavList = function(course) {
 }
 
 // handles click of favorite icon
+// - course is corresponding course object
 var toggleFav = function(course) {
   var thisCourseId = course._id
 
