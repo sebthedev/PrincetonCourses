@@ -132,15 +132,43 @@ function newDOMcommentEval(eval) {
     + '</div>'
     + '<div class="flex-item-rigid flex-eval">'
       + '<span>'
-        + eval.votes + ' '
-        + '<i class="fa fa-thumbs-up"></i>'
+        + '<span class="evals-count">' + eval.votes + '</span> '
+        + '<i class="fa fa-thumbs-up up-icon"></i>'
       + '</span>'
     + '</div>'
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]       // create DOM object
-  entry.eval = eval                            // link to eval object
+  console.log(eval)
+
+  var entry = $.parseHTML(htmlString)[0]                   // create DOM object
+  var count = $(entry).find('.evals-count')                // counter
+  var evalId = eval._id                                     // eval id
+  var icon = $(entry).find('i')                            // icon
+  icon.click(function() {toggleVote(icon, evalId, count)}) // handle clicks
+  entry.eval = eval                                        // link to eval object
 
   return entry
+}
+
+// handles click of voting for evaluation:
+// - icon is jQuery object of the corresponding i element
+// - evalId is id of the corresponding evaluation
+// - count is jQuery object of the corresponding .evals-count element
+function toggleVote(icon, evalId, count) {
+  // update icon
+  var hasVoted = icon.hasClass('down-icon');
+  icon.removeClass(hasVoted ? 'down-icon' : 'up-icon')
+  icon.addClass(hasVoted ? 'up-icon' : 'down-icon')
+
+  // update count
+  var votes = parseInt(count.text())
+  votes += (hasVoted ? -1 : 1)
+  count.text(votes)
+
+  // update database
+  $.ajax({
+    url: '/api/evaluations/' + evalId + '/votes',
+    type: (hasVoted ? 'DELETE' : 'PUT')
+  })
 }

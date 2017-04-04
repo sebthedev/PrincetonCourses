@@ -199,11 +199,11 @@ body {
   cursor: pointer;
 }
 .unfav-icon:hover {
-  color: #f6dbdb;
+  color: #f2c6c4;
 }
 
 .fav-icon {
-  color: #dddddd;
+  color: #ddd;
   cursor: pointer;
 }
 .fav-icon:hover {
@@ -266,6 +266,21 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+}
+
+.up-icon {
+  color: #000;
+  cursor: pointer;
+}
+.up-icon:hover {
+  color: #0275d8;
+}
+.down-icon {
+  color: #0275d8;
+  cursor: pointer;
+}
+.down-icon:hover {
+  color: #9fd2fe;
 }
 
 /* FEEDBACK CSS */

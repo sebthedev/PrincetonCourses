@@ -76,7 +76,7 @@ var display_titles = function(course) {
 
   $('#disp-title-right').append(htmlString)
   $('#disp-title-right').find('i')[0].courseId = course["_id"]   // link to course id for fav icon
-  //$('#disp-title-right').find('i').click(function() {return toggleFav(course)})              // enable click to fav/unfav
+  //$('#disp-title-right').find('i').click(function() {toggleFav(course)})              // enable click to fav/unfav
 
   // string for course listings
   var listings = mainListing(course) + crossListings(course)
