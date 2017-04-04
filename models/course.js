@@ -99,6 +99,10 @@ var courseSchema = new mongoose.Schema({
   toJSON: { virtuals: true }
 })
 
+courseSchema.virtual('commonName').get(function () {
+  return this.department + ' ' + this.catalogNumber
+})
+
 // Virtually connect the course to its comments
 courseSchema.virtual('comments', {
   ref: 'Evaluation',
