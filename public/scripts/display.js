@@ -120,7 +120,7 @@ var display_instructors = function(course) {
   for (var instructor in course.instructors) {
     var name = course.instructors[instructor].name.first
              + ' ' + course.instructors[instructor].name.last
-    instructors += '<div>' + name + '</div>'
+    instructors += '<div class="list-group-item">' + name + '</div>'
   }
 
   $('#disp-instructors-body').append(instructors)
@@ -132,7 +132,7 @@ var display_description = function(course) {
   // refresh
   $('#disp-description-body').html('')
 
-  $('#disp-description-body').append(course.description)
+  $('#disp-description-body').append('<div class="list-group-item">' + course.description + '</div>')
   display_autotoggle('description')
 }
 
@@ -144,7 +144,7 @@ var display_assignments = function(course) {
   var assignments = ''
   for (var assignment in course.assignments) {
     var asmt = course.assignments[assignment]
-    assignments += '<div>' + asmt + '</div>'
+    assignments += '<div class="list-group-item">' + asmt + '</div>'
   }
 
   $('#disp-assignments-body').append(assignments)
@@ -159,7 +159,7 @@ var display_grading = function(course) {
   var grading = ''
   for (var index in course.grading) {
     var grade = course.grading[index]
-    grading += '<div>' + grade.component + ': ' + grade.weight + '%</div>'
+    grading += '<div class="list-group-item">' + grade.component + ': ' + grade.weight + '%</div>'
   }
 
   $('#disp-grading-body').append(grading)
@@ -173,7 +173,7 @@ var display_prerequisites = function(course) {
 
   var prerequisites = ''
   if (course.hasOwnProperty('prerequisites')) {
-    prerequisites += course.prerequisites
+    prerequisites += '<div class="list-group-item">' + course.prerequisites + '</div'
   }
 
   $('#disp-prerequisites-body').append(prerequisites)
@@ -187,7 +187,7 @@ var display_equivalent = function(course) {
 
   var equivalent = ''
   if (course.hasOwnProperty('equivalentcourses')) {
-    equivalent += course.equivalentcourses
+    equivalent += '<div class="list-group-item">' + course.equivalentcourses + '</div>'
   }
 
   $('#disp-equivalent-body').append(equivalent)
@@ -201,10 +201,10 @@ var display_other = function(course) {
 
   var other = ''
   if (course.hasOwnProperty('otherinformation')) {
-    other += '<div>' + course.otherinformation + '</div>'
+    other += '<div class="list-group-item">' + course.otherinformation + '</div>'
   }
   if (course.hasOwnProperty('otherrequirements')) {
-    other += '<div>' + course.otherrequirements + '</div>'
+    other += '<div class="list-group-item">' + course.otherrequirements + '</div>'
   }
 
   $('#disp-other-body').append(other)

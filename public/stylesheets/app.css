@@ -12,6 +12,15 @@
   font-size: 20px;
 }
 
+.progress {
+  margin: 1px 0 0;
+  height: 5px;
+}
+
+.list-group-item:hover {
+  background-color: #eee;
+}
+
 /* PAGEWIDE CSS */
 
 .scroll-v {
@@ -228,16 +237,6 @@ body {
   /* ugly thing to deal with flexbox and resizable */
   left:0 !important;
   position:relative !important;
-}
-
-.disp-section-header {
-
-}
-
-.disp-section-body {
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 4px; /* consistent with bootstrap */
 }
 
 /* EVALS PANE CSS */

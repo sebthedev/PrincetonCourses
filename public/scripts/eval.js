@@ -1,30 +1,65 @@
 
 // display course evals in the eval pane
 function display_evals(course) {
-  evals_comments(course)
-}
-
-// display student comment evals in evals pane
-function evals_comments(course) {
-  // refresh
-  $('#evals-comments-body').children().remove()
 
   // find correct semester
   for (var index in course.evaluations) {
     var eval = course.evaluations[index]
     if (eval.semester._id === course.semester._id) {
-
-      // go through student comments
-      for (var cindex in eval.comments) {
-        var comment = eval.comments[cindex]
-        $('#evals-comments-body').append(newDOMEval(comment))
-      }
+      evals_comments(eval)
+      evals_numeric(eval)
     }
   }
 }
 
+// display numeric evaluations in evals pane
+function evals_numeric(evaluation) {
+  // refresh
+  $('#evals-numeric-body').children().remove()
+
+  // go through numeric evaluations
+  for (var field in evaluation.scores) {
+    $('#evals-numeric-body').append(newDOMnumericEval(field, evaluation.scores[field]))
+  }
+}
+
+// display student comment evals in evals pane
+function evals_comments(evaluation) {
+  // refresh
+  $('#evals-comments-body').children().remove()
+
+  // go through student comments
+  for (var index in evaluation.comments) {
+    var comment = evaluation.comments[index]
+    $('#evals-comments-body').append(newDOMcommentEval(comment))
+  }
+}
+
+// returns a DOM object for a numeric eval of the displayed course
+function newDOMnumericEval(field, value) {
+  var width = value*20.0 // as a percentage
+
+  var htmlString= (
+    '<li class="list-group-item eval-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">' + field + '</div>'
+      + '<span class="flex-item-rigid badge" style="background-color: ' + colorAt(value) + '">'
+        + value.toFixed(2)
+      + '</span>'
+    + '</div>'
+    + '<div class="progress">'
+      + '<div class="progress-bar" role="progressbar" style="width: ' + width + '%; background-color: ' + colorAt(value) + '"></div>'
+    + '</div>'
+  + '</li>'
+  )
+
+  var entry = $.parseHTML(htmlString)[0]       // create DOM object
+
+  return entry
+}
+
 // returns a DOM object for an eval of the displayed course
-function newDOMEval(eval) {
+function newDOMcommentEval(eval) {
   var htmlString = (
     '<li class="list-group-item eval-result flex-container-row">'
     + '<div class="flex-item-stretch">'
