@@ -33,8 +33,15 @@
 
 /* PAGEWIDE CSS */
 
-.scroll-v {
-  overflow-y: auto;
+.resizer {
+  width: 5px;
+  background-color: #ddd;
+  cursor: col-resize;
+}
+.resizer:active,
+.resizer:hover {
+  background-color: #EE7F2D;
+  cursor: col-resize;
 }
 
 body {
@@ -51,11 +58,13 @@ body {
   display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
+  overflow: hidden;
 }
 .flex-container-row {
   display: flex;
   flex-flow: row nowrap;
   align-items: stretch;
+  overflow: hidden;
 }
 
 .flex-item-rigid {

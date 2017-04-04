@@ -1,5 +1,4 @@
-// dependencies: module.js, search.js, display.js
-
+// dependencies: module.js, search.js, display.js, resizable.js
 
 // initialization
 $(document).ready(function() {
@@ -28,11 +27,14 @@ var init_load = function() {
 // to initialize draggability
 var init_panes = function() {
   $('#search-pane').resizable({
-    handles: 'e'
+    handleSelector: "#search-resizer",
+    resizeHeight: false
   })
 
   $('#info-pane').resizable({
-    handles: 'w'
+    handleSelector: "#info-resizer",
+    resizeHeight: false,
+    resizeWidthFrom: 'left'
   })
 }
 
