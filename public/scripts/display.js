@@ -34,17 +34,6 @@ var displayCourseDetails = function(courseID) {
   })
 }
 
-// toggles display sections used in init_display in app.js
-var display_toggle = function(section) {
-  var body = $('#disp-' + section + '-body')
-  var icon = $('#disp-' + section + '-toggle')
-  var isVisible = (body.css('display') !== 'none')
-
-  icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
-  icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-  body.slideToggle();
-}
-
 // shows/hides sections of no content
 var display_autotoggle = function(section) {
   var div = $('#disp-' + section)

@@ -12,7 +12,7 @@ $(document).ready(function() {
   init_favorites();
   init_feedback();
   init_display();
-
+  init_evals();
 })
 
 // loads course from url
@@ -148,12 +148,30 @@ var init_feedback = function() {
 
 // to initialize display toggling
 var init_display = function() {
-  $('#disp-instructors-toggle').click(function() {display_toggle('instructors')})
-  $('#disp-description-toggle').click(function() {display_toggle('description')})
-  $('#disp-assignments-toggle').click(function() {display_toggle('assignments')})
-  $('#disp-grading-toggle').click(function() {display_toggle('grading')})
-  $('#disp-prerequisites-toggle').click(function() {display_toggle('prerequisites')})
-  $('#disp-equivalent-toggle').click(function() {display_toggle('equivalent')})
-  $('#disp-other-toggle').click(function() {display_toggle('other')})
-  $('#disp-classes-toggle').click(function() {display_toggle('classes')})
+  $('#disp-instructors-toggle').click(function() {section_toggle('disp', 'instructors')})
+  $('#disp-description-toggle').click(function() {section_toggle('disp', 'description')})
+  $('#disp-assignments-toggle').click(function() {section_toggle('disp', 'assignments')})
+  $('#disp-grading-toggle').click(function() {section_toggle('disp', 'grading')})
+  $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})
+  $('#disp-equivalent-toggle').click(function() {section_toggle('disp', 'equivalent')})
+  $('#disp-other-toggle').click(function() {section_toggle('disp', 'other')})
+  $('#disp-classes-toggle').click(function() {section_toggle('disp', 'classes')})
+}
+
+// to initialize evals toggling
+var init_evals = function() {
+  $('#evals-semesters-toggle').click(function() {section_toggle('evals', 'semesters')})
+  $('#evals-numeric-toggle').click(function() {section_toggle('evals', 'numeric')})
+  $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
+}
+
+// toggles display / eval sections
+var section_toggle = function(pane, section) {
+  var body = $('#' + pane + '-' + section + '-body')
+  var icon = $('#' + pane + '-' + section + '-toggle')
+  var isVisible = (body.css('display') !== 'none')
+
+  icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
+  icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
+  body.slideToggle();
 }

@@ -15,10 +15,20 @@
 .progress {
   margin: 1px 0 0;
   height: 5px;
+  background-color: #f4f4f4;
+  box-shadow: none;
 }
 
+.progress-bar {
+  box-shadow: none;
+}
+
+.list-group-item {
+  background-color: #f4f4f4;
+  padding: 5px 8px;
+}
 .list-group-item:hover {
-  background-color: #eee;
+  background-color: #fff;
 }
 
 /* PAGEWIDE CSS */
@@ -173,12 +183,10 @@ body {
 
 .search-result {
   cursor: pointer;
-  padding: 5px 8px;
 }
 
 .unfav-icon {
   color: #d9534f;
-  z-index: 10;
   cursor: pointer;
 }
 .unfav-icon:hover {
@@ -187,7 +195,6 @@ body {
 
 .fav-icon {
   color: #dddddd;
-  z-index: 10;
   cursor: pointer;
 }
 .fav-icon:hover {
@@ -243,10 +250,6 @@ body {
 #evals-pane {
   padding: 0 10px 10px;
   overflow-y: auto;
-}
-
-.eval-result {
-  padding: 5px 8px;
 }
 
 .flex-eval {
