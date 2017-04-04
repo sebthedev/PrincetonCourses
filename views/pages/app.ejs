@@ -3,6 +3,7 @@
 <head>
   <% include ../partials/header.ejs %>
   <script src="/scripts/resizable.js"></script>
+  <script src="/scripts/navbar.js"></script>
   <script src="/scripts/module.js"></script>
   <script src="/scripts/eval.js"></script>
   <script src="/scripts/fav.js"></script>
@@ -31,12 +32,10 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li><a href="#" id="about-button">About</a></li>
-          <li class="active">
-            <a id="nav-netid" href="auth/logout">
-              <span id="netid">mshu</span>
-              <span id="logout" style="display:none;">Logout</span>
-            </a>
+          <li id="about-toggle"><a href="#">About</a></li>
+          <li id="nav-netid" class="active">
+            <a id="netid" href="#"><%= netid %></a>
+            <a id="logout" style="display:none;" href="auth/logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -216,6 +215,18 @@
       <button id="feedback-submit" class="btn btn-default" type="submit">Submit</button>
     </form>
     <iframe src="about:blank" id="no-target" name="no-target" style="display: none;"></iframe>
+  </div>
+  <div id="about-popup" style="display: none;">
+    <div id="about-panel" class="panel panel-default">
+      <div class="panel-heading flex-container-row">
+        <h3 class="panel-title flex-item-stretch">About</h3>
+        <h3 class="panel-title flex-item-rigid"><i id="about-popup-close" class="fa fa-close"></i></h3>
+      </div>
+      <div class="panel-body">
+        <p>A project by Kara&nbsp;Bressler (team leader), Caterina&nbsp;Golner, Sebastian&nbsp;Hallum&nbsp;Clarke, Mel&nbsp;Shu, and Bensu&nbsp;Sicim for COS&nbsp;333. The team is advised by <a href="https://www.cs.princeton.edu/~cmoretti/" target="_blank">Christopher Moretti</a>.</p>
+      <p>View our <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank">design document</a>.</p>
+      </div>
+    </div>
   </div>
 </body>
 </html>

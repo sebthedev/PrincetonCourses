@@ -124,7 +124,7 @@ body {
 /* NAVBAR CSS */
 
 #menu-bar {
-  z-index: 150;
+  z-index: 300;
   margin-bottom: 0;
   border-radius: 0;
 }
@@ -307,6 +307,30 @@ body {
   z-index: 100;
   border-color: #f58025;
   border-width: 2px;
+}
+
+/* ABOUT POPUP CSS */
+#about-popup {
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+#about-panel {
+  margin-top: 100px;
+  width: 50vw;
+}
+
+#about-popup-close:hover {
+  color: #d9534f;
+  cursor: pointer;
 }
 
 /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */

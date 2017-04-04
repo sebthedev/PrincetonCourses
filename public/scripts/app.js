@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js
 
 // initialization
 $(document).ready(function() {
@@ -12,6 +12,9 @@ $(document).ready(function() {
   init_feedback();
   init_display();
   init_evals();
+  init_logout();
+  init_about();
+
 })
 
 // loads course from url
@@ -123,17 +126,6 @@ var init_favorites = function() {
 
 // to initialize feedback mechanism
 var init_feedback = function() {
-  // feedback form toggling
-  var toggleFeedback = function() {
-    var isActive = $('#feedback-toggle').hasClass("active")
-    if (isActive) $('#feedback-toggle').removeClass("active")
-    else $('#feedback-toggle').addClass("active")
-
-    $('#feedback-container').slideToggle(function() {
-      if($('#feedback-toggle').hasClass("active")) $('#feedback-text').focus()
-    })
-  }
-
   // submission
   $('#feedback-form').one('submit', function() {
     var submitURL = ''
@@ -148,20 +140,19 @@ var init_feedback = function() {
     setTimeout(toggleFeedback, 1000)
   })
 
-
-  $('#feedback-toggle').click(toggleFeedback)
+  $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
 }
 
 // to initialize display toggling
 var init_display = function() {
-  $('#disp-instructors-toggle').click(function() {section_toggle('disp', 'instructors')})
-  $('#disp-description-toggle').click(function() {section_toggle('disp', 'description')})
-  $('#disp-assignments-toggle').click(function() {section_toggle('disp', 'assignments')})
-  $('#disp-grading-toggle').click(function() {section_toggle('disp', 'grading')})
+  $('#disp-instructors-toggle'  ).click(function() {section_toggle('disp', 'instructors')})
+  $('#disp-description-toggle'  ).click(function() {section_toggle('disp', 'description')})
+  $('#disp-assignments-toggle'  ).click(function() {section_toggle('disp', 'assignments')})
+  $('#disp-grading-toggle'      ).click(function() {section_toggle('disp', 'grading')})
   $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})
-  $('#disp-equivalent-toggle').click(function() {section_toggle('disp', 'equivalent')})
-  $('#disp-other-toggle').click(function() {section_toggle('disp', 'other')})
-  $('#disp-classes-toggle').click(function() {section_toggle('disp', 'classes')})
+  $('#disp-equivalent-toggle'   ).click(function() {section_toggle('disp', 'equivalent')})
+  $('#disp-other-toggle'        ).click(function() {section_toggle('disp', 'other')})
+  $('#disp-classes-toggle'      ).click(function() {section_toggle('disp', 'classes')})
 }
 
 // to initialize evals toggling
@@ -169,6 +160,25 @@ var init_evals = function() {
   $('#evals-semesters-toggle').click(function() {section_toggle('evals', 'semesters')})
   $('#evals-numeric-toggle').click(function() {section_toggle('evals', 'numeric')})
   $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
+}
+
+// to intialize logout button
+var init_logout = function() {
+  $('#nav-netid').mouseleave(function() {
+    var isLogoutVisible = $('#logout').css('display') !== 'none'
+    if (isLogoutVisible) $(this).children().toggle()
+  })
+
+  $('#nav-netid').click(function() {
+    var isLogoutVisible = $('#logout').css('display') !== 'none'
+    if (!isLogoutVisible) $('#nav-netid').children().toggle()
+  })
+}
+
+// to initialize about display
+var init_about = function() {
+  $('#about-toggle').click(function() {return toggleNavbar('about')})
+  $('#about-popup-close').click(function() {return toggleNavbar('about')})
 }
 
 // toggles display / eval sections
