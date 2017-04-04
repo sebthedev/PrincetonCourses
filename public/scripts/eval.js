@@ -42,13 +42,16 @@ function newDOMnumericEval(field, value) {
   var htmlString= (
     '<li class="list-group-item eval-result">'
     + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate">' + field + '</div>'
-      + '<span class="flex-item-rigid badge" style="background-color: ' + colorAt(value) + '">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<div>' + field + '</div>'
+        + '<div class="progress">'
+          + '<div class="progress-bar" role="progressbar" style="width: ' + width + '%; background-color: ' + colorAt(value) + '"></div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="flex-eval">'
+      + '<span class="badge" style="background-color: ' + colorAt(value) + '">'
         + value.toFixed(2)
       + '</span>'
-    + '</div>'
-    + '<div class="progress">'
-      + '<div class="progress-bar" role="progressbar" style="width: ' + width + '%; background-color: ' + colorAt(value) + '"></div>'
     + '</div>'
   + '</li>'
   )
