@@ -142,11 +142,17 @@ router.get('/search/:query', function (req, res) {
       }
 
       // Then sort by course rating
-      if (a.hasOwnProperty('evaluations') && b.hasOwnProperty('evaluations') && a.evaluations.hasOwnProperty('scores') && b.evaluations.hasOwnProperty('scores') && a.evaluations.scores.hasOwnProperty('Overall Quality of the Course') && b.evaluations.scores.hasOwnProperty('Overall Quality of the Course')) {
-        return b.evaluations.scores['Overall Quality of the Course'] - a.evaluations.scores['Overall Quality of the Course']
-      } else {
-        return 0
+
+      // If the course lacks a score it is lower than a course that has a score
+      if (!a.hasOwnProperty('scores') || !a.scores.hasOwnProperty('Overall Quality of the Course')) {
+        return 1
       }
+      if (!b.hasOwnProperty('scores') || !b.scores.hasOwnProperty('Overall Quality of the Course')) {
+        return -1
+      }
+
+      // Return the difference between the scores
+      return b.scores['Overall Quality of the Course'] - a.scores['Overall Quality of the Course']
     })
 
     // Send the result to the client
@@ -181,6 +187,12 @@ router.get('/course/:id', function (req, res) {
         scores: {
           $not: {
             $eq: {}
+          }
+        }
+      }, {
+        scoresFromPreviousSemester: {
+          $not: {
+            $eq: true
           }
         }
       }
