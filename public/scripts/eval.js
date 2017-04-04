@@ -139,8 +139,6 @@ function newDOMcommentEval(eval) {
   + '</li>'
   )
 
-  console.log(eval)
-
   var entry = $.parseHTML(htmlString)[0]                   // create DOM object
   var count = $(entry).find('.evals-count')                // counter
   var evalId = eval._id                                     // eval id
