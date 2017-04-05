@@ -283,18 +283,19 @@ body {
   justify-content: center;
 }
 
-.fa-thumbs-up {
-  cursor: pointer;
-}
-
 .up-icon {
   color: #000;
+  cursor: pointer;
 }
-.up-icon:hover, .voted {
+.up-icon:hover {
   color: #0275d8;
 }
 
-.voted:hover {
+.down-icon {
+  color: #0275d8;
+  cursor: pointer;
+}
+.down-icon:hover {
   color: #9fd2fe;
 }
 
