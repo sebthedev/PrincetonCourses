@@ -51,7 +51,7 @@ function newDOMinstructorResult(instructor, props) {
         + '<strong>' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + instructor.courses.length
+        + '(' + instructor.courses.length + ')'
       + '</div>'
     + '</div>'
   + '</li>'

@@ -104,8 +104,8 @@ function newDOMnumericEval(field, value) {
   var htmlString= (
     '<li class="list-group-item eval-result">'
     + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate">'
-        + '<div>' + field + '</div>'
+      + '<div class="flex-item-stretch">'
+        + '<div class="truncate">' + field + '</div>'
         + '<div class="progress">'
           + '<div class="progress-bar" role="progressbar" style="width: ' + width + '%; background-color: ' + colorAt(value) + '"></div>'
         + '</div>'
