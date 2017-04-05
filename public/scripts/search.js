@@ -78,7 +78,7 @@ function newDOMcourseResult(course, props) {
     var score = course.scores['Overall Quality of the Course']
 
   // append semester if appropriate
-  var semester = props.hasOwnProperty('semester') ? ' (' + course.semester.name + ')' : ''
+  var semester = props.hasOwnProperty('semester') ? ' <small>' + course.semester.name + '</small>' : ''
 
   // tags: dist / pdf / audit
   var tags = ''
