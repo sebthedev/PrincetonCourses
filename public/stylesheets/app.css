@@ -9,6 +9,8 @@
 /* BOOTSTRAP OVERRIDES */
 .badge-large {
   font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 17px;
 }
 
 .progress {
