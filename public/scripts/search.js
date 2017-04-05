@@ -45,7 +45,7 @@ function newDOMinstructorResult(instructor, props) {
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item search-result">'
+    '<li class="list-group-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + name + '</strong>'
