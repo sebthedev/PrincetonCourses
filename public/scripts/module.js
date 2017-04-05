@@ -28,14 +28,14 @@ function colorAt(score) {
 
 // returns a string of the main course listing of the given course
 function mainListing(course) {
-  return course.department + course.catalogNumber
+  return course.department + " " + course.catalogNumber
 }
 
 // returns a string of the cross listings of the given course
 function crossListings(course) {
   var listings = ''
   for (var listing in course.crosslistings) {
-    listings += '/' + course.crosslistings[listing].department
+    listings += ' / ' + course.crosslistings[listing].department + " " +
                     + course.crosslistings[listing].catalogNumber
   }
 
