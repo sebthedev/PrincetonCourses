@@ -47,7 +47,8 @@ router.get('/search/:query', function (req, res) {
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
-      newQueryWords.push(matches.slice(1).join(' '))
+      // Expand "COS333" to "COS 333"
+      newQueryWords.push(matches[1], matches[2])
     } else if (thisQueryWord !== '*') {
       newQueryWords.push(thisQueryWord)
     }
