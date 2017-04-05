@@ -83,14 +83,16 @@ function newDOMsemesterEval (semester) {
   if (hasScore) var score = semester.scores['Overall Quality of the Course']
 
   var htmlString= (
-    '<li class="list-group-item flex-container-row search-result">'
-    + '<div class="flex-item-stretch truncate">'
-      + '<strong>' + semester.semester.name + '</strong>'
-      + professors
+    '<li class="list-group-item search-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + semester.semester.name + '</strong> '
+        + professors
+      + '</div>'
+      + '<span class="badge flex-item-rigid"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+        + (hasScore ? score.toFixed(2) : 'N/A')
+      + '</span>'
     + '</div>'
-    + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-      + (hasScore ? score.toFixed(2) : 'N/A')
-    + '</span>'
   + '</li>'
   )
 

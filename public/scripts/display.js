@@ -8,16 +8,15 @@ var displayResult = function(result, course) {
   $('.search-result').removeClass('active')
   result.addClass('active')
 
-  // Push to the history this course
-  var courseID = course._id
-  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID)
-
   // Display the information for this course
-  displayCourseDetails(courseID)
+  displayCourseDetails(course._id)
 }
 
 // function for displaying course details
 var displayCourseDetails = function(courseID) {
+  // Push to the history this course
+  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID)
+
   $.get('/api/course/' + courseID, function (course, status) {
       // Basic error handling
       if (status !== 'success') {
