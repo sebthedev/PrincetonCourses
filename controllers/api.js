@@ -34,16 +34,20 @@ router.get('/search/:query', function (req, res) {
 
   // Permit explicit filtering based on keywords
   var queryWords = req.params.query.split(' ')
-  let distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
+  const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
   var newQueryWords = []
+  const courseDeptNumberRegexp = /([A-Z]{3})(\d{3})/
   for (var queryWordsIndex in queryWords) {
     var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
+    let matches
 
     // Check for distribution areas, pdf status, and wildcards
     if (distributionAreas.indexOf(thisQueryWord) > -1) {
       courseQuery.distribution = thisQueryWord
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
+    } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
+      newQueryWords.push(matches.slice(1).join(' '))
     } else if (thisQueryWord !== '*') {
       newQueryWords.push(thisQueryWord)
     }
