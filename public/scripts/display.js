@@ -97,13 +97,15 @@ var display_titles = function(course) {
 
   $('#disp-subtitle').append(listings + tags)
 
+  var semester = course.semester.name
+
   // link to registrar
-  var link = '<a href="https://registrar.princeton.edu/course-offerings/course_details.xml'
+  var link = ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml'
            + '?courseid=' + course.courseID
            + '&amp;term=' + course.semester._id
            + '" target="_blank"><i class="fa fa-external-link"></i></a>'
 
-  $('#disp-subtitle-right').append(link)
+  $('#disp-subtitle-right').append(semester + link)
 }
 
 // display instructor info
