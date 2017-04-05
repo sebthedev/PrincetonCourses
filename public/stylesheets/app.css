@@ -9,6 +9,8 @@
 /* BOOTSTRAP OVERRIDES */
 .badge-large {
   font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 17px;
 }
 
 .progress {
@@ -42,6 +44,9 @@
 }
 .text-success-dim {
   color: #addbad;
+}
+.text-dim {
+  color: #ccc;
 }
 
 /* PAGEWIDE CSS */
@@ -136,12 +141,10 @@ body {
 }
 .navbar-default .navbar-brand {
   color: #000000;
-  font-weight: 600; 
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #ffffff;
+  color: #000000; /* old: #ffffff */
 }
 .navbar-default .navbar-text {
   color: #000000;
@@ -192,6 +195,8 @@ body {
 #search-pane {
   background-color: #ddd;
   padding: 10px;
+  padding-right: 5px; /* compensate for resizer */
+  padding-bottom: 15px;
   min-width: 200px;
   max-width: 40vw;
   width: 25%;
@@ -245,11 +250,16 @@ body {
 #disp-subtitle-right {
   margin: 0;
 }
+#disp-hline {
+  height: 5px;
+  background-color: #bbb;
+}
 
 /* INFO PANE CSS */
 #info-pane {
   background-color: #ddd;
-  padding: 0 10px 10px;
+  padding: 0 10px 15px;
+  padding-left: 5px; /* compensate for resizer */
   width: 50%; /* default */
   min-width: 150px;
   max-width: 80%;
@@ -262,7 +272,7 @@ body {
 
 /* EVALS PANE CSS */
 #evals-pane {
-  padding: 0 10px 10px;
+  padding: 0 10px 15px;
   overflow-y: auto;
 }
 
