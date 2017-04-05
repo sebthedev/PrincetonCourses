@@ -77,7 +77,7 @@ function newDOMsemesterEval (semester) {
   if (hasScore) var score = semester.scores['Overall Quality of the Course']
 
   var htmlString= (
-    '<li class="list-group-item flex-container-row">'
+    '<li class="list-group-item flex-container-row search-result">'
     + '<div class="flex-item-stretch truncate">'
       + '<strong>' + semester.semester.name + '</strong>'
       + professors
@@ -88,8 +88,8 @@ function newDOMsemesterEval (semester) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]       // create DOM object
-  entry.semester = semester                    // attach object
+  var entry = $.parseHTML(htmlString)[0]                          // create DOM object
+  $(entry).click(function() {displayCourseDetails(semester._id)}) // display
 
   return entry
 }
