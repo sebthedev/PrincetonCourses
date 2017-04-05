@@ -2,20 +2,22 @@
 
 // display course evals in the eval pane
 function display_evals(course) {
-  // display semesters offered
-  evals_semesters(course)
-
   // refresh
+  $('#evals-semesters-body').children().remove()
   $('#evals-numeric-body').children().remove()
   $('#evals-comments-body').children().remove()
 
-  // display this semester
-  var evaluations = course.evaluations
-  evals_comments(evaluations)
-  evals_numeric(evaluations)
+  // display eval pane
+  evals_semesters(course)
+  if (course.hasOwnProperty('evaluations')) {
+    if (course.evaluations.hasOwnProperty('scores')) evals_numeric(course.evaluations)
+    if (course.evaluations.hasOwnProperty('comments')) evals_comments(course.evaluations)
+  }
 
-  evals_autotoggle('comments')
+  // autotoggle
+  evals_autotoggle('semesters')
   evals_autotoggle('numeric')
+  evals_autotoggle('comments')
 }
 
 // shows/hides sections of no content
@@ -25,23 +27,27 @@ var evals_autotoggle = function(section) {
   var isEmpty = body.is(':empty')
 
   if (isEmpty) body.append(
-    '<div class="list-group-item">'
+    '<li class="list-group-item">'
     + 'No data to display.'
-  + '</div>'
+  + '</li>'
   )
 }
 
 // display the semesters in the evals pane
 function evals_semesters(course) {
-  // refresh
-  $('#evals-semesters-body').children().remove()
-
   // go through semesters
   for (var index in course.semesters) {
     $('#evals-semesters-body').append(newDOMsemesterEval(course.semesters[index]))
   }
 
-  evals_autotoggle('semesters')
+  // highlight current semester
+  $("#evals-semesters-body").children().each(function() {
+    // ignore if not this semester
+    if (this.semester._id !== course._id) return
+
+    // make active
+    $(this).addClass('active')
+  })
 }
 
 // display numeric evaluations in evals pane
@@ -90,6 +96,7 @@ function newDOMsemesterEval (semester) {
 
   var entry = $.parseHTML(htmlString)[0]                          // create DOM object
   $(entry).click(function() {displayCourseDetails(semester._id)}) // display
+  entry.semester = semester                                       // (attach object)
 
   return entry
 }
