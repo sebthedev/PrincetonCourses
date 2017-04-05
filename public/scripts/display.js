@@ -261,7 +261,7 @@ var newDOMclassListing = function(aclass) {
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + name + '\xa0<small' + statusColor + '>' + status + '</small></strong>'
       + '</div>'
-      + '<div class="flex-item-rigid">' + filled + '</div>'
+      + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'
     + meetingString
   + '</li>'
