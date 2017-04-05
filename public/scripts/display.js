@@ -206,6 +206,68 @@ var display_other = function(course) {
   display_autotoggle('other')
 }
 
+// display class info
 var display_classes = function(course) {
+  // refresh
+  $('#disp-classes-body').html('')
+
+  for (var index in course.classes) {
+    var aclass = course.classes[index]
+    $('#disp-classes-body').append(newDOMclassListing(aclass))
+  }
+
   display_autotoggle('classes')
+}
+
+// returns a DOM object for a class of the displayed course
+var newDOMclassListing = function(aclass) {
+  var name = aclass.section
+  var status = aclass.status
+  var filled = aclass.enrollment + ' / ' + aclass.capacity
+  var code = aclass.class_number
+  var statusColor = ''
+  if (status === 'Open') statusColor = ' class="text-success-dim"'
+  else if (status === 'Closed') statusColor = ' class="text-warning-dim"'
+  else if (status === 'Cancelled') statusColor = ' class="text-danger-dim"'
+
+  // a row for each meeting
+  var meetingString = ''
+  for (var index in aclass.schedule.meetings) {
+    var meeting = aclass.schedule.meetings[index]
+
+    var hasBuilding = (meeting.hasOwnProperty('building') &&
+                       meeting.building.hasOwnProperty('short_name'))
+    var hasRoom = meeting.hasOwnProperty('room')
+
+    var room = ((hasBuilding ? (meeting.building.short_name + ' ') : '')
+               + (hasRoom ? meeting.room : ''))
+
+    var time = ''
+    for (var day in meeting.days) time += meeting.days[day] + ' '
+    time += meeting.start_time + ' - ' + meeting.end_time
+
+    meetingString += (
+      '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">' + time + '</div>'
+      + '<div class="flex-item-rigid">' + room + '</div>'
+    + '</div>'
+    )
+  }
+
+  // html string
+  var htmlString = (
+    '<li class="list-group-item">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + name + '\xa0<small' + statusColor + '>' + status + '</small></strong>'
+      + '</div>'
+      + '<div class="flex-item-rigid">' + filled + '</div>'
+    + '</div>'
+    + meetingString
+  + '</li>'
+  )
+
+  var entry = $.parseHTML(htmlString)[0] // create DOM object
+
+  return entry
 }

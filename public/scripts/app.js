@@ -167,11 +167,13 @@ var init_logout = function() {
   $('#nav-netid').mouseleave(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
     if (isLogoutVisible) $(this).children().toggle()
+    $('#nav-netid').removeClass('active')
   })
 
   $('#nav-netid').click(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
     if (!isLogoutVisible) $('#nav-netid').children().toggle()
+    $('#nav-netid').addClass('active')
   })
 }
 

@@ -92,7 +92,7 @@ function newDOMcourseResult(course, props) {
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item search-result" data-courseID="' + course._id + '">'
+    '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + mainListing(course) + crossListings(course) + semester + tags + '</strong>'
@@ -110,10 +110,10 @@ function newDOMcourseResult(course, props) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]                       // create DOM object
-  $(entry).find('i').click(function() {toggleFav(course)})     // enable click to fav/unfav
-  entry.course = course                                        // attach course object
-  $(entry).click(function() {displayResult($(entry), course)}) // enable click to display
+  var entry = $.parseHTML(htmlString)[0]                                 // create DOM object
+  $(entry).find('i').click(function() {toggleFav(course); return false}) // enable click to fav/unfav
+  entry.course = course                                                  // attach course object
+  $(entry).click(function() {displayResult($(entry), course)})           // enable click to display
 
   return entry
 }
