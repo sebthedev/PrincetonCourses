@@ -164,16 +164,14 @@ var init_evals = function() {
 
 // to intialize logout button
 var init_logout = function() {
-  $('#nav-netid').mouseleave(function() {
-    var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (isLogoutVisible) $(this).children().toggle()
-    $('#nav-netid').removeClass('active')
+  $('#menu-bar').mouseleave(function() {
+    var isNetidInvisible = $('#netid').css('display') === 'none'
+    if (isNetidInvisible) $('#netid, #logout').animate({width: 'toggle'})
   })
 
-  $('#nav-netid').click(function() {
+  $('#netid').click(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (!isLogoutVisible) $('#nav-netid').children().toggle()
-    $('#nav-netid').addClass('active')
+    if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
   })
 }
 
