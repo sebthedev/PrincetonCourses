@@ -126,7 +126,7 @@ function newDOMnumericEval(field, value) {
 function newDOMcommentEval(evaluation) {
 
   // The basic HTML used for displaying a comment
-  let htmlString = '<li class="list-group-item eval-result flex-container-row evaluation-comment"><div class="flex-item-stretch evaluation-comment-text"></div><div class="flex-item-rigid flex-eval"><span><span class="evaluation-comment-votes"></span><i class="fa fa-thumbs-up up-icon"></i></span></div></li>'
+  let htmlString = '<li class="list-group-item eval-result flex-container-row evaluation-comment"><div class="flex-item-stretch evaluation-comment-text"></div><div class="flex-item-rigid flex-eval"><span><span class="evaluation-comment-votes"></span><i class="fa fa-thumbs-up"></i></span></div></li>'
 
   // Set the data on this comment
   var entry = $(htmlString)
@@ -134,8 +134,13 @@ function newDOMcommentEval(evaluation) {
   entry.find('.evaluation-comment-text').text(evaluation.comment)
   entry.find('.evaluation-comment-votes').html(evaluation.votes + '&nbsp;')
 
+  // Mark the toggle as voted if the user has previously voted on this comment
+  if (evaluation.voted) {
+    entry.find('i').addClass('voted')
+  }
+
   // Bind the upvote icon to the toggleVote function
-  $(entry).find('i').click(toggleVote)
+  entry.find('i').click(toggleVote)
 
   return entry
 }
@@ -145,20 +150,19 @@ function toggleVote () {
   let thisEvaluationComment = $(this.closest('.evaluation-comment'))
 
   // update icon
-  let icon = thisEvaluationComment.find('.fa-thumbs-up')
-  var hasVoted = icon.hasClass('down-icon')
-  icon.removeClass(hasVoted ? 'down-icon' : 'up-icon')
-  icon.addClass(hasVoted ? 'up-icon' : 'down-icon')
+  let icon = thisEvaluationComment.find('i')
+  var hasVoted = icon.hasClass('voted')
+  icon.toggleClass('voted')
 
   // update count
   let count = thisEvaluationComment.find('.evaluation-comment-votes')
   var votes = parseInt(count.text())
   votes += (hasVoted ? -1 : 1)
-  count.text(votes)
+  count.html(votes + '&nbsp;')
 
   // update database
   $.ajax({
-    url: '/api/evaluations/' + $(thisEvaluationComment).data('evaluation-id') + '/votes',
+    url: '/api/evaluations/' + $(thisEvaluationComment).data('evaluation-id') + '/vote',
     type: (hasVoted ? 'DELETE' : 'PUT')
   })
 }

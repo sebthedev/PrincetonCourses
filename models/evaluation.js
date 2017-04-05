@@ -12,14 +12,16 @@ var evaluationSchema = new mongoose.Schema({
   },
   votes: {
     type: Number,
-    default: 0
+    default: 0,
+    index: true
   },
   course: {
     required: true,
     type: String,
     ref: 'Course',
     index: true
-  }
+  },
+  voters: [String]
 }, {
   toObject: {
     versionKey: false

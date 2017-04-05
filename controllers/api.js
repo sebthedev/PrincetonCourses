@@ -205,7 +205,14 @@ router.get('/course/:id', function (req, res) {
   }, {
     scores: 1,
     semester: 1
-  }).sort({'semester': -1}).limit(1).populate('comments').exec()
+  }).sort({'semester': -1}).limit(1).populate({
+    path: 'comments',
+    options: {
+      sort: {
+        votes: -1
+      }
+    }
+  }).exec()
 
   // Query the database for the basic details of all the semesters of the requested course
   var semestersPromise = courseModel.find({
@@ -256,6 +263,12 @@ router.get('/course/:id', function (req, res) {
     // Insert into the queryCourse the evaluation data for the most recent semester for which evaluations exist
     if (mostRecentEvaluations.length === 1) {
       queryCourse.evaluations = mostRecentEvaluations[0].toObject()
+
+      // Note if the user has previously up-voted this comment
+      for (var commentIndex in queryCourse.evaluations.comments) {
+        queryCourse.evaluations.comments[commentIndex].voted = queryCourse.evaluations.comments[commentIndex].voters.indexOf(req.app.get('user')._id) > -1
+        delete queryCourse.evaluations.comments[commentIndex].voters
+      }
       delete queryCourse.evaluations.commonName
     }
 
@@ -453,7 +466,7 @@ router.get('/semesters', function (req, res) {
   })
 })
 
-router.route('/evaluations/:id/votes').all(function (req, res, next) {
+router.route('/evaluations/:id/vote').all(function (req, res, next) {
   if (typeof (req.params.id) === 'undefined') {
     res.sendStatus(400)
     return
@@ -474,85 +487,71 @@ router.route('/evaluations/:id/votes').all(function (req, res, next) {
 }).put(function (req, res) {
   var user = req.app.get('user')
 
-  // Determine if the user has previous upvoted or downvoted this evaluation
-  var previouslyUpvoted = typeof (user.upvotedEvaluations) !== 'undefined' && user.upvotedEvaluations.indexOf(req.params.id) > -1
-  var previouslyDownvoted = typeof (user.downvotedEvaluations) !== 'undefined' && user.downvotedEvaluations.indexOf(req.params.id) > -1
-
-  // Verify that the user has not previously upvoted this evaluation
-  if (previouslyUpvoted) {
-    res.sendStatus(403)
-    return
-  }
-
-  // Upvote the evaluation
-  evaluationModel.findByIdAndUpdate(req.params.id, {
-    $inc: {
-      votes: (previouslyDownvoted) ? 2 : 1
-    }
-  }, function (err) {
+  evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
     if (err) {
       console.log(err)
       res.sendStatus(500)
       return
     }
 
-    // Return success to the client
-    res.sendStatus(200)
+    // Ensure the user has not already voted on this comment
+    if (typeof (evaluation.voters) !== 'undefined' && evaluation.voters.indexOf(user._id) > -1) {
+      res.sendStatus(403)
+      return
+    }
 
-    // Add the evaluation to the user's upvotedEvaluations and remove it from the user's downvotedEvaluations
-    userModel.findByIdAndUpdate(user._id, {
-      $addToSet: {
-        upvotedEvaluations: req.params.id
+    // Update the evaluation (increment the number of votes and add the user's netID to the list of voters)
+    evaluationModel.findByIdAndUpdate(req.params.id, {
+      $inc: {
+        votes: 1
       },
-      $pull: {
-        downvotedEvaluations: req.params.id
+      $addToSet: {
+        voters: user._id
       }
     }, function (err) {
       if (err) {
         console.log(err)
+        res.sendStatus(500)
+        return
       }
+
+      // Return success to the client
+      res.sendStatus(200)
     })
   })
 }).delete(function (req, res) {
   var user = req.app.get('user')
 
-  // Determine if the user has previous upvoted or downvoted this evaluation
-  var previouslyUpvoted = typeof (user.upvotedEvaluations) !== 'undefined' && user.upvotedEvaluations.indexOf(req.params.id) > -1
-  var previouslyDownvoted = typeof (user.downvotedEvaluations) !== 'undefined' && user.downvotedEvaluations.indexOf(req.params.id) > -1
-
-  // Verify that the user has not previously upvoted this evaluation
-  if (previouslyDownvoted) {
-    res.sendStatus(403)
-    return
-  }
-
-  // Upvote the evaluation
-  evaluationModel.findByIdAndUpdate(req.params.id, {
-    $inc: {
-      votes: (previouslyUpvoted) ? -2 : -1
-    }
-  }, function (err) {
-    if (err) {
+  evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
+    if (err || typeof (evaluation.voters) === 'undefined') {
       console.log(err)
       res.sendStatus(500)
       return
     }
 
-    // Return success to the client
-    res.sendStatus(200)
+    // Ensure the user has already voted on this comment
+    if (typeof (evaluation.voters) !== 'object' && evaluation.voters.indexOf(user._id) === -1) {
+      res.sendStatus(403)
+      return
+    }
 
-    // Add the evaluation to the user's upvotedEvaluations and remove it from the user's downvotedEvaluations
-    userModel.findByIdAndUpdate(user._id, {
-      $addToSet: {
-        downvotedEvaluations: req.params.id
+    // Update the evaluation (increment the number of votes and add the user's netID to the list of voters)
+    evaluationModel.findByIdAndUpdate(req.params.id, {
+      $inc: {
+        votes: -1
       },
       $pull: {
-        upvotedEvaluations: req.params.id
+        voters: user._id
       }
     }, function (err) {
       if (err) {
         console.log(err)
+        res.sendStatus(500)
+        return
       }
+
+      // Return success to the client
+      res.sendStatus(200)
     })
   })
 })
