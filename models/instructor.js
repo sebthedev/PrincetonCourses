@@ -14,6 +14,10 @@ var instructorSchema = new mongoose.Schema({
     type: Number,
     ref: 'Course'
   }]
+}, {
+  toObject: {
+    versionKey: false
+  }
 })
 
 // Create the virtual fullName property

@@ -64,15 +64,10 @@ var display_titles = function(course) {
 
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
-  var hasScore = false;
-  for (var index in course.evaluations) {
-    var eval = course.evaluations[index]
-    if (eval.semester._id === course.semester._id) {
-      if (eval.hasOwnProperty('scores') && eval.scores.hasOwnProperty('Overall Quality of the Course')) {
-        var score = eval.scores['Overall Quality of the Course']
-        hasScore = true;
-      }
-    }
+  // Determine the overall score for this course, if it exists
+  var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
+  if (hasScore) {
+    var score = course.evaluations.scores['Overall Quality of the Course']
   }
 
   var htmlString = '<i class="fa fa-heart ' /*+ (isFav ? 'unfav-icon' : 'fav-icon')*/ + '"></i> '

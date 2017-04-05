@@ -20,6 +20,10 @@ var evaluationSchema = new mongoose.Schema({
     ref: 'Course',
     index: true
   }
+}, {
+  toObject: {
+    versionKey: false
+  }
 })
 
 // Create the Evaluation model from the courseSchema

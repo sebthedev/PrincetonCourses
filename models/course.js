@@ -25,10 +25,6 @@ var courseSchema = new mongoose.Schema({
     type: Number,
     ref: 'Semester'
   },
-  semesters: [{
-    type: Number,
-    ref: 'Semester'
-  }],
   department: {
     type: String,
     uppercase: true,
@@ -95,8 +91,12 @@ var courseSchema = new mongoose.Schema({
     uppercase: true
   }
 }, {
-  toObject: { virtuals: true },
-  toJSON: { virtuals: true }
+  toObject: {
+    virtuals: true,
+    versionKey: false
+  },
+  toJSON: { virtuals: true },
+  id: false
 })
 
 courseSchema.virtual('commonName').get(function () {

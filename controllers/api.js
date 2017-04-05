@@ -176,11 +176,11 @@ router.get('/course/:id', function (req, res) {
     return
   }
 
-  // Query the database for the information about the requested course
+  // Query the database for the information about the specified semester of the requested course
   var queryCoursePromise = courseModel.findOne({_id: req.params.id}, {scores: 0}).exec()
 
-  // Query the database for the evaluations of all the semesters of the requested course
-  var otherSemestersPromise = courseModel.find({
+  // Find the evaluation details for the most recent semester of this course for which evaluations exist
+  var mostRecentEvaluationsPromise = courseModel.find({
     courseID: req.params.id.substring(4),
     $and: [
       {
@@ -204,31 +204,63 @@ router.get('/course/:id', function (req, res) {
     ]
   }, {
     scores: 1,
+    semester: 1
+  }).sort({'semester': -1}).limit(1).populate('comments').exec()
+
+  // Query the database for the basic details of all the semesters of the requested course
+  var semestersPromise = courseModel.find({
+    courseID: req.params.id.substring(4)
+  }, {
+    'scores.Overall Quality of the Course': 1,
+    scoresFromPreviousSemester: 1,
     semester: 1,
     instructors: 1,
     _id: 1
-  }).populate({ // Populate the comments field of these courses with the evaluations of
-    path: 'comments',
-    options: {
-      sort: {
-        votes: -1,
-        comment: 1
-      }
-    }
   }).sort({semester: -1}).exec()
 
   // Resolve the promises
-  Promise.all([queryCoursePromise, otherSemestersPromise]).then(function (results) {
+  Promise.all([queryCoursePromise, mostRecentEvaluationsPromise, semestersPromise]).then(function (results) {
     var queryCourse = results[0]
+    var mostRecentEvaluations = results[1]
+    var semesters = results[2]
 
+    // Check that a course exists for the requested id
     if (queryCourse === null) {
       res.sendStatus(404)
-    } else {
-      queryCourse = queryCourse.toObject()
-      queryCourse.evaluations = results[1]
-      delete queryCourse.comments
-      res.json(queryCourse)
+      return
     }
+
+    // Convert the Mongoose object into a regular object
+    queryCourse = queryCourse.toObject()
+
+    // Delete certain properties from each course in semesters
+    for (var semestersIndex in semesters) {
+      // Convert the Mongoose object into a regular object
+      let thisOtherSemester = semesters[semestersIndex].toObject()
+
+      // Delete the unneeded (and unpopulated) virtuals
+      delete thisOtherSemester.comments
+      delete thisOtherSemester.commonName
+
+      // Delete scores and scoresFromPreviousSemester if the scores were inserted into this course from a previous semester
+      if (typeof (thisOtherSemester.scoresFromPreviousSemester) === 'boolean' && thisOtherSemester.scoresFromPreviousSemester) {
+        delete thisOtherSemester.scores
+        delete thisOtherSemester.scoresFromPreviousSemester
+      }
+
+      // Re-write the modified semester into its original array
+      semesters[semestersIndex] = thisOtherSemester
+    }
+    queryCourse.semesters = semesters
+
+    // Insert into the queryCourse the evaluation data for the most recent semester for which evaluations exist
+    if (mostRecentEvaluations.length === 1) {
+      queryCourse.evaluations = mostRecentEvaluations[0].toObject()
+      delete queryCourse.evaluations.commonName
+    }
+
+    delete queryCourse.comments
+    res.json(queryCourse)
   }).catch(function (err) {
     console.log(err)
     res.sendStatus(500)

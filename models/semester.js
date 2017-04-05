@@ -9,6 +9,10 @@ var semesterSchema = new mongoose.Schema({
   name: String,
   start_date: String,
   end_date: String
+}, {
+  toObject: {
+    versionKey: false
+  }
 })
 
 // Create the Semester model from the courseSchema
