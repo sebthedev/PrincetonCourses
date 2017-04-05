@@ -37,8 +37,8 @@ app.use('*', auth.loadUser)
 app.use('/auth', auth.router)
 app.use('/api', api.router)
 
-// Route a request for the app
-app.get(['/', '/course/:id'], function (req, res) {
+// Route a request for the homepage
+app.get('/', function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
     // The user in unauthenticated. Display a splash page.
@@ -51,10 +51,27 @@ app.get(['/', '/course/:id'], function (req, res) {
   }
 })
 
+// Route a request for a page inside the app
+app.get('/course/:id', function (req, res) {
+  // Check whether the user sending this request is authenticated
+  if (!auth.userIsAuthenticated(req)) {
+    res.redirect('/auth/login?redirect=' + req.originalUrl)
+  } else {
+    // The user has authenticated. Display the app
+    res.render('pages/app', {
+      netid: app.get('user')._id
+    })
+  }
+})
+
 // Map any files in the /public folder to the root of our domain
 // For example, if there is a file at /public/cat.jpg of this app,
 // it can be accessed on the web at [APP DOMAIN NAME]/cat.jpg
 app.use(express.static(path.join(__dirname, '/public')))
+
+app.get('*', function (req, res) {
+  res.sendStatus(404)
+})
 
 // Configure the EJS templating system (http://www.embeddedjs.com)
 app.set('view engine', 'ejs')
