@@ -16,8 +16,8 @@ if (process.argv.length > 2) {
 }
 
 // Load internal modules
-var semesterModel = require('./semester.js')
-var courseModel = require('./course.js')
+var semesterModel = require('../models/semester.js')
+var courseModel = require('../models/course.js')
 
 // Connect to the database
 require('./database.js')
@@ -77,7 +77,6 @@ var importTerm = function (term) {
     _id: term.code
   }, {
     _id: term.code,
-    code: term.code,
     name: term.cal_name,
     start_date: term.start_date,
     end_date: term.end_date

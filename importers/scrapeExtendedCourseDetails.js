@@ -10,9 +10,9 @@ var prompt = require('prompt')
 require('dotenv').config()
 
 // Load internal modules
-var courseModel = require('./course.js')
-require('./semester.js')
-require('./database.js')
+var courseModel = require('../models/course.js')
+require('../models/semester.js')
+require('../controllers/database.js')
 
 // Load a request from the server and call the function externalCallback
 var loadPage = function (term, courseID, externalCallback) {
@@ -179,10 +179,10 @@ courseModel.find({}, function (error, courses) {
           return
         }
 
-        console.log('Processing course %s in semester %d. (Course %d of %d).', thisCourse.courseID, thisCourse.semester.code, courseIndex, courses.length)
+        console.log('Processing course %s in semester %d. (Course %d of %d).', thisCourse.courseID, thisCourse.semester._id, courseIndex, courses.length)
 
         // Fetch the evaluation data
-        getCourseListingData(thisCourse.semester.code, thisCourse.courseID, function (courseData) {
+        getCourseListingData(thisCourse.semester._id, thisCourse.courseID, function (courseData) {
           for (var index in courseData) {
             thisCourse[index] = courseData[index]
           }

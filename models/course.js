@@ -3,11 +3,15 @@
 // Load external dependencies
 var mongoose = require('mongoose')
 var instructorModel = require('./instructor.js')
+require('./evaluation.js')
 
 // Define the courseSchema
 var courseSchema = new mongoose.Schema({
   _id: Number,
-  courseID: String,
+  courseID: {
+    type: String,
+    index: true
+  },
   catalogNumber: {
     type: String,
     trim: true,
@@ -47,13 +51,8 @@ var courseSchema = new mongoose.Schema({
       uppercase: true
     }
   }],
-  evaluations: {
-    scores: {},
-    studentComments: [{
-      type: String,
-      trim: true
-    }]
-  },
+  scores: {},
+  scoresFromPreviousSemester: Boolean,
   distribution: {
     type: String,
     uppercase: true,
@@ -91,11 +90,24 @@ var courseSchema = new mongoose.Schema({
     trim: true,
     uppercase: true
   }
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false
+  },
+  toJSON: { virtuals: true },
+  id: false
 })
 
-// Create the virtual commonName property
 courseSchema.virtual('commonName').get(function () {
   return this.department + ' ' + this.catalogNumber
+})
+
+// Virtually connect the course to its comments
+courseSchema.virtual('comments', {
+  ref: 'Evaluation',
+  localField: '_id',
+  foreignField: 'course'
 })
 
 // Create an index on this schema which allows for awesome weighted text searching
@@ -128,7 +140,7 @@ courseSchema.on('index', function (error) {
 
 // Automatically populate instructors and semester
 var autoPopulate = function (next) {
-  this.populate('instructors semester')
+  this.populate('instructors semester semesters')
   next()
 }
 

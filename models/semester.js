@@ -6,20 +6,14 @@ var mongoose = require('mongoose')
 // Define the semesterSchema
 var semesterSchema = new mongoose.Schema({
   _id: Number,
-  code: Number,
   name: String,
   start_date: String,
   end_date: String
+}, {
+  toObject: {
+    versionKey: false
+  }
 })
-
-semesterSchema.statics.getAllSemesters = function (callback) {
-  this.find({}, function (err, semesters) {
-    if (err) {
-      console.log(err)
-    }
-    callback(semesters)
-  })
-}
 
 // Create the Semester model from the courseSchema
 var Semester = mongoose.model('Semester', semesterSchema)

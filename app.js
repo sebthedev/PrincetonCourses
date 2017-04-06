@@ -20,12 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Load internal modules
-var config = require('./config')
-var auth = require('./authentication.js')
-var api = require('./api.js')
+var config = require('./controllers/config')
+var auth = require('./controllers/authentication.js')
+var api = require('./controllers/api.js')
 
 // Connect to the database
-require('./database.js')
+require('./controllers/database.js')
 
 // Configure the app to save a cookie with two attributes (for netid and status)
 app.use(session({ keys: ['key1', 'key2'] }))
@@ -46,7 +46,20 @@ app.get('/', function (req, res) {
   } else {
     // The user has authenticated. Display the app
     res.render('pages/app', {
-      netid: app.get('user').netid
+      netid: app.get('user')._id
+    })
+  }
+})
+
+// Route a request for a page inside the app
+app.get('/course/:id', function (req, res) {
+  // Check whether the user sending this request is authenticated
+  if (!auth.userIsAuthenticated(req)) {
+    res.redirect('/auth/login?redirect=' + req.originalUrl)
+  } else {
+    // The user has authenticated. Display the app
+    res.render('pages/app', {
+      netid: app.get('user')._id
     })
   }
 })
@@ -55,6 +68,10 @@ app.get('/', function (req, res) {
 // For example, if there is a file at /public/cat.jpg of this app,
 // it can be accessed on the web at [APP DOMAIN NAME]/cat.jpg
 app.use(express.static(path.join(__dirname, '/public')))
+
+app.get('*', function (req, res) {
+  res.sendStatus(404)
+})
 
 // Configure the EJS templating system (http://www.embeddedjs.com)
 app.set('view engine', 'ejs')
