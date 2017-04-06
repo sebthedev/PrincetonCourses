@@ -491,7 +491,7 @@ router.get('/semesters', function (req, res) {
       console.log(err)
       res.status(500)
     } else {
-      res.status(200).json(semesters)
+      res.set('Cache-Control', 'public, max-age=604800').status(200).json(semesters)
     }
   })
 })
