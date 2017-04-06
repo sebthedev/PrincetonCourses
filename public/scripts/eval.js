@@ -2,19 +2,22 @@
 
 // display course evals in the eval pane
 function display_evals(course) {
-  evals_semesters(course)
-
   // refresh
+  $('#evals-semesters-body').children().remove()
   $('#evals-numeric-body').children().remove()
   $('#evals-comments-body').children().remove()
 
-  // find correct semester
-  var evaluations = course.evaluations
-  evals_comments(evaluations)
-  evals_numeric(evaluations)
+  // display eval pane
+  evals_semesters(course)
+  if (course.hasOwnProperty('evaluations')) {
+    if (course.evaluations.hasOwnProperty('scores')) evals_numeric(course.evaluations)
+    if (course.evaluations.hasOwnProperty('comments')) evals_comments(course.evaluations)
+  }
 
-  evals_autotoggle('comments')
+  // autotoggle
+  evals_autotoggle('semesters')
   evals_autotoggle('numeric')
+  evals_autotoggle('comments')
 }
 
 // shows/hides sections of no content
@@ -24,23 +27,27 @@ var evals_autotoggle = function(section) {
   var isEmpty = body.is(':empty')
 
   if (isEmpty) body.append(
-    '<div class="list-group-item">'
+    '<li class="list-group-item">'
     + 'No data to display.'
-  + '</div>'
+  + '</li>'
   )
 }
 
 // display the semesters in the evals pane
 function evals_semesters(course) {
-  // refresh
-  $('#evals-semesters-body').children().remove()
-
   // go through semesters
   for (var index in course.semesters) {
     $('#evals-semesters-body').append(newDOMsemesterEval(course.semesters[index]))
   }
 
-  evals_autotoggle('semesters')
+  // highlight current semester
+  $("#evals-semesters-body").children().each(function() {
+    // ignore if not this semester
+    if (this.semester._id !== course._id) return
+
+    // make active
+    $(this).addClass('active')
+  })
 }
 
 // display numeric evaluations in evals pane
@@ -62,36 +69,36 @@ function evals_comments(evaluations) {
 
 // returns a DOM object for a semester entry of the displayed course
 function newDOMsemesterEval (semester) {
+  // create string of professors
   var professors = []
   for (var instructorIndex in semester.instructors) {
     var professor = semester.instructors[instructorIndex]
     professors.push([professor.name.first, professor.name.last].join(' '))
   }
   professors = professors.join(', ')
-  if (professors.length > 0) {
-    professors = '&nbsp;' + professors
-  }
+  if (professors.length > 0) professors = '&nbsp;' + professors
 
+  // extract score (if it exists)
   var hasScore = (semester.hasOwnProperty('scores') && semester.scores.hasOwnProperty('Overall Quality of the Course'))
-
-  if (hasScore) {
-    var score = semester.scores['Overall Quality of the Course']
-  }
+  if (hasScore) var score = semester.scores['Overall Quality of the Course']
 
   var htmlString= (
-    '<li class="list-group-item flex-container-row">'
-    + '<div class="flex-item-stretch truncate">'
-      + '<strong>' + semester.semester.name + '</strong>'
-      + professors
+    '<li class="list-group-item search-result">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">'
+        + '<strong>' + semester.semester.name + '</strong> '
+        + professors
+      + '</div>'
+      + '<span class="badge flex-item-rigid"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+        + (hasScore ? score.toFixed(2) : 'N/A')
+      + '</span>'
     + '</div>'
-    + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-      + (hasScore ? score.toFixed(2) : 'N/A')
-    + '</span>'
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]       // create DOM object
-  entry.evaluation = semester
+  var entry = $.parseHTML(htmlString)[0]                          // create DOM object
+  $(entry).click(function() {displayCourseDetails(semester._id)}) // display
+  entry.semester = semester                                       // (attach object)
 
   return entry
 }
@@ -117,52 +124,60 @@ function newDOMnumericEval(field, value) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]       // create DOM object
-
+  // create and return DOM object
+  var entry = $.parseHTML(htmlString)[0]
   return entry
 }
 
 // returns a DOM object for an eval of the displayed course
 function newDOMcommentEval(evaluation) {
+  // detect if user has voted already
+  var icon = (evaluation.voted ? 'down-icon' : 'up-icon')
 
-  // The basic HTML used for displaying a comment
-  let htmlString = '<li class="list-group-item eval-result flex-container-row evaluation-comment"><div class="flex-item-stretch evaluation-comment-text"></div><div class="flex-item-rigid flex-eval"><span><span class="evaluation-comment-votes"></span><i class="fa fa-thumbs-up"></i></span></div></li>'
+  var htmlString = (
+    '<li class="list-group-item eval-result flex-container-row">'
+    + '<div class="flex-item-stretch">'
+      + evaluation.comment
+    + '</div>'
+    + '<div class="flex-item-rigid flex-eval">'
+      + '<span>'
+        + '<span class="evals-count">' + evaluation.votes + '</span> '
+        + '<i class="fa fa-thumbs-up ' + icon + '"></i>'
+      + '</span>'
+    + '</div>'
+  + '</li>'
+  )
 
-  // Set the data on this comment
-  var entry = $(htmlString)
-  entry.data('evaluation-id', evaluation._id)
-  entry.find('.evaluation-comment-text').text(evaluation.comment)
-  entry.find('.evaluation-comment-votes').html(evaluation.votes + '&nbsp;')
-
-  // Mark the toggle as voted if the user has previously voted on this comment
-  if (evaluation.voted) {
-    entry.find('i').addClass('voted')
-  }
+  var entry = $.parseHTML(htmlString)[0]
+  var count = $(entry).find('.evals-count')
+  var icon = $(entry).find('i')
 
   // Bind the upvote icon to the toggleVote function
-  entry.find('i').click(toggleVote)
+  icon.click(function() {return toggleVote(icon, evaluation._id, count)})
 
   return entry
 }
 
 // handles click of voting for evaluation:
-function toggleVote () {
-  let thisEvaluationComment = $(this.closest('.evaluation-comment'))
-
+// - icon is jQuery object of the corresponding i element
+// - evalId is id of the corresponding evaluation
+// - count is jQuery object of the corresponding .evals-count element
+function toggleVote(icon, evalId, count) {
   // update icon
-  let icon = thisEvaluationComment.find('i')
-  var hasVoted = icon.hasClass('voted')
-  icon.toggleClass('voted')
+  var hasVoted = icon.hasClass('down-icon')
+  icon.removeClass(hasVoted ? 'down-icon' : 'up-icon')
+  icon.addClass(hasVoted ? 'up-icon' : 'down-icon')
 
   // update count
-  let count = thisEvaluationComment.find('.evaluation-comment-votes')
   var votes = parseInt(count.text())
   votes += (hasVoted ? -1 : 1)
-  count.html(votes + '&nbsp;')
+  count.html(votes)
 
   // update database
   $.ajax({
-    url: '/api/evaluations/' + $(thisEvaluationComment).data('evaluation-id') + '/vote',
+    url: '/api/evaluations/' + evalId + '/vote',
     type: (hasVoted ? 'DELETE' : 'PUT')
   })
+
+  return false
 }

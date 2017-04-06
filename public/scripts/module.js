@@ -44,7 +44,7 @@ function mainListing(course) {
 function crossListings(course) {
   var listings = ''
   for (var listing in course.crosslistings) {
-    listings += '/' + course.crosslistings[listing].department + course.crosslistings[listing].catalogNumber
+    listings += ' / '  + course.crosslistings[listing].department + course.crosslistings[listing].catalogNumber
   }
 
   return listings

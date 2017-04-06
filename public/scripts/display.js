@@ -8,17 +8,16 @@ var displayResult = function(result, course) {
   $('.search-result').removeClass('active')
   result.addClass('active')
 
-  // Push to the history this course
-  var courseID = course._id
-  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID + getSearchQueryURL())
-
   // Display the information for this course
-  displayCourseDetails(courseID)
+  displayCourseDetails(course._id)
 }
 
 // function for displaying course details
 var displayCourseDetails = function(courseID) {
   document.courseID = courseID
+  // Push to the history this course
+  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID + getSearchQueryURL())
+
   $.get('/api/course/' + courseID, function (course, status) {
       // Basic error handling
       if (status !== 'success') {
@@ -28,7 +27,8 @@ var displayCourseDetails = function(courseID) {
 
       document.course = course;
 
-      display_titles(course);
+      display_title(course);
+      display_subtitle(course);
       display_instructors(course);
       display_description(course);
       display_assignments(course);
@@ -50,8 +50,8 @@ var display_autotoggle = function(section) {
   div.css('display', isEmpty ? 'none' : '')
 }
 
-// display course data for title and subtitle. TODO: favoriting
-var display_titles = function(course) {
+// display course data for title TODO: favoriting
+var display_title = function(course) {
   // refresh
   $('#disp-title').html('')
   $('#disp-title-right').html('')
@@ -79,7 +79,10 @@ var display_titles = function(course) {
   $('#disp-title-right').append(htmlString)
   $('#disp-title-right').find('i')[0].courseId = course["_id"]   // link to course id for fav icon
   //$('#disp-title-right').find('i').click(function() {toggleFav(course)})              // enable click to fav/unfav
+}
 
+// display course data for subtitle
+var display_subtitle = function(course) {
   // string for course listings
   var listings = mainListing(course) + crossListings(course)
 
@@ -93,7 +96,7 @@ var display_titles = function(course) {
 
   $('#disp-subtitle').append(listings + tags)
 
-  var semester = course.semester.name
+  var semester = ' &middot; ' + course.semester.name
 
   // link to registrar
   var link = ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml'
@@ -101,7 +104,7 @@ var display_titles = function(course) {
            + '&amp;term=' + course.semester._id
            + '" target="_blank"><i class="fa fa-external-link"></i></a>'
 
-  $('#disp-subtitle-right').append(semester + ' &middot; ' + link)
+  $('#disp-subtitle-right').append(link + semester)
 }
 
 // display instructor info
