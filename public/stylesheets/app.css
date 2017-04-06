@@ -215,7 +215,7 @@ body {
 /* INFO PANE CSS */
 #info-pane {
   background-color: #ddd;
-  padding: 0 10px 15px;
+  padding: 5px 10px 15px;
   padding-left: 5px; /* compensate for resizer */
   width: 50%; /* default */
   min-width: 150px;
@@ -233,7 +233,7 @@ body {
 
 /* EVALS PANE CSS */
 #evals-pane {
-  padding: 0 10px 15px;
+  padding: 5px 10px 15px;
   overflow-y: auto;
 }
 
