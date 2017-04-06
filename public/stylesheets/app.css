@@ -227,14 +227,7 @@ body {
   position:relative !important;
 }
 
-#disp-instructors-body > .list-group-item,
-#disp-description-body > .list-group-item,
-#disp-assignments-body > .list-group-item,
-#disp-grading-body > .list-group-item, 
-#disp-prerequisites-body > .list-group-item,
-#disp-equivalent-body > .list-group-item, 
-#disp-other-body > .list-group-item, 
-#disp-classes-body > .list-group-item {
+.info-list-item {
   background-color:#eee;
 }
 

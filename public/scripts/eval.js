@@ -27,7 +27,7 @@ var evals_autotoggle = function(section) {
   var isEmpty = body.is(':empty')
 
   if (isEmpty) body.append(
-    '<li class="list-group-item">'
+    '<li class="list-group-item eval-list-item">'
     + 'No data to display.'
   + '</li>'
   )
@@ -83,7 +83,7 @@ function newDOMsemesterEval (semester) {
   if (hasScore) var score = semester.scores['Overall Quality of the Course']
 
   var htmlString= (
-    '<li class="list-group-item search-result">'
+    '<li class="list-group-item search-result eval-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + semester.semester.name + '</strong> '
@@ -108,7 +108,7 @@ function newDOMnumericEval(field, value) {
   var width = value*20.0 // as a percentage
 
   var htmlString= (
-    '<li class="list-group-item eval-result">'
+    '<li class="list-group-item eval-result eval-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch">'
         + '<div class="truncate">' + field + '</div>'
@@ -135,7 +135,7 @@ function newDOMcommentEval(evaluation) {
   var icon = (evaluation.voted ? 'down-icon' : 'up-icon')
 
   var htmlString = (
-    '<li class="list-group-item eval-result flex-container-row">'
+    '<li class="list-group-item eval-result flex-container-row eval-list-item">'
     + '<div class="flex-item-stretch">'
       + evaluation.comment
     + '</div>'
