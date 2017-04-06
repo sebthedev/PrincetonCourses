@@ -118,8 +118,9 @@ var init_search = function() {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
-      if (semesterIndex === 0) {
+      if (semesterIndex == 0) {
         option.attr('selected', true)
+        console.log(option)
       }
       $('#semester').append(option)
     }
