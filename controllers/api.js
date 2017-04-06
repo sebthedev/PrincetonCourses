@@ -9,6 +9,18 @@ var instructorModel = require.main.require('./models/instructor.js')
 var userModel = require.main.require('./models/user.js')
 var evaluationModel = require.main.require('./models/evaluation.js')
 
+const abbreviatedCourseProjection = {
+  assignments: 0,
+  grading: 0,
+  classes: 0,
+  description: 0,
+  otherinformation: 0,
+  otherrequirements: 0,
+  prerequisites: 0,
+  semesters: 0,
+  instructors: 0
+}
+
 // Check that the user is authenticated
 router.all('*', function (req, res, next) {
   if (!auth.userIsAuthenticated(req)) {
@@ -349,18 +361,7 @@ router.post('/courses', function (req, res) {
   // Remove in-depth course information if the client requests "brief" results
   if (typeof (req.body.brief) !== 'undefined' && JSON.parse(req.body.brief) === true) {
     // Merge the existing projection parameters with the parameters filtering-out all of these attributes
-    Object.assign(projection, {
-      'evaluations.studentComments': 0,
-      assignments: 0,
-      grading: 0,
-      classes: 0,
-      description: 0,
-      otherinformation: 0,
-      otherrequirements: 0,
-      prerequisites: 0,
-      semesters: 0,
-      instructors: 0
-    })
+    Object.assign(projection, abbreviatedCourseProjection)
   }
 
   // Send the query to the database and return a JSON array of the results
@@ -407,18 +408,28 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
 }).put(function (req, res) {
   var user = req.app.get('user')
 
-  userModel.update({
+  // Update the user's list of favorite courses
+  var updateUserPromise = userModel.update({
     _id: user._id
   }, {
     $addToSet: {
       favoriteCourses: parseInt(req.params.id)
     }
-  }, function (err) {
-    if (err) {
-      res.sendStatus(500)
-      return
+  }).exec()
+
+  // Fetch the data about this course
+  var fetchCoursePromise = courseModel.findById(req.params.id, abbreviatedCourseProjection).exec()
+
+  // Once both requests complete, return the course data to the client
+  Promise.all([updateUserPromise, fetchCoursePromise]).then(function (results) {
+    if (results[1]) {
+      res.json(results[1])
+    } else {
+      res.sendStatus(404)
     }
-    res.sendStatus(200)
+  }).catch(function (error) {
+    console.log(error)
+    res.sendStatus(500)
   })
 }).delete(function (req, res) {
   var user = req.app.get('user')
@@ -434,7 +445,7 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
       res.sendStatus(500)
       return
     }
-    res.sendStatus(200)
+    res.sendStatus(200).json
   })
 })
 

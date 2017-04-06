@@ -69,6 +69,11 @@ var toggleFav = function(course) {
   $.ajax({
     url: '/api/user/favorites/' + thisCourseId,
     type: (i === -1) ? 'PUT' : 'DELETE'
+  }).done(function (data) {
+    // Do something with the course data here, for example:
+    // console.log(data)
+  }).catch(function (error) {
+    console.log(error)
   })
 
   return false;
