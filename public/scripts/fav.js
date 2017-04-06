@@ -46,6 +46,14 @@ var updateFavList = function(courseId, course) {
   })
 }
 
+// update favorite button in title
+var updateTitleFav = function() {
+  var icon = $('#disp-title-right').find('i')[0]
+  var isFav = (document.favorites.indexOf(icon.courseId) !== -1)
+  $(icon).removeClass(isFav ? 'fav-icon' : 'unfav-icon')
+  $(icon).addClass(isFav ? 'unfav-icon' : 'fav-icon')
+}
+
 // handles click of favorite icon
 // - course is corresponding course object
 var toggleFav = function(courseId) {
@@ -65,6 +73,7 @@ var toggleFav = function(courseId) {
     // update display
     updateSearchFav()
     updateFavList(courseId, course)
+    updateTitleFav()
   }).catch(function (error) {
     console.log(error)
   })

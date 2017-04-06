@@ -78,12 +78,8 @@ var display_title = function(course) {
 
   $('#disp-title-right').append(htmlString)
   var icon = $('#disp-title-right').find('i')[0]
-  $(icon).click(function() {            // enable click to fav/unfav
-    toggleFav(course._id)
-    isFav = $(this).hasClass('unfav-icon')
-    $(this).removeClass(isFav ? 'unfav-icon' : 'fav-icon')
-    $(this).addClass(isFav ? 'fav-icon' : 'unfav-icon')
-  })
+  icon.courseId = course._id  // bind course id
+  $(icon).click(function() {toggleFav(course._id)}) // enable click to fav/unfav
 }
 
 // display course data for subtitle
@@ -94,10 +90,12 @@ var display_subtitle = function(course) {
   // tags
   var tags = ''
   if (course.distribution !== undefined) tags += ' <span class="label label-info">' + course.distribution + '</span>'
-  if (course.pdf["required"])            tags += ' <span class="label label-danger">PDF ONLY</span>'
-  else if (course.pdf["permitted"])      tags += ' <span class="label label-warning">PDF</span>'
-  else                                   tags += ' <span class="label label-danger">NPDF</span>'
-  if (course.audit)                      tags += ' <span class="label label-warning">AUDIT</span>'
+  if (course.hasOwnProperty('pdf')) {
+    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="label label-danger">PDF ONLY</span>'
+    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span class="label label-warning">PDF</span>'
+    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="label label-danger">NPDF</span>'
+  }
+  if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
 
   $('#disp-subtitle').append(listings + tags)
 
