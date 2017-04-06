@@ -275,7 +275,7 @@ body {
   padding-top: 50px;
   right: 50px;
   width: 30vw;
-  z-index: 100;
+  z-index: 300;
   border-color: #f58025;
   border-width: 2px;
 }

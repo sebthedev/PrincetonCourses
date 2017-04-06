@@ -1,7 +1,7 @@
 /* NAVBAR CSS */
 
 #menu-bar {
-  z-index: 300;
+  z-index: 400;
   margin-bottom: 0;
   border-radius: 0;
 }
@@ -39,14 +39,14 @@
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
   color: #ffffff;
-  background-color: #ff5c33;
+  background-color: #E36203;
 }
 .navbar-default .navbar-toggle {
-  border-color: #ff5c33;
+  border-color: #E36203;
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #ff5c33;
+  background-color: #E36203;
 }
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #000000;
