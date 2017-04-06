@@ -32,6 +32,12 @@
   background-color: #fff;
 }
 
+/* form focus outline shadow orange */
+.form-control:focus {
+  border-color: #EE7F2D;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(238, 127, 45, 0.6);
+}
+
 /* these are an rgb average of the corresponding bootstrap color and white */
 .text-info-dim {
   color: #addfee;
