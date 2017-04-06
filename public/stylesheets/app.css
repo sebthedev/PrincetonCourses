@@ -1,455 +1,161 @@
-/* MEL: on codepen at https://codepen.io/melyshu/pen/ryjpPE
+/* MEL: on codepen at https://codepen.io/melyshu/pen/aJXmNo
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
 
-/* GENERAL CSS (classes for general use) */
+/* MEL: the sectioning in this file should be maintained, potentially to be
+        modularized into separate files at some point in the future.
+        For now, it is convenient to have all the css in one file. */
 
+/* BOOTSTRAP OVERRIDES */
+.badge-large {
+  font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 17px;
+}
+
+.progress {
+  margin: 1px 0 0;
+  height: 5px;
+  background-color: #f4f4f4;
+  box-shadow: none;
+}
+
+.progress-bar {
+  box-shadow: none;
+}
+
+.list-group-item {
+  background-color: #f4f4f4;
+  padding: 5px 8px;
+}
+.list-group-item:hover {
+  background-color: #fff;
+}
+
+/* these are an rgb average of the corresponding bootstrap color and white */
 .text-info-dim {
   color: #addfee;
 }
-
 .text-warning-dim {
   color: #f7d6a6;
 }
-
 .text-danger-dim {
   color: #eca8a7;
 }
-
-  .unfav-icon {
-    color: #d9534f;
-    z-index: 10;
-  }
-
-  .unfav-icon:hover {
-    color: #f6dbdb;
-  }
-
-  .fav-icon {
-    color: #dddddd;
-    z-index: 10;
-  }
-
-  .fav-icon:hover {
-    color: #d9534f;
-  }
-
-@media only screen and (min-width: 767px) 
-{ 
-  body {
-    min-height:100%; 
-    height:100%; 
-    overflow-x:hidden; 
-    overflow-y: hidden;
-    display:block;
-  }
-
-  .flex-container-col {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .flex-container-row {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .text-info-dim {
-    color: #addfee;
-  }
-
-  .text-warning-dim {
-    color: #f7d6a6;
-  }
-
-  .text-danger-dim {
-    color: #eca8a7;
-  }
-
-  textarea {
-    resize: vertical; /* user can resize vertically, but width is fixed */
-  }
-
-  body {
-    min-height:100%;
-    height:100%;
-    overflow-x:hidden;
-    overflow-y: hidden;
-    display:block;
-  }
-
-  .flex-container-col {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .flex-container-col-top {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
-  }
-
-  .flex-container-row {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .flex-item-rigid {
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
-
-  .flex-item-stretch {
-    flex-grow: 10000;
-    flex-shrink: 10000;
-    flex-basis: 0;
-    overflow: hidden;
-  }
-
-  .flex-item-scroll {
-    flex-grow: 0;
-    flex-shrink: 10000;
-    flex-basis: auto;
-    overflow: auto;
-  }
-  .flex-item-special {
-    flex-shrink: 1;
-    overflow: auto;
-  }
-  .vmax {
-    height: 100%;
-    max-height: 100%;
-  }
-
-  .search-result {
-    cursor: pointer;
-  }
-  .search-result {
-    cursor: pointer;
-    padding: 5px 8px;
-  }
-  .result-dial {
-    flex-grow: 0;
-    width: 40px;
-  }
-
-  .result-text {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-    margin-left: 15px;
-    overflow: hidden;
-  }
-
-  .truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .scroll-window-col {
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
-
-  .scroll-window-row {
-    width: 100%;
-  }
-
-  .scroll-content-col {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow-y: auto;
-  }
-
-  .scroll-content-row {
-    white-space: nowrap;
-    /*overflow-x: auto;*/
-  }
-
-  .marginless {
-    margin: 0;
-  }
-
-  .section-toggle {
-    cursor: pointer;
-  }
-
-  .section-toggle:hover {
-    color: #888;
-  }
-
-  /* override bootstrap progress bar styling */
-  .progress {
-    margin: 0;
-    background-color: #eee;
-    border: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
-  .progress-bar {
-    text-align: left;
-    padding: 0px 15px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
-  .evals-title {
-    margin-top:10px;
-    margin-bottom:10px;
-    font-weight: bold;
-  }
-
-  #comments-panel {
-    height:100%;
-  }
-
-  ul.comments-list {
-     list-style: none;
-     padding: 0;
-  }
-
-  ul.comments-list li {
-     margin: 0;
-     padding: 5px 3px 5px 3px;
-     border-bottom: 1px solid #ccc;
-  }
-
-  ul.comments-list li:hover {
-     background-color: #eee;
-  }
-
-  ul#prof-courses {
-     list-style: none;
-     padding: 0;
-  }
-
-  ul#prof-courses li {
-     margin: 0;
-     padding: 5px 8px;
-     background-color:#fff;
-     border: 1px solid #eee;
-  }
-
-  ul#prof-courses li:hover {
-     /*background-color: #ddd;*/
-  }
-
-  #instructor-info {
-    padding-top:10px;
-    padding-bottom:10px;
-    margin-bottom:10px;
-    border: 1px solid #eee;
-  }
-
-
-  /* FORM FOCUS OUTLINE SHADOW COLOR ORANGE */
-
-  .form-control:focus {
-    border-color: #f58025;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(245, 128, 37, 0.6);
-  }
-
-  li.list-group-item:hover {
-    background-color: #f5f5f5;
-  }
-
-  /* SPECIFIC CSS (using identifiers for specific parts of page) */
-  #full-page {
-    height: 100vh;
-    width: 100vw;
-  }
-
-  #menu-bar {
-    z-index: 150;
-    margin-bottom: 0;
-    border-radius: 0;
-  }
-
-  #nav-netid {
-    width: 9em;
-    text-align: center;
-    color: #000;
-  }
-
-  #nav-netid:hover {
-    color: #fff;
-  }
-
-  #full-page {
-    height: 100vh;
-    width: 100vw;
-  }
-
-  #menu-bar {
-    z-index: 200;
-    margin-bottom: 0;
-    border-radius: 0;
-    border: 0;
-  }
-
-  #search-pane {
-    background-color: #ddd;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    order:1;
-  }
-
-  #left-pane {
-    display: flex;
-    flex-flow: column;
-  }
-
-  #display-pane {
-    padding: 0;
-  }
-
-  #display-header {
-    padding: 15px;
-    background-color: #eee;
-    justify-content: flex-start;
-    order:0;
-  }
-
-  #info-pane {
-    padding: 0;
-  }
-
-  #disp-body {
-    padding: 15px;
-    order:2;
-  }
-
-  #evals-pane {
-    resize:horizontal;
-    background-color: #ddd;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    height:100%;
-  }
-
-  #class-table {
-    width:100%;
-  }
-
-  #feedback-container {
-    position: fixed;
-    top: 0;
-    padding-top: 50px;
-    right: 50px;
-    width: 30vw;
-    z-index: 100;
-    border-color: #f58025;
-    border-width: 2px;
-  }
-
-  #search-results-cont {
-    flex-grow: 3;
-  }
-
-  #welcome-display-pane {
-    display: flex;
-    align-items : center;
-    align-content: center;
-    justify-content: center;
-  }
-
-  #favorite-courses {
-    max-height: 30vh;
-    overflow-y: auto;
-  }
-
-  .popup{
-    width: 50%;
-  }
-  /* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
-  ::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
-  }
-
-  ::-webkit-scrollbar-button {
-    width: 0px;
-    height: 0px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #f58025;
-    border: 0px none #ffffff;
-    border-radius: 0px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #d36f22;
-  }
-
-  ::-webkit-scrollbar-thumb:active {
-    background: #9b5118;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #666666;
-    border: 0px solid #ffffff;
-    border-radius: 50px;
-  }
-
-  ::-webkit-scrollbar-track:hover {
-    background: #000000;
-  }
-
-  ::-webkit-scrollbar-track:active {
-    background: #666666;
-  }
-
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
+.text-success-dim {
+  color: #addbad;
+}
+.text-dim {
+  color: #ccc;
 }
 
+/* PAGEWIDE CSS */
+
+.resizer {
+  width: 5px;
+  background-color: #ddd;
+  cursor: col-resize;
+}
+.resizer:active,
+.resizer:hover {
+  background-color: #EE7F2D;
+  cursor: col-resize;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+}
+
+#full-page {
+  height: 100vh;
+  width: 100vw;
+}
+
+.flex-container-col {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  overflow: hidden;
+}
+.flex-container-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.flex-item-rigid {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.flex-item-stretch {
+  flex-grow: 10000;
+  flex-shrink: 10000;
+  flex-basis: 0;
+  overflow: hidden;
+}
+.flex-item-scroll {
+  flex-grow: 0;
+  flex-shrink: 10000;
+  flex-basis: auto;
+  overflow: auto;
+}
+.flex-item-shrink {
+  flex-shrink: 1;
+  overflow: auto;
+}
+
+.margin-l {
+  margin-left: 10px;
+}
+.margin-r {
+  margin-right: 10px;
+}
+.marginless {
+  margin: 0;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+/* NAVBAR CSS */
+
+#menu-bar {
+  z-index: 300;
+  margin-bottom: 0;
+  border-radius: 0;
+}
 
 /* ADDING COLOR TO NAVBAR https://work.smarchal.com/twbscolor/ */
-
 .navbar-default {
   background-color: #EE7F2D;
   border-color: #EE7F2D;
 }
-
 .navbar-default .navbar-brand {
   color: #000000;
 }
-
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #ffffff;
+  color: #000000; /* old: #ffffff */
 }
-
 .navbar-default .navbar-text {
   color: #000000;
 }
-
 .navbar-default .navbar-nav > li > a {
   color: #000000;
 }
-
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
   color: #ffffff;
 }
-
 .navbar-default .navbar-nav > .active,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -457,111 +163,211 @@
   color: #ffffff;
   background-color: #E36203;
 }
-
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
   color: #ffffff;
   background-color: #ff5c33;
 }
-
 .navbar-default .navbar-toggle {
   border-color: #ff5c33;
 }
-
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
   background-color: #ff5c33;
 }
-
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #000000;
 }
-
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
   border-color: #000000;
 }
-
 .navbar-default .navbar-link {
   color: #000000;
 }
-
 .navbar-default .navbar-link:hover {
   color: #ffffff;
 }
 
-.footer {
-    width: 100%;
-    height: 30px;
-    background: #EE7F2D;
-    border-color: #ff5c33;
+/* SEARCH PANE CSS */
+
+#search-pane {
+  background-color: #ddd;
+  padding: 10px;
+  padding-right: 5px; /* compensate for resizer */
+  padding-bottom: 15px;
+  min-width: 200px;
+  max-width: 40vw;
+  width: 25%;
 }
 
-@media (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #000000;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #ffffff;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #ffffff;
-    background-color: #ff5c33;
-  }
+.text-button {
+  cursor: pointer;
+  color: #000;
+}
+.text-button:hover {
+  color: #888;
 }
 
-#feedback-button {
-  transition: all 0.3s ease-out;
+.search-result {
+  cursor: pointer;
 }
 
-/* About popup */
-#about-button {
-  transition: all 0.3s ease-out;
+.unfav-icon {
+  color: #d9534f;
+  cursor: pointer;
+}
+.unfav-icon:hover {
+  color: #f2c6c4;
 }
 
-.overlay {
+.fav-icon {
+  color: #ddd;
+  cursor: pointer;
+}
+.fav-icon:hover {
+  color: #d9534f;
+}
+
+/* DISPLAY HEADER CSS */
+
+#display-header {
+  padding: 10px;
+  background-color: #eee;
+}
+
+#disp-title {
+  margin: 5px 0;
+}
+#disp-title-right {
+  margin: 5px 0;
+}
+#disp-subtitle {
+  margin: 0;
+  padding-bottom: 5px;
+}
+#disp-subtitle-right {
+  margin: 0;
+}
+#disp-hline {
+  height: 5px;
+  background-color: #bbb;
+}
+
+/* INFO PANE CSS */
+#info-pane {
+  background-color: #ddd;
+  padding: 0 10px 15px;
+  padding-left: 5px; /* compensate for resizer */
+  width: 50%; /* default */
+  min-width: 150px;
+  max-width: 80%;
+  max-width: calc(100%-150px);
+  overflow-y: auto;
+  /* ugly thing to deal with flexbox and resizable */
+  left:0 !important;
+  position:relative !important;
+}
+
+/* EVALS PANE CSS */
+#evals-pane {
+  padding: 0 10px 15px;
+  overflow-y: auto;
+}
+
+.flex-eval {
+  margin-left: 8px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.up-icon {
+  color: #000;
+  cursor: pointer;
+}
+.up-icon:hover {
+  color: #0275d8;
+}
+
+.down-icon {
+  color: #0275d8;
+  cursor: pointer;
+}
+.down-icon:hover {
+  color: #9fd2fe;
+}
+
+/* FEEDBACK CSS */
+
+#feedback-container {
   position: fixed;
+  top: 0;
+  padding-top: 50px;
+  right: 50px;
+  width: 30vw;
+  z-index: 100;
+  border-color: #f58025;
+  border-width: 2px;
+}
+
+/* ABOUT POPUP CSS */
+#about-popup {
+  position: fixed;
+  z-index: 200;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-}
-.overlay:target {
-  visibility: visible;
-  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
 
-.popup {
-  z-index:200;
-  margin: 70px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  position: relative;
-  transition: all 0.5s ease-in-out;
+#about-panel {
+  margin-top: 100px;
+  width: 50vw;
 }
-.popup .close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  transition: all 200ms;
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;
+
+#about-popup-close:hover {
+  color: #d9534f;
+  cursor: pointer;
 }
-.popup .close:hover {
-  color: #06D85F;
+
+/* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
 }
-.popup .content {
-  max-height: 30%;
-  overflow: auto;
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #f58025;
+  border: 0px none #ffffff;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d36f22;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #9b5118;
+}
+::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px solid #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #000000;
+}
+::-webkit-scrollbar-track:active {
+  background: #666666;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
