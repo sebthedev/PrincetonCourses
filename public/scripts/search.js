@@ -15,7 +15,7 @@ var searchForCourses = function () {
   search += '?semester=' + $('#semester').val()
   search += '&sort=' + $('#sort').val()
 
-  window.history.replaceState({courseID: document.courseID}, null, '/course/' + document.courseID + getSearchQueryURL())
+  window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
   // search!
   $.get(search, function (results, success) {

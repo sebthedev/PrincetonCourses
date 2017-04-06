@@ -18,16 +18,16 @@ $(document).ready(function() {
 })
 
 // loads course from url
-var init_load = function() {
+var init_load = function () {
+  // Parse and display search parameters, if any exist
+  parseSearchParameters()
+
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
     displayCourseDetails(pathnameMatch[1])
   }
-
-  // Parse and display search parameters, if any exist
-  parseSearchParameters()
 }
 
 // Handle displaying a course after pushing the back/forward button in the browser
@@ -40,7 +40,6 @@ window.onpopstate = function (event) {
 
 // Parse the URL to check for whether the app should be showing a course and displaying any search terms
 var parseSearchParameters = function () {
-
   // Parse search terms
   var unparsedParameters = window.location.search.replace('?', '').split('&')
   var parameters = {}
