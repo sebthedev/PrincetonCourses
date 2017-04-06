@@ -1,7 +1,5 @@
 // update the favorites data for search pane
-var updateSearchFav = function(course) {
-  var thisCourseId = course._id
-
+var updateSearchFav = function() {
   $("#results").children().each(function() {
     var isFav = (document.favorites.indexOf(this.course._id) !== -1)
 
@@ -65,7 +63,7 @@ var toggleFav = function(courseId) {
     type: (i === -1) ? 'PUT' : 'DELETE'
   }).done(function (course) {
     // update display
-    updateSearchFav(course)
+    updateSearchFav()
     updateFavList(courseId, course)
   }).catch(function (error) {
     console.log(error)
