@@ -11,8 +11,8 @@ var $ = require('cheerio')
 
 // Set the level of the logger to the first command line argument
 // Valid values: "trace", "debug", "info", "warn", "error"
-if (process.argv.length > 2) {
-  log.setLevel(process.argv[2])
+if (process.argv.length > 3) {
+  log.setLevel(process.argv[3])
 }
 
 // Load internal modules
@@ -150,5 +150,11 @@ var importSubject = function (semester, subject) {
 // Initialise a counter of the number of courses pending being added to the database
 var coursesPendingProcessing = 0
 
+// Get queryString from command line args
+var queryString = 'term=all&subject=all'
+if (process.argv.length > 2) {
+  queryString = process.argv[2]
+}
+
 // Execute a script to import courses from all available semesters ("terms") and all available departments ("subjects")
-loadCoursesFromRegistrar('term=all&subject=all', importDataFromRegistrar)
+loadCoursesFromRegistrar(queryString, importDataFromRegistrar)
