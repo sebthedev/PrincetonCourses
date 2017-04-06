@@ -20,7 +20,7 @@ var semesterModel = require('../models/semester.js')
 var courseModel = require('../models/course.js')
 
 // Connect to the database
-require('./database.js')
+require('../controllers/database.js')
 
 // A function that takes a query string for the OIT's Course Offerings API and return to the
 // external callback junction a JSON object of the response data.
