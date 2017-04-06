@@ -1,7 +1,17 @@
 // dependencies: module.js, fav.js, display.js
 
 var getSearchQueryURL = function () {
-  return '?search=' + encodeURIComponent($('#searchbox').val()) + '&semester=' + $('#semester').val() + '&sort=' + $('#sort').val()
+  var parameters = []
+  if ($('#searchbox').val() != null) {
+    parameters.push('search=' + $('#searchbox').val())
+  }
+  if ($('#semester').val() != null) {
+    parameters.push('semester=' + $('#semester').val())
+  }
+  if ($('#sort').val() != null) {
+    parameters.push('sort=' + $('#sort').val())
+  }
+  return '?' + parameters.join('&')
 }
 
 // function for updating search results
