@@ -117,10 +117,10 @@ function newDOMcourseResult(course, props) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]                                 // create DOM object
-  $(entry).find('i').click(function() {toggleFav(course); return false}) // enable click to fav/unfav
-  entry.course = course                                                  // attach course object
-  $(entry).click(function() {displayResult($(entry), course)})           // enable click to display
+  var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
+  $(entry).find('i').click(function() {toggleFav(course._id); return false}) // enable click to fav/unfav
+  entry.course = course                                                      // attach course object
+  $(entry).click(function() {displayResult($(entry), course)})               // enable click to display
 
   return entry
 }

@@ -71,14 +71,19 @@ var display_title = function(course) {
     var score = course.evaluations.scores['Overall Quality of the Course']
   }
 
-  var htmlString = '<i class="fa fa-heart ' /*+ (isFav ? 'unfav-icon' : 'fav-icon')*/ + '"></i> '
+  var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
                  + '<span class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
                    + (hasScore ? score.toFixed(2) : 'N/A')
                  + '</span>'
 
   $('#disp-title-right').append(htmlString)
-  $('#disp-title-right').find('i')[0].courseId = course["_id"]   // link to course id for fav icon
-  //$('#disp-title-right').find('i').click(function() {toggleFav(course)})              // enable click to fav/unfav
+  var icon = $('#disp-title-right').find('i')[0]
+  $(icon).click(function() {            // enable click to fav/unfav
+    toggleFav(course._id)
+    isFav = $(this).hasClass('unfav-icon')
+    $(this).removeClass(isFav ? 'unfav-icon' : 'fav-icon')
+    $(this).addClass(isFav ? 'fav-icon' : 'unfav-icon')
+  })
 }
 
 // display course data for subtitle
