@@ -28,9 +28,9 @@
   background-color: #f4f4f4;
   padding: 5px 8px;
 }
-.list-group-item:hover {
+/*.list-group-item:hover {
   background-color: #fff;
-}
+}*/
 
 li.list-group-item.search-result:hover {
   background-color: #fff;
