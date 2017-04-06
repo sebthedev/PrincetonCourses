@@ -71,7 +71,7 @@ function newDOMsemesterEval (semester) {
   if (professors.length > 0) {
     professors = '&nbsp;' + professors
   }
-  console.log(semester)
+
   var hasScore = (semester.hasOwnProperty('scores') && semester.scores.hasOwnProperty('Overall Quality of the Course'))
 
   if (hasScore) {

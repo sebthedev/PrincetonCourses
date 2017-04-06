@@ -10,7 +10,7 @@ var displayResult = function(result, course) {
 
   // Push to the history this course
   var courseID = course._id
-  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID)
+  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID + getSearchQueryURL())
 
   // Display the information for this course
   displayCourseDetails(courseID)
@@ -18,6 +18,7 @@ var displayResult = function(result, course) {
 
 // function for displaying course details
 var displayCourseDetails = function(courseID) {
+  document.courseID = courseID
   $.get('/api/course/' + courseID, function (course, status) {
       // Basic error handling
       if (status !== 'success') {

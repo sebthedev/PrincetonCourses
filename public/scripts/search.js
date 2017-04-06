@@ -1,5 +1,9 @@
 // dependencies: module.js, fav.js, display.js
 
+var getSearchQueryURL = function () {
+  return '?search=' + encodeURIComponent($('#searchbox').val()) + '&semester=' + $('#semester').val() + '&sort=' + $('#sort').val()
+}
+
 // function for updating search results
 var searchForCourses = function () {
   // return if no search
@@ -10,6 +14,8 @@ var searchForCourses = function () {
   search += encodeURIComponent($('#searchbox').val())
   search += '?semester=' + $('#semester').val()
   search += '&sort=' + $('#sort').val()
+
+  window.history.replaceState({courseID: document.courseID}, null, '/course/' + document.courseID + getSearchQueryURL())
 
   // search!
   $.get(search, function (results, success) {

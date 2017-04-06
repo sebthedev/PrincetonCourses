@@ -19,11 +19,48 @@ $(document).ready(function() {
 
 // loads course from url
 var init_load = function() {
-  // On pageload, check if the URL contains a valid course
+  // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
-      // Load the course
-      displayCourseDetails(pathnameMatch[1])
+    // Load the course
+    displayCourseDetails(pathnameMatch[1])
+  }
+
+  // Parse and display search parameters, if any exist
+  parseSearchParameters()
+}
+
+// Handle displaying a course after pushing the back/forward button in the browser
+window.onpopstate = function (event) {
+  if (event.state.courseID) {
+    displayCourseDetails(event.state.courseID)
+  }
+  parseSearchParameters()
+}
+
+// Parse the URL to check for whether the app should be showing a course and displaying any search terms
+var parseSearchParameters = function () {
+
+  // Parse search terms
+  var unparsedParameters = window.location.search.replace('?', '').split('&')
+  var parameters = {}
+  for (var parametersIndex in unparsedParameters) {
+    var keyValue = unparsedParameters[parametersIndex].split('=')
+    if (keyValue.length === 2) {
+      parameters[keyValue[0]] = decodeURIComponent(keyValue[1])
+    }
+  }
+  if (parameters.hasOwnProperty('search')) {
+    $('#searchbox').val(parameters.search)
+  }
+  if (parameters.hasOwnProperty('semester')) {
+    $('#semester').val(parameters.semester)
+  }
+  if (parameters.hasOwnProperty('sort')) {
+    $('#sort').val(parameters.sort)
+  }
+  if (parameters !== {}) {
+    searchForCourses()
   }
 }
 
@@ -73,7 +110,7 @@ var init_searchpane = function() {
 // to initialize searching function
 var init_search = function() {
   // Every time a key is pressed inside the #searchbox, call the searchForCourses function
-  $('#searchbox').keyup(searchForCourses)
+  $('#searchbox').on('input', searchForCourses)
   $('#semester, #sort').change(searchForCourses)
 
   // load the semesters for the dropdown
