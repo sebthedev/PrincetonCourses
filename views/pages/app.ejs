@@ -40,7 +40,7 @@
     </nav>
     <div class="flex-item-stretch flex-container-row">
       <div id="search-pane" class="flex-item-rigid flex-container-col">
-        <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode != 13">
+        <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode !== 13">
           <div class="form-group flex-container-row">
             <input id="searchbox" class="flex-item-stretch form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
           </div>
@@ -206,7 +206,7 @@
     </div>
   </div>
   <div id="feedback-container" class="panel" style="display: none;">
-    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode != 13">
+    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode !== 13">
       <div class="form-group">
         <label for="feedback-text">Any thoughts, comments or complaints?</label>
         <textarea id="feedback-text" class="form-control" rows="3"></textarea>

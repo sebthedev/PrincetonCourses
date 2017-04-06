@@ -118,7 +118,7 @@ var init_search = function() {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
-      if (semesterIndex == 0) {
+      if (semesterIndex === 0) {
         option.attr('selected', true)
       }
       $('#semester').append(option)
@@ -145,7 +145,7 @@ var init_favorites = function() {
   // call api to get favorites and display
   $.get('/api/user/favorites', function(courses) {
 
-    $('#favorite-header').css('display', (courses == undefined || courses.length == 0) ? 'none' : '')
+    $('#favorite-header').css('display', (courses === undefined || courses.length === 0) ? 'none' : '')
 
     $('#favs').html('');
     $('#favorite-title').html('');
