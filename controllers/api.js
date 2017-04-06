@@ -189,7 +189,14 @@ router.get('/course/:id', function (req, res) {
   }
 
   // Query the database for the information about the specified semester of the requested course
-  var queryCoursePromise = courseModel.findOne({_id: req.params.id}, {scores: 0}).exec()
+  var queryCoursePromise = courseModel.findOne({_id: req.params.id}).populate({
+    path: 'comments',
+    options: {
+      sort: {
+        votes: -1
+      }
+    }
+  }).exec()
 
   // Find the evaluation details for the most recent semester of this course for which evaluations exist
   var mostRecentEvaluationsPromise = courseModel.find({
@@ -272,8 +279,10 @@ router.get('/course/:id', function (req, res) {
     }
     queryCourse.semesters = semesters
 
+    let useOldEvaluations = queryCourse.scoresFromPreviousSemester || !queryCourse.hasOwnProperty('scores') || queryCourse.hasOwnProperty('scores') && queryCourse.scores === {}
+
     // Insert into the queryCourse the evaluation data for the most recent semester for which evaluations exist
-    if (mostRecentEvaluations.length === 1) {
+    if (useOldEvaluations && mostRecentEvaluations.length === 1) {
       queryCourse.evaluations = mostRecentEvaluations[0].toObject()
 
       // Note if the user has previously up-voted this comment
@@ -282,6 +291,16 @@ router.get('/course/:id', function (req, res) {
         delete queryCourse.evaluations.comments[commentIndex].voters
       }
       delete queryCourse.evaluations.commonName
+    } else {
+      queryCourse.evaluations = {}
+      if (queryCourse.hasOwnProperty('scores')) {
+        queryCourse.evaluations.scores = queryCourse.scores
+        delete queryCourse.scores
+      }
+      if (queryCourse.hasOwnProperty('comments')) {
+        queryCourse.evaluations.comments = queryCourse.comments
+        delete queryCourse.comments
+      }
     }
 
     delete queryCourse.comments
