@@ -210,10 +210,10 @@ body {
 
 .text-button {
   cursor: pointer;
-  color: #000;
+  color: #888;
 }
 .text-button:hover {
-  color: #888;
+  color: #f4f4f4;
 }
 
 .search-result {
