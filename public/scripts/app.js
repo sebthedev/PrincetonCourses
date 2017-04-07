@@ -53,7 +53,7 @@ var parseSearchParameters = function () {
     $('#searchbox').val(parameters.search)
   }
   if (parameters.hasOwnProperty('semester')) {
-    $('#semester').val(parameters.semester)
+    $('#semester').data('query', parameters.semester).val(parameters.semester)
   }
   if (parameters.hasOwnProperty('sort')) {
     $('#sort').val(parameters.sort)
@@ -118,10 +118,12 @@ var init_search = function() {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
-      if (semesterIndex == 0) {
-        option.attr('selected', true)
-      }
       $('#semester').append(option)
+    }
+    if ($('#semester').data('query')) {
+      $('#semester').children('[value=' + $('#semester').data('query') +']').attr('selected', true)
+    } else {
+      $('#semester').children().eq(1).attr('selected', true)
     }
   })
 }
@@ -145,7 +147,7 @@ var init_favorites = function() {
   // call api to get favorites and display
   $.get('/api/user/favorites', function(courses) {
 
-    $('#favorite-header').css('display', (courses == undefined || courses.length == 0) ? 'none' : '')
+    $('#favorite-header').css('display', (courses === undefined || courses.length === 0) ? 'none' : '')
 
     $('#favs').html('');
     $('#favorite-title').html('');

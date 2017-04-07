@@ -11,6 +11,8 @@
   <script src="/scripts/search.js"></script>
   <script src="/scripts/app.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
 </head>
 
 <!-- MEL: body on CodePen at https://codepen.io/melyshu/pen/aJXmNo -->
@@ -40,14 +42,14 @@
     </nav>
     <div class="flex-item-stretch flex-container-row">
       <div id="search-pane" class="flex-item-rigid flex-container-col">
-        <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode != 13">
+        <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode !== 13">
           <div class="form-group flex-container-row">
             <input id="searchbox" class="flex-item-stretch form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
           </div>
           <div class="form-group flex-container-row marginless">
             <select id="semester" class="form-control flex-item-stretch margin-r">
               <option disabled>Show courses from semester…</option>
-              <option value="1174" selected>SpringTEST 2017</option>
+              <option value="1174" selected>Spring 2017</option>
               <option value="1172">Fall 2016</option>
               <option value="1171">Summer 2016</option>
               <option value="1164">Spring 2016</option>
@@ -206,7 +208,7 @@
     </div>
   </div>
   <div id="feedback-container" class="panel" style="display: none;">
-    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode != 13">
+    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode !== 13">
       <div class="form-group">
         <label for="feedback-text">Any thoughts, comments or complaints?</label>
         <textarea id="feedback-text" class="form-control" rows="3"></textarea>

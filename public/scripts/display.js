@@ -71,14 +71,15 @@ var display_title = function(course) {
     var score = course.evaluations.scores['Overall Quality of the Course']
   }
 
-  var htmlString = '<i class="fa fa-heart ' /*+ (isFav ? 'unfav-icon' : 'fav-icon')*/ + '"></i> '
+  var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
                  + '<span class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
                    + (hasScore ? score.toFixed(2) : 'N/A')
                  + '</span>'
 
   $('#disp-title-right').append(htmlString)
-  $('#disp-title-right').find('i')[0].courseId = course["_id"]   // link to course id for fav icon
-  //$('#disp-title-right').find('i').click(function() {toggleFav(course)})              // enable click to fav/unfav
+  var icon = $('#disp-title-right').find('i')[0]
+  icon.courseId = course._id  // bind course id
+  $(icon).click(function() {toggleFav(course._id)}) // enable click to fav/unfav
 }
 
 // display course data for subtitle
@@ -89,10 +90,12 @@ var display_subtitle = function(course) {
   // tags
   var tags = ''
   if (course.distribution !== undefined) tags += ' <span class="label label-info">' + course.distribution + '</span>'
-  if (course.pdf["required"])            tags += ' <span class="label label-danger">PDF ONLY</span>'
-  else if (course.pdf["permitted"])      tags += ' <span class="label label-warning">PDF</span>'
-  else                                   tags += ' <span class="label label-danger">NPDF</span>'
-  if (course.audit)                      tags += ' <span class="label label-warning">AUDIT</span>'
+  if (course.hasOwnProperty('pdf')) {
+    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="label label-danger">PDF ONLY</span>'
+    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span class="label label-warning">PDF</span>'
+    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="label label-danger">NPDF</span>'
+  }
+  if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
 
   $('#disp-subtitle').append(listings + tags)
 
@@ -117,7 +120,7 @@ var display_instructors = function(course) {
     var name = course.instructors[instructor].name.first
              + ' ' + course.instructors[instructor].name.last
     instructors += (
-      '<li class="list-group-item">'
+      '<li class="list-group-item info-list-item">'
       + '<div class="flex-container-row">'
         + '<div class="flex-item-stretch truncate">'
           + '<strong>' + name + '</strong>'
@@ -139,7 +142,7 @@ var display_description = function(course) {
   // refresh
   $('#disp-description-body').html('')
 
-  $('#disp-description-body').append('<li class="list-group-item">' + course.description + '</li>')
+  $('#disp-description-body').append('<li class="list-group-item info-list-item">' + course.description + '</li>')
   display_autotoggle('description')
 }
 
@@ -151,7 +154,7 @@ var display_assignments = function(course) {
   var assignments = ''
   for (var assignment in course.assignments) {
     var asmt = course.assignments[assignment]
-    assignments += '<li class="list-group-item">' + asmt + '</li>'
+    assignments += '<li class="list-group-item info-list-item">' + asmt + '</li>'
   }
 
   $('#disp-assignments-body').append(assignments)
@@ -166,7 +169,7 @@ var display_grading = function(course) {
   var grading = ''
   for (var index in course.grading) {
     var grade = course.grading[index]
-    grading += '<li class="list-group-item">' + grade.component + ': ' + grade.weight + '%</li>'
+    grading += '<li class="list-group-item info-list-item">' + grade.component + ': ' + grade.weight + '%</li>'
   }
 
   $('#disp-grading-body').append(grading)
@@ -180,7 +183,7 @@ var display_prerequisites = function(course) {
 
   var prerequisites = ''
   if (course.hasOwnProperty('prerequisites')) {
-    prerequisites += '<li class="list-group-item">' + course.prerequisites + '</li>'
+    prerequisites += '<li class="list-group-item info-list-item">' + course.prerequisites + '</li>'
   }
 
   $('#disp-prerequisites-body').append(prerequisites)
@@ -194,7 +197,7 @@ var display_equivalent = function(course) {
 
   var equivalent = ''
   if (course.hasOwnProperty('equivalentcourses')) {
-    equivalent += '<li class="list-group-item">' + course.equivalentcourses + '</li>'
+    equivalent += '<li class="list-group-item info-list-item">' + course.equivalentcourses + '</li>'
   }
 
   $('#disp-equivalent-body').append(equivalent)
@@ -208,10 +211,10 @@ var display_other = function(course) {
 
   var other = ''
   if (course.hasOwnProperty('otherinformation')) {
-    other += '<li class="list-group-item">' + course.otherinformation + '</li>'
+    other += '<li class="list-group-item info-list-item">' + course.otherinformation + '</li>'
   }
   if (course.hasOwnProperty('otherrequirements')) {
-    other += '<li class="list-group-item">' + course.otherrequirements + '</li>'
+    other += '<li class="list-group-item info-list-item">' + course.otherrequirements + '</li>'
   }
 
   $('#disp-other-body').append(other)
@@ -268,7 +271,7 @@ var newDOMclassListing = function(aclass) {
 
   // html string
   var htmlString = (
-    '<li class="list-group-item">'
+    '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + name + '\xa0<small' + statusColor + '>' + status + '</small></strong>'

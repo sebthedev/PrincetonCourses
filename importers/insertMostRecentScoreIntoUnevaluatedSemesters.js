@@ -1,5 +1,7 @@
 // Load config variables from the .env file
-require('dotenv').config({path: '../.env'})
+// require('dotenv').config({path: '../.env'})
+require('dotenv').config()
+
 
 // Load internal modules
 var courseModel = require('../models/course.js')

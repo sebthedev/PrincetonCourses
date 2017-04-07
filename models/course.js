@@ -128,7 +128,8 @@ courseSchema.index({
     'crosslistings.department': 5,
     'crosslistings.catalogNumber': 3
   },
-  name: 'CourseRelevance'
+  name: 'CourseRelevance',
+  language: 'none'
 })
 
 // Catch errors when creating the textindex

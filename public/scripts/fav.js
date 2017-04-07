@@ -1,7 +1,5 @@
 // update the favorites data for search pane
-var updateSearchFav = function(course) {
-  var thisCourseId = course._id
-
+var updateSearchFav = function() {
   $("#results").children().each(function() {
     var isFav = (document.favorites.indexOf(this.course._id) !== -1)
 
@@ -12,13 +10,13 @@ var updateSearchFav = function(course) {
 }
 
 // update the display of favorites upon new fav/unfav from course
-var updateFavList = function(course) {
-  var thisCourseId = course._id
+// input course only on favoriting
+var updateFavList = function(courseId, course) {
 
   $('#favorite-title').html('')
   $('#favorite-title').append(document.favorites.length + ' Favorite Course'+ (document.favorites.length !== 1 ? 's' : ''))
 
-  var isFav = (document.favorites.indexOf(thisCourseId) !== -1)
+  var isFav = (document.favorites.indexOf(courseId) !== -1)
 
   // toggle title if necessary
   if ((document.favorites.length === 0 && $('#favorite-header').css('display') !== 'none')
@@ -39,7 +37,7 @@ var updateFavList = function(course) {
   // if removing a favorite
   $("#favs").children().each(function() {
     // ignore if not this course
-    if (this.course._id !== thisCourseId) return
+    if (this.course._id !== courseId) return
 
     // remove
     $(this).slideToggle(function() {
@@ -48,30 +46,34 @@ var updateFavList = function(course) {
   })
 }
 
+// update favorite button in title
+var updateTitleFav = function() {
+  var icon = $('#disp-title-right').find('i')[0]
+  var isFav = (document.favorites.indexOf(icon.courseId) !== -1)
+  $(icon).removeClass(isFav ? 'fav-icon' : 'unfav-icon')
+  $(icon).addClass(isFav ? 'unfav-icon' : 'fav-icon')
+}
+
 // handles click of favorite icon
 // - course is corresponding course object
-var toggleFav = function(course) {
-  var thisCourseId = course._id
-
-  var i = document.favorites.indexOf(thisCourseId)
+var toggleFav = function(courseId) {
+  var i = document.favorites.indexOf(courseId)
 
   // update local list
   if (i === -1)
-    document.favorites.push(thisCourseId)
+    document.favorites.push(courseId)
   else
     document.favorites.splice(i, 1)
 
-  // update display
-  updateSearchFav(course)
-  updateFavList(course)
-
   // update database
   $.ajax({
-    url: '/api/user/favorites/' + thisCourseId,
+    url: '/api/user/favorites/' + courseId,
     type: (i === -1) ? 'PUT' : 'DELETE'
-  }).done(function (data) {
-    // Do something with the course data here, for example:
-    // console.log(data)
+  }).done(function (course) {
+    // update display
+    updateSearchFav()
+    updateFavList(courseId, course)
+    updateTitleFav()
   }).catch(function (error) {
     console.log(error)
   })

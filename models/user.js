@@ -11,14 +11,6 @@ var userSchema = new mongoose.Schema({
   favoriteCourses: [{
     type: Number,
     ref: 'Course'
-  }],
-  upvotedEvaluations: [{
-    type: String,
-    ref: 'Evaluation'
-  }],
-  downvotedEvaluations: [{
-    type: String,
-    ref: 'Evaluation'
   }]
 })
 

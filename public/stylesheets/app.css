@@ -28,8 +28,23 @@
   background-color: #f4f4f4;
   padding: 5px 8px;
 }
-.list-group-item:hover {
+/*.list-group-item:hover {
   background-color: #fff;
+}*/
+
+li.list-group-item.search-result:hover {
+  background-color: #fff;
+}
+
+li.list-group-item.search-result.active:hover {
+  background-color: #428bca;
+  border-color: #428bca;
+}
+
+/* form focus outline shadow orange */
+.form-control:focus {
+  border-color: #EE7F2D;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(238, 127, 45, 0.6);
 }
 
 /* these are an rgb average of the corresponding bootstrap color and white */
@@ -134,62 +149,6 @@ body {
   border-radius: 0;
 }
 
-/* ADDING COLOR TO NAVBAR https://work.smarchal.com/twbscolor/ */
-.navbar-default {
-  background-color: #EE7F2D;
-  border-color: #EE7F2D;
-}
-.navbar-default .navbar-brand {
-  color: #000000;
-}
-.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-  color: #000000; /* old: #ffffff */
-}
-.navbar-default .navbar-text {
-  color: #000000;
-}
-.navbar-default .navbar-nav > li > a {
-  color: #000000;
-}
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
-  color: #ffffff;
-}
-.navbar-default .navbar-nav > .active,
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #ffffff;
-  background-color: #E36203;
-}
-.navbar-default .navbar-nav > .open > a,
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
-  color: #ffffff;
-  background-color: #ff5c33;
-}
-.navbar-default .navbar-toggle {
-  border-color: #ff5c33;
-}
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-  background-color: #ff5c33;
-}
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #000000;
-}
-.navbar-default .navbar-collapse,
-.navbar-default .navbar-form {
-  border-color: #000000;
-}
-.navbar-default .navbar-link {
-  color: #000000;
-}
-.navbar-default .navbar-link:hover {
-  color: #ffffff;
-}
-
 /* SEARCH PANE CSS */
 
 #search-pane {
@@ -204,10 +163,10 @@ body {
 
 .text-button {
   cursor: pointer;
-  color: #000;
+  color: #888;
 }
 .text-button:hover {
-  color: #888;
+  color: #f4f4f4;
 }
 
 .search-result {
@@ -235,6 +194,8 @@ body {
 #display-header {
   padding: 10px;
   background-color: #eee;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 200;
 }
 
 #disp-title {
@@ -250,15 +211,11 @@ body {
 #disp-subtitle-right {
   margin: 0;
 }
-#disp-hline {
-  height: 5px;
-  background-color: #bbb;
-}
 
 /* INFO PANE CSS */
 #info-pane {
   background-color: #ddd;
-  padding: 0 10px 15px;
+  padding: 5px 10px 15px;
   padding-left: 5px; /* compensate for resizer */
   width: 50%; /* default */
   min-width: 150px;
@@ -270,9 +227,13 @@ body {
   position:relative !important;
 }
 
+.info-list-item {
+  background-color:#eee;
+}
+
 /* EVALS PANE CSS */
 #evals-pane {
-  padding: 0 10px 15px;
+  padding: 5px 10px 15px;
   overflow-y: auto;
 }
 
@@ -307,7 +268,7 @@ body {
   padding-top: 50px;
   right: 50px;
   width: 30vw;
-  z-index: 100;
+  z-index: 300;
   border-color: #f58025;
   border-width: 2px;
 }
@@ -334,40 +295,4 @@ body {
 #about-popup-close:hover {
   color: #d9534f;
   cursor: pointer;
-}
-
-/* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
-
-::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
-}
-::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
-}
-::-webkit-scrollbar-thumb {
-  background: #f58025;
-  border: 0px none #ffffff;
-  border-radius: 0px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #d36f22;
-}
-::-webkit-scrollbar-thumb:active {
-  background: #9b5118;
-}
-::-webkit-scrollbar-track {
-  background: #666666;
-  border: 0px solid #ffffff;
-  border-radius: 50px;
-}
-::-webkit-scrollbar-track:hover {
-  background: #000000;
-}
-::-webkit-scrollbar-track:active {
-  background: #666666;
-}
-::-webkit-scrollbar-corner {
-  background: transparent;
 }

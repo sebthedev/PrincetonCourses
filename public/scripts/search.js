@@ -1,7 +1,17 @@
 // dependencies: module.js, fav.js, display.js
 
 var getSearchQueryURL = function () {
-  return '?search=' + encodeURIComponent($('#searchbox').val()) + '&semester=' + $('#semester').val() + '&sort=' + $('#sort').val()
+  var parameters = []
+  if ($('#searchbox').val() != null) {
+    parameters.push('search=' + $('#searchbox').val())
+  }
+  if ($('#semester').val() != null) {
+    parameters.push('semester=' + $('#semester').val())
+  }
+  if ($('#sort').val() != null) {
+    parameters.push('sort=' + $('#sort').val())
+  }
+  return '?' + parameters.join('&')
 }
 
 // function for updating search results
@@ -27,21 +37,31 @@ var searchForCourses = function () {
     // Remove any search results already in the results pane
     $('#results').children().remove()
 
+    var len = courseLength(results)
+
     // Update the search results sub-heading
-    $('#search-title').text(results.length + ' Search Result' + (results.length !== 1 ? 's' : ''))
+    $('#search-title').text(len + ' Search Result' + (len !== 1 ? 's' : ''))
 
     // List the returned courses in the search results pane
     for (var index in results) {
-      var thisCourse = results[index]
-      document.debug = thisCourse
-      $('#results').append(newDOMResult(thisCourse, {"tags": 1}))
+      var result = results[index]
+      $('#results').append(newDOMResult(result, {"tags": 1}))
     }
   })
 }
 
+// length of non-instructor results (for temporary hiding of instructors)
+function courseLength(results) {
+  var count = 0
+  for (var index in results)
+    if (results[index].type !== 'instructor') count++
+
+  return count
+}
+
 // returns a DOM object for a search result
 function newDOMResult(result, props) {
-  if (result.type === 'instructor') return newDOMinstructorResult(result, props)
+  if (result.type === 'instructor') return // newDOMinstructorResult(result, props)
   /*if (result.type === 'course')*/ return newDOMcourseResult(result, props)
 }
 
@@ -90,8 +110,10 @@ function newDOMcourseResult(course, props) {
   var tags = ''
   if (props.hasOwnProperty('tags')) {
     if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
-    if (course.pdf["required"]) tags += ' <span class="text-danger-dim">P</span>'
-    else if (!course.pdf["permitted"]) tags += ' <span class="text-danger-dim">N</span>'
+    if (course.hasOwnProperty('pdf')) {
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="text-danger-dim">P</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="text-danger-dim">N</span>'
+    }
     if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
     if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
   }
@@ -117,10 +139,10 @@ function newDOMcourseResult(course, props) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]                                 // create DOM object
-  $(entry).find('i').click(function() {toggleFav(course); return false}) // enable click to fav/unfav
-  entry.course = course                                                  // attach course object
-  $(entry).click(function() {displayResult($(entry), course)})           // enable click to display
+  var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
+  $(entry).find('i').click(function() {toggleFav(course._id); return false}) // enable click to fav/unfav
+  entry.course = course                                                      // attach course object
+  $(entry).click(function() {displayResult($(entry), course)})               // enable click to display
 
   return entry
 }
