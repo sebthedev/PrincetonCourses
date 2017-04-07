@@ -61,7 +61,7 @@ li.list-group-item.search-result.active:hover {
   color: #addbad;
 }
 .text-dim {
-  color: #ccc;
+  /* color: #777;*/
 }
 
 /* PAGEWIDE CSS */
@@ -191,6 +191,7 @@ body {
 
 .instructor-list-item {
   padding: 8px;
+  background-color: #eee;
 }
 .instructor-body {
   margin: 5px 0 0;
