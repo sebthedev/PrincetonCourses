@@ -84,6 +84,10 @@ have to make a lot of sense. */
 
 var detectCourseClash = function (favoriteCourses, courses, excludeClashingCourses) {
   
+  //return all if excludeClashingCourses is false
+  if (!excludeClashingCourses)
+    return courses
+
   //if no courses are favorited, or only one is no clashes can exist
   if (favoriteCourses.length <= 1) {
     return courses
@@ -98,17 +102,21 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
   var maxLength = [] //lengths of nested arrays in favCourseSectionsAll
   var sectionIndex = [] //index to be used when looking at possible schedules
   
-  for (var course in favoriteCourses) {
+  for (var currentCourse = 0; currentCourse < favoriteCourses.length; currentCourse++) {
     //each course has new, independent sections
-    var prevSectionType = null
+    var prevSectionType = ""
     var courseSectionsAll = []
     var courseSectionsInc = []
     var maxLengthIndex = 0
 
-    for (var section in course.classes) {
-      if (prevSectionType != null && section.section != null) {
+    var favCourse = favoriteCourses[currentCourse]
+    for (var currentClass = 0; currentClass < favCourse.classes.length; currentClass++) {
+      
+      var currentSection = favCourse.classes[currentClass]
+      console.log(currentSection.schedule)
+      if (prevSectionType != "" /*&& curSection.section != null*/) {
         //new section type within a course, push previous information into arrays
-        if (prevSectionType != section.section.charAt(0)) {
+        if (prevSectionType != String(currentSection.section).charAt(0)) {
           favCourseSectionsAll.push(courseSectionsAll)
           courseSectionsAll = []    
           favCourseSectionsInc.push(courseSectionsInc)
@@ -116,24 +124,26 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
           maxLength.push(maxLengthIndex)
           maxLengthIndex = 0
           sectionIndex.push(0)
-
-        }
+          }
       }
-      courseSectionsAll.push(section)
+      courseSectionsAll.push(currentSection)
       courseSectionsInc.push(false)
-      prevSectionType = section.section.charAt(0)
+      prevSectionType = String(currentSection.section).charAt(0)
       maxLengthIndex++
     }
 
     //all sections seen within course, push information into arrays 
-    if (courseSectionsAll != null) {
+    if (courseSectionsAll.length > 0) {
       favCourseSectionsAll.push(courseSectionsAll)
       favCourseSectionsInc.push(courseSectionsInc)
       maxLength.push(maxLengthIndex)
+      maxLengthIndex = 0
       sectionIndex.push(0)
-    }
+    }    
   }
-
+  console.log(favCourseSectionsAll)
+  return null
+  /*
   //if no more than 1 section within all favorite courses (odd but technically possible) return all courses, no clashes
   if (sectionIndex.length == 0)
   	return courses
@@ -274,7 +284,6 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
   				break
  	 		i++
 		}
-
 		if (ranOut)
 			break
 		found = true
@@ -282,12 +291,14 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
 	if (!found) {
 		thisCourse.clash = true
 	}
-
+	
 	courses[courseIndex] = thisCourse
   }
 
   //it's all done OMG!
   return courses
+
+  */
 }
 
 
