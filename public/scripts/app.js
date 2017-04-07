@@ -33,7 +33,7 @@ var init_load = function () {
 
 // Handle displaying a course after pushing the back/forward button in the browser
 window.onpopstate = function (event) {
-  if (event.state.courseID) {
+  if (event.state && event.state.courseID) {
     displayCourseDetails(event.state.courseID)
   }
   parseSearchParameters()

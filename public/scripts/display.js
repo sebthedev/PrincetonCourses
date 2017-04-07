@@ -11,9 +11,6 @@ var displayResult = function() {
 
 // function for displaying course details
 var displayCourseDetails = function(courseId) {
-  // make sure it can be seen
-  $('#display-body').css('display', '')
-
   // Push to the history this course
   window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
 
@@ -44,6 +41,9 @@ var displayCourseDetails = function(courseId) {
   // set scroll to top
   $('#evals-pane').scrollTop(0)
   $('#info-pane').scrollTop(0)
+
+  // make sure it can be seen
+  $('#display-body').css('display', '')
 }
 
 // mark all corresponding courses as active
