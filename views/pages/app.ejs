@@ -91,19 +91,18 @@
       <div id="display-pane" class="flex-item-stretch flex-container-col">
         <div id="display-header" class="flex-item-rigid">
           <div class="flex-container-row">
-            <h3 id="disp-title" class="flex-item-stretch">Welcome to Princeton Courses!</h3>
+            <h3 id="disp-title" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Search for a course to begin!</h3>
             <h3 id="disp-title-right" class="flex-item-rigid">
               <!-- fav icon and eval badge go here -->
             </h3>
           </div>
           <div class="flex-container-row">
-            <h4 id="disp-subtitle" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Search for a course to begin!</h4>
+            <h4 id="disp-subtitle" class="flex-item-stretch"></h4>
             <h4 id="disp-subtitle-right" class="flex-item-rigid">
               <!-- link to registrar's page goes here -->
             </h4>
           </div>
         </div>
-        <div id='disp-hline' class="flex-item-rigid"></div>
         <div id="display-body" class="flex-item-stretch flex-container-row">
           <div id="evals-pane" class="flex-item-stretch">
             <div id="evals-semesters">
@@ -111,21 +110,27 @@
                 <h5 class="flex-item-stretch truncate"><strong>Past Semesters</strong></h5>
                 <h5 class="flex-item-rigid"><i id="evals-semesters-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
-              <ul id="evals-semesters-body" class="list-group marginless"></ul>
+              <ul id="evals-semesters-body" class="list-group marginless">
+                <!-- semesters go here -->
+              </ul>
             </div>
             <div id="evals-numeric">
               <div id="evals-numeric-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Numeric Evaluations</strong></h5>
                 <h5 class="flex-item-rigid"><i id="evals-numeric-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
-              <ul id="evals-numeric-body" class="list-group marginless"></ul>
+              <ul id="evals-numeric-body" class="list-group marginless">
+                <!-- numeric evals go here -->
+              </ul>
             </div>
             <div id="evals-comments">
               <div id="evals-comments-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Student Comments</strong></h5>
                 <h5 class="flex-item-rigid"><i id="evals-comments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
-              <ul id="evals-comments-body" class="list-group marginless"></ul>
+              <ul id="evals-comments-body" class="list-group marginless">
+                <!-- student comments go here -->
+              </ul>
             </div>
           </div>
           <div id="info-resizer" class="flex-item-rigid resizer"></div>
@@ -228,6 +233,9 @@
       <p>View our <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank">design document</a>.</p>
       </div>
     </div>
+  </div>
+  <div id="full-page-grey">
+    <!-- for initial display -->
   </div>
 </body>
 </html>

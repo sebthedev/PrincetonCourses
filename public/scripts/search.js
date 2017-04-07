@@ -73,7 +73,7 @@ function newDOMinstructorResult(instructor, props) {
   var htmlString = (
     '<li class="list-group-item instructor-list-item">'
     + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate">'
+      + '<div class="flex-item-stretch truncate instructor-title">'
         + '<strong>' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
@@ -90,7 +90,7 @@ function newDOMinstructorResult(instructor, props) {
   var icon = $(entry).find('i')[0]        // find icon
   icon.instructorId = instructor._id      // attach instructor id
   var body = $(entry).find('ul')[0]       // body of instructor result
-  $(icon).click(function() {toggleInstructor(icon, body); return false})
+  $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
 
   return entry
 }
@@ -98,11 +98,12 @@ function newDOMinstructorResult(instructor, props) {
 // handles clicking the button to toggle instructors
 // - icon: DOM object of toggling icon
 // - body: DOM object of place to insert courses
-function toggleInstructor(icon, body) {
+// - entry: DOM object of whole entry
+function toggleInstructor(icon, body, entry) {
   var isEmpty = $(body).is(':empty')
 
   if (isEmpty) {
-    loadInstructor(icon, body)
+    loadInstructor(icon, body, entry)
     return
   }
 
@@ -110,13 +111,16 @@ function toggleInstructor(icon, body) {
 
   $(icon).removeClass(isVisible ? 'fa-caret-up' : 'fa-caret-down')
   $(icon).addClass(isVisible ? 'fa-caret-down' : 'fa-caret-up')
+  if (isVisible) $(entry).removeClass('instructor-list-item-opened')
+  else $(entry).addClass('instructor-list-item-opened')
   $(body).slideToggle()
 }
 
 // handles loading instructor courses
 // - icon: DOM object of toggling icon
 // - body: DOM object of place to insert courses
-function loadInstructor(icon, body) {
+// - entry: DOM object of whole entry
+function loadInstructor(icon, body, entry) {
   $.get('/api/instructor/' + icon.instructorId, function (instructor) {
     var courses = instructor.courses;
     for (var index in courses) {
@@ -126,6 +130,8 @@ function loadInstructor(icon, body) {
 
     $(icon).removeClass('fa-caret-down')
     $(icon).addClass('fa-caret-up')
+    $(entry).addClass('instructor-list-item-opened')
+    displayActive()
     $(body).slideToggle()
   })
 }
@@ -182,10 +188,10 @@ function newDOMcourseResult(course, props) {
 
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
   var icon = $(entry).find('i')[0]                                           // favorite icon
-  entry.course = course                                                      // attach course object to entry
+  entry.courseId = course._id                                                // attach course id to entry
   icon.courseId = course._id                                                 // attach course id to icon
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
-  $(entry).click(function() {displayResult($(entry), course)})               // enable click to display
+  $(entry).click(displayResult)                                              // enable click to display
 
   return entry
 }

@@ -1,35 +1,32 @@
 // dependencies: module.js, fav.js, eval.js
 
 // function for displaying course details for a result
-// - icon is jQuery object of the corresponding li element
 // - course is the corresponding course object
-var displayResult = function(result, course) {
-  // mark as active
-  $('.search-result').removeClass('active')
-  result.addClass('active')
-
-  // set scroll to top
-  $('#evals-pane').scrollTop(0)
-  $('#info-pane').scrollTop(0)
+var displayResult = function() {
+  var courseId = this.courseId
 
   // Display the information for this course
-  displayCourseDetails(course._id)
+  displayCourseDetails(courseId)
 }
 
 // function for displaying course details
-var displayCourseDetails = function(courseID) {
-  document.courseID = courseID
-  // Push to the history this course
-  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID + getSearchQueryURL())
+var displayCourseDetails = function(courseId) {
+  // make sure it can be seen
+  $('#full-page-grey').css('display', 'none')
 
-  $.get('/api/course/' + courseID, function (course, status) {
+  // Push to the history this course
+  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
+
+  $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
       if (status !== 'success') {
         window.alert('An error occured and your course could not be displayed.')
         return
       }
 
+      document.courseId = courseId
       document.course = course;
+      console.log('b')
 
       display_title(course);
       display_subtitle(course);
@@ -43,6 +40,23 @@ var displayCourseDetails = function(courseID) {
       display_classes(course);
       display_evals(course); // in eval.js
   })
+
+  // set scroll to top
+  $('#evals-pane').scrollTop(0)
+  $('#info-pane').scrollTop(0)
+}
+
+// mark all corresponding courses as active
+var displayActive = function() {
+  $(".search-result").each(function() {
+    var isActive = (this.courseId === document.courseId)
+    if (isActive) console.log('c')
+
+    var result = $(this)
+    if (isActive) result.addClass('active')
+    else result.removeClass('active')
+  })
+  console.log('a')
 }
 
 // shows/hides sections of no content

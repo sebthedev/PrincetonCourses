@@ -39,15 +39,6 @@ function evals_semesters(course) {
   for (var index in course.semesters) {
     $('#evals-semesters-body').append(newDOMsemesterEval(course.semesters[index]))
   }
-
-  // highlight current semester
-  $("#evals-semesters-body").children().each(function() {
-    // ignore if not this semester
-    if (this.semester._id !== course._id) return
-
-    // make active
-    $(this).addClass('active')
-  })
 }
 
 // display numeric evaluations in evals pane
@@ -96,9 +87,9 @@ function newDOMsemesterEval (semester) {
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]                          // create DOM object
-  $(entry).click(function() {displayCourseDetails(semester._id)}) // display
-  entry.semester = semester                                       // (attach object)
+  var entry = $.parseHTML(htmlString)[0]    // create DOM object
+  $(entry).click(displayResult)             // display
+  entry.courseId = semester._id             // attach course id
 
   return entry
 }
