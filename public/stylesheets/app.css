@@ -87,8 +87,8 @@ body {
   width: 100vw;
 }
 
-#full-page-grey {
-  position: fixed;
+#intro-page {
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
