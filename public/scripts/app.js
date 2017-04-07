@@ -26,7 +26,8 @@ var init_load = function () {
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
-    displayCourseDetails(pathnameMatch[1])
+    courseId = parseInt(pathnameMatch[1])
+    if (!isNaN(courseId)) displayCourseDetails(courseId)
   }
 }
 

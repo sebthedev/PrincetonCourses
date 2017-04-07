@@ -47,7 +47,7 @@ var searchForCourses = function () {
       var result = results[index]
       $('#results').append(newDOMResult(result, {"tags": 1}))
     }
-  })
+  }).then(displayActive)
 }
 
 // length of non-instructor results (for temporary hiding of instructors)

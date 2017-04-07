@@ -26,7 +26,6 @@ var displayCourseDetails = function(courseId) {
 
       document.courseId = courseId
       document.course = course;
-      console.log('b')
 
       display_title(course);
       display_subtitle(course);
@@ -39,7 +38,8 @@ var displayCourseDetails = function(courseId) {
       display_other(course);
       display_classes(course);
       display_evals(course); // in eval.js
-  })
+
+  }).then(displayActive)
 
   // set scroll to top
   $('#evals-pane').scrollTop(0)
@@ -50,13 +50,11 @@ var displayCourseDetails = function(courseId) {
 var displayActive = function() {
   $(".search-result").each(function() {
     var isActive = (this.courseId === document.courseId)
-    if (isActive) console.log('c')
 
     var result = $(this)
     if (isActive) result.addClass('active')
     else result.removeClass('active')
   })
-  console.log('a')
 }
 
 // shows/hides sections of no content
