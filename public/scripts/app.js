@@ -132,19 +132,12 @@ var init_search = function() {
 var init_globals = function() {
   // Saving the user's netid so it is globally available
   document.netid = $("#netid").text()
-
-  // construct local favorites list
-  document.favorites = []
-  $.get('/api/user/favorites', function(courses) {
-    for (var course in courses) {
-      document.favorites.push(courses[course]["_id"])
-    }
-  })
 }
 
 // to initialize favorites list
 var init_favorites = function() {
   // call api to get favorites and display
+  document.favorites = []
   $.get('/api/user/favorites', function(courses) {
 
     $('#favorite-header').css('display', (courses === undefined || courses.length === 0) ? 'none' : '')
@@ -155,6 +148,9 @@ var init_favorites = function() {
     $('#favorite-title').append(courses.length + ' Favorite Course' + (courses.length !== 1 ? 's' : ''))
     for (var courseIndex in courses) {
       var thisCourse = courses[courseIndex];
+
+      // Saving this user's favorite courses to the global scope
+      document.favorites.push(thisCourse._id)
 
       // append favorite into favs pane
       $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1}));
