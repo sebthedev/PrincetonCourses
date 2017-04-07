@@ -35,6 +35,7 @@ var displayCourseDetails = function(courseId) {
       display_other(course);
       display_classes(course);
       display_evals(course); // in eval.js
+      display_past(course);
 
   }).then(displayActive)
 
@@ -44,7 +45,6 @@ var displayCourseDetails = function(courseId) {
 
   // make sure it can be seen
   $('#display-body').css('display', '')
-  console.log('I made it here')
 }
 
 // mark all corresponding courses as active
@@ -82,6 +82,9 @@ var display_title = function(course) {
 
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var tooltip = isPast ? ' title="An asterisk * indicates a score from a previous semester"' : ''
+
   // Determine the overall score for this course, if it exists
   var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
   if (hasScore) {
@@ -89,8 +92,9 @@ var display_title = function(course) {
   }
 
   var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-                 + '<span class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+                 + '<span' + tooltip + ' class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
                    + (hasScore ? score.toFixed(2) : 'N/A')
+                   + (isPast ? '*' : '')
                  + '</span>'
 
   $('#disp-title-right').append(htmlString)
@@ -289,4 +293,12 @@ var newDOMclassListing = function(aclass) {
   var entry = $.parseHTML(htmlString)[0] // create DOM object
 
   return entry
+}
+
+// displaying indicators of evals from past semesters
+var display_past = function(course) {
+  var isPast = false // waiting on backend here
+
+  $('#evals-numeric-past').css('display', isPast ? '' : 'none')
+  $('#evals-comments-past').css('display', isPast ? '' : 'none')
 }

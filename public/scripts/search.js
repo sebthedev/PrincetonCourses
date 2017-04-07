@@ -160,12 +160,17 @@ function newDOMcourseResult(course, props) {
   if (props.hasOwnProperty('tags')) {
     if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
     if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="text-danger-dim">P</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="text-danger-dim">N</span>'
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF ONLY" class="text-danger-dim">P</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="NPDF" class="text-danger-dim">N</span>'
     }
-    if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
+    if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">A</span>'
     if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
   }
+
+  console.log(course)
+
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var tooltip = isPast ? ' title="An asterisk * indicates a score from a previous semester"' : ''
 
   // html string for the DOM object
   var htmlString = (
@@ -177,8 +182,9 @@ function newDOMcourseResult(course, props) {
       + '<div class="flex-item-rigid">'
         + semester
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-        + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+        + '<span' + tooltip + ' class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
           + (hasScore ? score.toFixed(2) : 'N/A')
+          + (isPast ? '*' : '')
         + '</span>'
       + '</div>'
     + '</div>'
