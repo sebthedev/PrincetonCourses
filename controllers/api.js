@@ -33,11 +33,13 @@ router.all('*', function (req, res, next) {
 // Prevent caching of PUT requests
 router.put('*', function (req, res, next) {
   res.set('Cache-Control', 'no-cache')
+  next()
 })
 
 // Prevent caching of DELETE requests
 router.delete('*', function (req, res, next) {
   res.set('Cache-Control', 'no-cache')
+  next()
 })
 
 // Intelligent searching for both courses and instructors
