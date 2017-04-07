@@ -43,6 +43,11 @@ var displayCourseDetails = function(courseId) {
   $('#info-pane').scrollTop(0)
 
   // make sure it can be seen
+  display_debug()
+  console.log('I made it here')
+}
+
+var display_debug = function() {
   $('#display-body').css('display', '')
 }
 
