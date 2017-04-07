@@ -74,7 +74,7 @@ function newDOMinstructorResult(instructor, props) {
     '<li class="list-group-item instructor-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate instructor-title">'
-        + '<strong>' + name + '</strong>'
+        + '<strong class="instructor-title">' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
         + '<span class="badge">' + instructor.courses.length + '</span> '
@@ -88,9 +88,11 @@ function newDOMinstructorResult(instructor, props) {
 
   var entry = $.parseHTML(htmlString)[0]  // create DOM object
   var icon = $(entry).find('i')[0]        // find icon
+  var title = $(entry).find('.instructor-title')    // instructor name
   icon.instructorId = instructor._id      // attach instructor id
   var body = $(entry).find('ul')[0]       // body of instructor result
   $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(title).click(function() {toggleInstructor(icon, body, entry); return false})
 
   return entry
 }

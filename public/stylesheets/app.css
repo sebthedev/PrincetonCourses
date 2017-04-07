@@ -211,6 +211,13 @@ body {
 .instructor-list-item-opened {
   background-color: #eaeaea;
 }
+.instructor-title {
+  color: #000;
+  cursor: pointer;
+}
+.instructor-title:hover {
+  color: #888;
+}
 .instructor-body {
   margin: 5px 0 0;
 }
