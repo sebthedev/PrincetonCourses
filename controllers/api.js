@@ -30,6 +30,16 @@ router.all('*', function (req, res, next) {
   }
 })
 
+// Prevent caching of PUT requests
+router.put('*', function (req, res, next) {
+  res.set('Cache-Control', 'no-cache')
+})
+
+// Prevent caching of DELETE requests
+router.delete('*', function (req, res, next) {
+  res.set('Cache-Control', 'no-cache')
+})
+
 // Intelligent searching for both courses and instructors
 router.get('/search/:query', function (req, res) {
     // Validate that the request is correct
@@ -173,7 +183,7 @@ router.get('/search/:query', function (req, res) {
     })
 
     // Send the result to the client
-    res.json(combinedResult)
+    res.set('Cache-Control', 'public, max-age=28800').json(combinedResult)
   }).catch(reason => {
     console.log(reason)
     res.sendStatus(500)
@@ -304,7 +314,7 @@ router.get('/course/:id', function (req, res) {
     }
 
     delete queryCourse.comments
-    res.json(queryCourse)
+    res.set('Cache-Control', 'public, max-age=14400').json(queryCourse)
   }).catch(function (err) {
     console.log(err)
     res.sendStatus(500)
@@ -411,7 +421,7 @@ router.get('/instructor/:id', function (req, res) {
       if (instructor === null) {
         res.sendStatus(404)
       } else {
-        res.json(instructor)
+        res.set('Cache-Control', 'public, max-age=86400').json(instructor)
       }
     }
   })
@@ -475,6 +485,7 @@ router.get('/user/favorites', function (req, res) {
       console.log(err)
       res.sendStatus(500)
     } else {
+      res.set('Cache-Control', 'no-cache')
       if (typeof (user.favoriteCourses) !== 'undefined') {
         res.status(200).json(user.favoriteCourses)
       } else {
@@ -501,7 +512,7 @@ router.route('/evaluations/:id/vote').all(function (req, res, next) {
     res.sendStatus(400)
     return
   }
-  // evaluationModel.findById(mongoose.Types.ObjectId(req.params.id)).exec(function (err, evaluation) {
+
   evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
     if (err) {
       console.log(err)
