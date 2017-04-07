@@ -121,7 +121,6 @@ function loadInstructor(icon, body) {
     var courses = instructor.courses;
     for (var index in courses) {
       var course = courses[index]
-      console.log(course)
       $(body).append(newDOMcourseResult(course, {'tags' : 1, 'semester': 1}))
     }
 
@@ -182,8 +181,10 @@ function newDOMcourseResult(course, props) {
   )
 
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
-  $(entry).find('i').click(function() {toggleFav(course._id); return false}) // enable click to fav/unfav
-  entry.course = course                                                      // attach course object
+  var icon = $(entry).find('i')[0]                                           // favorite icon
+  entry.course = course                                                      // attach course object to entry
+  icon.courseId = course._id                                                 // attach course id to icon
+  $(icon).click(toggleFav)                                                   // handle click to fav/unfav
   $(entry).click(function() {displayResult($(entry), course)})               // enable click to display
 
   return entry

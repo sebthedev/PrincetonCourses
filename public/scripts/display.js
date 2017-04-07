@@ -8,6 +8,10 @@ var displayResult = function(result, course) {
   $('.search-result').removeClass('active')
   result.addClass('active')
 
+  // set scroll to top
+  $('#evals-pane').scrollTop(0)
+  $('#info-pane').scrollTop(0)
+
   // Display the information for this course
   displayCourseDetails(course._id)
 }
@@ -79,7 +83,7 @@ var display_title = function(course) {
   $('#disp-title-right').append(htmlString)
   var icon = $('#disp-title-right').find('i')[0]
   icon.courseId = course._id  // bind course id
-  $(icon).click(function() {toggleFav(course._id)}) // enable click to fav/unfav
+  $(icon).click(toggleFav)    // enable click to fav/unfav
 }
 
 // display course data for subtitle

@@ -1,9 +1,9 @@
-// update the favorites data for search pane
-var updateSearchFav = function() {
-  $("#results").children().each(function() {
-    var isFav = (document.favorites.indexOf(this.course._id) !== -1)
+// update the favorite heart icons
+var updateFavIcons = function() {
+  $(".fa-heart").each(function() {
+    var isFav = (document.favorites.indexOf(this.courseId) !== -1)
 
-    var icon = $(this).find("i")
+    var icon = $(this)
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
     icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
   })
@@ -46,17 +46,9 @@ var updateFavList = function(courseId, course) {
   })
 }
 
-// update favorite button in title
-var updateTitleFav = function() {
-  var icon = $('#disp-title-right').find('i')[0]
-  var isFav = (document.favorites.indexOf(icon.courseId) !== -1)
-  $(icon).removeClass(isFav ? 'fav-icon' : 'unfav-icon')
-  $(icon).addClass(isFav ? 'unfav-icon' : 'fav-icon')
-}
-
 // handles click of favorite icon
-// - course is corresponding course object
-var toggleFav = function(courseId) {
+var toggleFav = function() {
+  var courseId = this.courseId
   var i = document.favorites.indexOf(courseId)
 
   // update local list
@@ -71,9 +63,8 @@ var toggleFav = function(courseId) {
     type: (i === -1) ? 'PUT' : 'DELETE'
   }).done(function (course) {
     // update display
-    updateSearchFav()
+    updateFavIcons()
     updateFavList(courseId, course)
-    updateTitleFav()
   }).catch(function (error) {
     console.log(error)
   })
