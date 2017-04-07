@@ -116,24 +116,11 @@ var display_instructors = function(course) {
   $('#disp-instructors-body').html('')
 
   var instructors = ''
-  for (var instructor in course.instructors) {
-    var name = course.instructors[instructor].name.first
-             + ' ' + course.instructors[instructor].name.last
-    instructors += (
-      '<li class="list-group-item info-list-item">'
-      + '<div class="flex-container-row">'
-        + '<div class="flex-item-stretch truncate">'
-          + '<strong>' + name + '</strong>'
-        + '</div>'
-        + '<div class="flex-item-rigid">'
-          + '(' + course.instructors[instructor].courses.length + ')'
-        + '</div>'
-      + '</div>'
-    + '</li>'
-    )
+  for (var index in course.instructors) {
+    var instructor = course.instructors[index]
+    $('#disp-instructors-body').append(newDOMinstructorResult(instructor, {}))
   }
 
-  $('#disp-instructors-body').append(instructors)
   display_autotoggle('instructors')
 }
 

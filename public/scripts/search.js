@@ -37,7 +37,7 @@ var searchForCourses = function () {
     // Remove any search results already in the results pane
     $('#results').children().remove()
 
-    var len = courseLength(results)
+    var len = results.length
 
     // Update the search results sub-heading
     $('#search-title').text(len + ' Search Result' + (len !== 1 ? 's' : ''))
@@ -61,7 +61,7 @@ function courseLength(results) {
 
 // returns a DOM object for a search result
 function newDOMResult(result, props) {
-  if (result.type === 'instructor') return // newDOMinstructorResult(result, props)
+  if (result.type === 'instructor') return newDOMinstructorResult(result, props)
   /*if (result.type === 'course')*/ return newDOMcourseResult(result, props)
 }
 
@@ -71,22 +71,64 @@ function newDOMinstructorResult(instructor, props) {
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item">'
+    '<li class="list-group-item instructor-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + '(' + instructor.courses.length + ')'
+        + '<span class="badge">' + instructor.courses.length + '</span> '
+        + '<i class="text-button fa fa-lg fa-caret-down"></i>'
       + '</div>'
     + '</div>'
+    + '<ul class="list-group instructor-body" style="display:none;">'
+    + '</ul>'
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]           // create DOM object
-  entry.instructor = instructor
+  var entry = $.parseHTML(htmlString)[0]  // create DOM object
+  var icon = $(entry).find('i')[0]        // find icon
+  icon.instructorId = instructor._id      // attach instructor id
+  var body = $(entry).find('ul')[0]       // body of instructor result
+  $(icon).click(function() {toggleInstructor(icon, body); return false})
 
   return entry
+}
+
+// handles clicking the button to toggle instructors
+// - icon: DOM object of toggling icon
+// - body: DOM object of place to insert courses
+function toggleInstructor(icon, body) {
+  var isEmpty = $(body).is(':empty')
+
+  if (isEmpty) {
+    loadInstructor(icon, body)
+    return
+  }
+
+  var isVisible = $(body).css('display') !== 'none'
+
+  $(icon).removeClass(isVisible ? 'fa-caret-up' : 'fa-caret-down')
+  $(icon).addClass(isVisible ? 'fa-caret-down' : 'fa-caret-up')
+  $(body).slideToggle()
+}
+
+// handles loading instructor courses
+// - icon: DOM object of toggling icon
+// - body: DOM object of place to insert courses
+function loadInstructor(icon, body) {
+  $.get('/api/instructor/' + icon.instructorId, function (instructor) {
+    var courses = instructor.courses;
+    for (var index in courses) {
+      var course = courses[index]
+      console.log(course)
+      $(body).append(newDOMcourseResult(course, {'tags' : 1, 'semester': 1}))
+    }
+
+    $(icon).removeClass('fa-caret-down')
+    $(icon).addClass('fa-caret-up')
+    $(body).slideToggle()
+  })
 }
 
 // returns a DOM object for a search or favorite result of a course

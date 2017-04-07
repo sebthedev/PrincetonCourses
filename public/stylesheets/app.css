@@ -189,6 +189,13 @@ body {
   color: #d9534f;
 }
 
+.instructor-list-item {
+  padding: 8px;
+}
+.instructor-body {
+  margin: 5px 0 0;
+}
+
 /* DISPLAY HEADER CSS */
 
 #display-header {
