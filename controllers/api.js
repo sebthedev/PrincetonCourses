@@ -60,7 +60,7 @@ router.get('/search/:query', function (req, res) {
   var queryWords = req.params.query.split(' ')
   const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
   var newQueryWords = []
-  const courseDeptNumberRegexp = /([A-Z]{3})(\d{3})/
+  const courseDeptNumberRegexp = /([A-Z]{3})(\d{1,3})/
   for (var queryWordsIndex in queryWords) {
     var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
     let matches
@@ -137,9 +137,43 @@ router.get('/search/:query', function (req, res) {
     var courses = values[0]
     var instructors = values[1]
 
+    // Perform and-based filtering on the courses returned from the database
+    var filteredCourses = []
+    // Define the properties in which all of the query terms must occur
+    const filteringProperties = ['title', 'department', 'catalogNumber']
+    for (let courseIndex in courses) {
+      let thisCourse = courses[courseIndex].toObject()
+
+      // Concatenate the course's relevant filtering properties into a single string
+      let courseDetailsConcatenation = []
+      for (let filteringPropertyIndex in filteringProperties) {
+        if (thisCourse.hasOwnProperty(filteringProperties[filteringPropertyIndex])) {
+          courseDetailsConcatenation.push(thisCourse[filteringProperties[filteringPropertyIndex]])
+        }
+      }
+      if (thisCourse.hasOwnProperty('crosslistings')) {
+        for (let crosslistingIndex in thisCourse.crosslistings) {
+          courseDetailsConcatenation.push(thisCourse.crosslistings[crosslistingIndex].department)
+          courseDetailsConcatenation.push(thisCourse.crosslistings[crosslistingIndex].catalogNumber)
+        }
+      }
+      courseDetailsConcatenation = courseDetailsConcatenation.join(' ').toUpperCase()
+
+      // Check whether all of the query words are in the courseDetailsConcatenation
+      let passingWords = 0
+      for (let thisQueryWordIndex in newQueryWords) {
+        if (courseDetailsConcatenation.indexOf(newQueryWords[thisQueryWordIndex]) > -1) {
+          passingWords++
+        }
+      }
+      if (passingWords === newQueryWords.length) {
+        filteredCourses.push(thisCourse)
+      }
+    }
+    courses = filteredCourses
+
     // Insert into the course or instructor object its type
-    for (var i in values[0]) {
-      courses[i] = courses[i].toObject()
+    for (var i in courses) {
       courses[i].type = 'course'
     }
     for (var j in instructors) {
