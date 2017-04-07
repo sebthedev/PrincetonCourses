@@ -87,16 +87,6 @@ body {
   width: 100vw;
 }
 
-#intro-page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #666;
-  z-index: 100;
-}
-
 .flex-container-col {
   display: flex;
   flex-flow: column nowrap;

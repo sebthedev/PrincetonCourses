@@ -12,7 +12,7 @@ var displayResult = function() {
 // function for displaying course details
 var displayCourseDetails = function(courseId) {
   // make sure it can be seen
-  $('#intro-page').css('display', 'none')
+  $('#display-body').css('display', '')
 
   // Push to the history this course
   window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
