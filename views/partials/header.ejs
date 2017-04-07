@@ -2,16 +2,22 @@
 <meta name="description" content="Explore Princeton courses and evaluations to find the best courses for your next steps on your academic journey.">
 <meta name="viewport" content="width=800">
 
+<% if (production) { %>
 <!-- Google Analytics -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-96834890-1', 'auto');
-  ga('send', 'pageview');
+  ga('create', 'UA-96834890-1', 'auto')
+  ga('require', 'urlChangeTracker')
+  <% if (netid) { %>
+  ga('set', 'userId', '<%= netid %>')
+  <% } %>
+  ga('send', 'pageview')
 </script>
+<script async src="/scripts/plugins/autotrack.js"></script>
+<% } %>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">

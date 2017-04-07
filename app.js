@@ -46,7 +46,8 @@ app.get('/', function (req, res) {
   } else {
     // The user has authenticated. Display the app
     res.render('pages/app', {
-      netid: app.get('user')._id
+      netid: app.get('user')._id,
+      production: process.env.NODE_ENV
     })
   }
 })
@@ -59,7 +60,8 @@ app.get('/course/:id', function (req, res) {
   } else {
     // The user has authenticated. Display the app
     res.render('pages/app', {
-      netid: app.get('user')._id
+      netid: app.get('user')._id,
+      production: process.env.NODE_ENV
     })
   }
 })

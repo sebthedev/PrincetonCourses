@@ -30,6 +30,18 @@ router.all('*', function (req, res, next) {
   }
 })
 
+// Prevent caching of PUT requests
+router.put('*', function (req, res, next) {
+  res.set('Cache-Control', 'no-cache')
+  next()
+})
+
+// Prevent caching of DELETE requests
+router.delete('*', function (req, res, next) {
+  res.set('Cache-Control', 'no-cache')
+  next()
+})
+
 // Intelligent searching for both courses and instructors
 router.get('/search/:query', function (req, res) {
     // Validate that the request is correct
@@ -173,7 +185,7 @@ router.get('/search/:query', function (req, res) {
     })
 
     // Send the result to the client
-    res.json(combinedResult)
+    res.set('Cache-Control', 'public, max-age=28800').json(combinedResult)
   }).catch(reason => {
     console.log(reason)
     res.sendStatus(500)
@@ -304,93 +316,10 @@ router.get('/course/:id', function (req, res) {
     }
 
     delete queryCourse.comments
-    res.json(queryCourse)
+    res.set('Cache-Control', 'public, max-age=14400').json(queryCourse)
   }).catch(function (err) {
     console.log(err)
     res.sendStatus(500)
-  })
-})
-
-// Respond to requests for course listings
-// DEPRECATED
-router.post('/courses', function (req, res) {
-  // Check the request contains a query
-  if (typeof (req.body.query) === 'undefined') {
-    res.sendStatus(400)
-  }
-
-  var query = {}
-  var projection = {}
-  var sort = {}
-
-  // Parse the request's query
-  // If the request's query is a string, use this in a full-text search for courses.
-  // If the request's query is an object treat this as the database query
-  // Otherwise the request is malformed and this is an error
-  var parsedRequestQuery = JSON.parse(req.body.query)
-  if (typeof (parsedRequestQuery) === 'string') {
-    query = {
-      $text: {
-        $search: parsedRequestQuery
-      }
-    }
-    projection = {
-      relevance: {
-        $meta: 'textScore'
-      }
-    }
-  } else if (typeof (parsedRequestQuery) === 'object') {
-    query = parsedRequestQuery
-    if (typeof (parsedRequestQuery['$text']) !== 'undefined') {
-      projection = {
-        relevance: {
-          $meta: 'textScore'
-        }
-      }
-    }
-  } else {
-    res.sendStatus(400)
-    return
-  }
-
-  // By default, sort by relevance. Allow sorting by title or department
-  sort = {
-    relevance: {
-      $meta: 'textScore'
-    },
-    department: 1,
-    catalogNumber: 1
-  }
-  if (typeof (req.body.sort) === 'string') {
-    if (['title', 'department'].indexOf(req.body.sort) > -1) {
-      sort = {}
-      sort[req.body.sort] = 1
-    } else if (req.body.sort === 'rating') {
-      sort = {
-        'evaluations.scores.Overall Quality of the Course': -1
-      }
-    } else if (req.body.sort === 'code') {
-      sort = {
-        department: 1,
-        catalogNumber: 1
-      }
-    }
-  }
-
-  // Remove in-depth course information if the client requests "brief" results
-  if (typeof (req.body.brief) !== 'undefined' && JSON.parse(req.body.brief) === true) {
-    // Merge the existing projection parameters with the parameters filtering-out all of these attributes
-    Object.assign(projection, abbreviatedCourseProjection)
-  }
-
-  // Send the query to the database and return a JSON array of the results
-  courseModel.find(query, projection).sort(sort).exec(function (err, courses) {
-    if (err) {
-      console.log(err)
-      res.sendStatus(500)
-    } else {
-      res.json(courses)
-    }
   })
 })
 
@@ -411,7 +340,7 @@ router.get('/instructor/:id', function (req, res) {
       if (instructor === null) {
         res.sendStatus(404)
       } else {
-        res.json(instructor)
+        res.set('Cache-Control', 'public, max-age=86400').json(instructor)
       }
     }
   })
@@ -475,6 +404,7 @@ router.get('/user/favorites', function (req, res) {
       console.log(err)
       res.sendStatus(500)
     } else {
+      res.set('Cache-Control', 'no-cache')
       if (typeof (user.favoriteCourses) !== 'undefined') {
         res.status(200).json(user.favoriteCourses)
       } else {
@@ -501,7 +431,7 @@ router.route('/evaluations/:id/vote').all(function (req, res, next) {
     res.sendStatus(400)
     return
   }
-  // evaluationModel.findById(mongoose.Types.ObjectId(req.params.id)).exec(function (err, evaluation) {
+
   evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
     if (err) {
       console.log(err)
