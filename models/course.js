@@ -125,8 +125,8 @@ courseSchema.index({
     department: 20,
     catalogNumber: 10,
     distribution: 10,
-    'crosslistings.department': 5,
-    'crosslistings.catalogNumber': 3
+    'crosslistings.department': 15,
+    'crosslistings.catalogNumber': 8
   },
   name: 'CourseRelevance',
   language: 'none'

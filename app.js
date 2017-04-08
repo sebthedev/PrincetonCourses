@@ -42,12 +42,14 @@ app.get('/', function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
     // The user in unauthenticated. Display a splash page.
-    res.render('pages/splash')
+    res.render('pages/splash', {
+      environment: process.env.NODE_ENV
+    })
   } else {
     // The user has authenticated. Display the app
     res.render('pages/app', {
       netid: app.get('user')._id,
-      production: process.env.NODE_ENV
+      environment: process.env.NODE_ENV
     })
   }
 })
