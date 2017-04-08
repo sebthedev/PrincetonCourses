@@ -156,7 +156,7 @@ var init_favorites = function() {
       // append favorite into favs pane
       $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1}));
     }
-  })
+  }).done(updateFavIcons)
 }
 
 // to initialize feedback mechanism
