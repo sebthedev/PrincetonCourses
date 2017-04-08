@@ -126,14 +126,18 @@ router.get('/search/:query', function (req, res) {
     })
   }
 
-  // Construct the courseModel database query as a promise
-  var coursePromise = courseModel.find(courseQuery, courseProjection).exec()
+  let promises = []
 
   // Construct the courseModel database query as a promise
-  var instructorPromise = instructorModel.find(instructorQuery, instructorProjection).exec()
+  promises.push(courseModel.find(courseQuery, courseProjection).exec())
+
+  // Construct the courseModel database query as a promise
+  if (newQueryWords.length > 0) {
+    promises.push(instructorModel.find(instructorQuery, instructorProjection).exec())
+  }
 
   // Trigger both promises and wait for them to both return
-  Promise.all([coursePromise, instructorPromise]).then(values => {
+  Promise.all(promises).then(values => {
     var courses = values[0]
     var instructors = values[1]
 
