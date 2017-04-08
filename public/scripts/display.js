@@ -298,7 +298,6 @@ var newDOMclassListing = function(aclass) {
 // displaying indicators of evals from past semesters
 var display_past = function(course) {
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  console.log(isPast)
 
   $('#evals-numeric-past').css('display', isPast ? '' : 'none')
   $('#evals-comments-past').css('display', isPast ? '' : 'none')
