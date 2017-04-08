@@ -1,5 +1,4 @@
 // dependencies: module.js, fav.js, display.js
-
 var getSearchQueryURL = function () {
   var parameters = []
   if ($('#searchbox').val() != null) {
@@ -17,7 +16,11 @@ var getSearchQueryURL = function () {
 // function for updating search results
 var searchForCourses = function () {
   // return if no search
-  if ($('#searchbox').val() === '') return false
+  if ($('#searchbox').val() === '')
+  {
+    $('#results').children().remove();
+    return false
+  }  
 
   // construct search query
   var search = '/api/search/'
