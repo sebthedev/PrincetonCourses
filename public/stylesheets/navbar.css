@@ -15,6 +15,7 @@
 }
 .navbar-default .navbar-nav > li > a {
   color: #000000;
+  transition: all 0.4s ease;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
