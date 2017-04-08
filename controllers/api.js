@@ -366,7 +366,16 @@ router.get('/instructor/:id', function (req, res) {
   }
 
   // Search for the instructor in the database
-  instructorModel.findOne({_id: req.params.id}).populate('courses').exec(function (err, instructor) {
+  instructorModel.findOne({_id: req.params.id}).populate({
+    path: 'courses',
+    options: {
+      sort: {
+        semester: -1,
+        department: 1,
+        catalogNumber: 1
+      }
+    }
+  }).exec(function (err, instructor) {
     if (err) {
       console.log(err)
       res.send(500)
