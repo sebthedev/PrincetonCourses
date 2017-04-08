@@ -299,6 +299,12 @@ var newDOMclassListing = function(aclass) {
 var display_past = function(course) {
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
 
-  $('#evals-numeric-past').css('display', isPast ? '' : 'none')
-  $('#evals-comments-past').css('display', isPast ? '' : 'none')
+  // Display the name of the semester for which evaluations are being displayed
+  if (isPast && course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('semester') &&
+  course.evaluations.semester.hasOwnProperty('name')) {
+    $('.evals-past .evals-past-semester').text(course.evaluations.semester.name)
+  } else {
+    $('.evals-past .evals-past-semester').text('a different semester')
+  }
+  $('.evals-past').toggle(isPast)
 }
