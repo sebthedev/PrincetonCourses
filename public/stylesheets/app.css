@@ -17,6 +17,11 @@
   font-size: 20px;
   padding: 5px 12px;
   border-radius: 17px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+}
+
+.badge {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
 }
 
 .progress {
@@ -281,6 +286,7 @@ body {
 .up-icon {
   color: #000;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .up-icon:hover {
   color: #0275d8;
