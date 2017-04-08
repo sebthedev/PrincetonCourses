@@ -83,7 +83,7 @@ var display_title = function(course) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var tooltip = isPast ? ' title="An asterisk * indicates a score from a previous semester"' : ''
+  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
   // Determine the overall score for this course, if it exists
   var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
@@ -297,7 +297,8 @@ var newDOMclassListing = function(aclass) {
 
 // displaying indicators of evals from past semesters
 var display_past = function(course) {
-  var isPast = false // waiting on backend here
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  console.log(isPast)
 
   $('#evals-numeric-past').css('display', isPast ? '' : 'none')
   $('#evals-comments-past').css('display', isPast ? '' : 'none')

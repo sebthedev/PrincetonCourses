@@ -168,7 +168,7 @@ function newDOMcourseResult(course, props) {
   }
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var tooltip = isPast ? ' title="An asterisk * indicates a score from a previous semester"' : ''
+  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
   // html string for the DOM object
   var htmlString = (
