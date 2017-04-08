@@ -7,6 +7,12 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
+#display-pane {
+  background-image: url("/media/princeton_logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:35%;
+}
 .badge-large {
   font-size: 20px;
   padding: 5px 12px;
@@ -28,9 +34,6 @@
   background-color: #f4f4f4;
   padding: 5px 8px;
 }
-/*.list-group-item:hover {
-  background-color: #fff;
-}*/
 
 .list-group-item.search-result:hover {
   background-color: #fff;
@@ -261,6 +264,7 @@ body {
 #evals-pane {
   padding: 5px 10px 15px;
   overflow-y: auto;
+  background-color: #fff;
 }
 
 .flex-eval {
