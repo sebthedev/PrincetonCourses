@@ -37,12 +37,12 @@
 
 .list-group-item {
   background-color: #f4f4f4;
-  transition: all 0.4s ease;
   padding: 5px 8px;
 }
 
 .list-group-item.search-result:hover {
   background-color: #fff;
+  transition: background-color 0.4s ease;
 }
 
 .list-group-item.search-result.active:hover {
@@ -178,10 +178,11 @@ body {
 .text-button {
   cursor: pointer;
   color: #888;
-  transition: all 0.4s ease;
+  
 }
 .text-button:hover {
   color: #b8b8b8;
+  transition: color 0.4s ease;
 }
 
 .search-result {
@@ -192,20 +193,22 @@ body {
   color: #d9534f;
   cursor: pointer;
   padding:0 0 0 5px;
-  transition: all 0.4s ease;
+  
 }
 .unfav-icon:hover {
   color: #f2c6c4;
+  transition: all 0.4s ease;
 }
 
 .fav-icon {
   color: #ddd;
   cursor: pointer;
   padding:0 0 0 5px;
-  transition: all 0.4s ease;
+  
 }
 .fav-icon:hover {
   color: #d9534f;
+  transition: color 0.4s ease;
 }
 
 .instructor-list-item {
@@ -286,10 +289,11 @@ body {
 .up-icon {
   color: #000;
   cursor: pointer;
-  transition: all 0.3s ease;
+  
 }
 .up-icon:hover {
   color: #0275d8;
+  transition: color 0.3s ease;
 }
 
 .down-icon {
