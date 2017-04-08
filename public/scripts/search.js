@@ -144,6 +144,7 @@ function loadInstructor(icon, body, entry) {
 //   -- clicking to favorite/unfavorite (+ course id linking for icon)
 // props: properties for conditional rendering:
 //  - 'semester' is defined => displays semester name too
+//  - 'tags' is defined => displays pdf/audit tags
 function newDOMcourseResult(course, props) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
