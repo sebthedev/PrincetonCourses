@@ -207,6 +207,7 @@ var init_logout = function() {
   $('#netid').click(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
     if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
+    return false;
   })
 }
 
