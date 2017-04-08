@@ -70,6 +70,8 @@ router.get('/search/:query', function (req, res) {
       courseQuery.distribution = thisQueryWord
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
+    } else if (thisQueryWord === 'PDFO') {
+      courseQuery['pdf.required'] = true
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])

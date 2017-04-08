@@ -171,6 +171,9 @@ function newDOMcourseResult(course, props) {
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
   var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
+  // is this a new course
+  var isNew = (course.semesters !== undefined && course.semesters.length == 1)
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
@@ -180,11 +183,11 @@ function newDOMcourseResult(course, props) {
       + '</div>'
       + '<div class="flex-item-rigid">'
         + semester
-        + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
         + '<span' + tooltip + ' class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-          + (hasScore ? score.toFixed(2) : 'N/A')
+          + (hasScore ? score.toFixed(2) : "")
           + (isPast ? '*' : '')
         + '</span>'
+        + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
       + '</div>'
     + '</div>'
     + '<div class="truncate">'
