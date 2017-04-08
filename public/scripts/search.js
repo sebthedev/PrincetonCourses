@@ -172,7 +172,7 @@ function newDOMcourseResult(course, props) {
   var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
   // is this a new course
-  var isNew = (course.semesters !== undefined && course.semesters.length == 1)
+  var isNew = (course.semesters != undefined && course.semesters.length == 1)
 
   // html string for the DOM object
   var htmlString = (
@@ -184,7 +184,7 @@ function newDOMcourseResult(course, props) {
       + '<div class="flex-item-rigid">'
         + semester
         + '<span' + tooltip + ' class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-          + (hasScore ? score.toFixed(2) : "")
+          + (hasScore ? score.toFixed(2) : (isNew ? "new" : ""))
           + (isPast ? '*' : '')
         + '</span>'
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '

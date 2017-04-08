@@ -81,7 +81,7 @@ function newDOMsemesterEval (semester) {
         + professors
       + '</div>'
       + '<span class="badge flex-item-rigid"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-        + (hasScore ? score.toFixed(2) : 'N/A')
+        + (hasScore ? score.toFixed(2) : '')
       + '</span>'
     + '</div>'
   + '</li>'

@@ -93,7 +93,7 @@ var display_title = function(course) {
 
   var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
                  + '<span' + tooltip + ' class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-                   + (hasScore ? score.toFixed(2) : 'N/A')
+                   + (hasScore ? score.toFixed(2) : '')
                    + (isPast ? '*' : '')
                  + '</span>'
 
