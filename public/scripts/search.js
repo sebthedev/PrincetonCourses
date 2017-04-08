@@ -37,7 +37,7 @@ var searchForCourses = function () {
     // Remove any search results already in the results pane
     $('#results').children().remove()
 
-    var len = courseLength(results)
+    var len = results.length
 
     // Update the search results sub-heading
     $('#search-title').text(len + ' Search Result' + (len !== 1 ? 's' : ''))
@@ -47,7 +47,7 @@ var searchForCourses = function () {
       var result = results[index]
       $('#results').append(newDOMResult(result, {"tags": 1}))
     }
-  })
+  }).then(displayActive)
 }
 
 // length of non-instructor results (for temporary hiding of instructors)
@@ -61,7 +61,7 @@ function courseLength(results) {
 
 // returns a DOM object for a search result
 function newDOMResult(result, props) {
-  if (result.type === 'instructor') return // newDOMinstructorResult(result, props)
+  if (result.type === 'instructor') return newDOMinstructorResult(result, props)
   /*if (result.type === 'course')*/ return newDOMcourseResult(result, props)
 }
 
@@ -71,22 +71,71 @@ function newDOMinstructorResult(instructor, props) {
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item">'
+    '<li class="list-group-item instructor-list-item">'
     + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + name + '</strong>'
+      + '<div class="flex-item-stretch truncate instructor-title">'
+        + '<strong class="instructor-title">' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + '(' + instructor.courses.length + ')'
+        + '<span class="badge">' + instructor.courses.length + '</span> '
+        + '<i class="text-button fa fa-lg fa-caret-down"></i>'
       + '</div>'
     + '</div>'
+    + '<ul class="list-group instructor-body" style="display:none;">'
+    + '</ul>'
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0]           // create DOM object
-  entry.instructor = instructor
+  var entry = $.parseHTML(htmlString)[0]  // create DOM object
+  var icon = $(entry).find('i')[0]        // find icon
+  var title = $(entry).find('.instructor-title')    // instructor name
+  icon.instructorId = instructor._id      // attach instructor id
+  var body = $(entry).find('ul')[0]       // body of instructor result
+  $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(title).click(function() {toggleInstructor(icon, body, entry); return false})
 
   return entry
+}
+
+// handles clicking the button to toggle instructors
+// - icon: DOM object of toggling icon
+// - body: DOM object of place to insert courses
+// - entry: DOM object of whole entry
+function toggleInstructor(icon, body, entry) {
+  var isEmpty = $(body).is(':empty')
+
+  if (isEmpty) {
+    loadInstructor(icon, body, entry)
+    return
+  }
+
+  var isVisible = $(body).css('display') !== 'none'
+
+  $(icon).removeClass(isVisible ? 'fa-caret-up' : 'fa-caret-down')
+  $(icon).addClass(isVisible ? 'fa-caret-down' : 'fa-caret-up')
+  if (isVisible) $(entry).removeClass('instructor-list-item-opened')
+  else $(entry).addClass('instructor-list-item-opened')
+  $(body).slideToggle()
+}
+
+// handles loading instructor courses
+// - icon: DOM object of toggling icon
+// - body: DOM object of place to insert courses
+// - entry: DOM object of whole entry
+function loadInstructor(icon, body, entry) {
+  $.get('/api/instructor/' + icon.instructorId, function (instructor) {
+    var courses = instructor.courses;
+    for (var index in courses) {
+      var course = courses[index]
+      $(body).append(newDOMcourseResult(course, {'tags' : 1, 'semester': 1}))
+    }
+
+    $(icon).removeClass('fa-caret-down')
+    $(icon).addClass('fa-caret-up')
+    $(entry).addClass('instructor-list-item-opened')
+    displayActive()
+    $(body).slideToggle()
+  })
 }
 
 // returns a DOM object for a search or favorite result of a course
@@ -95,6 +144,7 @@ function newDOMinstructorResult(instructor, props) {
 //   -- clicking to favorite/unfavorite (+ course id linking for icon)
 // props: properties for conditional rendering:
 //  - 'semester' is defined => displays semester name too
+//  - 'tags' is defined => displays pdf/audit tags
 function newDOMcourseResult(course, props) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
@@ -111,12 +161,15 @@ function newDOMcourseResult(course, props) {
   if (props.hasOwnProperty('tags')) {
     if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
     if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="text-danger-dim">P</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="text-danger-dim">N</span>'
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF ONLY" class="text-danger-dim">P</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="NPDF" class="text-danger-dim">N</span>'
     }
-    if (course.audit) tags += ' <span class="text-warning-dim">A</span>'
+    if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">A</span>'
     if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
   }
+
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
   // html string for the DOM object
   var htmlString = (
@@ -128,8 +181,9 @@ function newDOMcourseResult(course, props) {
       + '<div class="flex-item-rigid">'
         + semester
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-        + '<span class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+        + '<span' + tooltip + ' class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
           + (hasScore ? score.toFixed(2) : 'N/A')
+          + (isPast ? '*' : '')
         + '</span>'
       + '</div>'
     + '</div>'
@@ -140,9 +194,11 @@ function newDOMcourseResult(course, props) {
   )
 
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
-  $(entry).find('i').click(function() {toggleFav(course._id); return false}) // enable click to fav/unfav
-  entry.course = course                                                      // attach course object
-  $(entry).click(function() {displayResult($(entry), course)})               // enable click to display
+  var icon = $(entry).find('i')[0]                                           // favorite icon
+  entry.courseId = course._id                                                // attach course id to entry
+  icon.courseId = course._id                                                 // attach course id to icon
+  $(icon).click(toggleFav)                                                   // handle click to fav/unfav
+  $(entry).click(displayResult)                                              // enable click to display
 
   return entry
 }

@@ -1,30 +1,27 @@
 // dependencies: module.js, fav.js, eval.js
 
 // function for displaying course details for a result
-// - icon is jQuery object of the corresponding li element
 // - course is the corresponding course object
-var displayResult = function(result, course) {
-  // mark as active
-  $('.search-result').removeClass('active')
-  result.addClass('active')
+var displayResult = function() {
+  var courseId = this.courseId
 
   // Display the information for this course
-  displayCourseDetails(course._id)
+  displayCourseDetails(courseId)
 }
 
 // function for displaying course details
-var displayCourseDetails = function(courseID) {
-  document.courseID = courseID
+var displayCourseDetails = function(courseId) {
   // Push to the history this course
-  window.history.pushState({courseID: courseID}, courseID, '/course/' + courseID + getSearchQueryURL())
+  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
 
-  $.get('/api/course/' + courseID, function (course, status) {
+  $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
       if (status !== 'success') {
         window.alert('An error occured and your course could not be displayed.')
         return
       }
 
+      document.courseId = courseId
       document.course = course;
 
       display_title(course);
@@ -38,6 +35,26 @@ var displayCourseDetails = function(courseID) {
       display_other(course);
       display_classes(course);
       display_evals(course); // in eval.js
+      display_past(course);
+
+  }).then(displayActive)
+
+  // set scroll to top
+  $('#evals-pane').scrollTop(0)
+  $('#info-pane').scrollTop(0)
+
+  // make sure it can be seen
+  $('#display-body').css('display', '')
+}
+
+// mark all corresponding courses as active
+var displayActive = function() {
+  $(".search-result").each(function() {
+    var isActive = (this.courseId === document.courseId)
+
+    var result = $(this)
+    if (isActive) result.addClass('active')
+    else result.removeClass('active')
   })
 }
 
@@ -65,6 +82,9 @@ var display_title = function(course) {
 
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
+
   // Determine the overall score for this course, if it exists
   var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
   if (hasScore) {
@@ -72,14 +92,15 @@ var display_title = function(course) {
   }
 
   var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-                 + '<span class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
+                 + '<span' + tooltip + ' class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
                    + (hasScore ? score.toFixed(2) : 'N/A')
+                   + (isPast ? '*' : '')
                  + '</span>'
 
   $('#disp-title-right').append(htmlString)
   var icon = $('#disp-title-right').find('i')[0]
   icon.courseId = course._id  // bind course id
-  $(icon).click(function() {toggleFav(course._id)}) // enable click to fav/unfav
+  $(icon).click(toggleFav)    // enable click to fav/unfav
 }
 
 // display course data for subtitle
@@ -116,24 +137,11 @@ var display_instructors = function(course) {
   $('#disp-instructors-body').html('')
 
   var instructors = ''
-  for (var instructor in course.instructors) {
-    var name = course.instructors[instructor].name.first
-             + ' ' + course.instructors[instructor].name.last
-    instructors += (
-      '<li class="list-group-item info-list-item">'
-      + '<div class="flex-container-row">'
-        + '<div class="flex-item-stretch truncate">'
-          + '<strong>' + name + '</strong>'
-        + '</div>'
-        + '<div class="flex-item-rigid">'
-          + '(' + course.instructors[instructor].courses.length + ')'
-        + '</div>'
-      + '</div>'
-    + '</li>'
-    )
+  for (var index in course.instructors) {
+    var instructor = course.instructors[index]
+    $('#disp-instructors-body').append(newDOMinstructorResult(instructor, {}))
   }
 
-  $('#disp-instructors-body').append(instructors)
   display_autotoggle('instructors')
 }
 
@@ -285,4 +293,13 @@ var newDOMclassListing = function(aclass) {
   var entry = $.parseHTML(htmlString)[0] // create DOM object
 
   return entry
+}
+
+// displaying indicators of evals from past semesters
+var display_past = function(course) {
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  console.log(isPast)
+
+  $('#evals-numeric-past').css('display', isPast ? '' : 'none')
+  $('#evals-comments-past').css('display', isPast ? '' : 'none')
 }

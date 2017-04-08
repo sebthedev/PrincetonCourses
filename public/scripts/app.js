@@ -26,13 +26,14 @@ var init_load = function () {
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
-    displayCourseDetails(pathnameMatch[1])
+    courseId = parseInt(pathnameMatch[1])
+    if (!isNaN(courseId)) displayCourseDetails(courseId)
   }
 }
 
 // Handle displaying a course after pushing the back/forward button in the browser
 window.onpopstate = function (event) {
-  if (event.state.courseID) {
+  if (event.state && event.state.courseID) {
     displayCourseDetails(event.state.courseID)
   }
   parseSearchParameters()

@@ -32,11 +32,11 @@
   background-color: #fff;
 }*/
 
-li.list-group-item.search-result:hover {
+.list-group-item.search-result:hover {
   background-color: #fff;
 }
 
-li.list-group-item.search-result.active:hover {
+.list-group-item.search-result.active:hover {
   background-color: #428bca;
   border-color: #428bca;
 }
@@ -61,7 +61,7 @@ li.list-group-item.search-result.active:hover {
   color: #addbad;
 }
 .text-dim {
-  color: #ccc;
+  /* color: #777;*/
 }
 
 /* PAGEWIDE CSS */
@@ -144,7 +144,7 @@ body {
 /* NAVBAR CSS */
 
 #menu-bar {
-  z-index: 300;
+  z-index: 1000;
   margin-bottom: 0;
   border-radius: 0;
 }
@@ -152,6 +152,7 @@ body {
 /* SEARCH PANE CSS */
 
 #search-pane {
+  z-index: 400;
   background-color: #ddd;
   padding: 10px;
   padding-right: 5px; /* compensate for resizer */
@@ -161,12 +162,16 @@ body {
   width: 25%;
 }
 
+#search-resizer {
+  z-index: 400;
+}
+
 .text-button {
   cursor: pointer;
   color: #888;
 }
 .text-button:hover {
-  color: #f4f4f4;
+  color: #b8b8b8;
 }
 
 .search-result {
@@ -189,13 +194,31 @@ body {
   color: #d9534f;
 }
 
+.instructor-list-item {
+  padding: 8px;
+  background-color: #f4f4f4;
+}
+.instructor-list-item-opened {
+  background-color: #eaeaea;
+}
+.instructor-title {
+  color: #000;
+  cursor: pointer;
+}
+.instructor-title:hover {
+  color: #888;
+}
+.instructor-body {
+  margin: 5px 0 0;
+}
+
 /* DISPLAY HEADER CSS */
 
 #display-header {
   padding: 10px;
   background-color: #eee;
   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
-  z-index: 200;
+  z-index: 500;
 }
 
 #disp-title {
@@ -228,7 +251,7 @@ body {
 }
 
 .info-list-item {
-  background-color:#eee;
+  /*background-color:#eee;*/
 }
 
 /* EVALS PANE CSS */
@@ -268,7 +291,7 @@ body {
   padding-top: 50px;
   right: 50px;
   width: 30vw;
-  z-index: 300;
+  z-index: 700;
   border-color: #f58025;
   border-width: 2px;
 }
@@ -276,7 +299,7 @@ body {
 /* ABOUT POPUP CSS */
 #about-popup {
   position: fixed;
-  z-index: 200;
+  z-index: 800;
   top: 0;
   bottom: 0;
   left: 0;

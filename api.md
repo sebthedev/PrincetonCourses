@@ -26,7 +26,7 @@ All of the following endpoints require the request to contain a valid session co
 ```HTTP
 GET /api/search/:query
 ```
-Return a JSON object of all the courses and instructors matching the URL-encoded search term `:query`. 
+Return a JSON object of all the courses and instructors matching the URL-encoded search term `:query`.
 #### Parameters
 * `semester`: Include only courses from the specified semester code (while still showing all matching instructors). By default courses from all semesters are returned. An example semester code is `1174` for Spring 2017.
 * `sort`: Sort the results by the specified key in the objects. By default results are sorted by `relevance`. Other keys you might like to use for sorting include `title` and `rating`.

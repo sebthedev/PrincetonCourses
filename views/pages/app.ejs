@@ -20,7 +20,7 @@
   <div id="full-page" class="flex-item-rigid flex-container-col">
     <nav id="menu-bar" class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand">Princeton Courses <sup>alpha</sup></a>
+        <a class="navbar-brand">Princeton Courses <sup>beta</sup></a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
           <!-- <span class="sr-only">Toggle navigation</span> -->
           <span class="icon-bar"></span>
@@ -91,40 +91,42 @@
       <div id="display-pane" class="flex-item-stretch flex-container-col">
         <div id="display-header" class="flex-item-rigid">
           <div class="flex-container-row">
-            <h3 id="disp-title" class="flex-item-stretch">Welcome to Princeton Courses!</h3>
+            <h3 id="disp-title" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Search for a course to begin!</h3>
             <h3 id="disp-title-right" class="flex-item-rigid">
               <!-- fav icon and eval badge go here -->
             </h3>
           </div>
           <div class="flex-container-row">
-            <h4 id="disp-subtitle" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Search for a course to begin!</h4>
+            <h4 id="disp-subtitle" class="flex-item-stretch"></h4>
             <h4 id="disp-subtitle-right" class="flex-item-rigid">
               <!-- link to registrar's page goes here -->
             </h4>
           </div>
         </div>
-        <div id='disp-hline' class="flex-item-rigid"></div>
-        <div id="display-body" class="flex-item-stretch flex-container-row">
+        <div id="display-body" class="flex-item-stretch flex-container-row" style="display: none;">
           <div id="evals-pane" class="flex-item-stretch">
             <div id="evals-semesters">
               <div id="evals-semesters-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Past Semesters</strong></h5>
                 <h5 class="flex-item-rigid"><i id="evals-semesters-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
+              <!-- semesters go in here -->
               <ul id="evals-semesters-body" class="list-group marginless"></ul>
             </div>
             <div id="evals-numeric">
               <div id="evals-numeric-header" class="flex-container-row disp-section-header">
-                <h5 class="flex-item-stretch truncate"><strong>Numeric Evaluations</strong></h5>
+                <h5 class="flex-item-stretch truncate"><strong>Numeric Evaluations</strong><span id="evals-numeric-past" style="display: none;"> (from a different semester)</span></h5>
                 <h5 class="flex-item-rigid"><i id="evals-numeric-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
+              <!-- numeric evals go here -->
               <ul id="evals-numeric-body" class="list-group marginless"></ul>
             </div>
             <div id="evals-comments">
               <div id="evals-comments-header" class="flex-container-row disp-section-header">
-                <h5 class="flex-item-stretch truncate"><strong>Student Comments</strong></h5>
+                <h5 class="flex-item-stretch truncate"><strong>Student Comments</strong><span id="evals-comments-past" style="display: none;"> (from a different semester)</span></h5>
                 <h5 class="flex-item-rigid"><i id="evals-comments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
+              <!-- student comments go here -->
               <ul id="evals-comments-body" class="list-group marginless"></ul>
             </div>
           </div>
