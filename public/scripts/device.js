@@ -19,17 +19,24 @@ var getDeviceSearchBox = function() {
 	else { return "#mob-searchbox"; }
 }
 
+// modify css for resized window
 var onresize = function() {
 	// mobile to desktop
 	if ((windowWidth() > WIDTH_THRESHOLD) && (prevWindowWidth <= WIDTH_THRESHOLD))
 	{
 	  $('#searchbox').val($('#mob-searchbox').val());
+	  $('#display-pane').css("display", "");
+	  $('#search-pane').css("display", "");
+	  $('#navbar-toggle-button').css("display", "none");
+	  $('#navbar-back-button').css("display", "none");
+	  init_search();
 	}
 
 	//desktop to mobile
 	if ((windowWidth() <= WIDTH_THRESHOLD) && (prevWindowWidth > WIDTH_THRESHOLD))
 	{
 	  $('#mob-searchbox').val($('#searchbox').val());
+	  init_search();
 	}
 	prevWindowWidth = windowWidth();
 }

@@ -18,7 +18,7 @@ var getSearchQueryURL = function () {
 var searchForCourses = function () {
   // return if no search
   if ($(getDeviceSearchBox()).val() === '') return false
-
+  if (windowWidth() < WIDTH_THRESHOLD) { goBackToSearch(); }
   // construct search query
   var search = '/api/search/'
   search += encodeURIComponent($(getDeviceSearchBox()).val())

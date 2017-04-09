@@ -7,6 +7,9 @@
 	}
 
 	/* general */	
+	body {
+		background-color: #ddd;
+	}
 	.flex-item-stretch {
   	width:100%;
   }
@@ -32,15 +35,15 @@
   }
 
   #search-pane {
-  	padding:15px;
-		padding-top:50px;
-  	background-color:#ddd;
+  	padding: 15px;
+		padding-top: 50px;
+  	background-color: #ddd;
   }
 
 	/* Display Pane CSS */
 	#display-pane {
-		padding:15px;
-		padding-top:50px;
-		display:none;
+		padding: 15px;
+		padding-top: 50px;
+		display: none;
 	}
 }
