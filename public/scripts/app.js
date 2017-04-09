@@ -80,7 +80,7 @@ var init_panes = function() {
 
 // to initalize search pane section collapsing
 var init_searchpane = function() {
-  $('#favorite-courses').css('max-height', '30%')
+  $('#favorite-courses').css('max-height', '30vh')
 
     // toggle display of favorite things
   var toggleFavDisplay = function() {
