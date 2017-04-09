@@ -59,4 +59,8 @@
     border:none;
     padding: 0 0 0 10px;
   }
+  #navbar-back-button {
+    padding: 6px 16px 6px 16px;
+    display:none;
+  }
 }
