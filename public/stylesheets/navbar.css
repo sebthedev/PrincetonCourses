@@ -53,3 +53,10 @@
 .navbar-default .navbar-link:hover {
   color: #ffffff;
 }
+
+@media only screen and (max-width: 768px) {
+  .navbar-form {
+    border:none;
+    padding: 0 0 0 10px;
+  }
+}

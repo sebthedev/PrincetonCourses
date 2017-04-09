@@ -1,9 +1,9 @@
-// dependencies: module.js, fav.js, display.js
+// dependencies: module.js, fav.js, display.js, device.js
 
 var getSearchQueryURL = function () {
   var parameters = []
-  if ($('#searchbox').val() != null) {
-    parameters.push('search=' + $('#searchbox').val())
+  if ($(getDeviceSearchBox()).val() != null) {
+    parameters.push('search=' + $(getDeviceSearchBox()).val())
   }
   if ($('#semester').val() != null) {
     parameters.push('semester=' + $('#semester').val())
@@ -17,11 +17,11 @@ var getSearchQueryURL = function () {
 // function for updating search results
 var searchForCourses = function () {
   // return if no search
-  if ($('#searchbox').val() === '') return false
+  if ($(getDeviceSearchBox()).val() === '') return false
 
   // construct search query
   var search = '/api/search/'
-  search += encodeURIComponent($('#searchbox').val())
+  search += encodeURIComponent($(getDeviceSearchBox()).val())
   search += '?semester=' + $('#semester').val()
   search += '&sort=' + $('#sort').val()
 

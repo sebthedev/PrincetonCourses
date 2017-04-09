@@ -1,0 +1,20 @@
+/* BENSU */
+@media only screen and (max-width: 768px) {
+	/* general */
+	.fa-minus {
+		display:none;
+	}
+	#content-container {
+		padding:10px;
+		padding-top:50px;
+	}
+
+	/* navbar */
+	#menu-bar {
+		margin:0;
+	}
+
+	/* search-pane */
+
+	/* display-pane */
+}

@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js device.js
 
 // initialization
 $(document).ready(function() {
@@ -44,6 +44,7 @@ var parseSearchParameters = function () {
   // Parse search terms
   var unparsedParameters = window.location.search.replace('?', '').split('&')
   var parameters = {}
+  var searchbox = getDeviceSearchBox();
   for (var parametersIndex in unparsedParameters) {
     var keyValue = unparsedParameters[parametersIndex].split('=')
     if (keyValue.length === 2) {
@@ -51,7 +52,7 @@ var parseSearchParameters = function () {
     }
   }
   if (parameters.hasOwnProperty('search')) {
-    $('#searchbox').val(parameters.search)
+    $(getDeviceSearchBox()).val(parameters.search)
   }
   if (parameters.hasOwnProperty('semester')) {
     $('#semester').data('query', parameters.semester).val(parameters.semester)
@@ -110,7 +111,7 @@ var init_searchpane = function() {
 // to initialize searching function
 var init_search = function() {
   // Every time a key is pressed inside the #searchbox, call the searchForCourses function
-  $('#searchbox').on('input', searchForCourses)
+  $(getDeviceSearchBox()).on('input', searchForCourses)
   $('#semester, #sort').change(searchForCourses)
 
   // load the semesters for the dropdown
