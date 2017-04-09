@@ -13,6 +13,6 @@ var getWindowWidth = function() {
 
 // Return the id of searchbox depending on screen size
 var getDeviceSearchBox = function() {
-	if (getWindowWidth() < 768) { return "#searchbox"; }
+	if (getWindowWidth() > 768) { return "#searchbox"; }
 	else { return "#mob-searchbox"; }
 }
