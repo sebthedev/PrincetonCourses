@@ -1,20 +1,46 @@
 /* BENSU */
 @media only screen and (max-width: 768px) {
-	/* general */
-	.fa-minus {
-		display:none;
-	}
-	#content-container {
-		padding:10px;
-		padding-top:50px;
-	}
-
+	
 	/* navbar */
 	#menu-bar {
 		margin:0;
 	}
 
-	/* search-pane */
+	/* general */	
+	.flex-item-stretch {
+  	width:100%;
+  }
+	.truncate {
+  	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+	}
 
-	/* display-pane */
+	/* Content CSS*/
+/*	#content-container {
+		padding:10px;
+		padding-top:50px;
+	}*/
+
+	/* Search Pane CSS */
+  .search-section-header,
+  .disp-section-header {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  #search-pane {
+  	padding:15px;
+		padding-top:50px;
+  	background-color:#ddd;
+  }
+
+	/* Display Pane CSS */
+	#display-pane {
+		padding:15px;
+		padding-top:50px;
+		display:none;
+	}
 }
