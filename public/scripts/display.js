@@ -16,10 +16,7 @@ var displayCourseDetails = function(courseId) {
 
   if (windowWidth() < WIDTH_THRESHOLD)
   {
-    $('#search-pane').css('display','none')
-    $('#display-pane').css('display','block')
-    $('#navbar-toggle-button').css('display','none')
-    $('#navbar-back-button').css('display','block')
+    goToCoursePage();
   }
 
   $.get('/api/course/' + courseId, function (course, status) {

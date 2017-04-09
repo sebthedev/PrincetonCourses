@@ -77,7 +77,7 @@ function newDOMinstructorResult(instructor, props) {
         + '<strong class="instructor-title">' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + '<span class="badge">' + instructor.courses.length + '</span> '
+        + '<span class="badge instructor-badge">' + instructor.courses.length + '</span> '
         + '<i class="text-button fa fa-lg fa-caret-down"></i>'
       + '</div>'
     + '</div>'
@@ -93,6 +93,7 @@ function newDOMinstructorResult(instructor, props) {
   var body = $(entry).find('ul')[0]       // body of instructor result
   $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
   $(title).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(entry).click(function() {toggleInstructor(icon, body, entry); return false})
 
   return entry
 }
