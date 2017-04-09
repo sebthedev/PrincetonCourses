@@ -100,7 +100,7 @@ var init_searchpane = function() {
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').animate({'max-height': (isVisible ? '100%' : '30%')})
+    $('#favorite-courses').animate({'max-height': (isVisible ? '100vh' : '30vh')})
 
     $('#search-results').slideToggle()
   }
