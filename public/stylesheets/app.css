@@ -303,6 +303,24 @@ body {
   color: #9fd2fe;
 }
 
+/* SUGGEST PANE CSS */
+
+#suggest-pane {
+  background-color: #ccc;
+  padding: 5px 10px 15px;
+  max-width: 200px;
+  width: 200px;
+  overflow-y: auto;
+}
+
+.suggest-result {
+  cursor: pointer;
+}
+.suggest-result:hover {
+  background-color: #fff;
+  transition: background-color 0.4s ease;
+}
+
 /* FEEDBACK CSS */
 
 #feedback-container {

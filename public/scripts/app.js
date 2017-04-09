@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js
 
 // initialization
 $(document).ready(function() {
@@ -14,6 +14,7 @@ $(document).ready(function() {
   init_evals();
   init_logout();
   init_about();
+  init_suggest();
 
 })
 
@@ -215,6 +216,15 @@ var init_logout = function() {
 var init_about = function() {
   $('#about-toggle').click(function() {return toggleNavbar('about')})
   $('#about-popup-close').click(function() {return toggleNavbar('about')})
+}
+
+// to initialize suggest display
+var init_suggest = function() {
+  suggest_load()
+  $('#suggest-toggle').click(toggleSuggest)
+  $('#suggest-distributions-toggle').click(function() {section_toggle('suggest', 'distributions')})
+  $('#suggest-pdfoptions-toggle'   ).click(function() {section_toggle('suggest', 'pdfoptions')})
+  $('#suggest-departments-toggle'  ).click(function() {section_toggle('suggest', 'departments')})
 }
 
 // toggles display / eval sections

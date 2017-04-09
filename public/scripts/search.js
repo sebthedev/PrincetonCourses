@@ -20,7 +20,7 @@ var searchForCourses = function () {
   {
     $('#results').children().remove();
     return false
-  }  
+  }
 
   // construct search query
   var search = '/api/search/'
@@ -48,6 +48,7 @@ var searchForCourses = function () {
     // List the returned courses in the search results pane
     for (var index in results) {
       var result = results[index]
+      if (result === null) {console.log(index); continue} /* MEL: FOR SOME REASON WE HAVE NULL RESULTS?? */
       $('#results').append(newDOMResult(result, {"tags": 1}))
     }
   }).then(displayActive)
