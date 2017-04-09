@@ -179,7 +179,7 @@ body {
 .text-button {
   cursor: pointer;
   color: #888;
-  
+
 }
 .text-button:hover {
   color: #b8b8b8;
@@ -195,10 +195,10 @@ body {
   cursor: pointer;
   padding:0 0 0 5px;
   transition: color 0.4s ease;
-  
+
 }
 .unfav-icon:hover {
-  color: #f2c6c4; 
+  color: #f2c6c4;
 }
 
 .fav-icon {
@@ -209,7 +209,7 @@ body {
 }
 .fav-icon:hover {
   color: #d9534f;
-  
+
 }
 
 .instructor-list-item {
@@ -242,6 +242,7 @@ body {
 
 #disp-title {
   margin: 5px 0;
+  line-height: normal;
 }
 #disp-title-right {
   margin: 5px 0;
@@ -290,7 +291,7 @@ body {
 .up-icon {
   color: #000;
   cursor: pointer;
-  
+
 }
 .up-icon:hover {
   color: #0275d8;
