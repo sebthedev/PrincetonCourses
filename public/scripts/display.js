@@ -14,6 +14,7 @@ var displayCourseDetails = function(courseId) {
   // Push to the history this course
   window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
 
+  if (windowWidth() < WIDTH_THRESHOLD)
   {
     $('#search-pane').css('display','none')
     $('#display-pane').css('display','block')
