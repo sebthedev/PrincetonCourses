@@ -97,7 +97,7 @@
 
   #search-pane {
   	padding: 15px;
-		padding-top: 50px;
+		padding-top: 60px;
   	background-color: #ddd;
   }
 
@@ -158,7 +158,6 @@
   #disp-title {
   	font-size:1.5em;
   	overflow-y: auto;
-  	padding:2px 0 2px 0;
   }
 
   #disp-subtitle {
