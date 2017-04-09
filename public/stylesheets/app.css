@@ -179,7 +179,6 @@ body {
 .text-button {
   cursor: pointer;
   color: #888;
-
 }
 .text-button:hover {
   color: #b8b8b8;
@@ -195,7 +194,6 @@ body {
   cursor: pointer;
   padding:0 0 0 5px;
   transition: color 0.4s ease;
-
 }
 .unfav-icon:hover {
   color: #f2c6c4;
@@ -209,7 +207,6 @@ body {
 }
 .fav-icon:hover {
   color: #d9534f;
-
 }
 
 .instructor-list-item {
@@ -291,7 +288,6 @@ body {
 .up-icon {
   color: #000;
   cursor: pointer;
-
 }
 .up-icon:hover {
   color: #0275d8;
