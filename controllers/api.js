@@ -128,14 +128,18 @@ router.get('/search/:query', function (req, res) {
     })
   }
 
-  // Construct the courseModel database query as a promise
-  var coursePromise = courseModel.find(courseQuery, courseProjection).exec()
+  let promises = []
 
   // Construct the courseModel database query as a promise
-  var instructorPromise = instructorModel.find(instructorQuery, instructorProjection).exec()
+  promises.push(courseModel.find(courseQuery, courseProjection).exec())
+
+  // Construct the courseModel database query as a promise
+  if (newQueryWords.length > 0) {
+    promises.push(instructorModel.find(instructorQuery, instructorProjection).exec())
+  }
 
   // Trigger both promises and wait for them to both return
-  Promise.all([coursePromise, instructorPromise]).then(values => {
+  Promise.all(promises).then(values => {
     var courses = values[0]
     var instructors = values[1]
 
@@ -368,7 +372,16 @@ router.get('/instructor/:id', function (req, res) {
   }
 
   // Search for the instructor in the database
-  instructorModel.findOne({_id: req.params.id}).populate('courses').exec(function (err, instructor) {
+  instructorModel.findOne({_id: req.params.id}).populate({
+    path: 'courses',
+    options: {
+      sort: {
+        semester: -1,
+        department: 1,
+        catalogNumber: 1
+      }
+    }
+  }).exec(function (err, instructor) {
     if (err) {
       console.log(err)
       res.send(500)

@@ -33,7 +33,6 @@ router.get('/login', function (req, res) {
 
 // Handle replies from Princeton's CAS server about authentication
 router.get('/verify', function (req, res) {
-
   // Check if the user has a redirection destination
   let redirectDestination = req.session.redirect || '/'
 
@@ -44,7 +43,6 @@ router.get('/verify', function (req, res) {
   }
 
   var ticket = req.query.ticket
-  console.log(ticket)
 
   // If the user does not have a ticket then send them to the homepage
   if (typeof (ticket) === 'undefined') {
