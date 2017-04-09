@@ -212,6 +212,7 @@ body {
 .instructor-list-item {
   padding: 8px;
   background-color: #f4f4f4;
+  transition: background-color 0.4s ease;
 }
 .instructor-list-item:hover {
   padding: 8px;
@@ -238,11 +239,11 @@ body {
 }
 
 #disp-title {
-  margin: 5px 0;
+  margin: 5px 0 10px;
   line-height: normal;
 }
 #disp-title-right {
-  margin: 5px 0;
+  margin: 5px 0 10px;
 }
 #disp-subtitle {
   margin: 0;
