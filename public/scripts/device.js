@@ -1,3 +1,5 @@
+var prevWindowWidth = $(window).width();
+var WIDTH_THRESHOLD = 768;
 
 // Return the height of the window
 var windowHeight = function() {
@@ -13,25 +15,23 @@ var windowWidth = function() {
 
 // Return the id of searchbox depending on screen size
 var getDeviceSearchBox = function() {
-	if (windowWidth() > 768) { return "#searchbox"; }
+	if (windowWidth() > WIDTH_THRESHOLD) { return "#searchbox"; }
 	else { return "#mob-searchbox"; }
 }
 
 var onresize = function() {
-	if (windowWidth > 768)
+	// mobile to desktop
+	if ((windowWidth() > WIDTH_THRESHOLD) && (prevWindowWidth <= WIDTH_THRESHOLD))
 	{
-	  // //var backButton = '<div><button type="button" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
-	  // $('#search-pane').css("display", "");
-	  // $('#display-pane').css("display", "");
-	  // $('body').css("background-color", "#ffffff");
-	  // $('#backButton').css("display", "none");
+	  $('#searchbox').val($('#mob-searchbox').val());
 	}
-	if (windowWidth <= 768)
+
+	//desktop to mobile
+	if ((windowWidth() <= WIDTH_THRESHOLD) && (prevWindowWidth > WIDTH_THRESHOLD))
 	{
-	  // //var backButton = '<div><button type="button" onclick="goBackToSearchResults();" class="btn btn-secondary">Back</div></span>'
-	  // $('#search-pane').css("display", "");
-	  // $('#display-pane').css("display", "none");
-	  // $('body').css("background-color", "#dddddd");
+	  $('#mob-searchbox').val($('#searchbox').val());
 	}
+	prevWindowWidth = windowWidth();
 }
+
 window.addEventListener("resize", onresize);
