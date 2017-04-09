@@ -3,6 +3,9 @@
   background-color: #EE7F2D;
   border-color: #EE7F2D;
 }
+#navigationbar.navbar-collapse {
+  padding:0 15px 0 15px;
+}
 .navbar-default .navbar-brand {
   color: #000000;
 }
@@ -57,7 +60,7 @@
 @media only screen and (max-width: 768px) {
   .navbar-form {
     border:none;
-    padding: 0 0 0 10px;
+    padding: 0 10px 0 10px;
   }
   #navbar-back-button {
     padding: 6px 16px 6px 16px;

@@ -6,13 +6,6 @@ var displayResult = function() {
   var courseId = this.courseId
 
   // Display the information for this course
-  if (windowHeight() < WIDTH_THRESHOLD)
-  {
-    $('#search-pane').css('display','none')
-    $('#display-pane').css('display','block')
-    $('#navbar-toggle-button').css('display','none')
-    $('#navbar-back-button').css('display','block')
-  }
   displayCourseDetails(courseId)
 }
 
@@ -20,6 +13,13 @@ var displayResult = function() {
 var displayCourseDetails = function(courseId) {
   // Push to the history this course
   window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
+
+  {
+    $('#search-pane').css('display','none')
+    $('#display-pane').css('display','block')
+    $('#navbar-toggle-button').css('display','none')
+    $('#navbar-back-button').css('display','block')
+  }
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling

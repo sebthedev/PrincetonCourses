@@ -1,6 +1,23 @@
 /* BENSU */
 @media only screen and (max-width: 768px) {
-	
+	/* Bootstrap Override */
+	/* these are an rgb average of the corresponding bootstrap color and white */
+  .text-info-dim {
+    color: #addfee;
+  }
+  .text-warning-dim {
+    color: #f7d6a6;
+  }
+  .text-danger-dim {
+    color: #eca8a7;
+  }
+  .text-success-dim {
+    color: #addbad;
+  }
+  .text-dim {
+    /* color: #777;*/
+  }
+
 	/* navbar */
 	#menu-bar {
 		margin:0;
@@ -10,20 +27,56 @@
 	body {
 		background-color: #ddd;
 	}
-	.flex-item-stretch {
-  	width:100%;
-  }
+
 	.truncate {
-  	white-space: nowrap;
-  	overflow: hidden;
-  	text-overflow: ellipsis;
+		width:100%;
+  	display:inline;
 	}
 
+	.progress {
+    margin: 1px 0 0;
+    height: 5px;
+    background-color: #f4f4f4;
+    box-shadow: none;
+    padding-right:10px;
+  }
+
+  .progress-bar {
+    box-shadow: none;
+  }
+
 	/* Content CSS*/
-/*	#content-container {
-		padding:10px;
-		padding-top:50px;
-	}*/
+
+	.list-group-item {
+    background-color: #f4f4f4;
+    padding: 5px 8px;
+  }
+
+  .unfav-icon {
+    color: #d9534f;
+    cursor: pointer;
+    float:right;
+    padding:0 0 0 5px;
+  }
+
+  .unfav-icon:hover {
+    color: #f2c6c4;
+  }
+
+  .fav-icon {
+    color: #ddd;
+    cursor: pointer;
+    float:right;
+    padding:0 0 0 5px;
+  }
+
+  .fav-icon:hover {
+    color: #d9534f;
+  }
+
+  .badge {
+  	float:right;
+  }
 
 	/* Search Pane CSS */
   .search-section-header,
@@ -41,9 +94,73 @@
   }
 
 	/* Display Pane CSS */
-	#display-pane {
-		padding: 15px;
+	#display-pane {	
 		padding-top: 50px;
 		display: none;
 	}
+
+	#display-header {
+    padding: 15px;
+    background-color: #eee;
+    z-index: 500;
+  }
+
+  #disp-title {
+  	font-size:1.5em;
+  	overflow-y: auto;
+  	padding:2px 0 2px 0;
+  }
+
+  #disp-subtitle {
+  	font-size:1em;
+  }
+  #disp-subtitle-right {
+  	font-size:1em;
+  }
+
+  #display-body {
+  	padding: 15px;
+  	background-color:#fff;
+  }
+
+  #disp-title {
+    margin: 5px 0;
+  }
+  #disp-title-right {
+    margin: 5px 0;
+  }
+  #disp-subtitle {
+    margin: 0;
+    padding-bottom: 5px;
+  }
+  #disp-subtitle-right {
+    margin: 0;
+  }
+
+  /* Evals CSS */
+  .up-icon {
+    color: #000;
+    cursor: pointer;
+  }
+
+  .down-icon {
+    color: #0275d8;
+    cursor: pointer;
+  }
+
+  #feedback-container {
+    position: fixed;
+    top: 0;
+    padding-top: 50px;
+    right: 50px;
+    width: 30vw;
+    z-index: 700;
+    border-color: #f58025;
+    border-width: 2px;
+  }
+  .flex-eval > .badge {
+  	position:absolute;
+  	right:8px;
+  	top:8px;
+  }
 }

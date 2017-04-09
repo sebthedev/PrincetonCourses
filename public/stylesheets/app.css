@@ -6,8 +6,10 @@
         modularized into separate files at some point in the future.
         For now, it is convenient to have all the css in one file. */
 
-/* BOOTSTRAP OVERRIDES */
+
 @media only screen and (min-width: 768px) {
+
+  /* BOOTSTRAP OVERRIDES */
   .badge-large {
     font-size: 20px;
     padding: 5px 12px;

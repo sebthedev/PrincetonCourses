@@ -29,6 +29,7 @@ var onresize = function() {
 	  $('#search-pane').css("display", "");
 	  $('#navbar-toggle-button').css("display", "none");
 	  $('#navbar-back-button').css("display", "none");
+	  $('#searchform').css("display", "");
 	  init_search();
 	}
 
@@ -36,6 +37,8 @@ var onresize = function() {
 	if ((windowWidth() <= WIDTH_THRESHOLD) && (prevWindowWidth > WIDTH_THRESHOLD))
 	{
 	  $('#mob-searchbox').val($('#searchbox').val());
+	  $('#navbar-toggle-button').css('display','block');
+	  $('#searchform').css("display", "none");
 	  init_search();
 	}
 	prevWindowWidth = windowWidth();
