@@ -230,9 +230,12 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  setTimeout(function() {
-    $('#updates-bottom-popup').show();
-  }, 1000); // milliseconds
+  var updateRead = localStorage.getItem('updateRead');
+  if (updateRead !== 'True') {
+    setTimeout(function() {
+      $('#updates-bottom-popup').show();
+    }, 1000); // milliseconds
+  }
 }
 
 // toggles display / eval sections
@@ -244,4 +247,8 @@ var section_toggle = function(pane, section) {
   icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
   icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
   body.slideToggle();
+}
+
+var saveUpdatePopupState = function() {
+  localStorage.setItem('updateRead', 'True');
 }
