@@ -19,6 +19,7 @@ var searchForCourses = function () {
   if ($('#searchbox').val() === '')
   {
     $('#results').children().remove();
+    $('#search-title').text('0' + ' Search Result')
     return false
   }
 

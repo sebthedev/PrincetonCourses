@@ -222,6 +222,7 @@ var init_about = function() {
 var init_suggest = function() {
   suggest_load()
   $('#suggest-toggle').click(toggleSuggest)
+  $('#suggest-allcourses-toggle').click(function() {section_toggle('suggest', 'allcourses')})
   $('#suggest-distributions-toggle').click(function() {section_toggle('suggest', 'distributions')})
   $('#suggest-pdfoptions-toggle'   ).click(function() {section_toggle('suggest', 'pdfoptions')})
   $('#suggest-departments-toggle'  ).click(function() {section_toggle('suggest', 'departments')})

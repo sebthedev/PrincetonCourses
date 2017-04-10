@@ -2,6 +2,10 @@
 
 /* MEL: ideally these const arrays will be stored in the database */
 
+const allcourses = {
+  '*': 'All Courses'
+}
+
 // distributions
 const distributions = {
   'EC': 'Epistemology and Cognition',
@@ -14,6 +18,7 @@ const distributions = {
   'STN': 'Science and Technology without Lab'
 }
 
+// pdf options
 const pdfoptions = {
   'PDF': 'P/D/F available',
   'PDFO': 'P/D/F only',
@@ -144,6 +149,11 @@ function toggleSuggest() {
 
 // loads contents of suggest pane
 function suggest_load() {
+  for (var term in allcourses) {
+    var description = allcourses[term]
+    $('#suggest-allcourses-body').append(newDOMsuggestResult(term, description))
+  }
+
   for (var term in distributions) {
     var description = distributions[term]
     $('#suggest-distributions-body').append(newDOMsuggestResult(term, description))
