@@ -41,7 +41,6 @@ var detectTimeClash = function (startTime1, endTime1, startTime2, endTime2) {
   }
 
   //classes do not overlap
-  console.log("reached no overlap")
   return false
 }
 
@@ -69,7 +68,6 @@ var detectSectionClash = function(section1, section2) {
       }
     }
   }
-  console.log("no day overlap")
   return false
 } 
 
@@ -124,7 +122,7 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
     for (var currentClass = 0; currentClass < favCourse.classes.length; currentClass++) {
 
       var currentSection = favCourse.classes[currentClass]
-      if (prevSectionType != "" /*&& curSection.section != null*/) {
+      if (prevSectionType != "") {
         //new section type within a course, push previous information into arrays
         if (prevSectionType != String(currentSection.section).charAt(0)) {
           favCourseSectionsAll.push(courseSectionsAll)
@@ -207,8 +205,6 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
       sectionIndex[i]++
     }
   }
-  
-  console.log(favCourseSectionsInc)
 
 
   //favCourseSectionsInc has been updated and can now be used to populate subgraph
@@ -222,98 +218,91 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
   	incFavCourseSections.push(incSections)
   }
 
-  console.log(incFavCourseSections)
-  console.log(sectionIndex)
 
-  /*
   //now that the original subgraph has been made, run clash on all courses from search results
-  for (var courseIndex in courses) {
+  for (var courseIndex = 0; courseIndex < courses.length; courseIndex++) {
 
-   var thisCourse = courses[courseIndex]
+    var thisCourse = courses[courseIndex]
 
-  //each course has new, independent sections
-  var currentCourseSectionsAll = []
-  var currentMaxLength = []
-  var currentSectionIndex = []
+    //each course has new, independent sections
+    var currentCourseSectionsAll = []
+    var currentMaxLength = []
+    var currentSectionIndex = []
 
-  var prevSectionType = null
-  var courseSectionsAll = []
-  var maxLengthIndex = 0
+    var prevSectionType = ""
+    var courseSectionsAll = []
+    var maxLengthIndex = 0
+    var courseSections = []
 
-  for (var section in thisCourse.classes) {
-    if (prevSectionType != null && section.section != null) {
-      //new section type within a course, push previous information into arrays
-      if (prevSectionType != section.section.charAt(0)) {
-        currentCourseSectionsAll.push(courseSections)
-        courseSections = []       
-        currentMaxLength.push(maxLengthIndex)
-        maxLengthIndex = 0
-        currentSectionIndex.push(0)
+    for (var currentClass = 0; currentClass < thisCourse.classes.length; currentClass++) {
+      var currentSection = thisCourse.classes[currentClass]
+      if (prevSectionType != "" && currentSection.section != null) {
+        //new section type within a course, push previous information into arrays
+        if (prevSectionType != String(currentSection.section).charAt(0)) {
+          currentCourseSectionsAll.push(courseSections)
+          courseSections = []       
+          currentMaxLength.push(maxLengthIndex)
+          maxLengthIndex = 0
+          currentSectionIndex.push(0)
+        }
       }
+      courseSections.push(currentSection)
+      prevSectionType = currentSection.section.charAt(0)
+      maxLengthIndex++
     }
-    courseSections.push(section)
-    prevSectionType = section.section.charAt(0)
-    maxLengthIndex++
-  }
 
-  //all sections seen within course, push information into arrays 
-  if (courseSections != null) {
-    currentCourseSectionsAll.push(courseSections)
-    currentMaxLength.push(maxLengthIndex)
-    currentSectionIndex.push(0)
-  }
+    //all sections seen within course, push information into arrays 
+    if (courseSections != null) {
+      currentCourseSectionsAll.push(courseSections)
+      currentMaxLength.push(maxLengthIndex)
+      currentSectionIndex.push(0)
+    }
 
-  //combine information to run clash
-  currentCourseSectionsAll = incFavCourseSections.concat(currentCourseSectionsAll)
-  currentMaxLength = maxLength.concat(currentMaxLength)
-  currentSectionIndex = sectionIndex.concat(currentSectionIndex)
+    //combine information to run clash
+    currentCourseSectionsAll = incFavCourseSections.concat(currentCourseSectionsAll)
+    currentMaxLength = maxLength.concat(currentMaxLength)
+    currentSectionIndex = sectionIndex.concat(currentSectionIndex)
 
   //run a modified clash
-  var found = false
-  var ranOut = false
+  var done = false
+  var possibleScheduleFound = false
   var i = 1
 	//now check for all possible schedules to include only possible sections
 	//note that if sectionIndex[0] >= maxLengthIndex[0] all possibilities have been checked and the algorithm should terminate
 	//while (!checkedAll(sectionIndex, maxLength)  && !runBack) {
-   while (!found) {
+  while (!possibleScheduleFound) {
     while (i < currentSectionIndex.length) {
-     for (var j = 0; j < i; j++) {
-      while (detectSectionClash(currentCourseSectionsAll[currentSectionIndex[j]], currentCourseSectionsAll[currentSectionIndex[i]])) {
-       currentSectionIndex[i]++
-       while (currentSectionIndex[i] >= currentMaxLength[i]) {
-        if (i <= 0) {
-         ranOut = true
-         break
-       }
-       currentSectionIndex[i] = 0
-       i--
-       currentSectionIndex[i]++
-     }
-     if (ranOut)
+      for (var j = 0; j < i; j++) {
+        if (detectSectionClash(currentCourseSectionsAll[j][currentSectionIndex[j]], currentCourseSectionsAll[i][currentSectionIndex[i]])) {
+          currentSectionIndex[i]++
+          while (currentSectionIndex[i] >= currentMaxLength[i]) {
+            if (i <= 0) {
+              done = true
+              break
+            }
+            currentSectionIndex[i] = 0
+            i--
+            currentSectionIndex[i]++
+          }
+          j = -1
+        }
+        if (done)
+          break
+      }
+    if (done)
       break
+    i++
   }
-  if (ranOut)
-   break
-}
-if (ranOut)
-  break
-i++
-}
-if (ranOut)
-  break
+  if (done)
+    break
+  
+  possibleScheduleFound = true
+  }
 
-found = true
-
-if (!found) {
-  thisCourse.clash = true
+  thisCourse.clash = (!possibleScheduleFound)
+  courses[courseIndex] = thisCourse
 }
 
-courses[courseIndex] = thisCourse
-}
-
-
-}
-*/
   //it's all done OMG!
   return courses
 }
