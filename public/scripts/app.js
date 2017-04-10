@@ -77,12 +77,21 @@ var init_panes = function() {
     resizeHeight: false,
     resizeWidthFrom: 'left'
   })
+  
+  var searchPaneWidth = localStorage.getItem('#search-resizer');
+  if(searchPaneWidth != undefined) { 
+    $('#search-pane').css('width', searchPaneWidth);
+  }
+
+  var infoPaneWidth = localStorage.getItem('#info-resizer');
+  if(searchPaneWidth != undefined) { 
+    $('#info-pane').css('width', infoPaneWidth);
+  }
 }
 
 // to initalize search pane section collapsing
 var init_searchpane = function() {
   $('#favorite-courses').css('max-height', '30vh')
-
     // toggle display of favorite things
   var toggleFavDisplay = function() {
     var isVisible = $('#favorite-courses').css('display') !== 'none'

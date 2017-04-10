@@ -20,14 +20,11 @@ Licensed under MIT License
 		factory(jQuery);
 	}
 }(function($, undefined) {
-
     function getHandle(selector, $el) {
         if (selector && selector.trim()[0] === ">") {
             selector = selector.trim().replace(/^>\s*/, "");
-
             return $el.find(selector);
-        }
-
+        }     
         return selector ? $(selector) : $el;
     }
 
@@ -111,7 +108,7 @@ Licensed under MIT License
                     newWidth = startPos.width - pos.x + startPos.x;
                 else
                     newWidth = startPos.width + pos.x - startPos.x;
-
+                localStorage.setItem(opt.handleSelector, newWidth);
                 if (opt.resizeHeightFrom === 'top')
                     newHeight = startPos.height - pos.y + startPos.y;
                 else
