@@ -8,7 +8,8 @@ function toggleNavbar(element) {
     if ($('#about-popup').css('display') !== 'none') toggleAbout()
     toggleFeedback()
   }
-
+  toggleAboutBodyClick()
+  toggleFeedbackBodyClick()
   return false
 }
 
@@ -34,4 +35,26 @@ var toggleAbout = function() {
 
   // animate
   $('#about-popup').fadeToggle()
+}
+
+// hide about popup if clicked outside of div
+var toggleAboutBodyClick = function() {
+  $(document).on("click", function(event){
+    var $trigger = $("#about-popup");
+    if($trigger !== event.target && !$trigger.has(event.target).length){
+      $("#about-popup").fadeOut();
+      $("#about-toggle").removeClass('active');
+    }            
+  });
+}
+
+// hide feedback popup if clicked outside of div
+var toggleFeedbackBodyClick = function() {
+  $(document).on("click", function(event){
+    var $trigger = $("#feedback-container");
+    if($trigger !== event.target && !$trigger.has(event.target).length){
+      $("#feedback-container").slideUp();
+      $("#feedback-toggle").removeClass('active');
+    }            
+  });
 }
