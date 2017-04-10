@@ -274,6 +274,7 @@ var section_toggle = function(pane, section) {
   body.slideToggle();
 }
 
+// update is read by the user
 var saveUpdatePopupState = function() {
   localStorage.setItem('updateRead', 'True');
 }
