@@ -218,13 +218,13 @@ body {
 .instructor-list-item:hover {
   padding: 8px;
   background-color: #eaeaea;
-  cursor: pointer;
 }
 .instructor-list-item-opened {
   background-color: #eaeaea;
 }
 .instructor-title {
   color: #000;
+  cursor: pointer;
 }
 .instructor-body {
   margin: 5px 0 0;

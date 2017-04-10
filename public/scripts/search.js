@@ -97,7 +97,7 @@ function newDOMinstructorResult(instructor, props) {
   icon.instructorId = instructor._id      // attach instructor id
   var body = $(entry).find('ul')[0]       // body of instructor result
   $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
-  $(entry).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(title).click(function() {toggleInstructor(icon, body, entry); return false})
 
   return entry
 }
