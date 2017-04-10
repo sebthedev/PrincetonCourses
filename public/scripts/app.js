@@ -3,7 +3,7 @@
 // initialization
 $(document).ready(function() {
 
-  init_load();
+  /* init_load(); MEL: now loads after semesters have been loaded in init_search */
   init_panes();
   init_searchpane();
   init_search();
@@ -127,7 +127,7 @@ var init_search = function() {
     } else {
       $('#semester').children().eq(1).attr('selected', true)
     }
-  })
+  }).then(init_load)
 }
 
 // to initialize global data

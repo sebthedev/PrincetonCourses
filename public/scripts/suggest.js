@@ -1,5 +1,7 @@
 // dependencies: search.js
 
+/* MEL: ideally these const arrays will be stored in the database */
+
 // distributions
 const distributions = {
   'EC': 'Epistemology and Cognition',
