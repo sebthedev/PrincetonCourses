@@ -21,12 +21,6 @@
   color: #000000;
   transition: all 0.4s ease;
 }
-.navbar-default .navbar-nav > .open > a:focus,
-.navbar-default .navbar-nav > li > a:focus {
-  color: #000;
-  background-color: #EE7F2D;
-}
-
 .navbar-default .navbar-nav > li > a:hover {
   color: #ffffff;
 }
