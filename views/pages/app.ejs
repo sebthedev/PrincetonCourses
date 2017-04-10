@@ -248,6 +248,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Popups -->
+  
   <div id="feedback-container" class="panel" style="display: none;">
     <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode !== 13">
       <div class="form-group">
@@ -258,6 +261,7 @@
     </form>
     <iframe src="about:blank" id="no-target" name="no-target" style="display: none;"></iframe>
   </div>
+
   <div id="about-popup" style="display: none;">
     <div id="about-panel" class="panel panel-default">
       <div class="panel-heading flex-container-row">
@@ -270,5 +274,15 @@
       </div>
     </div>
   </div>
-</body>
+  <!-- <div class="modal fade" id="updates-bottom-popup" data-keyboard="false" data-backdrop="false">
+    <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <p>I'm a pop sliding from the bottom that's suppose to stick</p>
+    </div>
+  </div> -->
+  <div class="alert alert-info alert-dismissable" id="updates-bottom-popup">
+    <button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button>
+    <strong>Update:</strong> You can now search for instructors. Also, take a look at Search Suggestions!
+  </div>
+  </body>
 </html>

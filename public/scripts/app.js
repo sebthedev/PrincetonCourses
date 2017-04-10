@@ -15,7 +15,7 @@ $(document).ready(function() {
   init_logout();
   init_about();
   init_suggest();
-
+  init_updates();
 })
 
 // loads course from url
@@ -226,6 +226,13 @@ var init_suggest = function() {
   $('#suggest-distributions-toggle').click(function() {section_toggle('suggest', 'distributions')})
   $('#suggest-pdfoptions-toggle'   ).click(function() {section_toggle('suggest', 'pdfoptions')})
   $('#suggest-departments-toggle'  ).click(function() {section_toggle('suggest', 'departments')})
+}
+
+// to initialize updates popup
+var init_updates = function() {
+  setTimeout(function() {
+    $('#updates-bottom-popup').show();
+  }, 1000); // milliseconds
 }
 
 // toggles display / eval sections

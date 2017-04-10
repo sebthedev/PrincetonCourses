@@ -357,3 +357,14 @@ body {
   color: #d9534f;
   cursor: pointer;
 }
+
+/* UPDATES POPUP CSS*/
+
+.alert {
+  position: fixed;
+  width: 25%;
+  z-index: 1000;
+  right: 10px;
+  bottom: 0;
+  margin-bottom: 10px;
+}
