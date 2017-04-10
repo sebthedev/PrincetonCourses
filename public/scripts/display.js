@@ -91,10 +91,21 @@ var display_title = function(course) {
     var score = course.evaluations.scores['Overall Quality of the Course']
   }
 
+  // is this a new course
+  var isNew = false /* MEL: we need the back end to provide this to us. (course.semesters === undefined || course.semesters.length == 1) */
+
+  var badgeColor = '#ddd' /* light grey */
+  if (hasScore) badgeColor = colorAt(score)
+  else if (isNew) badgeColor = '#D2A7F1' /* purple */
+
+  var badgeText = 'N/A'
+  if (hasScore) badgeText = score.toFixed(2)
+  else if (isNew) badgeText = 'NEW'
+  if (isPast) badgeText += '*'
+
   var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-                 + '<span' + tooltip + ' class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-                   + (hasScore ? score.toFixed(2) : '')
-                   + (isPast ? '*' : '')
+                 + '<span' + tooltip + ' class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
+                   + badgeText
                  + '</span>'
 
   $('#disp-title-right').append(htmlString)

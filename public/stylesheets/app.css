@@ -20,7 +20,8 @@
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
 }
 
-.badge {
+.badge-score {
+  width: 3.5em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
 }
 
