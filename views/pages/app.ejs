@@ -9,6 +9,7 @@
   <script src="/scripts/fav.js"></script>
   <script src="/scripts/display.js"></script>
   <script src="/scripts/search.js"></script>
+  <script src="/scripts/suggest.js"></script>
   <script src="/scripts/app.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
@@ -30,7 +31,7 @@
       </div>
       <div class="collapse navbar-collapse" id="navigationbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Course Listings</a></li>
+          <li id="suggest-toggle"><a href="#">Search Suggestions</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
@@ -41,6 +42,35 @@
       </div>
     </nav>
     <div class="flex-item-stretch flex-container-row">
+      <div id="suggest-pane" class="flex-item-rigid" style="display: none;">
+        <div id="suggest-distributions">
+          <div id="suggest-distributions-header" class="flex-container-row">
+            <h5 class="flex-item-stretch truncate"><strong>Distributions</strong></h5>
+            <h5 class="flex-item-rigid"><i id="suggest-distributions-toggle" class="fa fa-minus text-button"></i></h5>
+          </div>
+          <ul id="suggest-distributions-body" class="list-group marginless">
+            <!-- distributions go here -->
+          </ul>
+        </div>
+        <div id="suggest-pdfoptions">
+          <div id="suggest-pdfoptions-header" class="flex-container-row">
+            <h5 class="flex-item-stretch truncate"><strong>PDF options</strong></h5>
+            <h5 class="flex-item-rigid"><i id="suggest-pdfoptions-toggle" class="fa fa-minus text-button"></i></h5>
+          </div>
+          <ul id="suggest-pdfoptions-body" class="list-group marginless">
+            <!-- pdf options go here -->
+          </ul>
+        </div>
+        <div id="suggest-departments">
+          <div id="suggest-departments-header" class="flex-container-row">
+            <h5 class="flex-item-stretch truncate"><strong>Departments</strong></h5>
+            <h5 class="flex-item-rigid"><i id="suggest-departments-toggle" class="fa fa-minus text-button"></i></h5>
+          </div>
+          <ul id="suggest-departments-body" class="list-group marginless">
+            <!-- departments go here -->
+          </ul>
+        </div>
+      </div>
       <div id="search-pane" class="flex-item-rigid flex-container-col">
         <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode !== 13">
           <div class="form-group flex-container-row">
