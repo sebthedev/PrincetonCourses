@@ -241,11 +241,25 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateRead = localStorage.getItem('updateRead');
-  if (updateRead !== 'True') {
+  var updateMessage = 'You can now search for instructors. Also, take a look at Search Suggestions!'
+  var updateNo = 0 //  BENSU: increment this number for new updates
+  var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
+  $("#updates-bottom-popup").append(updateMessage);
+  if (updateNo != updateNoStored) // new update
+  {
+    localStorage.setItem('updateRead', 'False');
     setTimeout(function() {
       $('#updates-bottom-popup').show();
     }, 1000); // milliseconds
+    localStorage.setItem('updateNo', updateNo);
+  }
+  else {
+    var updateRead = localStorage.getItem('updateRead');
+    if (updateRead !== 'True') {
+      setTimeout(function() {
+        $('#updates-bottom-popup').show();
+      }, 1000); // milliseconds
+    }
   }
 }
 
