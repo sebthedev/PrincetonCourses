@@ -147,6 +147,14 @@ router.get('/search/:query', function (req, res) {
     var courses = values[0]
     var instructors = values[1]
 
+    // Guard against the query results being null
+    if (typeof (courses) === 'undefined' || courses.length === 0) {
+      courses = []
+    }
+    if (typeof (instructors) === 'undefined' || instructors.length === 0) {
+      instructors = []
+    }
+
     // Perform and-based filtering on the courses returned from the database
     var filteredCourses = []
     // Define the properties in which all of the query terms must occur
