@@ -7,12 +7,7 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
-#display-pane {
-  background-image: url("/media/princeton_logo.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:25vw;
-}
+
 .badge-large {
   font-size: 20px;
   padding: 5px 12px;
@@ -231,6 +226,13 @@ body {
 }
 
 /* DISPLAY HEADER CSS */
+
+#display-pane {
+  background-image: url("/media/princeton_logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:25vw;
+}
 
 #display-header {
   padding: 10px;
