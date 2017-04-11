@@ -262,11 +262,11 @@ body {
   width: 50%; /* default */
   min-width: 150px;
   max-width: 80%;
-  max-width: calc(100%-150px);
+  max-width: calc(100% - 150px);
   overflow-y: auto;
   /* ugly thing to deal with flexbox and resizable */
-  left:0 !important;
-  position:relative !important;
+  /*left:0 !important;
+  position:relative !important;*/
 }
 
 .info-list-item {
