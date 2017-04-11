@@ -182,11 +182,11 @@ function newDOMcourseResult(course, props) {
 
   var badgeColor = '#ddd' /* light grey */
   if (hasScore) badgeColor = colorAt(score)
-  else if (isNew) badgeColor = '#D2A7F1' /* purple */
+  else if (isNew) badgeColor = '#92D4E3' /* blue */
 
   var badgeText = 'N/A'
   if (hasScore) badgeText = score.toFixed(2)
-  else if (isNew) badgeText = 'NEW'
+  else if (isNew) badgeText = 'New'
   if (isPast) badgeText += '*'
 
   // html string for the DOM object
