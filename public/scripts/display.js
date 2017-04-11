@@ -92,7 +92,7 @@ var display_title = function(course) {
   }
 
   // is this a new course
-  var isNew = false /* MEL: we need the back end to provide this to us. (course.semesters === undefined || course.semesters.length == 1) */
+  var isNew = course.hasOwnProperty('new') && course.new
 
   var badgeColor = '#ddd' /* light grey */
   if (hasScore) badgeColor = colorAt(score)

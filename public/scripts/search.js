@@ -178,7 +178,7 @@ function newDOMcourseResult(course, props) {
   var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
   // is this a new course
-  var isNew = false /* MEL: we need the back end to provide this to us. (course.semesters === undefined || course.semesters.length == 1) */
+  var isNew = course.hasOwnProperty('new') && course.new
 
   var badgeColor = '#ddd' /* light grey */
   if (hasScore) badgeColor = colorAt(score)
