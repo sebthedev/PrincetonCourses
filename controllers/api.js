@@ -70,6 +70,12 @@ router.get('/search/:query', function (req, res) {
       courseQuery.distribution = thisQueryWord
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
+    } else if (thisQueryWord === 'NPDF') {
+      courseQuery['pdf.permitted'] = false
+    } else if (thisQueryWord === 'PDFO') {
+      courseQuery['pdf.required'] = true
+    } else if (thisQueryWord === 'AUDIT') {
+      courseQuery['audit'] = true
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])
@@ -140,6 +146,14 @@ router.get('/search/:query', function (req, res) {
   Promise.all(promises).then(values => {
     var courses = values[0]
     var instructors = values[1]
+
+    // Guard against the query results being null
+    if (typeof (courses) === 'undefined' || courses.length === 0) {
+      courses = []
+    }
+    if (typeof (instructors) === 'undefined' || instructors.length === 0) {
+      instructors = []
+    }
 
     // Perform and-based filtering on the courses returned from the database
     var filteredCourses = []

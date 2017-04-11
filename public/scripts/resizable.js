@@ -20,14 +20,11 @@ Licensed under MIT License
 		factory(jQuery);
 	}
 }(function($, undefined) {
-
     function getHandle(selector, $el) {
         if (selector && selector.trim()[0] === ">") {
             selector = selector.trim().replace(/^>\s*/, "");
-
             return $el.find(selector);
         }
-
         return selector ? $(selector) : $el;
     }
 
@@ -83,8 +80,8 @@ Licensed under MIT License
                 }
 
                 startPos = getMousePos(e);
-                startPos.width = parseInt($el.width(), 10);
-                startPos.height = parseInt($el.height(), 10);
+                startPos.width = parseInt($el.outerWidth(), 10);   // MEL: outerWidth for full width
+                startPos.height = parseInt($el.outerHeight(), 10); // MEL: outerHeight for full height
 
                 startTransition = $el.css("transition");
                 $el.css("transition", "none");
@@ -118,12 +115,21 @@ Licensed under MIT License
                     newHeight = startPos.height + pos.y - startPos.y;
 
                 if (!opt.onDrag || opt.onDrag(e, $el, newWidth, newHeight, opt) !== false) {
-                    if (opt.resizeHeight)
-                        $el.height(newHeight);
+                    if (opt.resizeHeight) {
+                        // MEL: make it a percentage instead
+                        $el.css('height', 100*newHeight/$el.parent().outerHeight() + '%');
+                        //$el.height(newHeight);
+                    }
 
-                    if (opt.resizeWidth)
-                        $el.width(newWidth);
+                    if (opt.resizeWidth) {
+                        // MEL: make it a percentage instead
+                        $el.css('width', 100*newWidth/$el.parent().outerWidth() + '%');
+                        //$el.width(newWidth);
+                    }
                 }
+
+                // save percentage in local storage
+                localStorage.setItem(opt.handleSelector, 100*newWidth/$el.parent().outerWidth() + '%')
             }
 
             function stopDragging(e) {

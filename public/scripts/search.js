@@ -1,5 +1,4 @@
 // dependencies: module.js, fav.js, display.js
-
 var getSearchQueryURL = function () {
   var parameters = []
   if ($('#searchbox').val() != null) {
@@ -17,7 +16,12 @@ var getSearchQueryURL = function () {
 // function for updating search results
 var searchForCourses = function () {
   // return if no search
-  if ($('#searchbox').val() === '') return false
+  if ($('#searchbox').val() === '')
+  {
+    $('#results').children().remove();
+    $('#search-title').text('0' + ' Search Results')
+    return false
+  }
 
   // construct search query
   var search = '/api/search/'
@@ -45,7 +49,9 @@ var searchForCourses = function () {
     // List the returned courses in the search results pane
     for (var index in results) {
       var result = results[index]
-      $('#results').append(newDOMResult(result, {"tags": 1}))
+      if (result) {
+        $('#results').append(newDOMResult(result, {"tags": 1}))
+      }
     }
   }).then(displayActive)
 }
@@ -92,7 +98,7 @@ function newDOMinstructorResult(instructor, props) {
   icon.instructorId = instructor._id      // attach instructor id
   var body = $(entry).find('ul')[0]       // body of instructor result
   $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
-  $(title).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(entry).click(function() {toggleInstructor(icon, body, entry); return false})
 
   return entry
 }
@@ -171,6 +177,18 @@ function newDOMcourseResult(course, props) {
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
   var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
 
+  // is this a new course
+  var isNew = false /* MEL: we need the back end to provide this to us. (course.semesters === undefined || course.semesters.length == 1) */
+
+  var badgeColor = '#ddd' /* light grey */
+  if (hasScore) badgeColor = colorAt(score)
+  else if (isNew) badgeColor = '#D2A7F1' /* purple */
+
+  var badgeText = 'N/A'
+  if (hasScore) badgeText = score.toFixed(2)
+  else if (isNew) badgeText = 'NEW'
+  if (isPast) badgeText += '*'
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
@@ -181,9 +199,8 @@ function newDOMcourseResult(course, props) {
       + '<div class="flex-item-rigid">'
         + semester
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-        + '<span' + tooltip + ' class="badge"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-          + (hasScore ? score.toFixed(2) : 'N/A')
-          + (isPast ? '*' : '')
+        + '<span' + tooltip + ' class="badge badge-score" style="background-color: ' + badgeColor + '">'
+          + badgeText
         + '</span>'
       + '</div>'
     + '</div>'

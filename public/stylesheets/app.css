@@ -7,10 +7,17 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
+
 .badge-large {
   font-size: 20px;
   padding: 5px 12px;
   border-radius: 17px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+}
+
+.badge-score {
+  width: 3.5em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
 }
 
 .progress {
@@ -28,17 +35,16 @@
   background-color: #f4f4f4;
   padding: 5px 8px;
 }
-/*.list-group-item:hover {
-  background-color: #fff;
-}*/
 
 .list-group-item.search-result:hover {
   background-color: #fff;
+  transition: background-color 0.4s ease;
 }
 
 .list-group-item.search-result.active:hover {
   background-color: #428bca;
   border-color: #428bca;
+  transition: background-color 0s ease;
 }
 
 /* form focus outline shadow orange */
@@ -172,6 +178,7 @@ body {
 }
 .text-button:hover {
   color: #b8b8b8;
+  transition: color 0.4s ease;
 }
 
 .search-result {
@@ -181,6 +188,8 @@ body {
 .unfav-icon {
   color: #d9534f;
   cursor: pointer;
+  padding:0 0 0 5px;
+  transition: color 0.4s ease;
 }
 .unfav-icon:hover {
   color: #f2c6c4;
@@ -189,6 +198,8 @@ body {
 .fav-icon {
   color: #ddd;
   cursor: pointer;
+  padding:0 0 0 5px;
+  transition: color 0.4s ease;
 }
 .fav-icon:hover {
   color: #d9534f;
@@ -197,22 +208,31 @@ body {
 .instructor-list-item {
   padding: 8px;
   background-color: #f4f4f4;
+  transition: background-color 0.4s ease;
+}
+.instructor-list-item:hover {
+  padding: 8px;
+  background-color: #eaeaea;
+  cursor: pointer;
 }
 .instructor-list-item-opened {
   background-color: #eaeaea;
 }
 .instructor-title {
   color: #000;
-  cursor: pointer;
-}
-.instructor-title:hover {
-  color: #888;
 }
 .instructor-body {
   margin: 5px 0 0;
 }
 
 /* DISPLAY HEADER CSS */
+
+#display-pane {
+  background-image: url("/media/princeton_logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:25vw;
+}
 
 #display-header {
   padding: 10px;
@@ -222,10 +242,11 @@ body {
 }
 
 #disp-title {
-  margin: 5px 0;
+  margin: 5px 0 10px;
+  line-height: normal;
 }
 #disp-title-right {
-  margin: 5px 0;
+  margin: 5px 0 10px;
 }
 #disp-subtitle {
   margin: 0;
@@ -243,11 +264,11 @@ body {
   width: 50%; /* default */
   min-width: 150px;
   max-width: 80%;
-  max-width: calc(100%-150px);
+  max-width: calc(100% - 150px);
   overflow-y: auto;
   /* ugly thing to deal with flexbox and resizable */
-  left:0 !important;
-  position:relative !important;
+  /*left:0 !important;
+  position:relative !important;*/
 }
 
 .info-list-item {
@@ -258,6 +279,7 @@ body {
 #evals-pane {
   padding: 5px 10px 15px;
   overflow-y: auto;
+  background-color: #fff;
 }
 
 .flex-eval {
@@ -273,6 +295,7 @@ body {
 }
 .up-icon:hover {
   color: #0275d8;
+  transition: color 0.3s ease;
 }
 
 .down-icon {
@@ -281,6 +304,24 @@ body {
 }
 .down-icon:hover {
   color: #9fd2fe;
+}
+
+/* SUGGEST PANE CSS */
+
+#suggest-pane {
+  background-color: #ccc;
+  padding: 5px 10px 15px;
+  max-width: 200px;
+  width: 200px;
+  overflow-y: auto;
+}
+
+.suggest-result {
+  cursor: pointer;
+}
+.suggest-result:hover {
+  background-color: #fff;
+  transition: background-color 0.4s ease;
 }
 
 /* FEEDBACK CSS */
@@ -318,4 +359,17 @@ body {
 #about-popup-close:hover {
   color: #d9534f;
   cursor: pointer;
+}
+
+/* UPDATES POPUP CSS*/
+
+#updates-bottom-popup {
+  position: fixed;
+  width: 25%;
+  z-index: 1000;
+  background-color: rgba(224, 255, 255, 0.7);
+  border-color: rgb(194, 232, 232);
+  right: 10px;
+  bottom: 0;
+  margin-bottom: 10px;
 }

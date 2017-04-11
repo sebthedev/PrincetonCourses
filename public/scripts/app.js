@@ -1,9 +1,9 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js
 
 // initialization
 $(document).ready(function() {
 
-  init_load();
+  /* init_load(); MEL: now loads after semesters have been loaded in init_search */
   init_panes();
   init_searchpane();
   init_search();
@@ -14,7 +14,8 @@ $(document).ready(function() {
   init_evals();
   init_logout();
   init_about();
-
+  init_suggest();
+  init_updates();
 })
 
 // loads course from url
@@ -66,6 +67,19 @@ var parseSearchParameters = function () {
 
 // to initialize draggability
 var init_panes = function() {
+  var searchPaneWidth = localStorage.getItem('#search-resizer');
+  if(searchPaneWidth !== undefined) {
+    $('#search-pane').css('width', searchPaneWidth);
+  }
+
+  var infoPaneWidth = localStorage.getItem('#info-resizer');
+  if(searchPaneWidth !== undefined) {
+    $('#info-pane').css('width', infoPaneWidth);
+  }
+  
+  $('#search-pane').css('display', "");
+  $('#display-pane').css('display', "");
+
   $('#search-pane').resizable({
     handleSelector: "#search-resizer",
     resizeHeight: false
@@ -80,8 +94,7 @@ var init_panes = function() {
 
 // to initalize search pane section collapsing
 var init_searchpane = function() {
-  $('#favorite-courses').css('max-height', '30%')
-
+  $('#favorite-courses').css('max-height', '30vh')
     // toggle display of favorite things
   var toggleFavDisplay = function() {
     var isVisible = $('#favorite-courses').css('display') !== 'none'
@@ -100,7 +113,7 @@ var init_searchpane = function() {
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').animate({'max-height': (isVisible ? '100%' : '30%')})
+    $('#favorite-courses').animate({'max-height': (isVisible ? '100vh' : '30vh')})
 
     $('#search-results').slideToggle()
   }
@@ -126,7 +139,7 @@ var init_search = function() {
     } else {
       $('#semester').children().eq(1).attr('selected', true)
     }
-  })
+  }).then(init_load)
 }
 
 // to initialize global data
@@ -217,6 +230,40 @@ var init_about = function() {
   $('#about-popup-close').click(function() {return toggleNavbar('about')})
 }
 
+// to initialize suggest display
+var init_suggest = function() {
+  suggest_load()
+  $('#suggest-toggle').click(toggleSuggest)
+  $('#suggest-allcourses-toggle'   ).click(function() {section_toggle('suggest', 'allcourses')})
+  $('#suggest-distributions-toggle').click(function() {section_toggle('suggest', 'distributions')})
+  $('#suggest-pdfoptions-toggle'   ).click(function() {section_toggle('suggest', 'pdfoptions')})
+  $('#suggest-departments-toggle'  ).click(function() {section_toggle('suggest', 'departments')})
+}
+
+// to initialize updates popup
+var init_updates = function() {
+  var updateMessage = 'You can now search for instructors. Also, take a look at Search Suggestions!'
+  var updateNo = 0 //  BENSU: increment this number for new updates
+  var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
+  $("#updates-bottom-popup").append(updateMessage);
+  if (updateNo != updateNoStored) // new update
+  {
+    localStorage.setItem('updateRead', 'False');
+    setTimeout(function() {
+      $('#updates-bottom-popup').show();
+    }, 1000); // milliseconds
+    localStorage.setItem('updateNo', updateNo);
+  }
+  else {
+    var updateRead = localStorage.getItem('updateRead');
+    if (updateRead !== 'True') {
+      setTimeout(function() {
+        $('#updates-bottom-popup').show();
+      }, 1000); // milliseconds
+    }
+  }
+}
+
 // toggles display / eval sections
 var section_toggle = function(pane, section) {
   var body = $('#' + pane + '-' + section + '-body')
@@ -226,4 +273,9 @@ var section_toggle = function(pane, section) {
   icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
   icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
   body.slideToggle();
+}
+
+// update is read by the user
+var saveUpdatePopupState = function() {
+  localStorage.setItem('updateRead', 'True');
 }

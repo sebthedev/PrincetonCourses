@@ -26,7 +26,7 @@ var updateFavList = function(courseId, course) {
 
   // if newly a favorite
   if (isFav) {
-    var entry = newDOMResult(course, {"semester": 1, "tags": 1})
+    var entry = newDOMcourseResult(course, {"semester": 1, "tags": 1})
     entry.setAttribute('style', 'display: none;')
 
     $('#favs').append(entry)
