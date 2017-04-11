@@ -308,11 +308,17 @@ router.get('/course/:id', function (req, res) {
     _id: 1
   }).sort({semester: -1}).exec()
 
+  // Query the database for the number of users who have marked this course as a favorite
+  var favoriteCountPromise = userModel.count({
+    favoriteCourses: req.params.id
+  }).exec()
+
   // Resolve the promises
-  Promise.all([queryCoursePromise, mostRecentEvaluationsPromise, semestersPromise]).then(function (results) {
+  Promise.all([queryCoursePromise, mostRecentEvaluationsPromise, semestersPromise, favoriteCountPromise]).then(function (results) {
     var queryCourse = results[0]
     var mostRecentEvaluations = results[1]
     var semesters = results[2]
+    var favoritesCount = results[3]
 
     // Check that a course exists for the requested id
     if (queryCourse === null) {
@@ -343,6 +349,7 @@ router.get('/course/:id', function (req, res) {
     }
     queryCourse.semesters = semesters
 
+    // Determine whether we should insert into this course the evaluations from the most recent semester for which evaluations exist
     let useOldEvaluations = queryCourse.scoresFromPreviousSemester || !queryCourse.hasOwnProperty('scores') || queryCourse.hasOwnProperty('scores') && queryCourse.scores === {}
 
     // Insert into the queryCourse the evaluation data for the most recent semester for which evaluations exist
@@ -367,7 +374,12 @@ router.get('/course/:id', function (req, res) {
       }
     }
 
+    // Delete the raw comments array from the returned course object.
     delete queryCourse.comments
+
+    // Insert the number of users who have favorited this course into the returned course object
+    queryCourse.favoritesCount = favoritesCount
+
     res.set('Cache-Control', 'public, max-age=14400').json(queryCourse)
   }).catch(function (err) {
     console.log(err)
