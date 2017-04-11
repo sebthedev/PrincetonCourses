@@ -14,7 +14,7 @@ var goToCoursePage = function() {
   $('#display-pane').css('display','block')
   $('#navbar-toggle-button').css('display','none')
   $('#navbar-back-button').css('display','block')
-  $('#navigation-bar').hide();
+  $('#navigationbar').css('height', '1');
   document.getElementById("navigationbar").setAttribute("aria-expanded", false);
 }
 

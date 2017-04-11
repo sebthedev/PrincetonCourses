@@ -17,10 +17,9 @@ var getSearchQueryURL = function () {
 // function for updating search results
 var searchForCourses = function () {
   // return if no search
-  if ($(getDeviceSearchBox()).val() === '') return false
   if (windowWidth() < WIDTH_THRESHOLD) { goBackToSearch(); }
 
-  if ($('#searchbox').val() === '')
+  if ($(getDeviceSearchBox()).val() === '')
   {
     $('#results').children().remove();
     $('#search-title').text('0' + ' Search Results')
@@ -82,12 +81,12 @@ function newDOMinstructorResult(instructor, props) {
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item instructor-list-item">'
-    + '<div class="flex-container-row">'
+    + '<div class="flex-container-row flex-body-container-row">'
       + '<div class="flex-item-stretch truncate instructor-title">'
         + '<strong class="instructor-title">' + name + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + '<span class="badge instructor-badge">' + instructor.courses.length + '</span> '
+        + '<span class="badge">' + instructor.courses.length + '</span> '
         + '<i class="text-button fa fa-lg fa-caret-down"></i>'
       + '</div>'
     + '</div>'
@@ -196,7 +195,7 @@ function newDOMcourseResult(course, props) {
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
-    + '<div class="flex-container-row">'
+    + '<div class="flex-container-row flex-body-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
       + '</div>'

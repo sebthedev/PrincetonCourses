@@ -30,8 +30,9 @@
 
 	.truncate {
 		width:100%;
-  	display:inline;
     overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 	}
 
 	.progress {
@@ -44,6 +45,23 @@
 
   .progress-bar {
     box-shadow: none;
+  }
+
+  .flex-body-container-row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    overflow: hidden;
+  }
+  .flex-item-rigid {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  .flex-item-stretch {
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
   }
 
 	/* Content CSS*/
@@ -75,9 +93,9 @@
     color: #d9534f;
   }
 
-  .badge {
+  /*.badge {
   	float:right;
-  }
+  }*/
 
   .text-button {
     cursor: pointer;
@@ -139,13 +157,13 @@
   	right:10px;
   }
 
-  .instructor-badge {
+  /*.instructor-badge {
   	position:absolute;
   	float:right;
   	top:10px;
   	right:25px;
   }
-
+*/
 	/* Display Pane CSS */
 	#display-pane {	
 		padding-top: 50px;
@@ -211,8 +229,8 @@
     border-width: 2px;
   }
   .flex-eval > .badge {
-  	position:absolute;
+  	/*position:absolute;
   	right:8px;
-  	top:8px;
+  	top:8px;*/
   }
 }

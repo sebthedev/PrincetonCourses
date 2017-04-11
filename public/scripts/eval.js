@@ -81,7 +81,7 @@ function newDOMsemesterEval (semester) {
 
   var htmlString= (
     '<li class="list-group-item search-result eval-list-item">'
-    + '<div class="flex-container-row">'
+    + '<div class="flex-container-row flex-body-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + semester.semester.name + '</strong> '
         + professors
@@ -106,7 +106,7 @@ function newDOMnumericEval(field, value) {
 
   var htmlString= (
     '<li class="list-group-item eval-result eval-list-item">'
-    + '<div class="flex-container-row">'
+    + '<div class="flex-container-row flex-body-container-row">'
       + '<div class="flex-item-stretch">'
         + '<div class="truncate">' + field + '</div>'
         + '<div class="progress">'
@@ -132,7 +132,7 @@ function newDOMcommentEval(evaluation) {
   var icon = (evaluation.voted ? 'down-icon' : 'up-icon')
 
   var htmlString = (
-    '<li class="list-group-item eval-result flex-container-row eval-list-item">'
+    '<li class="list-group-item eval-result flex-container-row flex-body-container-row eval-list-item">'
     + '<div class="flex-item-stretch">'
       + evaluation.comment
     + '</div>'
