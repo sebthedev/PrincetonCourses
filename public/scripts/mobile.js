@@ -8,6 +8,7 @@ var goBackToSearch = function() {
   $('#navbar-back-button').css('display','none')
 }
 
+// Go to course page
 var goToCoursePage = function() {
 	$('#search-pane').css('display','none')
   $('#display-pane').css('display','block')
@@ -16,3 +17,11 @@ var goToCoursePage = function() {
   $('#navigation-bar').hide();
   document.getElementById("navigationbar").setAttribute("aria-expanded", false);
 }
+
+// var displayPaneInStack = function(stack) {
+  
+// }
+
+// var addPaneToStack = function(pane) {
+
+// }

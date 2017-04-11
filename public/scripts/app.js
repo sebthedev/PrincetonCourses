@@ -68,19 +68,7 @@ var parseSearchParameters = function () {
 
 // to initialize draggability
 var init_panes = function() {
-  var searchPaneWidth = localStorage.getItem('#search-resizer');
-  if(searchPaneWidth !== undefined) {
-    $('#search-pane').css('width', searchPaneWidth);
-  }
-
-  var infoPaneWidth = localStorage.getItem('#info-resizer');
-  if(searchPaneWidth !== undefined) {
-    $('#info-pane').css('width', infoPaneWidth);
-  }
-  
-  $('#search-pane').css('display', "");
-  $('#display-pane').css('display', "");
-
+  setPaneWidth();
   $('#search-pane').resizable({
     handleSelector: "#search-resizer",
     resizeHeight: false

@@ -1,6 +1,7 @@
+/* BENSU: Responsive methods */
+
 var prevWindowWidth = $(window).width();
 var WIDTH_THRESHOLD = 768;
-
 // Return the height of the window
 var windowHeight = function() {
 	var windowHeight = $(window).height();
@@ -19,6 +20,11 @@ var getDeviceSearchBox = function() {
 	else { return "#mob-searchbox"; }
 }
 
+// return if the window is in mobile mode
+var isMobile = function() {
+	return (windowWidth() < WIDTH_THRESHOLD);
+}
+
 // modify css for resized window
 var onresize = function() {
 	// mobile to desktop
@@ -30,6 +36,7 @@ var onresize = function() {
 	  $('#navbar-toggle-button').css("display", "none");
 	  $('#navbar-back-button').css("display", "none");
 	  $('#searchform').css("display", "");
+	  setPaneWidth();
 	  init_search();
 	}
 
@@ -39,9 +46,32 @@ var onresize = function() {
 	  $('#mob-searchbox').val($('#searchbox').val());
 	  $('#navbar-toggle-button').css('display','block');
 	  $('#searchform').css("display", "none");
+	  setPaneWidth();
 	  init_search();
 	}
 	prevWindowWidth = windowWidth();
 }
-
 window.addEventListener("resize", onresize);
+
+// set widths of panels
+var setPaneWidth = function() {
+	if (isMobile())
+	{	
+		$('#search-pane').css('width','100%')
+		$('#info-pane').css('width','100%')
+	}
+	else if (!isMobile())
+	{
+		var searchPaneWidth = localStorage.getItem('#search-resizer');
+	  if(searchPaneWidth !== undefined) {
+	    $('#search-pane').css('width', searchPaneWidth);
+	  }
+
+	  var infoPaneWidth = localStorage.getItem('#info-resizer');
+	  if(searchPaneWidth !== undefined) {
+	    $('#info-pane').css('width', infoPaneWidth);
+	  }
+	}
+	$('#search-pane').css('display', "");
+	$('#display-pane').css('display', "");
+}
