@@ -89,7 +89,8 @@ var courseSchema = new mongoose.Schema({
     type: String,
     trim: true,
     uppercase: true
-  }
+  },
+  new: Boolean
 }, {
   toObject: {
     virtuals: true,

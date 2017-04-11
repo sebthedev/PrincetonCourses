@@ -116,6 +116,10 @@ var importSubject = function (semester, subject) {
       process.stdout.write(' ' + courseData.catalog_number)
     }
 
+    if (typeof (courseData.catalog_number) === 'undefined' || courseData.catalog_number.length < 3) {
+      continue
+    }
+
     // Decode escaped HTML characters in the course title
     if (typeof (courseData.title) !== 'undefined') {
       courseData.title = decodeEscapedCharacters(courseData.title)

@@ -97,10 +97,21 @@ var display_title = function(course) {
     var score = course.evaluations.scores['Overall Quality of the Course']
   }
 
+  // is this a new course
+  var isNew = course.hasOwnProperty('new') && course.new
+
+  var badgeColor = '#ddd' /* light grey */
+  if (hasScore) badgeColor = colorAt(score)
+  else if (isNew) badgeColor = '#92D4E3' /* blue */
+
+  var badgeText = 'N/A'
+  if (hasScore) badgeText = score.toFixed(2)
+  else if (isNew) badgeText = 'New'
+  if (isPast) badgeText += '*'
+
   var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-                 + '<span' + tooltip + ' class="badge badge-large"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-                   + (hasScore ? score.toFixed(2) : 'N/A')
-                   + (isPast ? '*' : '')
+                 + '<span' + tooltip + ' class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
+                   + badgeText
                  + '</span>'
 
   $('#disp-title-right').append(htmlString)

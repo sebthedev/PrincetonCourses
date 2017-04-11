@@ -6,7 +6,6 @@
         modularized into separate files at some point in the future.
         For now, it is convenient to have all the css in one file. */
 
-
 @media only screen and (min-width: 768px) {
 
   /* BOOTSTRAP OVERRIDES */
@@ -14,6 +13,11 @@
     font-size: 20px;
     padding: 5px 12px;
     border-radius: 17px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  }
+  .badge-score {
+    width: 3.5em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
   }
 
   .progress {
@@ -34,11 +38,13 @@
 
   .list-group-item.search-result:hover {
     background-color: #fff;
+    transition: background-color 0.4s ease;
   }
 
   .list-group-item.search-result.active:hover {
     background-color: #428bca;
     border-color: #428bca;
+    transition: background-color 0s ease;
   }
 
   /* form focus outline shadow orange */
@@ -65,11 +71,9 @@
   }
 
   /* PAGEWIDE CSS */
-
   .hidden {
     display: none;
   }
-
   .resizer {
     width: 5px;
     background-color: #ddd;
@@ -80,7 +84,6 @@
     background-color: #EE7F2D;
     cursor: col-resize;
   }
-
   body {
     min-height: 100%;
     height: 100%;
@@ -89,7 +92,6 @@
   #full-page {
     height: 100vh;
     width: 100vw;
-    padding-top: 50px;
   }
 
   .flex-container-col {
@@ -177,6 +179,7 @@
   }
   .text-button:hover {
     color: #b8b8b8;
+    transition: color 0.4s ease;
   }
 
   .search-result {
@@ -186,6 +189,8 @@
   .unfav-icon {
     color: #d9534f;
     cursor: pointer;
+    padding:0 0 0 5px;
+    transition: color 0.4s ease;
   }
   .unfav-icon:hover {
     color: #f2c6c4;
@@ -194,6 +199,8 @@
   .fav-icon {
     color: #ddd;
     cursor: pointer;
+    padding:0 0 0 5px;
+    transition: color 0.4s ease;
   }
   .fav-icon:hover {
     color: #d9534f;
@@ -202,22 +209,31 @@
   .instructor-list-item {
     padding: 8px;
     background-color: #f4f4f4;
+    transition: background-color 0.4s ease;
+  }
+  .instructor-list-item:hover {
+    padding: 8px;
+    background-color: #eaeaea;
+    cursor: pointer;
   }
   .instructor-list-item-opened {
     background-color: #eaeaea;
   }
   .instructor-title {
     color: #000;
-    cursor: pointer;
-  }
-  .instructor-list-item:hover {
-    background-color: #fff;
   }
   .instructor-body {
     margin: 5px 0 0;
   }
 
   /* DISPLAY HEADER CSS */
+
+  #display-pane {
+    background-image: url("/media/princeton_logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:25vw;
+  }
 
   #display-header {
     padding: 10px;
@@ -227,10 +243,11 @@
   }
 
   #disp-title {
-    margin: 0px 0;
+    margin: 5px 0 10px;
+    line-height: normal;
   }
   #disp-title-right {
-    margin: 5px 0;
+    margin: 5px 0 10px;
   }
   #disp-subtitle {
     margin: 0;
@@ -239,37 +256,41 @@
   #disp-subtitle-right {
     margin: 0;
   }
-
   /* INFO PANE CSS */
   #info-pane {
     background-color: #ddd;
-    padding: 5px 10px 15px;
+    padding: 5px 10px 0px;
     padding-left: 5px; /* compensate for resizer */
     width: 50%; /* default */
     min-width: 150px;
     max-width: 80%;
-    max-width: calc(100%-150px);
+    max-width: calc(100% - 150px);
     overflow-y: auto;
     /* ugly thing to deal with flexbox and resizable */
-    left:0 !important;
-    position:relative !important;
+    /*left:0 !important;
+    position:relative !important;*/
   }
 
-  .info-list-item {
-    /*background-color:#eee;*/
-  }
 
   /* EVALS PANE CSS */
   #evals-pane {
-    padding: 5px 10px 15px;
+    padding: 5px 10px 0px ;
     overflow-y: auto;
+    background-color: #fff;
   }
 
+  #evals-comments-body {
+    margin-bottom: 15px;
+  }
   .flex-eval {
     margin-left: 8px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
+  }
+
+  #disp-classes-body {
+    margin-bottom:15px;
   }
 
   .up-icon {
@@ -278,6 +299,7 @@
   }
   .up-icon:hover {
     color: #0275d8;
+    transition: color 0.3s ease;
   }
 
   .down-icon {
@@ -288,6 +310,23 @@
     color: #9fd2fe;
   }
 
+  /* SUGGEST PANE CSS */
+
+  #suggest-pane {
+    background-color: #ccc;
+    padding: 5px 10px 15px;
+    max-width: 200px;
+    width: 200px;
+    overflow-y: auto;
+  }
+
+  .suggest-result {
+    cursor: pointer;
+  }
+  .suggest-result:hover {
+    background-color: #fff;
+    transition: background-color 0.4s ease;
+  }
   /* FEEDBACK CSS */
 
   #feedback-container {
@@ -324,6 +363,19 @@
     color: #d9534f;
     cursor: pointer;
   } 
+
+  /* UPDATES POPUP CSS*/
+
+  #updates-bottom-popup {
+    position: fixed;
+    width: 25%;
+    z-index: 1000;
+    background-color: rgba(224, 255, 255, 0.7);
+    border-color: rgb(194, 232, 232);
+    right: 10px;
+    bottom: 0;
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (max-width: 768px) {

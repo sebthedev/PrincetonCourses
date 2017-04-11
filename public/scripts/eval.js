@@ -73,6 +73,12 @@ function newDOMsemesterEval (semester) {
   var hasScore = (semester.hasOwnProperty('scores') && semester.scores.hasOwnProperty('Overall Quality of the Course'))
   if (hasScore) var score = semester.scores['Overall Quality of the Course']
 
+  var badgeColor = '#ddd' /* light grey */
+  if (hasScore) badgeColor = colorAt(score)
+
+  var badgeText = 'N/A'
+  if (hasScore) badgeText = score.toFixed(2)
+
   var htmlString= (
     '<li class="list-group-item search-result eval-list-item">'
     + '<div class="flex-container-row">'
@@ -80,8 +86,8 @@ function newDOMsemesterEval (semester) {
         + '<strong>' + semester.semester.name + '</strong> '
         + professors
       + '</div>'
-      + '<span class="badge flex-item-rigid"' + (hasScore ? ' style="background-color: ' + colorAt(score) + '"' : '') + '>'
-        + (hasScore ? score.toFixed(2) : 'N/A')
+      + '<span class="badge badge-score flex-item-rigid" style="background-color: ' + badgeColor + '">'
+        + badgeText
       + '</span>'
     + '</div>'
   + '</li>'
@@ -108,7 +114,7 @@ function newDOMnumericEval(field, value) {
         + '</div>'
       + '</div>'
       + '<div class="flex-eval">'
-      + '<span class="badge" style="background-color: ' + colorAt(value) + '">'
+      + '<span class="badge badge-score" style="background-color: ' + colorAt(value) + '">'
         + value.toFixed(2)
       + '</span>'
     + '</div>'
