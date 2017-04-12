@@ -25,6 +25,17 @@ var courseSchema = new mongoose.Schema({
     type: Number,
     ref: 'Semester'
   },
+  readings: [{
+    title: {
+      type: String,
+      trim: true
+    },
+    author: {
+      type: String,
+      trim: true
+    },
+    _id: false
+  }],
   department: {
     type: String,
     uppercase: true,

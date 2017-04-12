@@ -117,6 +117,22 @@ var getCourseListingData = function (semester, courseID, callback) {
       }
     }
 
+    // Get Readings
+    if ($('div strong:contains(Sample reading list:)').length > 0) {
+      let rawReadingsAndAuthors = []
+      detailsContainer.find('>:nth-child(n+' + ($('div strong:contains(Sample reading list:)').last().index() + 2) + '):nth-child(-n+' + ($('div strong:contains(:)').eq(1).index() - 2) + '):not(br)').each(function (index, element) {
+        rawReadingsAndAuthors.push($(element).text().trim())
+      })
+
+      results.readings = []
+      for (let readingsIndex = 0; readingsIndex < rawReadingsAndAuthors.length; readingsIndex += 2) {
+        results.readings.push({
+          title: rawReadingsAndAuthors[readingsIndex + 1],
+          author: rawReadingsAndAuthors[readingsIndex]
+        })
+      }
+    }
+
     // Get Prerequisites
     var prerequisites = extractSingle($, detailsContainer, 'Prerequisites and Restrictions')
     if (typeof (prerequisites) !== 'undefined') {
@@ -152,7 +168,7 @@ var getCourseListingData = function (semester, courseID, callback) {
 }
 
 // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-courseModel.find({audit: {$exists: false}, semester: 1182}, function (error, courses) {
+courseModel.find({}, function (error, courses) {
   if (error) {
     console.log(error)
   }
