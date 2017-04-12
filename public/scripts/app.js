@@ -76,7 +76,7 @@ var init_panes = function() {
   if(searchPaneWidth !== undefined) {
     $('#info-pane').css('width', infoPaneWidth);
   }
-  
+
   $('#search-pane').css('display', "");
   $('#display-pane').css('display', "");
 
@@ -195,6 +195,7 @@ var init_feedback = function() {
 var init_display = function() {
   $('#disp-instructors-toggle'  ).click(function() {section_toggle('disp', 'instructors')})
   $('#disp-description-toggle'  ).click(function() {section_toggle('disp', 'description')})
+  $('#disp-readings-toggle'     ).click(function() {section_toggle('disp', 'readings')})
   $('#disp-assignments-toggle'  ).click(function() {section_toggle('disp', 'assignments')})
   $('#disp-grading-toggle'      ).click(function() {section_toggle('disp', 'grading')})
   $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})

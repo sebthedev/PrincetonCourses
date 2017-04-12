@@ -28,6 +28,7 @@ var displayCourseDetails = function(courseId) {
       display_subtitle(course);
       display_instructors(course);
       display_description(course);
+      display_readings(course);
       display_assignments(course);
       display_grading(course);
       display_prerequisites(course);
@@ -163,6 +164,40 @@ var display_description = function(course) {
 
   $('#disp-description-body').append('<li class="list-group-item info-list-item">' + course.description + '</li>')
   display_autotoggle('description')
+}
+
+var display_readings = function(course) {
+  // refresh
+  $('#disp-readings-body').html('')
+
+  for (var index in course.readings) {
+    var reading = course.readings[index]
+    $('#disp-readings-body').append(newDOMreadingListing(reading))
+  }
+
+  display_autotoggle('readings')
+}
+
+// returns a DOM object for a reading of the displayed course
+var newDOMreadingListing = function(reading) {
+  var author = reading.author
+  var title = reading.title
+
+  // html string
+  var htmlString = (
+    '<li class="list-group-item info-list-item">'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate"><strong>' + author + '</strong></div>'
+    + '</div>'
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">' + title + '</div>'
+    + '</div>'
+  + '</li>'
+  )
+
+  var entry = $.parseHTML(htmlString)[0] // create DOM object
+
+  return entry
 }
 
 // display assignments info
