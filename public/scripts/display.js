@@ -38,6 +38,14 @@ var displayCourseDetails = function(courseId) {
       display_evals(course); // in eval.js
       display_past(course);
 
+      // update active highlighting
+      displayActive()
+
+      // switch to correct screen if in mobile
+      if (document.isMobile) {
+        $('#display-body').slick('slickGoTo', 0)
+        $('#main-pane').slick('slickGoTo', 2)
+      }
   }).then(displayActive)
 
   // set scroll to top

@@ -6,7 +6,66 @@
         modularized into separate files at some point in the future.
         For now, it is convenient to have all the css in one file. */
 
+/* OVERRIDES FOR MOBILE */
+#display-pane.mobile {
+  height: 100%;
+}
+#suggest-pane.mobile {
+  max-width: none;
+  width: auto;
+  height: 100%;
+}
+#search-pane.mobile {
+  z-index: 0;
+  padding-right: 10px; /* uncompensate for resizer */
+  min-width: none;
+  max-width: none;
+  width: auto;
+  height: 100%
+}
+#evals-pane.mobile {
+  height: 100%;
+}
+#info-pane.mobile {
+  padding-left: 10px; /* uncompensate for resizer */
+  width: auto;
+  min-width: none;
+  max-width: none;
+  overflow-y: auto;
+  height: 100%;
+}
+#display-body.mobile {
+  height: 100%;
+}
+
+/* THINGS FOR SLICK CAROUSEL */
+#display-body-wrapper {
+  padding-bottom: 30px; /* for slick carousel dots */
+  background-color: #eee;
+}
+#eval-wrapper {
+  height: 100%;
+}
+#info-wrapper {
+  height: 100%;
+}
+.slick-list {
+  height: 100%;
+}
+.slick-track {
+  height: 100%;
+}
+.slick-dots {
+  z-index: 2000;
+}
+
 /* BOOTSTRAP OVERRIDES */
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
+}
+.navbar-toggle {
+  margin-left: 15px; /* to match the right */
+}
 
 .badge-large {
   font-size: 20px;
@@ -71,6 +130,13 @@
 }
 
 /* PAGEWIDE CSS */
+.pane-padding {
+  height: 15px; /* handle firefox and edge scroll issues */
+}
+
+#main-pane { /* to compensate for fixed-top nav */
+  margin-top: 50px;
+}
 
 .resizer {
   width: 5px;
@@ -260,16 +326,13 @@ body {
 /* INFO PANE CSS */
 #info-pane {
   background-color: #ddd;
-  padding: 5px 10px 0px;
+  padding: 5px 10px 0;
   padding-left: 5px; /* compensate for resizer */
   width: 50%; /* default */
   min-width: 150px;
   max-width: 80%;
   max-width: calc(100% - 150px);
   overflow-y: auto;
-  /* ugly thing to deal with flexbox and resizable */
-  /*left:0 !important;
-  position:relative !important;*/
 }
 
 .info-list-item {
@@ -278,13 +341,9 @@ body {
 
 /* EVALS PANE CSS */
 #evals-pane {
-  padding: 5px 10px 0px ;
+  padding: 5px 10px 0;
   overflow-y: auto;
   background-color: #fff;
-}
-
-#evals-comments-body {
-  margin-bottom: 15px;
 }
 
 .flex-eval {
@@ -292,10 +351,6 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-}
-
-#disp-classes-body {
-  margin-bottom:15px;
 }
 
 .up-icon {
@@ -319,7 +374,7 @@ body {
 
 #suggest-pane {
   background-color: #ccc;
-  padding: 5px 10px 15px;
+  padding: 5px 10px;
   max-width: 200px;
   width: 200px;
   overflow-y: auto;

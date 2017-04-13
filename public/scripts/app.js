@@ -3,8 +3,8 @@
 // initialization
 $(document).ready(function() {
 
+  init_page()
   /* init_load(); MEL: now loads after semesters have been loaded in init_search */
-  init_panes();
   init_searchpane();
   init_search();
   init_globals();
@@ -17,6 +17,78 @@ $(document).ready(function() {
   init_suggest();
   init_updates();
 })
+
+// to initialize contents of the page
+var init_page = function() {
+  var netid = $('#netid').text()
+  $('#netid').remove()
+
+  document.isMobile = ($(window).width() < 768)
+
+  if (document.isMobile) {
+    page_mobile(netid)
+    init_m_sliders()
+  } else {
+    page_desktop(netid);
+    init_d_panes()
+  }
+}
+
+// to initialize slider stuff for mobile http://kenwheeler.github.io/slick/ for deets
+var init_m_sliders = function() {
+  // bunch of slider stuff
+  $('#display-body').slick({infinite: false, dots: true});
+  $('#main-pane').slick({infinite: false, initialSlide: 2});
+
+  // from https://jsfiddle.net/ArtZ91/ev4aL0gu/
+  $(".slider").on('init reInit afterChange', function(event, slick, currentSlide, nextSlide) {
+
+  var $elSlide = $(slick.$slides[currentSlide]);
+
+  var sliderObj = $elSlide.closest('.slick-slider');
+
+  if (sliderObj.hasClass('second-slider')) {
+      return;
+    }
+  });
+
+  $('.second-slider').on('touchstart touchmove mousemove mouseenter', function(e) {
+    $('.slider').slick('slickSetOption', 'swipe', false, false);
+  });
+
+  $('.second-slider').on('touchend mouseover mouseout', function(e) {
+    $('.slider').slick('slickSetOption', 'swipe', true, false);
+  });
+
+  $('#display-body').slick('slickGoTo', 0)
+}
+
+// to initialize draggability for desktop
+var init_d_panes = function() {
+  var searchPaneWidth = localStorage.getItem('#search-resizer');
+  if(searchPaneWidth !== undefined) {
+    $('#search-pane').css('width', searchPaneWidth);
+  }
+
+  var infoPaneWidth = localStorage.getItem('#info-resizer');
+  if(searchPaneWidth !== undefined) {
+    $('#info-pane').css('width', infoPaneWidth);
+  }
+
+  $('#search-pane').css('display', "");
+  $('#display-pane').css('display', "");
+
+  $('#search-pane').resizable({
+    handleSelector: "#search-resizer",
+    resizeHeight: false
+  })
+
+  $('#info-pane').resizable({
+    handleSelector: "#info-resizer",
+    resizeHeight: false,
+    resizeWidthFrom: 'left'
+  })
+}
 
 // loads course from url
 var init_load = function () {
@@ -63,33 +135,6 @@ var parseSearchParameters = function () {
   if (parameters !== {}) {
     searchForCourses()
   }
-}
-
-// to initialize draggability
-var init_panes = function() {
-  var searchPaneWidth = localStorage.getItem('#search-resizer');
-  if(searchPaneWidth !== undefined) {
-    $('#search-pane').css('width', searchPaneWidth);
-  }
-
-  var infoPaneWidth = localStorage.getItem('#info-resizer');
-  if(searchPaneWidth !== undefined) {
-    $('#info-pane').css('width', infoPaneWidth);
-  }
-
-  $('#search-pane').css('display', "");
-  $('#display-pane').css('display', "");
-
-  $('#search-pane').resizable({
-    handleSelector: "#search-resizer",
-    resizeHeight: false
-  })
-
-  $('#info-pane').resizable({
-    handleSelector: "#info-resizer",
-    resizeHeight: false,
-    resizeWidthFrom: 'left'
-  })
 }
 
 // to initalize search pane section collapsing
