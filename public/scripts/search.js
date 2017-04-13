@@ -2,8 +2,8 @@
 
 var getSearchQueryURL = function () {
   var parameters = []
-  if ($(getDeviceSearchBox()).val() != null) {
-    parameters.push('search=' + $(getDeviceSearchBox()).val())
+  if ($('#searchbox').val() != null) {
+    parameters.push('search=' + $('#searchbox').val())
   }
   if ($('#semester').val() != null) {
     parameters.push('semester=' + $('#semester').val())
@@ -19,7 +19,7 @@ var searchForCourses = function () {
   // return if no search
   if (windowWidth() < WIDTH_THRESHOLD) { goBackToSearch(); }
 
-  if ($(getDeviceSearchBox()).val() === '')
+  if ($('#searchbox').val() === '')
   {
     $('#results').children().remove();
     $('#search-title').text('0' + ' Search Results')
@@ -28,7 +28,7 @@ var searchForCourses = function () {
 
   // construct search query
   var search = '/api/search/'
-  search += encodeURIComponent($(getDeviceSearchBox()).val())
+  search += encodeURIComponent($('#searchbox').val())
   search += '?semester=' + $('#semester').val()
   search += '&sort=' + $('#sort').val()
 

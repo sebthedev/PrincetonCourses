@@ -27,14 +27,8 @@
         <a class="navbar-brand desktop">Princeton Courses <sup>beta</sup></a>
         <a class="navbar-brand mobile">PC</a>
         <div class="col-xs-8 col-md-6 mobile" style="">
-         <form class="navbar-form" role="search">
-          <div class="input-group">
-              <!-- Mobile searchbar -->
-              <input type="text" class="form-control flex-item-stretch" placeholder="COS 126, QR, Katz, ..."
-               name="q" id="mob-searchbox">
-              <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-              </div>
+         <form class="navbar-form" role="search" id="navbar-search-bar">
+            <div class="input-group">
             </div>
           </form>
         </div>
@@ -102,7 +96,7 @@
       </div>
       <div id="search-pane" class="flex-item-rigid flex-container-col" style="display:none">
         <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode !== 13">
-          <div class="form-group flex-container-row desktop">
+          <div class="form-group flex-container-row desktop" id="search-pane-search-bar">
             <input id="searchbox" class="flex-item-stretch form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
           </div>
           <div class="form-group flex-container-row marginless desktop">
