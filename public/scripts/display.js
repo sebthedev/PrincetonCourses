@@ -5,14 +5,15 @@
 var displayResult = function() {
   var courseId = this.courseId
 
+  // Push to the history this course
+  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
+
   // Display the information for this course
   displayCourseDetails(courseId)
 }
 
 // function for displaying course details
 var displayCourseDetails = function(courseId) {
-  // Push to the history this course
-  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling

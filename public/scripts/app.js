@@ -42,10 +42,11 @@ var init_load = function () {
 
 // Handle displaying a course after pushing the back/forward button in the browser
 window.onpopstate = function (event) {
+  console.log(window.history)
   if (event.state && event.state.courseID) {
     displayCourseDetails(event.state.courseID)
   }
-  parseSearchParameters()
+  //parseSearchParameters()
 }
 
 // Parse the URL to check for whether the app should be showing a course and displaying any search terms
