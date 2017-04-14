@@ -16,6 +16,9 @@ $(document).ready(function() {
   init_about();
   init_suggest();
   init_updates();
+
+  layout_refresh()
+  $(window).resize(layout_refresh)
 })
 
 // loads course from url

@@ -1,3 +1,153 @@
+@media (max-width: 767px) {
+  #menu-header {
+    /* flex-container-row */
+    display: flex !important;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  #menu-brand, #menu-left, .resizer {
+    display: none;
+  }
+
+  #menu-back {
+    /* flex-item-rigid */
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 6px 16px; /* to match other button */
+  }
+
+  #menu-form {
+    /* flex-item-stretch */
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
+  }
+
+  #suggest-pane, #search-pane,
+  #display-pane, #evals-pane, #info-pane {
+    width: 100vw !important;
+    height: 100%;
+  }
+
+  #search-searchbox-form {
+    display: none !important;
+  }
+
+  #disp-title, #disp-title-right {
+    font-size: 18px;
+    margin: 5px 0 10px;
+    line-height: normal;
+  }
+  #disp-subtitle, #disp-subtitle-right {
+    font-size: 14px;
+    margin: 0;
+    padding-bottom: 5px;
+  }
+
+  .badge-large {
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  }
+}
+
+@media (min-width: 768px) {
+  #menu-back, #menu-form {
+    display: none;
+  }
+
+  #main-pane, #display-body {
+    /* flex-container-row*/
+    display: flex !important;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  #suggest-pane {
+    max-width: 200px;
+    width: 200px;
+    order: 10;
+  }
+
+  #search-pane {
+    padding-right: 5px; /* compensate for resizer */
+    min-width: 200px;
+    max-width: 40vw;
+    width: 25%;
+    order: 20;
+  }
+
+  #search-resizer {
+    order: 30;
+  }
+
+  #display-pane {
+    /* flex-item-stretch */
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
+    order: 40;
+  }
+
+  #evals-pane {
+    /* flex-item-stretch */
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
+    order: 10;
+  }
+
+  #info-resizer {
+    order: 20;
+  }
+
+  #info-pane {
+    padding-left: 5px; /* compensate for resizer */
+    width: 50%; /* default */
+    min-width: 150px;
+    max-width: 80%;
+    max-width: calc(100% - 150px);
+    order: 30;
+  }
+
+  #disp-title, #disp-title-right {
+    margin: 5px 0 10px;
+    line-height: normal;
+  }
+  #disp-subtitle, #disp-subtitle-right {
+    margin: 0;
+    padding-bottom: 5px;
+  }
+
+  .badge-large {
+    font-size: 20px;
+    padding: 5px 12px;
+    border-radius: 17px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  }
+}
+
+/* THINGS FOR SLICK CAROUSEL */
+.slick-list {
+  height: 100%;
+}
+.slick-track {
+  height: 100%;
+}
+
+
+
+/***************************************************************************/
+/* MEL: ALL BELOW IS A CONCATENATION OF APP.CSS, SCROLLBAR.CSS, NAVBAR.CSS */
+/***************************************************************************/
+
 /* MEL: on codepen at https://codepen.io/melyshu/pen/aJXmNo
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
@@ -7,12 +157,11 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
-
-.badge-large {
-  font-size: 20px;
-  padding: 5px 12px;
-  border-radius: 17px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
+}
+.navbar-toggle {
+  margin-left: 15px; /* to match the right */
 }
 
 .badge-score {
@@ -67,10 +216,14 @@
   color: #addbad;
 }
 .text-dim {
-  color: #bbb;
+  /* color: #777;*/
 }
 
 /* PAGEWIDE CSS */
+
+#main-pane {
+  margin-top: 50px; /* compensate for navbar */
+}
 
 .resizer {
   width: 5px;
@@ -94,13 +247,13 @@ body {
 }
 
 .flex-container-col {
-  display: flex;
+  display: flex !important;
   flex-flow: column nowrap;
   align-items: stretch;
   overflow: hidden;
 }
 .flex-container-row {
-  display: flex;
+  display: flex !important;
   flex-flow: row nowrap;
   align-items: stretch;
   overflow: hidden;
@@ -158,14 +311,8 @@ body {
 /* SEARCH PANE CSS */
 
 #search-pane {
-  z-index: 400;
   background-color: #ddd;
-  padding: 10px;
-  padding-right: 5px; /* compensate for resizer */
-  padding-bottom: 15px;
-  min-width: 200px;
-  max-width: 40vw;
-  width: 25%;
+  padding: 10px 10px 15px;
 }
 
 #search-resizer {
@@ -227,13 +374,6 @@ body {
 
 /* DISPLAY HEADER CSS */
 
-/* Background, originally Princeton Crest*/
-/*#display-pane {
-  background-image: url("/media/princeton_logo.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:25vw;
-}*/
 
 #display-header {
   padding: 10px;
@@ -242,34 +382,11 @@ body {
   z-index: 500;
 }
 
-#disp-title {
-  margin: 5px 0 10px;
-  line-height: normal;
-}
-#disp-title-right {
-  margin: 5px 0 10px;
-}
-#disp-subtitle {
-  margin: 0;
-  padding-bottom: 5px;
-}
-#disp-subtitle-right {
-  margin: 0;
-}
-
 /* INFO PANE CSS */
 #info-pane {
   background-color: #ddd;
   padding: 5px 10px 0px;
-  padding-left: 5px; /* compensate for resizer */
-  width: 50%; /* default */
-  min-width: 150px;
-  max-width: 80%;
-  max-width: calc(100% - 150px);
   overflow-y: auto;
-  /* ugly thing to deal with flexbox and resizable */
-  /*left:0 !important;
-  position:relative !important;*/
 }
 
 .info-list-item {
@@ -278,7 +395,7 @@ body {
 
 /* EVALS PANE CSS */
 #evals-pane {
-  padding: 5px 10px 0px ;
+  padding: 5px 10px 0px;
   overflow-y: auto;
   background-color: #fff;
 }
@@ -320,8 +437,6 @@ body {
 #suggest-pane {
   background-color: #ccc;
   padding: 5px 10px 15px;
-  max-width: 200px;
-  width: 200px;
   overflow-y: auto;
 }
 

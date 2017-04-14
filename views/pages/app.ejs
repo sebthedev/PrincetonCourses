@@ -2,6 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="/scripts/layout.js"></script>
   <script src="/scripts/resizable.js"></script>
   <script src="/scripts/navbar.js"></script>
   <script src="/scripts/module.js"></script>
@@ -19,30 +20,38 @@
 <!-- MEL: body on CodePen at https://codepen.io/melyshu/pen/aJXmNo -->
 <body>
   <div id="full-page" class="flex-item-rigid flex-container-col">
-    <nav id="menu-bar" class="navbar navbar-default">
-      <div class="navbar-header">
-        <a class="navbar-brand">Princeton Courses <sup>beta</sup></a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-          <!-- <span class="sr-only">Toggle navigation</span> -->
+    <nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
+      <div id="menu-header" class="navbar-header"> <!-- M: class flex-container-row -->
+        <a id="menu-brand" class="navbar-brand">Princeton Courses <sup>beta</sup></a> <!-- M: PC/disappear + class flex-item-rigid, D: full name -->
+        <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
+          <span class="fa fa-chevron-left"></span>
+        </button>
+        <form id="menu-form" class="navbar-btn" role="search"> <!-- M only, flex-item-stretch -->
+          <!-- searchbox: D: flex-item-stretch -->
+          <input id="searchbox" class="form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
+        </form>
+        <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse"> <!-- M: flex-item-rigid -->
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
       </div>
-      <div class="collapse navbar-collapse" id="navigationbar">
-        <ul class="nav navbar-nav">
+
+      <div id="menu-collapse" class="collapse navbar-collapse">
+        <ul id="menu-left" class="nav navbar-nav"> <!-- D only -->
           <li id="suggest-toggle"><a href="#">Search Suggestions</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle"><a href="#">About</a></li>
-          <li id="netid"><a href="#"><%= netid %></a></li>
+        <ul id="menu-right" class="nav navbar-nav navbar-right">
+          <li id="feedback-toggle"><a rel="nofollow" href="#">Feedback</a></li>
+          <li id="about-toggle"><a rel="nofollow" href="#">About</a></li>
+          <li id="netid"><a rel="nofollow" href="#"><%= netid %></a></li>
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
       </div>
     </nav>
-    <div class="flex-item-stretch flex-container-row">
-      <div id="suggest-pane" class="flex-item-rigid" style="display: none;">
+
+    <div id="main-pane" class="flex-item-stretch"> <!-- M init: slick, D: flex-container-row -->
+      <div id="suggest-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden -->
         <div id="suggest-allcourses">
           <div id="suggest-allcourses-header" class="flex-container-row">
             <h5 class="flex-item-stretch truncate"><strong>All Courses</strong></h5>
@@ -79,24 +88,15 @@
             <!-- departments go here -->
           </ul>
         </div>
+        <div class="pane-padding"></div>
       </div>
-      <div id="search-pane" class="flex-item-rigid flex-container-col" style="display:none">
-        <form class="flex-item-rigid" id="search-form" onkeypress="return event.keyCode !== 13">
-          <div class="form-group flex-container-row">
-            <input id="searchbox" class="flex-item-stretch form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
+      <div id="search-pane" class="flex-container-col slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden-->
+        <form id="search-form" class="flex-item-rigid" onkeypress="return event.keyCode !== 13">
+          <div id="search-searchbox-form" class="form-group flex-container-row"> <!-- M: display: none; -->
           </div>
           <div class="form-group flex-container-row marginless">
             <select id="semester" class="form-control flex-item-stretch margin-r">
               <option disabled>Show courses from semester…</option>
-              <option value="1174" selected>Spring 2017</option>
-              <option value="1172">Fall 2016</option>
-              <option value="1171">Summer 2016</option>
-              <option value="1164">Spring 2016</option>
-              <option value="1162">Fall 2015</option>
-              <option value="1161">Summer 2015</option>
-              <option value="1154">Spring 2015</option>
-              <option value="1152">Fall 2014</option>
-              <option value="1151">Summer 2014</option>
             </select>
             <select id="sort" class="flex-item-stretch margin-l form-control">
               <option disabled>Sort by…</option>
@@ -126,24 +126,24 @@
           </ul>
         </div>
       </div>
-      <div id="search-resizer" class="flex-item-rigid resizer"></div>
-      <div id="display-pane" class="flex-item-stretch flex-container-col" style="display:none;">
+      <div id="search-resizer" class="flex-item-rigid resizer"></div> <!-- M: hidden -->
+      <div id="display-pane" class="flex-container-col slide"> <!-- M: height 100%, width 100vw, D: flex-item-stretch, init: hidden-->
         <div id="display-header" class="flex-item-rigid">
           <div class="flex-container-row">
-            <h3 id="disp-title" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Search for a course to begin!</h3>
+            <h3 id="disp-title" class="flex-item-stretch">Search to begin! <i class="fa fa-long-arrow-up"></i></h3>
             <h3 id="disp-title-right" class="flex-item-rigid">
               <!-- fav icon and eval badge go here -->
             </h3>
           </div>
           <div class="flex-container-row">
-            <h4 id="disp-subtitle" class="flex-item-stretch"></h4>
+            <h4 id="disp-subtitle" class="flex-item-stretch"><i class="fa fa-long-arrow-left"></i> Tip: swipe left and right <i class="fa fa-long-arrow-right"></i></h4>
             <h4 id="disp-subtitle-right" class="flex-item-rigid">
               <!-- link to registrar's page goes here -->
             </h4>
           </div>
         </div>
-        <div id="display-body" class="flex-item-stretch flex-container-row" style="display: none;">
-          <div id="evals-pane" class="flex-item-stretch">
+        <div id="display-body" class="flex-item-stretch"> <!-- M: slider D: flex-item-stretch flex-container-row -->
+          <div id="evals-pane" class="slide"> <!-- M: height 100%, width 100vw, D: flex-item-stretch -->
             <div id="evals-semesters">
               <div id="evals-semesters-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Past Semesters</strong></h5>
@@ -168,9 +168,10 @@
               <!-- student comments go here -->
               <ul id="evals-comments-body" class="list-group marginless"></ul>
             </div>
+            <div class="pane-padding"></div>
           </div>
           <div id="info-resizer" class="flex-item-rigid resizer"></div>
-          <div id="info-pane" class="flex-item-rigid">
+          <div id="info-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, -->
             <div id="disp-instructors" style="display: none;">
               <div id="disp-instructors-header" class="flex-container-row disp-section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Instructors</strong></h5>
@@ -236,15 +237,12 @@
             </div>
             <div id="disp-readings" style="display: none;">
               <div id="disp-readings-header" class="flex-container-row disp-section-header">
-                <h5 class="flex-item-stretch truncate"><strong>Reading List</strong></h5>
+                <h5 class="flex-item-stretch truncate"><strong>Readings</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-readings-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-readings-body" class="list-group marginless">
                 <!-- readings go here -->
               </ul>
-              <small class="text-muted" style="text-align: center; display: block; margin-top: 4px;">
-                Click a reading to search the library.
-              </small>
             </div>
             <div id="disp-classes" style="display: none;">
               <div id="disp-classes-header" class="flex-container-row disp-section-header">
@@ -255,6 +253,7 @@
                 <!-- classes go here -->
               </ul>
             </div>
+            <div class="pane-padding"></div>
           </div>
         </div>
       </div>
@@ -290,5 +289,6 @@
   <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">
     <button type="button" class="close" data-dismiss="alert" aria-label="close" onclick="saveUpdatePopupState()">&times;</button>
     <strong>Update:</strong>
-  </body>
+  </div>
+</body>
 </html>
