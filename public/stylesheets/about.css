@@ -71,7 +71,7 @@ a:hover {
    height: 250px;
    overflow: hidden;
    object-fit: cover;
-   filter: grayscale(100%);
+   /*filter: grayscale(100%);*/
 }
 
 .subtitle {
