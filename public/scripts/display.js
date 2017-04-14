@@ -183,19 +183,28 @@ var newDOMreadingListing = function(reading) {
   var author = reading.author
   var title = reading.title
 
+  var librarySearchURL = 'https://pulsearch.princeton.edu/catalog?f1=title&op1=OR&q1=' + encodeURIComponent(title) + '&f2=author&op2=OR&q2=' + encodeURIComponent(author) + '&search_field=advanced&commit=Search'
+
   // html string
   var htmlString = (
-    '<li class="list-group-item info-list-item">'
-    + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate"><strong>' + author + '</strong></div>'
-    + '</div>'
-    + '<div class="flex-container-row">'
-      + '<div class="flex-item-stretch truncate">' + title + '</div>'
-    + '</div>'
+    '<li class="list-group-item info-list-item search-result">'
+    + '<a href="' + librarySearchURL + '" target="_blank" style="color: #333; text-decoration: none;">'
+      + '<div class="flex-container-row">'
+        + '<div class="flex-item-stretch truncate"><strong>' + author + '</strong></div>'
+      + '</div>'
+      + '<div class="flex-container-row">'
+        + '<div class="flex-item-stretch truncate">' + title + '</div>'
+      + '</div>'
+    + '</a>'
   + '</li>'
   )
 
   var entry = $.parseHTML(htmlString)[0] // create DOM object
+
+  $(entry).click(function () {
+    console.log("click")
+    console.log(this)
+  })
 
   return entry
 }
