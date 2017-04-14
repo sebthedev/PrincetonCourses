@@ -67,12 +67,12 @@ var getCourseListingData = function (semester, courseID, callback) {
   loadPage(semester, courseID, function (data) {
     console.log('\tRecieved data for course %s in semester %s.', courseID, semester)
 
-            // Prepare to Extract Data From Page
+    // Prepare to Extract Data From Page
     var $ = cheerio.load(data)
     var results = {}
     var detailsContainer = $('#timetable')
 
-            // Get Distrubution Area
+    // Get Distrubution Area
     const regex = /\((LA|SA|HA|EM|EC|QR|STN|STL)\)/
     let m
     if ((m = regex.exec(detailsContainer.text())) !== null) {
@@ -81,22 +81,22 @@ var getCourseListingData = function (semester, courseID, callback) {
 
     var attributes = detailsContainer.find('em').first().text()
 
-            // Get PDF Status
+    // Get PDF Status
     results.pdf = {
       required: (attributes.indexOf('P/D/F Only') > -1),
       permitted: (attributes.indexOf('P/D/F') > -1)
     }
 
-      // Get Audit Status
+    // Get Audit Status
     results.audit = (attributes.indexOf('Audit') > -1)
 
-      // Get Assignments
+    // Get Assignments
     var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')
     if (typeof (assignments) !== 'undefined') {
       results.assignments = assignments
     }
 
-            // Get Grading Components
+    // Get Grading Components
     var insideGrading
     var gradingComponentsRaw = detailsContainer.first().contents().filter(function () {
       if ($(this).is('strong, b')) {
@@ -117,31 +117,47 @@ var getCourseListingData = function (semester, courseID, callback) {
       }
     }
 
-            // Get Prerequisites
+    // Get Readings
+    if ($('div strong:contains(Sample reading list:)').length > 0) {
+      let rawReadingsAndAuthors = []
+      detailsContainer.find('>:nth-child(n+' + ($('div strong:contains(Sample reading list:)').last().index() + 2) + '):nth-child(-n+' + ($('div strong:contains(:)').eq(1).index() - 2) + '):not(br)').each(function (index, element) {
+        rawReadingsAndAuthors.push($(element).text().trim())
+      })
+
+      results.readings = []
+      for (let readingsIndex = 0; readingsIndex < rawReadingsAndAuthors.length; readingsIndex += 2) {
+        results.readings.push({
+          title: rawReadingsAndAuthors[readingsIndex + 1],
+          author: rawReadingsAndAuthors[readingsIndex]
+        })
+      }
+    }
+
+    // Get Prerequisites
     var prerequisites = extractSingle($, detailsContainer, 'Prerequisites and Restrictions')
     if (typeof (prerequisites) !== 'undefined') {
       results.prerequisites = prerequisites
     }
 
-            // Get Equivalent Courses
+    // Get Equivalent Courses
     var equivalentcourses = extractSingle($, detailsContainer, 'Equivalent Courses')
     if (typeof (equivalentcourses) !== 'undefined') {
       results.equivalentcourses = equivalentcourses
     }
 
-            // Get Other Information
+    // Get Other Information
     var otherinformation = extractSingle($, detailsContainer, 'Other information')
     if (typeof (otherinformation) !== 'undefined') {
       results.otherinformation = otherinformation
     }
 
-            // Get Other Requirements
+    // Get Other Requirements
     var otherrequirements = extractSingle($, detailsContainer, 'Other Requirements')
     if (typeof (otherrequirements) !== 'undefined') {
       results.otherrequirements = otherrequirements
     }
 
-            // Get Website
+    // Get Website
     var website = detailsContainer.find('strong:contains(Website)').next('a').attr('href')
     if (typeof (website) !== 'undefined') {
       results.website = website
@@ -152,7 +168,7 @@ var getCourseListingData = function (semester, courseID, callback) {
 }
 
 // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-courseModel.find({audit:{$exists:false}, semester: 1182}, function (error, courses) {
+courseModel.find({}, function (error, courses) {
   if (error) {
     console.log(error)
   }
@@ -173,7 +189,7 @@ courseModel.find({audit:{$exists:false}, semester: 1182}, function (error, cours
       var interval = setInterval(function () {
         var thisCourse = courses[courseIndex++]
 
-            // If there are no more courses, cease sending requests
+        // If there are no more courses, cease sending requests
         if (typeof (thisCourse) === 'undefined') {
           clearInterval(interval)
           return

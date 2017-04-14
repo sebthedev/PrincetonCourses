@@ -160,7 +160,7 @@ function newDOMcourseResult(course, props) {
     var score = course.scores['Overall Quality of the Course']
 
   // append semester if appropriate
-  var semester = props.hasOwnProperty('semester') ? '<strong><small class="text-dim">' + course.semester.name + '</small></strong> ' : ''
+  var semester = props.hasOwnProperty('semester') ? '\xa0<small class="text-dim">' + course.semester.name + '</small>' : ''
 
   // tags: dist / pdf / audit
   var tags = ''
@@ -197,15 +197,15 @@ function newDOMcourseResult(course, props) {
         + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + semester
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
         + '<span' + tooltip + ' class="badge badge-score" style="background-color: ' + badgeColor + '">'
           + badgeText
         + '</span>'
       + '</div>'
     + '</div>'
-    + '<div class="truncate">'
-      + course.title
+    + '<div class="flex-container-row">'
+      + '<div class="flex-item-stretch truncate">' + course.title + '</div>'
+      + '<div class="flex-item-rigid">' + semester + '</div>'
     + '</div>'
   + '</li>'
   )
