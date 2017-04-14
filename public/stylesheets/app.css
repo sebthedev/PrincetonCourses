@@ -6,6 +6,11 @@
         modularized into separate files at some point in the future.
         For now, it is convenient to have all the css in one file. */
 
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+@import 'http://fonts.googleapis.com/css?family=Raleway:100,600';
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:300';
+
 /* BOOTSTRAP OVERRIDES */
 
 .badge-large {
