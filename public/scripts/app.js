@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js
 
 // initialization
 $(document).ready(function() {
@@ -17,22 +17,27 @@ $(document).ready(function() {
   init_suggest();
   init_updates();
 
-  layout_refresh()
-  $(window).resize(layout_refresh)
+  init_layout();
 })
 
 // loads course from url
 var init_load = function () {
-  // Parse and display search parameters, if any exist
-  parseSearchParameters()
+  // Parse search parameters, if any exist
+  parseSearchParameters(courseDisplayed)
 
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
     courseId = parseInt(pathnameMatch[1])
-    if (!isNaN(courseId)) displayCourseDetails(courseId)
+    if (!isNaN(courseId)) {
+      displayCourseDetails(courseId)
+      var courseDisplayed = true;
+    }
   }
+
+  // perform search
+  searchForCourses()
 }
 
 // Handle displaying a course after pushing the back/forward button in the browser
@@ -44,7 +49,7 @@ window.onpopstate = function (event) {
 }
 
 // Parse the URL to check for whether the app should be showing a course and displaying any search terms
-var parseSearchParameters = function () {
+var parseSearchParameters = function() {
   // Parse search terms
   var unparsedParameters = window.location.search.replace('?', '').split('&')
   var parameters = {}
@@ -62,9 +67,6 @@ var parseSearchParameters = function () {
   }
   if (parameters.hasOwnProperty('sort')) {
     $('#sort').val(parameters.sort)
-  }
-  if (parameters !== {}) {
-    searchForCourses()
   }
 }
 
@@ -218,12 +220,18 @@ var init_evals = function() {
 var init_logout = function() {
   $('#menu-bar').mouseleave(function() {
     var isNetidInvisible = $('#netid').css('display') === 'none'
-    if (isNetidInvisible) $('#netid, #logout').animate({width: 'toggle'})
+    if (isNetidInvisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
   })
 
   $('#netid').click(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
+    if (!isLogoutVisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
     return false;
   })
 }
@@ -282,4 +290,23 @@ var section_toggle = function(pane, section) {
 // update is read by the user
 var saveUpdatePopupState = function() {
   localStorage.setItem('updateRead', 'True');
+}
+
+// to initialize responsive layout
+var init_layout = function() {
+  // initial layout
+  var width = $(window).width()
+  document.isMobile = (width < WIDTH_THRESHOLD)
+  if (document.isMobile) layout_mobile()
+  else layout_desktop()
+
+  // bind to resizing
+  $(window).resize(layout_refresh)
+
+  $('#menu-back').click(function() {
+    window.history.back();
+  })
+
+  // show page
+  $('body').css('display', '')
 }

@@ -44,7 +44,7 @@ var toggleAboutBodyClick = function() {
     if($trigger !== event.target && !$trigger.has(event.target).length){
       $("#about-popup").fadeOut();
       $("#about-toggle").removeClass('active');
-    }            
+    }
   });
 }
 
@@ -55,6 +55,6 @@ var toggleFeedbackBodyClick = function() {
     if($trigger !== event.target && !$trigger.has(event.target).length){
       $("#feedback-container").slideUp();
       $("#feedback-toggle").removeClass('active');
-    }            
+    }
   });
 }

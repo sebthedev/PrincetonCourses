@@ -53,7 +53,12 @@ var searchForCourses = function () {
         $('#results').append(newDOMResult(result, {"tags": 1}))
       }
     }
-  }).then(displayActive)
+
+    displayActive() // update highlighting of active course
+
+    // go to search pane for mobile
+    if (document.isMobile) $('#main-pane').slick('slickGoTo', 1)
+  })
 }
 
 // length of non-instructor results (for temporary hiding of instructors)

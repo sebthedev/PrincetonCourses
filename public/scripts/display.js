@@ -38,7 +38,14 @@ var displayCourseDetails = function(courseId) {
       display_evals(course); // in eval.js
       display_past(course);
 
-  }).then(displayActive)
+      displayActive() // update highlighting of active course
+
+      // go to display pane for mobile
+      if (document.isMobile) {
+        $('#display-body').slick('slickGoTo', 0)
+        $('#main-pane').slick('slickGoTo', 2)
+      }
+  })
 
   // set scroll to top
   $('#evals-pane').scrollTop(0)

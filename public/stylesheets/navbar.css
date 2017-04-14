@@ -40,6 +40,9 @@
 .navbar-default .navbar-toggle {
   border-color: #E36203;
 }
+.navbar-default .navbar-toggle:focus {
+  background-color: #EE7F2D;
+}
 .navbar-default .navbar-toggle:hover {
   background-color: #E36203;
 }
