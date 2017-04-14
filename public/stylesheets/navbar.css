@@ -4,8 +4,7 @@
   border-color: #EE7F2D;
 
   /* KARA: navbar type change consideration */
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
+  font-family: Arial;
 }
 .navbar-default .navbar-brand {
   color: #000000;
