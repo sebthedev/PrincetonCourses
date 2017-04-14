@@ -68,16 +68,18 @@ var parseSearchParameters = function () {
 // to initialize draggability
 var init_panes = function() {
   setPaneWidth();
-  $('#search-pane').resizable({
-    handleSelector: "#search-resizer",
-    resizeHeight: false
-  })
+  var searchPaneWidth = localStorage.getItem('#search-resizer');
+  if(searchPaneWidth !== undefined) {
+    $('#search-pane').css('width', searchPaneWidth);
+  }
 
-  $('#info-pane').resizable({
-    handleSelector: "#info-resizer",
-    resizeHeight: false,
-    resizeWidthFrom: 'left'
-  })
+  var infoPaneWidth = localStorage.getItem('#info-resizer');
+  if(searchPaneWidth !== undefined) {
+    $('#info-pane').css('width', infoPaneWidth);
+  }
+
+  $('#search-pane').css('display', "");
+  $('#display-pane').css('display', "");
 }
 
 // to initalize search pane section collapsing
@@ -183,6 +185,7 @@ var init_feedback = function() {
 var init_display = function() {
   $('#disp-instructors-toggle'  ).click(function() {section_toggle('disp', 'instructors')})
   $('#disp-description-toggle'  ).click(function() {section_toggle('disp', 'description')})
+  $('#disp-readings-toggle'     ).click(function() {section_toggle('disp', 'readings')})
   $('#disp-assignments-toggle'  ).click(function() {section_toggle('disp', 'assignments')})
   $('#disp-grading-toggle'      ).click(function() {section_toggle('disp', 'grading')})
   $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})
