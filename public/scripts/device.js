@@ -26,6 +26,7 @@ var init_mobile = function() {
 	$('#navbar-toggle-button').css('display','block');
 	$('#searchform').css("display", "none");
 	$('#info-pane').css("width", "100%");
+	$('#search-pane').css("width", "100%");
 }
 
 // initialize desktop screen
