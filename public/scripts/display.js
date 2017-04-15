@@ -5,8 +5,7 @@
 var displayResult = function() {
   var courseId = this.courseId
 
-  // Push to the history this course
-  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
+  history_display(courseId)
 
   // Display the information for this course
   displayCourseDetails(courseId)

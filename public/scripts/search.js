@@ -13,23 +13,39 @@ var getSearchQueryURL = function () {
   return '?' + parameters.join('&')
 }
 
-// function for updating search results
-var searchForCourses = function () {
+// update search results from the search box
+searchFromBox = function() {
   // return if no search
   if ($('#searchbox').val() === '')
   {
     $('#results').children().remove();
-    $('#search-title').text('0' + ' Search Results')
+    $('#search-title').text('0 Search Results')
     return false
   }
 
-  // construct search query
-  var search = '/api/search/'
-  search += encodeURIComponent($('#searchbox').val())
-  search += '?semester=' + $('#semester').val()
-  search += '&sort=' + $('#sort').val()
+  // save search into history
+  history_search(queryURL)
 
-  window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
+  var query = encodeURIComponent($('#searchbox').val())
+  var semester = $('#semester').val()
+  var sort = $('#sort').val()
+
+  searchForCourses(query, semester, sort)
+}
+
+// function for updating search results
+var searchForCourses = function (query, semester, sort) {
+  // construct search query
+  var search = '/api/search/' + query
+  if (semester) search += '?semester=' + semester
+  if (sort) search += '?sort=' + sort
+
+  $('#searchbox').val(query)
+  if (semester) $('#semester').val(semester)
+  if (sort) $('#sort').val(sort)
+
+  // query url
+  var queryURL = getSearchQueryURL()
 
   // search!
   $.get(search, function (results, success) {
@@ -59,15 +75,7 @@ var searchForCourses = function () {
     // go to search pane for mobile
     if (document.isMobile) $('#main-pane').slick('slickGoTo', 1)
   })
-}
 
-// length of non-instructor results (for temporary hiding of instructors)
-function courseLength(results) {
-  var count = 0
-  for (var index in results)
-    if (results[index].type !== 'instructor') count++
-
-  return count
 }
 
 // returns a DOM object for a search result

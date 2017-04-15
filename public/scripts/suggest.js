@@ -193,7 +193,7 @@ function newDOMsuggestResult(term, description) {
   // enable click to search
   $(entry).click(function() {
     $('#searchbox').val(term)
-    searchForCourses()
+    searchFromBox()
     return false
   })
 

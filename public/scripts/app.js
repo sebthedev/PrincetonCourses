@@ -21,53 +21,26 @@ $(document).ready(function() {
 
 // loads course from url
 var init_load = function () {
-  // Parse search parameters, if any exist
-  parseSearchParameters(courseDisplayed)
 
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
-    courseId = parseInt(pathnameMatch[1])
+    var courseId = parseInt(pathnameMatch[1])
     if (!isNaN(courseId)) {
       displayCourseDetails(courseId)
       var courseDisplayed = true;
     }
   }
 
+  // Parse search parameters, if any exist
+  var parameters = parseSearchParameters(window.location.search)
+
   // perform search
-  searchForCourses()
-}
+  searchForCourses(parameters.search, parameters.semester, parameters.sort)
 
-// Handle displaying a course after pushing the back/forward button in the browser
-window.onpopstate = function (event) {
-  console.log(window.history)
-  if (event.state && event.state.courseID) {
-    displayCourseDetails(event.state.courseID)
-  }
-  //parseSearchParameters()
-}
-
-// Parse the URL to check for whether the app should be showing a course and displaying any search terms
-var parseSearchParameters = function() {
-  // Parse search terms
-  var unparsedParameters = window.location.search.replace('?', '').split('&')
-  var parameters = {}
-  for (var parametersIndex in unparsedParameters) {
-    var keyValue = unparsedParameters[parametersIndex].split('=')
-    if (keyValue.length === 2) {
-      parameters[keyValue[0]] = decodeURIComponent(keyValue[1])
-    }
-  }
-  if (parameters.hasOwnProperty('search')) {
-    $('#searchbox').val(parameters.search)
-  }
-  if (parameters.hasOwnProperty('semester')) {
-    $('#semester').data('query', parameters.semester).val(parameters.semester)
-  }
-  if (parameters.hasOwnProperty('sort')) {
-    $('#sort').val(parameters.sort)
-  }
+  // initialize history
+  history_init(courseId, window.location.search)
 }
 
 // to initialize draggability
@@ -127,10 +100,10 @@ var init_searchpane = function() {
 
 // to initialize searching function
 var init_search = function() {
-  // Every time a key is pressed inside the #searchbox, call the searchForCourses function
-  $('#searchbox').on('input', searchForCourses)
-  $('#searchbox').on('focus', searchForCourses)
-  $('#semester, #sort').change(searchForCourses)
+  // Every time a key is pressed inside the #searchbox, search
+  $('#searchbox').on('input', searchFromBox)
+  $('#searchbox').on('focus', searchFromBox)
+  $('#semester, #sort').change(searchFromBox)
 
   // load the semesters for the dropdown
   $('#semester').children(":not([disabled])").remove()
