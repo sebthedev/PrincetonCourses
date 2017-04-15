@@ -8,10 +8,13 @@
 
 @import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
 @import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
-@import 'http://fonts.googleapis.com/css?family=Raleway:100,600';
-@import 'http://fonts.googleapis.com/css?family=Open+Sans:300';
+@import 'http://fonts.googleapis.com/css?family=Raleway:500';
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:400,600';
 
 /* BOOTSTRAP OVERRIDES */
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
 
 .badge-large {
   font-size: 20px;
@@ -181,6 +184,9 @@ body {
 
 #welcome>#image {
   margin:10px;
+}
+#welcome>#image>img {
+  opacity: 0.8;
 }
 #welcome-header>h2 {
   margin:10px;
