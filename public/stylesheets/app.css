@@ -81,7 +81,7 @@
   }
 
   #search-pane {
-    padding-right: 5px; /* compensate for resizer */
+    padding-right: 5px !important; /* compensate for resizer */
     min-width: 200px;
     max-width: 40vw;
     width: 25%;
@@ -115,7 +115,7 @@
   }
 
   #info-pane {
-    padding-left: 5px; /* compensate for resizer */
+    padding-left: 5px !important; /* compensate for resizer */
     width: 50%; /* default */
     min-width: 150px;
     max-width: 80%;

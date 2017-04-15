@@ -129,6 +129,7 @@ var init_searchpane = function() {
 var init_search = function() {
   // Every time a key is pressed inside the #searchbox, call the searchForCourses function
   $('#searchbox').on('input', searchForCourses)
+  $('#searchbox').on('focus', searchForCourses)
   $('#semester, #sort').change(searchForCourses)
 
   // load the semesters for the dropdown

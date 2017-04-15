@@ -54,6 +54,7 @@ var displayCourseDetails = function(courseId) {
 
   // make sure it can be seen
   $('#display-body').css('display', '')
+  $('#disp-initial').css('display', 'none')
 }
 
 // mark all corresponding courses as active
