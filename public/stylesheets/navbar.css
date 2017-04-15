@@ -2,6 +2,9 @@
 .navbar-default {
   background-color: #EE7F2D;
   border-color: #EE7F2D;
+
+  /* KARA: navbar type change consideration */
+  font-family: Arial;
 }
 .navbar-default .navbar-brand {
   color: #000000;

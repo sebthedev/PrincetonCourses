@@ -30,13 +30,13 @@ function layout_mobile() {
     $('#main-pane').slick('slickSetOption', 'swipe', true, false);
   });
 
-  /* show suggest pane */
+  /* show suggest pane and attach toggler to right menu */
   $('#suggest-pane').css('display', '')
   $('#suggest-toggle').removeClass('active')
+  $('#menu-right').prepend($('#suggest-toggle').detach())
 
   /* move search box */
-  var searchbox = $('#searchbox').detach()
-  $('#menu-form').append(searchbox)
+  $('#menu-form').append($('#searchbox').detach())
 }
 
 // change to mobile layout
@@ -47,13 +47,13 @@ function layout_toMobile() {
 
 // set up desktop layout
 function layout_desktop() {
-  /* hide suggest pane by default */
+  /* hide suggest pane by default and move attach toggler to left menu */
   $('#suggest-pane').css('display', 'none')
   $('#suggest-toggle').removeClass('active')
+  $('#menu-left').prepend($('#suggest-toggle').detach())
 
   /* move search box */
-  var searchbox = $('#searchbox').detach()
-  $('#search-searchbox-form').append(searchbox)
+  $('#search-searchbox-form').append($('#searchbox').detach())
 }
 
 // change to desktop layout

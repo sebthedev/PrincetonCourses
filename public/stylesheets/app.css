@@ -53,6 +53,12 @@
     border-radius: 12px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
   }
+
+  #feedback-container {
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 @media (min-width: 768px) {
@@ -131,6 +137,12 @@
     padding: 5px 12px;
     border-radius: 17px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  }
+
+  #feedback-container {
+    right: 50px;
+    width: 30vw;
+    min-width: 300px;
   }
 }
 
@@ -454,8 +466,6 @@ body {
   position: fixed;
   top: 0;
   padding-top: 50px;
-  right: 50px;
-  width: 30vw;
   z-index: 700;
   border-color: #f58025;
   border-width: 2px;

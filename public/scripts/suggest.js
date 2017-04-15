@@ -138,6 +138,13 @@ const departments = {
 
 // handles click in navbar to toggle suggest pane
 function toggleSuggest() {
+  // swipe if in mobile
+  if (document.isMobile) {
+    $('#main-pane').slick('slickGoTo', 0)
+    $('.navbar-collapse').collapse('hide')
+    return false
+  }
+
   var isVisible = $('#suggest-pane').css('display') !== 'none'
 
   $('#suggest-pane').animate({width: 'toggle'})

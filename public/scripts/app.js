@@ -13,7 +13,6 @@ $(document).ready(function() {
   init_display();
   init_evals();
   init_logout();
-  init_about();
   init_suggest();
   init_updates();
 
@@ -235,12 +234,6 @@ var init_logout = function() {
     }
     return false;
   })
-}
-
-// to initialize about display
-var init_about = function() {
-  $('#about-toggle').click(function() {return toggleNavbar('about')})
-  $('#about-popup-close').click(function() {return toggleNavbar('about')})
 }
 
 // to initialize suggest display
