@@ -20,54 +20,10 @@
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
   }
 
-  .progress {
-    margin: 1px 0 0;
-    height: 5px;
-    background-color: #f4f4f4;
-    box-shadow: none;
-  }
-
-  .progress-bar {
-    box-shadow: none;
-  }
-
-  .list-group-item {
-    background-color: #f4f4f4;
-    padding: 5px 8px;
-  }
-
-  .list-group-item.search-result:hover {
-    background-color: #fff;
-    transition: background-color 0.4s ease;
-  }
-
-  .list-group-item.search-result.active:hover {
-    background-color: #428bca;
-    border-color: #428bca;
-    transition: background-color 0s ease;
-  }
-
   /* form focus outline shadow orange */
   .form-control:focus {
     border-color: #EE7F2D;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(238, 127, 45, 0.6);
-  }
-
-  /* these are an rgb average of the corresponding bootstrap color and white */
-  .text-info-dim {
-    color: #addfee;
-  }
-  .text-warning-dim {
-    color: #f7d6a6;
-  }
-  .text-danger-dim {
-    color: #eca8a7;
-  }
-  .text-success-dim {
-    color: #addbad;
-  }
-  .text-dim {
-    /* color: #777;*/
   }
 
   /* PAGEWIDE CSS */
@@ -108,16 +64,6 @@
     overflow: hidden;
   }
 
-  .flex-item-rigid {
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
-  .flex-item-stretch {
-    flex-grow: 10000;
-    flex-shrink: 10000;
-    flex-basis: 0;
-    overflow: hidden;
-  }
   .flex-item-scroll {
     flex-grow: 0;
     flex-shrink: 10000;
@@ -174,89 +120,17 @@
     z-index: 400;
   }
 
-  .text-button {
-    cursor: pointer;
-    color: #888;
-  }
-  .text-button:hover {
-    color: #b8b8b8;
-    transition: color 0.4s ease;
-  }
-
-  .search-result {
-    cursor: pointer;
-  }
-
-  .unfav-icon {
-    color: #d9534f;
-    cursor: pointer;
-    padding:0 0 0 5px;
-    transition: color 0.4s ease;
-  }
-  .unfav-icon:hover {
-    color: #f2c6c4;
-  }
-
-  .fav-icon {
-    color: #ddd;
-    cursor: pointer;
-    padding:0 0 0 5px;
-    transition: color 0.4s ease;
-  }
-  .fav-icon:hover {
-    color: #d9534f;
-  }
-
-  .instructor-list-item {
-    padding: 8px;
-    background-color: #f4f4f4;
-    transition: background-color 0.4s ease;
-  }
-  .instructor-list-item:hover {
-    padding: 8px;
-    background-color: #eaeaea;
-    cursor: pointer;
-  }
-  .instructor-list-item-opened {
-    background-color: #eaeaea;
-  }
   .instructor-title {
     color: #000;
   }
-  .instructor-body {
-    margin: 5px 0 0;
-  }
 
   /* DISPLAY HEADER CSS */
-
-  #display-pane {
-    background-image: url("/media/princeton_logo.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size:25vw;
-  }
-
-  #display-header {
-    padding: 10px;
-    background-color: #eee;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 500;
-  }
 
   #disp-title {
     margin: 5px 0 10px;
     line-height: normal;
   }
-  #disp-title-right {
-    margin: 5px 0 10px;
-  }
-  #disp-subtitle {
-    margin: 0;
-    padding-bottom: 5px;
-  }
-  #disp-subtitle-right {
-    margin: 0;
-  }
+
   /* INFO PANE CSS */
   #info-pane {
     background-color: #ddd;
@@ -264,7 +138,6 @@
     padding-left: 5px; /* compensate for resizer */
     width: 50%; /* default */
     min-width: 150px;
-    max-width: 80%;
     max-width: calc(100% - 150px);
     overflow-y: auto;
     /* ugly thing to deal with flexbox and resizable */
@@ -294,23 +167,6 @@
     margin-bottom:15px;
   }
 
-  .up-icon {
-    color: #000;
-    cursor: pointer;
-  }
-  .up-icon:hover {
-    color: #0275d8;
-    transition: color 0.3s ease;
-  }
-
-  .down-icon {
-    color: #0275d8;
-    cursor: pointer;
-  }
-  .down-icon:hover {
-    color: #9fd2fe;
-  }
-
   /* SUGGEST PANE CSS */
 
   #suggest-pane {
@@ -327,18 +183,6 @@
   .suggest-result:hover {
     background-color: #fff;
     transition: background-color 0.4s ease;
-  }
-  /* FEEDBACK CSS */
-
-  #feedback-container {
-    position: fixed;
-    top: 0;
-    padding-top: 50px;
-    right: 50px;
-    width: 30vw;
-    z-index: 700;
-    border-color: #f58025;
-    border-width: 2px;
   }
 
   /* ABOUT POPUP CSS */
@@ -407,4 +251,166 @@
   .desktop {
     display:;
   }
+}
+
+/* Bootstrap Override */
+.list-group-item {
+  background-color: #f4f4f4;
+  padding: 5px 8px;
+}
+/* these are an rgb average of the corresponding bootstrap color and white */
+.text-info-dim {
+  color: #addfee;
+}
+.text-warning-dim {
+  color: #f7d6a6;
+}
+.text-danger-dim {
+  color: #eca8a7;
+}
+.text-success-dim {
+  color: #addbad;
+}
+.text-dim {
+  /* color: #777;*/
+}
+
+.truncate {
+  width:100%;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.progress {
+  margin: 1px 0 0;
+  height: 5px;
+  background-color: #f4f4f4;
+  box-shadow: none;
+}
+
+.progress-bar {
+  box-shadow: none;
+}
+
+.flex-item-rigid {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.flex-item-stretch {
+  flex-grow: 10000;
+  flex-shrink: 10000;
+  flex-basis: 0;
+  overflow: hidden;
+}
+
+.unfav-icon {
+  color: #d9534f;
+  cursor: pointer;
+  padding:0 0 0 5px;
+  transition: color 0.4s ease;
+}
+.unfav-icon:hover {
+  color: #f2c6c4;
+}
+
+.fav-icon {
+  color: #ddd;
+  cursor: pointer;
+  padding:0 0 0 5px;
+  transition: color 0.4s ease;
+}
+.fav-icon:hover {
+  color: #d9534f;
+}
+
+.text-button {
+  cursor: pointer;
+  color: #888;
+}
+.text-button:hover {
+  color: #b8b8b8;
+  transition: color 0.4s ease;
+}
+
+.instructor-list-item {
+  padding: 8px;
+  background-color: #f4f4f4;
+  transition: background-color 0.4s ease;
+}
+.instructor-list-item:hover {
+  padding: 8px;
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+.instructor-list-item-opened {
+  background-color: #eaeaea;
+}
+
+.instructor-body {
+  margin: 5px 0 0;
+}
+
+.list-group-item.search-result:hover {
+  background-color: #fff;
+  transition: background-color 0.4s ease;
+}
+
+.list-group-item.search-result.active:hover {
+  background-color: #428bca;
+  border-color: #428bca;
+  transition: background-color 0s ease;
+}
+
+#display-header {
+  padding: 10px;
+  background-color: #eee;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 500;
+}
+#disp-title-right {
+  margin: 5px 0 10px;
+}
+#disp-subtitle {
+  margin: 0;
+  padding-bottom: 5px;
+}
+#disp-subtitle-right {
+  margin: 0;
+}
+
+/* EVALS */
+.up-icon {
+  color: #000;
+  cursor: pointer;
+}
+.up-icon:hover {
+  color: #0275d8;
+  transition: color 0.3s ease;
+}
+
+.down-icon {
+  color: #0275d8;
+  cursor: pointer;
+}
+.down-icon:hover {
+  color: #9fd2fe;
+}
+
+/* FEEDBACK CSS */
+
+#feedback-container {
+  position: fixed;
+  top: 0;
+  padding-top: 50px;
+  right: 50px;
+  width: 30vw;
+  z-index: 700;
+  border-color: #f58025;
+  border-width: 2px;
+}
+
+.search-result {
+  cursor: pointer;
 }

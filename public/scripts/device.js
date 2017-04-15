@@ -23,10 +23,9 @@ var isMobile = function() {
 // initialize mobile screen
 var init_mobile = function() {
 	$('#searchbox').appendTo('#navbar-search-bar');
-	$('#search-pane').css('width','100%');
-	$('#info-pane').css('width','100%');
 	$('#navbar-toggle-button').css('display','block');
 	$('#searchform').css("display", "none");
+	$('#info-pane').css("width", "100%");
 }
 
 // initialize desktop screen
@@ -53,13 +52,11 @@ var onresize = function() {
 	if ((windowWidth() > WIDTH_THRESHOLD) && (prevWindowWidth <= WIDTH_THRESHOLD))
 	{
 	  setPaneWidth();
-	  init_desktop();
 	}
 
 	//desktop to mobile
 	if ((windowWidth() <= WIDTH_THRESHOLD) && (prevWindowWidth > WIDTH_THRESHOLD))
 	{
-	  init_mobile();
 	  setPaneWidth();
 	}
 	prevWindowWidth = windowWidth();
