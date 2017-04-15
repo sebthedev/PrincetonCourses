@@ -160,6 +160,75 @@ body {
   border-radius: 0;
 }
 
+/* WELCOME PANE CSS */
+
+#display-welcome {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+#welcome {
+  /*padding:10px;*/
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  text-align: center;
+  overflow:hidden;
+}
+
+#welcome>#image {
+  margin:10px;
+}
+#welcome-header>h2 {
+  margin:10px;
+}
+
+#welcome-header {
+  width:100%;
+  margin: 0 0 50px 0;
+}
+
+.tip-item {
+  padding:10px;
+  align-items: center;
+  margin: 5px;
+  background-color: #F5F5F5;
+  min-width:200px;
+  max-width:250px;
+  transition: linear 0.2s;
+}
+
+.tip-item>.title {
+  font-size:1.3em;
+  padding:2px;
+}
+
+.tip-item>.icon-container{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  width: 75px;
+  height: 75px; 
+  background-color: #92D4E3;
+  color: #fff;
+  font-size:3em;
+  margin:10px 0 0 0;
+  transition: linear 0.2s;
+}
+
+.tip-item:hover {
+  background-color: #F0F0F0;
+}
+.tip-item:hover .icon-container{
+  font-size: 3.2em;
+}
+
 /* SEARCH PANE CSS */
 
 #search-pane {

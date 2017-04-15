@@ -7,6 +7,8 @@ var updateFavIcons = function() {
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
     icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
   })
+  $("#welcome-heart").removeClass('fav-icon');
+  $("#welcome-heart").removeClass('unfav-icon');
 }
 
 // update the display of favorites upon new fav/unfav from course
