@@ -258,6 +258,19 @@
   background-color: #f4f4f4;
   padding: 5px 8px;
 }
+
+.list-group-item.search-result:hover {
+  background-color: #fff;
+  transition: background-color 0.4s ease;
+}
+
+.list-group-item.search-result.active:hover {
+  background-color: #428bca;
+  border-color: #428bca;
+  transition: background-color 0s ease;
+}
+
+/* GENERAL */
 /* these are an rgb average of the corresponding bootstrap color and white */
 .text-info-dim {
   color: #addfee;
@@ -271,26 +284,12 @@
 .text-success-dim {
   color: #addbad;
 }
-.text-dim {
-  /* color: #777;*/
-}
 
 .truncate {
   width:100%;
   overflow:hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.progress {
-  margin: 1px 0 0;
-  height: 5px;
-  background-color: #f4f4f4;
-  box-shadow: none;
-}
-
-.progress-bar {
-  box-shadow: none;
 }
 
 .flex-item-rigid {
@@ -305,6 +304,11 @@
   overflow: hidden;
 }
 
+.search-result {
+  cursor: pointer;
+}
+
+/* FAVORITES */
 .unfav-icon {
   color: #d9534f;
   cursor: pointer;
@@ -325,6 +329,7 @@
   color: #d9534f;
 }
 
+/* BUTTONS */
 .text-button {
   cursor: pointer;
   color: #888;
@@ -334,6 +339,7 @@
   transition: color 0.4s ease;
 }
 
+/* INSTRUCTORS */
 .instructor-list-item {
   padding: 8px;
   background-color: #f4f4f4;
@@ -352,17 +358,7 @@
   margin: 5px 0 0;
 }
 
-.list-group-item.search-result:hover {
-  background-color: #fff;
-  transition: background-color 0.4s ease;
-}
-
-.list-group-item.search-result.active:hover {
-  background-color: #428bca;
-  border-color: #428bca;
-  transition: background-color 0s ease;
-}
-
+/* DISPLAY PANE */
 #display-header {
   padding: 10px;
   background-color: #eee;
@@ -381,6 +377,17 @@
 }
 
 /* EVALS */
+.progress {
+  margin: 1px 0 0;
+  height: 5px;
+  background-color: #f4f4f4;
+  box-shadow: none;
+}
+
+.progress-bar {
+  box-shadow: none;
+}
+
 .up-icon {
   color: #000;
   cursor: pointer;
@@ -398,6 +405,7 @@
   color: #9fd2fe;
 }
 
+
 /* FEEDBACK CSS */
 
 #feedback-container {
@@ -409,8 +417,4 @@
   z-index: 700;
   border-color: #f58025;
   border-width: 2px;
-}
-
-.search-result {
-  cursor: pointer;
 }
