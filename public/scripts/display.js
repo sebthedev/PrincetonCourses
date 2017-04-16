@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, eval.js
+// dependencies: module.js, fav.js, eval.js, layout.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
@@ -9,10 +9,20 @@ var displayResult = function() {
 
   // Display the information for this course
   displayCourseDetails(courseId)
+
+  return false
 }
 
 // function for displaying course details
 var displayCourseDetails = function(courseId) {
+  // return to default view if undefined
+  if (courseId === '') {
+    document.courseId = undefined;
+    document.course = undefined;
+    layout_initial()
+    if (document.isMobile) $('#main-pane').slick('slickGoTo', 2)
+    return;
+  }
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
@@ -53,7 +63,7 @@ var displayCourseDetails = function(courseId) {
 
   // make sure it can be seen
   $('#display-body').css('display', '')
-  $('#disp-initial').css('display', 'none')
+  $('#display-initial').css('display', 'none')
 }
 
 // mark all corresponding courses as active
