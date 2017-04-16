@@ -21,6 +21,8 @@ var displayCourseDetails = function(courseId) {
     document.course = undefined;
     layout_initial()
     if (document.isMobile) $('#main-pane').slick('slickGoTo', 2)
+
+    displayActive() // update highlighting of active course
     return;
   }
 
