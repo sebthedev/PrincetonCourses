@@ -68,14 +68,17 @@ let detectSectionClash = function (section1, section2) {
   return false
 }
 
-let detectCourseClash = function (favoriteCourses, courses, excludeClashingCourses) {
-  // return all if excludeClashingCourses is false
-  if (!excludeClashingCourses) {
-    return courses
-  }
+// For each of the courses in 'courses', determine whether there is any possible schedule for all of the favoriteCourses such that it is possible to take thisCourse. Return an array of courses with the clash boolean field set on each course.
+let detectCourseClash = function (favoriteCourses, courses) {
+  // Check the number of favorite courses
+  // If no courses are favorited then no clashes can exist
+  if (favoriteCourses.length === 0) {
+    // Set all of the courses' clash to false
+    for (let courseIndex in courses) {
+      courses[courseIndex].clash = false
+    }
 
-  // if no courses are favorited, or only one is no clashes can exist
-  if (favoriteCourses.length <= 1) {
+    // Return the courses array
     return courses
   }
 
@@ -88,19 +91,21 @@ let detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
   let maxLength = [] // lengths of nested arrays in favCourseSectionsAll
   let sectionIndex = [] // index to be used when looking at possible schedules
 
-  for (let currentCourse = 0; currentCourse < favoriteCourses.length; currentCourse++) {
+  // for (let currentCourse = 0; currentCourse < favoriteCourses.length; currentCourse++) {
+  for (let favoriteCourseIndex in favoriteCourses) {
+    let thisFavoriteCourse = favoriteCourses[favoriteCourseIndex]
+
     // each course has new, independent sections
     let prevSectionType = ''
     let courseSectionsAll = []
     let courseSectionsInc = []
     let maxLengthIndex = 0
 
-    let favCourse = favoriteCourses[currentCourse]
-    for (let currentClass = 0; currentClass < favCourse.classes.length; currentClass++) {
-      let currentSection = favCourse.classes[currentClass]
+    for (let classIndex in thisFavoriteCourse.classes) {
+      let thisClass = thisFavoriteCourse.classes[classIndex]
       if (prevSectionType !== '') {
         // new section type within a course, push previous information into arrays
-        if (prevSectionType !== String(currentSection.section).charAt(0)) {
+        if (prevSectionType !== thisClass.section.charAt(0)) {
           favCourseSectionsAll.push(courseSectionsAll)
           courseSectionsAll = []
           favCourseSectionsInc.push(courseSectionsInc)
@@ -110,9 +115,9 @@ let detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
           sectionIndex.push(0)
         }
       }
-      courseSectionsAll.push(currentSection)
+      courseSectionsAll.push(thisClass)
       courseSectionsInc.push(false)
-      prevSectionType = String(currentSection.section).charAt(0)
+      prevSectionType = thisClass.section.charAt(0)
       maxLengthIndex++
     }
 
@@ -128,6 +133,10 @@ let detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
 
   // if no more than 1 section within all favorite courses (odd but technically possible) return all courses, no clashes
   if (sectionIndex.length === 0) {
+    // Set all of the courses' clash to false
+    for (let courseIndex in courses) {
+      courses[courseIndex].clash = false
+    }
     return courses
   }
 
@@ -197,6 +206,7 @@ let detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
   // Check if there is no clash currently, if there is, return all courses, since clash will persist
   for (let i = 0; i < incFavCourseSections.length; i++) {
     if (incFavCourseSections[i].length <= 0) {
+      console.log('There is a clash within the favorites.')
       return courses
     }
   }
@@ -218,7 +228,7 @@ let detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
       let currentSection = thisCourse.classes[currentClass]
       if (prevSectionType !== '' && currentSection.section != null) {
         // new section type within a course, push previous information into arrays
-        if (prevSectionType !== String(currentSection.section).charAt(0)) {
+        if (prevSectionType !== currentSection.section.charAt(0)) {
           currentCourseSectionsAll.push(courseSections)
           courseSections = []
           currentMaxLength.push(maxLengthIndex)
