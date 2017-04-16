@@ -4,9 +4,9 @@
 require('dotenv').config()
 
 // Load internal modules
-require('./database.js')
-require('./semester.js')
-var courseModel = require('./course.js')
+require('./controllers/database.js')
+require('./models/semester.js')
+var courseModel = require('./models/course.js')
 var clashDetector = require('./courseClashDetector.js')
 
 // Greet the user
