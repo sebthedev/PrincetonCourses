@@ -218,6 +218,11 @@ var detectCourseClash = function (favoriteCourses, courses, excludeClashingCours
   	incFavCourseSections.push(incSections)
   }
 
+  //Check if there is no clash currently, if there is, return all courses, since clash will persist
+  for (var i = 0; i < incFavCourseSections.length; i++) {
+    if (incFavCourseSections[i].length <= 0)
+      return courses
+  }
 
   //now that the original subgraph has been made, run clash on all courses from search results
   for (var courseIndex = 0; courseIndex < courses.length; courseIndex++) {
