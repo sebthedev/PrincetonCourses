@@ -1,3 +1,8 @@
+/*@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'; MEL: bootstrap is in header.ejs already */
+/*@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'; MEL: font awesome is in header.ejs already */
+@import 'https://fonts.googleapis.com/css?family=Raleway:500';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
+
 /* MOBILE OVERRIDES */
 @media (max-width: 767px) {
   #menu-header {
@@ -175,11 +180,6 @@
 .navbar-toggle {
   margin-left: 15px; /* to match the right */
 }
-
-@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
-@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
-@import 'https://fonts.googleapis.com/css?family=Raleway:500';
-@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
 
 /* BOOTSTRAP OVERRIDES */
 body {
