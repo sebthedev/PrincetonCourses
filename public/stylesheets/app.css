@@ -1,255 +1,384 @@
-/* MEL: on codepen at https://codepen.io/melyshu/pen/ryjpPE
+/* MEL: on codepen at https://codepen.io/melyshu/pen/aJXmNo
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
 
-.fullpage {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
+/* MEL: the sectioning in this file should be maintained, potentially to be
+        modularized into separate files at some point in the future.
+        For now, it is convenient to have all the css in one file. */
+
+/* BOOTSTRAP OVERRIDES */
+
+.badge-large {
+  font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 17px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+}
+
+.badge-score {
+  width: 3.5em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+}
+
+.progress {
+  margin: 1px 0 0;
+  height: 5px;
+  background-color: #f4f4f4;
+  box-shadow: none;
+}
+
+.progress-bar {
+  box-shadow: none;
+}
+
+.list-group-item {
+  background-color: #f4f4f4;
+  padding: 5px 8px;
+}
+
+.list-group-item.search-result:hover {
+  background-color: #fff;
+  transition: background-color 0.4s ease;
+}
+
+.list-group-item.search-result.active:hover {
+  background-color: #428bca;
+  border-color: #428bca;
+  transition: background-color 0s ease;
+}
+
+/* form focus outline shadow orange */
+.form-control:focus {
+  border-color: #EE7F2D;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(238, 127, 45, 0.6);
+}
+
+/* these are an rgb average of the corresponding bootstrap color and white */
+.text-info-dim {
+  color: #addfee;
+}
+.text-warning-dim {
+  color: #f7d6a6;
+}
+.text-danger-dim {
+  color: #eca8a7;
+}
+.text-success-dim {
+  color: #addbad;
+}
+.text-dim {
+  color: #bbb;
+}
+
+/* PAGEWIDE CSS */
+
+.resizer {
+  width: 5px;
+  background-color: #ddd;
+  cursor: col-resize;
+}
+.resizer:active,
+.resizer:hover {
+  background-color: #EE7F2D;
+  cursor: col-resize;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+}
+
+#full-page {
   height: 100vh;
   width: 100vw;
 }
 
-.page-menu {
+.flex-container-col {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  overflow: hidden;
+}
+.flex-container-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.flex-item-rigid {
   flex-grow: 0;
+  flex-shrink: 0;
+}
+.flex-item-stretch {
+  flex-grow: 10000;
+  flex-shrink: 10000;
+  flex-basis: 0;
+  overflow: hidden;
+}
+.flex-item-scroll {
+  flex-grow: 0;
+  flex-shrink: 10000;
+  flex-basis: auto;
+  overflow: auto;
+}
+.flex-item-shrink {
+  flex-shrink: 1;
+  overflow: auto;
+}
+
+.margin-l {
+  margin-left: 10px;
+}
+.margin-r {
+  margin-right: 10px;
+}
+.marginless {
+  margin: 0;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+/* NAVBAR CSS */
+
+#menu-bar {
+  z-index: 1000;
   margin-bottom: 0;
   border-radius: 0;
 }
 
-.page-content {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
-}
+/* SEARCH PANE CSS */
 
-.vmax {
-  height: 100%;
-  max-height: 100%;
-}
-
-.search-panel-body {
+#search-pane {
+  z-index: 400;
   background-color: #ddd;
-  padding-top: 15px;
+  padding: 10px;
+  padding-right: 5px; /* compensate for resizer */
   padding-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
+  min-width: 200px;
+  max-width: 40vw;
+  width: 25%;
 }
 
-.search-search {
-  flex-grow: 0;
+#search-resizer {
+  z-index: 400;
 }
 
-.search-results {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
+.text-button {
+  cursor: pointer;
+  color: #888;
+}
+.text-button:hover {
+  color: #b8b8b8;
+  transition: color 0.4s ease;
 }
 
 .search-result {
+  cursor: pointer;
+}
+
+.unfav-icon {
+  color: #d9534f;
+  cursor: pointer;
+  padding:0 0 0 5px;
+  transition: color 0.4s ease;
+}
+.unfav-icon:hover {
+  color: #f2c6c4;
+}
+
+.fav-icon {
+  color: #ddd;
+  cursor: pointer;
+  padding:0 0 0 5px;
+  transition: color 0.4s ease;
+}
+.fav-icon:hover {
+  color: #d9534f;
+}
+
+.instructor-list-item {
+  padding: 8px;
+  background-color: #f4f4f4;
+  transition: background-color 0.4s ease;
+}
+.instructor-list-item:hover {
+  padding: 8px;
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+.instructor-list-item-opened {
+  background-color: #eaeaea;
+}
+.instructor-title {
+  color: #000;
+}
+.instructor-body {
+  margin: 5px 0 0;
+}
+
+/* DISPLAY HEADER CSS */
+
+/* Background, originally Princeton Crest*/
+/*#display-pane {
+  background-image: url("/media/princeton_logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:25vw;
+}*/
+
+#display-header {
+  padding: 10px;
+  background-color: #eee;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 500;
+}
+
+#disp-title {
+  margin: 5px 0 10px;
+  line-height: normal;
+}
+#disp-title-right {
+  margin: 5px 0 10px;
+}
+#disp-subtitle {
+  margin: 0;
+  padding-bottom: 5px;
+}
+#disp-subtitle-right {
+  margin: 0;
+}
+
+/* INFO PANE CSS */
+#info-pane {
+  background-color: #ddd;
+  padding: 5px 10px 0px;
+  padding-left: 5px; /* compensate for resizer */
+  width: 50%; /* default */
+  min-width: 150px;
+  max-width: 80%;
+  max-width: calc(100% - 150px);
+  overflow-y: auto;
+  /* ugly thing to deal with flexbox and resizable */
+  /*left:0 !important;
+  position:relative !important;*/
+}
+
+.info-list-item {
+  /*background-color:#eee;*/
+}
+
+/* EVALS PANE CSS */
+#evals-pane {
+  padding: 5px 10px 0px ;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+#evals-comments-body {
+  margin-bottom: 15px;
+}
+
+.flex-eval {
+  margin-left: 8px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
+  flex-flow: column nowrap;
+  justify-content: center;
 }
 
-.result-dial {
-  flex-grow: 0;
+#disp-classes-body {
+  margin-bottom:15px;
 }
 
-.result-text {
-  flex-grow: 1;
-  margin-left: 15px;
+.up-icon {
+  color: #000;
+  cursor: pointer;
+}
+.up-icon:hover {
+  color: #0275d8;
+  transition: color 0.3s ease;
 }
 
-.scroll-window {
-  position: relative;
-  height: 100%;
-  width: 100%;
+.down-icon {
+  color: #0275d8;
+  cursor: pointer;
+}
+.down-icon:hover {
+  color: #9fd2fe;
 }
 
-.scroll-content {
-  position: absolute;
+/* SUGGEST PANE CSS */
+
+#suggest-pane {
+  background-color: #ccc;
+  padding: 5px 10px 15px;
+  max-width: 200px;
+  width: 200px;
+  overflow-y: auto;
+}
+
+.suggest-result {
+  cursor: pointer;
+}
+.suggest-result:hover {
+  background-color: #fff;
+  transition: background-color 0.4s ease;
+}
+
+/* FEEDBACK CSS */
+
+#feedback-container {
+  position: fixed;
+  top: 0;
+  padding-top: 50px;
+  right: 50px;
+  width: 30vw;
+  z-index: 700;
+  border-color: #f58025;
+  border-width: 2px;
+}
+
+/* ABOUT POPUP CSS */
+#about-popup {
+  position: fixed;
+  z-index: 800;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  overflow-y: auto;
-}
-
-.result-panel-body {
-  padding: 0;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
 }
 
-.result-heading {
-  padding: 15px;
-  background-color: #eee;
-  flex-grow: 0;
+#about-panel {
+  margin-top: 100px;
+  width: 50vw;
 }
 
-.result-body {
-  padding: 15px;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
+#about-popup-close:hover {
+  color: #d9534f;
+  cursor: pointer;
 }
 
-.result-detail {
-  padding: 15px;
-}
+/* UPDATES POPUP CSS*/
 
-.eval-panel-body {
-  background-color: #ddd;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
-.progress {
-  margin: 0;
-}
-
-.progress-bar {
-  text-align: left;
-  padding: 0px 15px;
-}
-
-
-/* SCROLLBAR STUFF http://mikethedj4.github.io/Webkit-Scrollbar-Generator/ */
-
-::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
-}
-
-::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #f58025;
-  border: 0px none #ffffff;
-  border-radius: 0px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #d36f22;
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: #9b5118;
-}
-
-::-webkit-scrollbar-track {
-  background: #666666;
-  border: 0px solid #ffffff;
-  border-radius: 50px;
-}
-
-::-webkit-scrollbar-track:hover {
-  background: #000000;
-}
-
-::-webkit-scrollbar-track:active {
-  background: #666666;
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-
-/* ADDING COLOR TO NAVBAR https://work.smarchal.com/twbscolor/ */
-
-.navbar-default {
-  background-color: #f58025;
-  border-color: #d36f22;
-}
-
-.navbar-default .navbar-brand {
-  color: #000000;
-}
-
-.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-  color: #ffffff;
-}
-
-.navbar-default .navbar-text {
-  color: #000000;
-}
-
-.navbar-default .navbar-nav > li > a {
-  color: #000000;
-}
-
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
-  color: #ffffff;
-}
-
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #ffffff;
-  background-color: #d36f22;
-}
-
-.navbar-default .navbar-nav > .open > a,
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
-  color: #ffffff;
-  background-color: #d36f22;
-}
-
-.navbar-default .navbar-toggle {
-  border-color: #d36f22;
-}
-
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-  background-color: #d36f22;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #000000;
-}
-
-.navbar-default .navbar-collapse,
-.navbar-default .navbar-form {
-  border-color: #000000;
-}
-
-.navbar-default .navbar-link {
-  color: #000000;
-}
-
-.navbar-default .navbar-link:hover {
-  color: #ffffff;
-}
-
-@media (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #000000;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #ffffff;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #ffffff;
-    background-color: #d36f22;
-  }
+#updates-bottom-popup {
+  position: fixed;
+  width: 25%;
+  z-index: 1000;
+  background-color: rgba(224, 255, 255, 0.7);
+  border-color: rgb(194, 232, 232);
+  right: 10px;
+  bottom: 0;
+  margin-bottom: 10px;
 }

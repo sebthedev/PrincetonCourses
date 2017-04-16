@@ -11,16 +11,16 @@ var $ = require('cheerio')
 
 // Set the level of the logger to the first command line argument
 // Valid values: "trace", "debug", "info", "warn", "error"
-if (process.argv.length > 2) {
-  log.setLevel(process.argv[2])
+if (process.argv.length > 3) {
+  log.setLevel(process.argv[3])
 }
 
 // Load internal modules
-var semesterModel = require('./semester.js')
-var courseModel = require('./course.js')
+var semesterModel = require('../models/semester.js')
+var courseModel = require('../models/course.js')
 
 // Connect to the database
-require('./database.js')
+require('../controllers/database.js')
 
 // A function that takes a query string for the OIT's Course Offerings API and return to the
 // external callback junction a JSON object of the response data.
@@ -77,7 +77,6 @@ var importTerm = function (term) {
     _id: term.code
   }, {
     _id: term.code,
-    code: term.code,
     name: term.cal_name,
     start_date: term.start_date,
     end_date: term.end_date
@@ -117,6 +116,10 @@ var importSubject = function (semester, subject) {
       process.stdout.write(' ' + courseData.catalog_number)
     }
 
+    if (typeof (courseData.catalog_number) === 'undefined' || courseData.catalog_number.length < 3) {
+      continue
+    }
+
     // Decode escaped HTML characters in the course title
     if (typeof (courseData.title) !== 'undefined') {
       courseData.title = decodeEscapedCharacters(courseData.title)
@@ -151,5 +154,11 @@ var importSubject = function (semester, subject) {
 // Initialise a counter of the number of courses pending being added to the database
 var coursesPendingProcessing = 0
 
+// Get queryString from command line args
+var queryString = 'term=all&subject=all'
+if (process.argv.length > 2) {
+  queryString = process.argv[2]
+}
+
 // Execute a script to import courses from all available semesters ("terms") and all available departments ("subjects")
-loadCoursesFromRegistrar('term=all&subject=all', importDataFromRegistrar)
+loadCoursesFromRegistrar(queryString, importDataFromRegistrar)
