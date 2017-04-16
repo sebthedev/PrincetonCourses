@@ -1,3 +1,4 @@
+/* MOBILE OVERRIDES */
 @media (max-width: 767px) {
   #menu-header {
     /* flex-container-row */
@@ -61,6 +62,7 @@
   }
 }
 
+/* DESKTOP OVERRIDES */
 @media (min-width: 768px) {
   #menu-back, #menu-form, #menu-brand-abbr {
     display: none;
@@ -158,13 +160,7 @@
   display: flex;
 }
 
-
-
-/***************************************************************************/
-/* MEL: ALL BELOW IS A CONCATENATION OF APP.CSS, SCROLLBAR.CSS, NAVBAR.CSS */
-/***************************************************************************/
-
-/* MEL: on codepen at https://codepen.io/melyshu/pen/aJXmNo
+/* MEL: on codepen at https://codepen.io/melyshu/pen/zwxqej
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
 
@@ -178,6 +174,16 @@
 }
 .navbar-toggle {
   margin-left: 15px; /* to match the right */
+}
+
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+@import 'https://fonts.googleapis.com/css?family=Raleway:500';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
+
+/* BOOTSTRAP OVERRIDES */
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 .badge-score {
@@ -236,6 +242,10 @@
 }
 
 /* PAGEWIDE CSS */
+
+.pane-padding {
+  height: 15px;
+}
 
 #main-pane {
   margin-top: 50px; /* compensate for navbar */
@@ -322,6 +332,78 @@ body {
   z-index: 1000;
   margin-bottom: 0;
   border-radius: 0;
+}
+
+/* WELCOME PANE CSS */
+
+#display-welcome {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+#welcome {
+  /*padding:10px;*/
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  text-align: center;
+  overflow:hidden;
+}
+
+#welcome>#image {
+  margin:10px;
+}
+#welcome>#image>img {
+  opacity: 0.8;
+}
+#welcome-header>h2 {
+  margin:10px;
+}
+
+#welcome-header {
+  width:100%;
+  margin: 0 0 50px 0;
+}
+
+.tip-item {
+  padding:10px;
+  align-items: center;
+  margin: 5px;
+  background-color: #F5F5F5;
+  min-width:200px;
+  max-width:250px;
+  transition: linear 0.2s;
+}
+
+.tip-item>.title {
+  font-size:1.3em;
+  padding:2px;
+}
+
+.tip-item>.icon-container{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  background-color: #92D4E3;
+  color: #fff;
+  font-size:3em;
+  margin:10px 0 0 0;
+  transition: linear 0.2s;
+}
+
+.tip-item:hover {
+  background-color: #F0F0F0;
+}
+.tip-item:hover .icon-container{
+  font-size: 3.2em;
 }
 
 /* SEARCH PANE CSS */
@@ -416,19 +498,11 @@ body {
   background-color: #fff;
 }
 
-#evals-comments-body {
-  margin-bottom: 15px;
-}
-
 .flex-eval {
   margin-left: 8px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-}
-
-#disp-classes-body {
-  margin-bottom:15px;
 }
 
 .up-icon {
@@ -452,7 +526,7 @@ body {
 
 #suggest-pane {
   background-color: #ccc;
-  padding: 5px 10px 15px;
+  padding: 5px 10px 0px;
   overflow-y: auto;
 }
 

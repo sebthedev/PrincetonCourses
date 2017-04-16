@@ -31,10 +31,11 @@ searchFromBox = function() {
 
 // function for updating search results
 var searchForCourses = function (query, semester, sort) {
+
   // construct search query
   var search = '/api/search/' + query
-  if (semester) search += '?semester=' + semester
-  if (sort) search += '?sort=' + sort
+  search += '?semester=' + semester
+  search += '&sort=' + sort
 
   // display search
   $('#searchbox').val(query)
