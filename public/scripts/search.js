@@ -33,10 +33,17 @@ var searchForCourses = function () {
   window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
   // search!
-  $.get(search, function (results, success) {
+  $.get(search, function (results, success, xhr) {
     if (!success) {
       window.alert('An error occured and your search could not be completed.')
       return false
+    }
+
+    // Check whether there is a clash among the favorite courses
+    if (xhr.getResponseHeader('PC-Favorites-Clash') === 'true') {
+      // Do something elegant here
+      $('#favorite-title').text('FAVORITES CLASH')
+      console.log('There is a time clash between one or more of the courses in your favorites list.')
     }
 
     // Remove any search results already in the results pane
