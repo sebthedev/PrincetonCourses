@@ -9,7 +9,6 @@ function display_evals(course) {
   $('#evals-semesters').css('display', '')
   $('#evals-numeric').css('display', '')
   $('#evals-comments').css('display', '')
-  $('#evals-initial').css('display', 'none')
 
   // display eval pane
   evals_semesters(course)

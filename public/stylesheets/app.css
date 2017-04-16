@@ -62,13 +62,13 @@
 }
 
 @media (min-width: 768px) {
-  #menu-back, #menu-form {
+  #menu-back, #menu-form, #menu-brand-abbr {
     display: none;
   }
 
   #main-pane, #display-body {
     /* flex-container-row*/
-    display: flex !important;
+    display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
     overflow: hidden;
@@ -152,6 +152,10 @@
 }
 .slick-track {
   height: 100%;
+}
+/* override */
+.flex-container-col.slick-slide {
+  display: flex;
 }
 
 
@@ -259,13 +263,13 @@ body {
 }
 
 .flex-container-col {
-  display: flex !important;
+  display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
   overflow: hidden;
 }
 .flex-container-row {
-  display: flex !important;
+  display: flex;
   flex-flow: row nowrap;
   align-items: stretch;
   overflow: hidden;

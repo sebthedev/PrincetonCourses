@@ -15,20 +15,16 @@ var getSearchQueryURL = function () {
 
 // update search results from the search box
 searchFromBox = function() {
-  // return if no search
-  if ($('#searchbox').val() === '')
-  {
-    $('#results').children().remove();
-    $('#search-title').text('0 Search Results')
-    return false
-  }
-
-  // save search into history
-  history_search(queryURL)
+  // query url
+  var queryURL = getSearchQueryURL()
 
   var query = encodeURIComponent($('#searchbox').val())
   var semester = $('#semester').val()
   var sort = $('#sort').val()
+
+
+  // save search into history
+  history_search(queryURL)
 
   searchForCourses(query, semester, sort)
 }
@@ -40,9 +36,17 @@ var searchForCourses = function (query, semester, sort) {
   if (semester) search += '?semester=' + semester
   if (sort) search += '?sort=' + sort
 
+  // display search
   $('#searchbox').val(query)
   if (semester) $('#semester').val(semester)
   if (sort) $('#sort').val(sort)
+
+  // stop if no query
+  if (query === undefined || query === '') {
+    $('#results').children().remove();
+    $('#search-title').text('0 Search Results')
+    return false
+  }
 
   // query url
   var queryURL = getSearchQueryURL()

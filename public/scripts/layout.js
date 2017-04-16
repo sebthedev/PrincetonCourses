@@ -1,5 +1,16 @@
 const WIDTH_THRESHOLD = 768;
 
+// handles loading of initial content
+function layout_initial() {
+  $('#display-body').css('display', 'none')
+  $('#display-initial').css('display', '')
+
+  $('#disp-title').text('Welcome to Princeton Courses')
+  $('#disp-title-right').text('')
+  $('#disp-subtitle').text('Search to begin!')
+  $('#disp-subtitle-right').text('')
+}
+
 // handles refreshing of layout after resizing
 function layout_refresh() {
   var width = $(window).width()
@@ -11,8 +22,8 @@ function layout_refresh() {
 // set up mobile layout
 function layout_mobile() {
   /* set up slick */
-  $('#display-body, #main-pane').slick({infinite: false, edgeFriction: 0.1, slide: '.slide'})
-  $('#main-pane').slick('slickGoTo', 1, true)
+  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 0})
+  $('#main-pane').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
 
   $('#display-body').on('edge', function(event, slick, direction) {
     if (direction === 'right') $('#main-pane').slick('slickPrev')
@@ -37,6 +48,14 @@ function layout_mobile() {
 
   /* move search box */
   $('#menu-form').append($('#searchbox').detach())
+
+  if (document.history_pos !== undefined && document.history_pos > 0) {
+    $('#menu-brand-abbr').css('display', 'none')
+    $('#menu-back').css('display', '')
+  } else {
+    $('#menu-brand-abbr').css('display', '')
+    $('#menu-back').css('display', 'none')
+  }
 }
 
 // change to mobile layout

@@ -21,12 +21,13 @@ $(document).ready(function() {
 
 // loads course from url
 var init_load = function () {
+  var courseId = ''
 
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
-    var courseId = parseInt(pathnameMatch[1])
+    courseId = parseInt(pathnameMatch[1])
     if (!isNaN(courseId)) {
       displayCourseDetails(courseId)
       var courseDisplayed = true;
@@ -41,6 +42,11 @@ var init_load = function () {
 
   // initialize history
   history_init(courseId, window.location.search)
+
+  // handle displaying default page
+  if (courseId === '' && (parameters.search === undefined || parameters.search === ''))
+    displayCourseDetails(courseId)
+
 }
 
 // to initialize draggability
@@ -102,7 +108,6 @@ var init_searchpane = function() {
 var init_search = function() {
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
-  $('#searchbox').on('focus', searchFromBox)
   $('#semester, #sort').change(searchFromBox)
 
   // load the semesters for the dropdown
@@ -267,6 +272,8 @@ var init_layout = function() {
   document.isMobile = (width < WIDTH_THRESHOLD)
   if (document.isMobile) layout_mobile()
   else layout_desktop()
+
+  layout_initial()
 
   // bind to resizing
   $(window).resize(layout_refresh)
