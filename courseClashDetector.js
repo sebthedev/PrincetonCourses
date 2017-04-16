@@ -71,7 +71,7 @@ let detectSectionClash = function (section1, section2) {
 // For each of the courses in 'courses', determine whether there is any possible schedule for all of the favoriteCourses such that it is possible to take thisCourse. Return an array of courses with the clash boolean field set on each course.
 let detectCourseClash = function (favoriteCourses, courses, semester) {
   // Validate inputs
-  if (typeof (semester) !== 'number') {
+  if (typeof (semester) === 'undefined') {
     return {
       status: 'semester must be a number',
       courses: courses

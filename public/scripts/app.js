@@ -124,7 +124,7 @@ var init_searchpane = function() {
 var init_search = function() {
   // Every time a key is pressed inside the #searchbox, call the searchForCourses function
   $('#searchbox').on('input', searchForCourses)
-  $('#semester, #sort').change(searchForCourses)
+  $('#search-form').find('select, input').change(searchForCourses)
 
   // load the semesters for the dropdown
   $('#semester').children(":not([disabled])").remove()

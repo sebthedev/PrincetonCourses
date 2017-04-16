@@ -4,6 +4,7 @@ var router = express.Router()
 // Load internal modules
 var auth = require('./authentication.js')
 var courseModel = require.main.require('./models/course.js')
+var courseClashDetector = require.main.require('./courseClashDetector.js')
 var semesterModel = require.main.require('./models/semester.js')
 var instructorModel = require.main.require('./models/instructor.js')
 var userModel = require.main.require('./models/user.js')
@@ -114,7 +115,8 @@ router.get('/search/:query', function (req, res) {
   }
 
   // Remove in-depth course information if the client requests "brief" results
-  if (typeof (req.query.detailed) !== 'string' || (typeof (req.query.detailed) === 'string' && JSON.parse(req.query.detailed) !== false)) {
+  var brief = typeof (req.query.detailed) !== 'string' || (typeof (req.query.detailed) === 'string' && JSON.parse(req.query.detailed) !== false)
+  if (brief) {
     // Merge the existing projection parameters with the parameters filtering-out all of these attributes
     Object.assign(courseProjection, {
       'evaluations.studentComments': 0,
@@ -132,20 +134,46 @@ router.get('/search/:query', function (req, res) {
     })
   }
 
+  // Determine whether the user has asked that we detect clashes with favorite courses
+  let detectClashes = req.query.hasOwnProperty('detectClashes') && req.query.detectClashes !== 'false' && courseQuery.hasOwnProperty('semester')
+  let filterOutClashes = detectClashes && req.query.detectClashes === 'filter'
+
   let promises = []
+  let promiseNames = []
+
+  if (detectClashes) {
+    // Remove the projection parameter that may be supressing the display of classes
+    delete courseProjection.classes
+
+    // Construct the userModel database query to get the user's favorite courses
+    promises.push(userModel.findById(req.app.get('user')._id, {'favoriteCourses': 1}).populate('favoriteCourses').exec())
+    promiseNames.push('user')
+  }
 
   // Construct the courseModel database query as a promise
   promises.push(courseModel.find(courseQuery, courseProjection).exec())
+  promiseNames.push('courses')
 
-  // Construct the courseModel database query as a promise
+  // Construct the instructorModel database query as a promise
   if (newQueryWords.length > 0) {
     promises.push(instructorModel.find(instructorQuery, instructorProjection).exec())
+    promiseNames.push('instructors')
   }
 
   // Trigger both promises and wait for them to both return
   Promise.all(promises).then(values => {
-    var courses = values[0]
-    var instructors = values[1]
+    // Retrieve the promises' results
+    var courses = values[promiseNames.indexOf('courses')]
+    if (promiseNames.indexOf('instructors') > -1) {
+      var instructors = values[promiseNames.indexOf('instructors')]
+    }
+
+    if (promiseNames.indexOf('user') > -1) {
+      let user = values[promiseNames.indexOf('user')].toObject()
+      if (user.hasOwnProperty('favoriteCourses')) {
+        var favoriteCourses = user.favoriteCourses
+      }
+    }
 
     // Guard against the query results being null
     if (typeof (courses) === 'undefined' || courses.length === 0) {
@@ -190,12 +218,41 @@ router.get('/search/:query', function (req, res) {
     }
     courses = filteredCourses
 
-    // Insert into the course or instructor object its type
+    if (detectClashes) {
+      let detectClashesResult = courseClashDetector.detectCourseClash(favoriteCourses, courses, parseInt(courseQuery.semester))
+      if (detectClashesResult.hasOwnProperty('status')) {
+        if (detectClashesResult.status === 'success') {
+          courses = detectClashesResult.courses
+        } else {
+          console.log(detectClashesResult.status)
+        }
+      }
+    }
+
+    // Filter out clashing courses if requested by the client
+    if (filterOutClashes) {
+      courses = courses.filter(function (thisCourse) {
+        return typeof (thisCourse.clash) === 'undefined' || thisCourse.clash === false
+      })
+    }
+
+    // Iterate over courses
     for (var i in courses) {
+      // Remove classes from the course if the response should be brief
+      if (brief) {
+        delete courses[i].classes
+      }
+
+      // Note that this object is of type 'course'
       courses[i].type = 'course'
     }
+
+    // Iterate over instructors
     for (var j in instructors) {
+      // Convert the Mongoose object into a regular object
       instructors[j] = instructors[j].toObject()
+
+      // Note that this object is of type 'instructor'
       instructors[j].type = 'instructor'
     }
 

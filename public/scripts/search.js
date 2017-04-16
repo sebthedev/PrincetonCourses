@@ -28,6 +28,7 @@ var searchForCourses = function () {
   search += encodeURIComponent($('#searchbox').val())
   search += '?semester=' + $('#semester').val()
   search += '&sort=' + $('#sort').val()
+  search += '&detectClashes=' + ($('#filterclashes').is(':checked') ? 'filter' : 'true')
 
   window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
@@ -171,6 +172,9 @@ function newDOMcourseResult(course, props) {
       else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="NPDF" class="text-danger-dim">N</span>'
     }
     if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">A</span>'
+    if (course.hasOwnProperty('clash') && course.clash === true) {
+      tags += ' <span title="This course clashes with one or more of your favorite courses." class="label label-danger">CLASH</span>'
+    }
     if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
   }
 
