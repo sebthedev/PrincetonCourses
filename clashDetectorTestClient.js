@@ -13,12 +13,10 @@ var clashDetector = require('./courseClashDetector.js')
 // Greet the user
 console.log('Testing the Course Clash Detector')
 
-// Define an database query that will yield an array of courses to be used as the "Favorite Courses" list
-
 // Define an database query that will yield an array of courses that will be compared against the favorite courses for clashes
 const comparisonCoursesQuery = {
   catalogNumber: '201',
-  semester: 1182
+  semester: 1172
 }
 
 // Execute the database queries
@@ -54,10 +52,14 @@ Promise.all([userPromise, comparisonCoursesPromise]).then(function (results) {
   // Enquire about the clash status of the courses
   var clashDetectorResponse = clashDetector.detectCourseClash(favoriteCourses, courses)
 
-  console.log('Clash results:')
-  for (let courseIndex in clashDetectorResponse) {
-    let thisCourse = clashDetectorResponse[courseIndex]
-    console.log('\t' + thisCourse.commonName, thisCourse.semester.name, 'Clash:', thisCourse.clash)
+  if (clashDetectorResponse.status !== 'success') {
+    console.log(clashDetectorResponse.status)
+  } else {
+    console.log('Clash results:')
+    for (let courseIndex in clashDetectorResponse.courses) {
+      let thisCourse = clashDetectorResponse.courses[courseIndex]
+      console.log('\t' + thisCourse.commonName, thisCourse.semester.name, 'Clash:', thisCourse.clash)
+    }
   }
 
   process.exit(0)

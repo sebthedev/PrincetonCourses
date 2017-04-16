@@ -79,7 +79,10 @@ let detectCourseClash = function (favoriteCourses, courses) {
     }
 
     // Return the courses array
-    return courses
+    return {
+      status: 'success',
+      courses: courses
+    }
   }
 
   // since favorite courses exist, do initial clash detection within them
@@ -137,7 +140,10 @@ let detectCourseClash = function (favoriteCourses, courses) {
     for (let courseIndex in courses) {
       courses[courseIndex].clash = false
     }
-    return courses
+    return {
+      status: 'success',
+      courses: courses
+    }
   }
 
   let done = false
@@ -206,8 +212,10 @@ let detectCourseClash = function (favoriteCourses, courses) {
   // Check if there is no clash currently, if there is, return all courses, since clash will persist
   for (let i = 0; i < incFavCourseSections.length; i++) {
     if (incFavCourseSections[i].length <= 0) {
-      console.log('There is a clash within the favorites.')
-      return courses
+      return {
+        status: 'favoritesClash',
+        courses: courses
+      }
     }
   }
 
@@ -296,7 +304,10 @@ let detectCourseClash = function (favoriteCourses, courses) {
   }
 
   // Return the courses array with each course containing a new 'clash' property indicating whether the course clashes with any favorites
-  return courses
+  return {
+    status: 'success',
+    courses: courses
+  }
 }
 
 // Export the detectCourseClash method to clients
