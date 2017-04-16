@@ -137,13 +137,8 @@ courseSchema.index({
     department: 10,
     catalogNumber: 10,
     distribution: 10,
-<<<<<<< HEAD:course.js
-    'crosslistings.department': 8,
-    'crosslistings.catalogNumber': 3
-=======
     'crosslistings.department': 15,
     'crosslistings.catalogNumber': 8
->>>>>>> master:models/course.js
   },
   name: 'CourseRelevance',
   language: 'none'
