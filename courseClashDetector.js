@@ -69,7 +69,15 @@ let detectSectionClash = function (section1, section2) {
 }
 
 // For each of the courses in 'courses', determine whether there is any possible schedule for all of the favoriteCourses such that it is possible to take thisCourse. Return an array of courses with the clash boolean field set on each course.
-let detectCourseClash = function (favoriteCourses, courses) {
+let detectCourseClash = function (favoriteCourses, courses, semester) {
+  // Validate inputs
+  if (typeof (semester) !== 'number') {
+    return {
+      status: 'semester must be a number',
+      courses: courses
+    }
+  }
+
   // Check the number of favorite courses
   // If no courses are favorited then no clashes can exist
   if (favoriteCourses.length === 0) {
@@ -97,6 +105,12 @@ let detectCourseClash = function (favoriteCourses, courses) {
   // for (let currentCourse = 0; currentCourse < favoriteCourses.length; currentCourse++) {
   for (let favoriteCourseIndex in favoriteCourses) {
     let thisFavoriteCourse = favoriteCourses[favoriteCourseIndex]
+
+    // Ignore courses from other semesters
+    if (thisFavoriteCourse.semester._id !== semester) {
+      console.log('Skipping over course', thisFavoriteCourse.commonName, 'because it is in semester', thisFavoriteCourse.semester._id)
+      continue
+    }
 
     // each course has new, independent sections
     let prevSectionType = ''

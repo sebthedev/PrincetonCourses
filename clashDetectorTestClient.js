@@ -16,7 +16,7 @@ console.log('Testing the Course Clash Detector')
 // Define an database query that will yield an array of courses that will be compared against the favorite courses for clashes
 const comparisonCoursesQuery = {
   catalogNumber: '201',
-  semester: 1172
+  semester: 1182
 }
 
 // Execute the database queries
@@ -50,7 +50,7 @@ Promise.all([userPromise, comparisonCoursesPromise]).then(function (results) {
   }
 
   // Enquire about the clash status of the courses
-  var clashDetectorResponse = clashDetector.detectCourseClash(favoriteCourses, courses)
+  var clashDetectorResponse = clashDetector.detectCourseClash(favoriteCourses, courses, 1182)
 
   if (clashDetectorResponse.status !== 'success') {
     console.log(clashDetectorResponse.status)
