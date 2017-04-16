@@ -101,6 +101,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
   let favCourseSectionsInc = [] // holds whether a section can exist in a non-clash schedule
   let maxLength = [] // lengths of nested arrays in favCourseSectionsAll
   let sectionIndex = [] // index to be used when looking at possible schedules
+  let favoriteCourseIDs = []
 
   // for (let currentCourse = 0; currentCourse < favoriteCourses.length; currentCourse++) {
   for (let favoriteCourseIndex in favoriteCourses) {
@@ -111,6 +112,9 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
       console.log('Skipping over course', thisFavoriteCourse.commonName, 'because it is in semester', thisFavoriteCourse.semester._id)
       continue
     }
+
+    // Append this courses' ID to favoriteCourseIDs
+    favoriteCourseIDs.push(thisFavoriteCourse._id)
 
     // each course has new, independent sections
     let prevSectionType = ''
@@ -236,6 +240,12 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
   // now that the original subgraph has been made, run clash on all courses from search results
   for (let courseIndex = 0; courseIndex < courses.length; courseIndex++) {
     let thisCourse = courses[courseIndex]
+
+    // If this course is in the favorites list then skip over it
+    if (favoriteCourseIDs.includes(thisCourse._id)) {
+      courses[courseIndex].clash = false
+      continue
+    }
 
     // each course has new, independent sections
     let currentCourseSectionsAll = []
