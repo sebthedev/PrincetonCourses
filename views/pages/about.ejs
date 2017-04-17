@@ -2,15 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <script src="/scripts/resizable.js"></script>
-  <script src="/scripts/navbar.js"></script>
-  <script src="/scripts/module.js"></script>
-  <script src="/scripts/eval.js"></script>
-  <script src="/scripts/fav.js"></script>
-  <script src="/scripts/display.js"></script>
-  <script src="/scripts/search.js"></script>
-  <script src="/scripts/suggest.js"></script>
-  <script src="/scripts/app.js"></script>
+  <script src="/scripts/about.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/about.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
@@ -22,9 +14,8 @@
   <div id="full-page" class="flex-item-rigid">
     <nav id="menu-bar" class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/app">Princeton Courses <sup>beta</sup></a>
+        <a class="navbar-brand" href="/#">Princeton Courses <sup>beta</sup></a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-          <!-- <span class="sr-only">Toggle navigation</span> -->
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -32,12 +23,12 @@
       </div>
       <div class="collapse navbar-collapse" id="navigationbar">
         <ul class="nav navbar-nav">
-          <li><a href="/app">Course Search</a></li>
+          <li><a href="/#">Course Search</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle"><a href="#">About</a></li>
-          <li id="netid"><a href="#"><%= netid %></a></li>
+          <li id="about-toggle" class="active"><a href="#">About</a></li>
+          <!-- <li id="netid"><a href="#"><%= netid %></a></li> -->
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
       </div>
@@ -61,9 +52,9 @@
         </div>
 
         <div class="row text-center col-md-12">
-            <br></br>
-            <h2>Meet Our Team</h2>
-            <h3 class="caption gray subtitle"> On Front End </h3>
+          <br></br>
+          <h2>Meet Our Team</h2>
+          <h3 class="caption gray subtitle"> On Front End </h3>
         </div>
 
         <div class="row text-center">
@@ -72,10 +63,10 @@
               <figure>
                 <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/12494916_10201931491844820_4380261856249089998_n.jpg?oh=9a31f2a6598a78a7b83e5793e9a9d7a1&oe=5951C198" alt="" class="img-responsive prof-pic">
                 <figcaption>
-                  <p>I'm Mel, and front end is my one and only friend.</p>
+                  <p>I'm Mel!</p>
                   <ul>
                     <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                    <li><a href="https://au.linkedin.com/in/melshu"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://au.linkedin.com/in/melshu" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
@@ -90,8 +81,8 @@
                 <figcaption>
                   <p> Hello! I'm from Turkey. I draw, play the violin, and sing a cappella. My blood/coffee concentration is approximately 50%.</p>
                   <ul>
-                    <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/bensusicim"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://www.instagram.com/bensusicim/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/bensusicim" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
@@ -106,8 +97,8 @@
                 <figcaption>
                   <p>Valar Morghulis.</p>
                   <ul>
-                    <li><a href="https://www.instagram.com/kare_bear_/"><i class="fa fa-instagram fa-2x"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/kara-bressler-77bb3a128"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://www.instagram.com/kare_bear_/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/kara-bressler-77bb3a128" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
@@ -132,9 +123,9 @@
                   <figcaption>
                     <p>I'm from New Zealand. I do improv comedy and quite enjoy eating pasta.</p>
                     <ul>
-                      <li><a href="https://www.twitter.com/sebthedev"><i class="fa fa-twitter fa-2x"></i></a></li>
-                      <li><a href="http://www.zibity.com"><i class="fa fa-home fa-2x"></i></a></li>
-                      <li><a href="https://www.linkedin.com/in/sebthedev"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                      <li><a href="https://www.twitter.com/sebthedev" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
+                      <li><a href="http://www.zibity.com" target="_blank"><i class="fa fa-home fa-2x"></i></a></li>
+                      <li><a href="https://www.linkedin.com/in/sebthedev" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                     </ul>
                   </figcaption>
                 </figure>
@@ -149,8 +140,7 @@
                   <figcaption>
                     <p> Hey guys, I'm Cat. </p>
                     <ul>
-                      <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                      <li><a href="https://www.linkedin.com/in/caterina-golner-359775113"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                      <li><a href="https://www.linkedin.com/in/caterina-golner-359775113" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                     </ul>
                   </figcaption>
                 </figure>
@@ -162,9 +152,8 @@
           </div>
 
           <div class="row text-center col-md-12">
-              <br></br>
+            <br></br>
           </div>
-
         </div>
       </div>
     </section>
@@ -187,6 +176,7 @@
   <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">
     <button type="button" class="close" data-dismiss="alert" aria-label="close" onclick="saveUpdatePopupState()">&times;</button>
     <strong>Update:</strong>
+  </div>
   </body>
 
 </html>
