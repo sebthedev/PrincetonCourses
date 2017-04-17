@@ -73,14 +73,6 @@
     display: none;
   }
 
-  #main-pane, #display-body {
-    /* flex-container-row*/
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: stretch;
-    overflow: hidden;
-  }
-
   #suggest-pane {
     max-width: 200px;
     width: 200px;
@@ -155,10 +147,20 @@
 
 /* THINGS FOR SLICK CAROUSEL */
 .slick-list {
-  height: 100%;
+  /* flex-container-row */
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
 }
 .slick-track {
-  height: 100%;
+  /* flex-container-row */
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+}
+.slick-slide {
+  /* so that height is stretched (safari) */
+  height: auto;
 }
 /* override */
 .flex-container-col.slick-slide {
