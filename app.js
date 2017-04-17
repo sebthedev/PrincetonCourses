@@ -71,7 +71,7 @@ app.get('/course/:id', function (req, res) {
 // Route a request for the about page
 app.get('/about', function (req, res) {
   res.render('pages/about', {
-    netid: app.get('user')._id,
+    // netid: app.get('user')._id,
     environment: process.env.NODE_ENV
   })
 })
