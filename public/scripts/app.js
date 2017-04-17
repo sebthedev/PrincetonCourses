@@ -160,13 +160,13 @@ var init_favorites = function() {
 var init_feedback = function() {
   // submission
   $('#feedback-form').submit(function() {
-    if ($('#feedback-text').val().length > 0) 
+    if ($('#feedback-text').val().length > 0)
     {
       var submitURL = ''
       submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
       submitURL += 'entry.1257302391=' + document.netid
       submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-  
+
       $(this)[0].action = submitURL
       $('#feedback-submit').text('Thank You!')
       $('#feedback-submit').addClass('disabled')
@@ -286,7 +286,4 @@ var init_layout = function() {
   $('#menu-back').click(function() {
     window.history.back();
   })
-
-  // show page
-  $('body').css('display', '')
 }

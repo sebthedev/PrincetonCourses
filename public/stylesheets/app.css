@@ -7,7 +7,7 @@
 @media (max-width: 767px) {
   #menu-header {
     /* flex-container-row */
-    display: flex !important;
+    display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
     overflow: hidden;
@@ -161,7 +161,7 @@
   /* so that height is stretched (safari) */
   height: auto;
 }
-/* override */
+/* override (for flex in display-body) */
 .flex-container-col.slick-slide {
   display: flex;
 }
