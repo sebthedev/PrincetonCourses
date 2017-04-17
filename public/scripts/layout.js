@@ -9,6 +9,13 @@ function layout_initial() {
   $('#disp-title-right').text('')
   $('#disp-subtitle').text('Search to begin!')
   $('#disp-subtitle-right').text('')
+
+  // hide nav in mobile
+  if (document.isMobile) window.scrollTo(0, 1)
+
+  $(document).on('click', function() {
+    if (document.isMobile) window.scrollTo(0, 1)
+  })
 }
 
 // handles refreshing of layout after resizing
