@@ -164,47 +164,47 @@ body {
 }
 
 /* WELCOME PANE CSS */
-
 #display-welcome {
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding:10px 0 10px 0;
 }
-
 #welcome {
-  /*padding:10px;*/
-  display:flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
   text-align: center;
-  overflow:hidden;
 }
 
 #welcome>#image {
-  margin:10px;
+  margin:20px 0 10px 0;
 }
 #welcome>#image>img {
   opacity: 0.8;
 }
 #welcome-header>h2 {
-  margin:10px;
+  margin:10px 0 0px 0;
 }
 
 #welcome-header {
-  width:100%;
+  /*width:100%;*/
   margin: 0 0 50px 0;
 }
-
+#tip-items {
+  display:flex;
+  flex-wrap: wrap;
+}
 .tip-item {
   padding:10px;
-  align-items: center;
-  margin: 5px;
+  margin: auto;
+  width:95%;
+  height:100%;
   background-color: #F5F5F5;
-  min-width:200px;
-  max-width:250px;
   transition: linear 0.2s;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  text-align:middle;
 }
 
 .tip-item>.title {
@@ -212,20 +212,21 @@ body {
   padding:2px;
 }
 
-.tip-item>.icon-container{
-  display:flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.icon-container{
   vertical-align: middle;
+  text-align: center;
+  margin:auto;
   border-radius: 50%;
   width: 75px;
   height: 75px; 
   background-color: #92D4E3;
   color: #fff;
   font-size:3em;
-  margin:10px 0 0 0;
+  margin-top:10px;
   transition: linear 0.2s;
+}
+.icon-container>i{
+  vertical-align: middle;
 }
 
 .tip-item:hover {
