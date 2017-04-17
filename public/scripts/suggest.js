@@ -23,7 +23,8 @@ const pdfoptions = {
   'PDF': 'P/D/F available',
   'PDFO': 'P/D/F only',
   'NPDF': 'No P/D/F',
-  'AUDIT': 'Audit available'
+  'AUDIT': 'Audit available',
+  'NEW': 'New Course'
 }
 
 // departments
