@@ -2,7 +2,6 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <script src="/scripts/resizable.js"></script>
   <script src="/scripts/about.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/about.css" type="text/css">
@@ -28,7 +27,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle" class="active" href="/#"><a href="#">About</a></li>
+          <li id="about-toggle" class="active" href="/#"><a href="/#">About</a></li>
           <li id="netid"><a href="#"><%= netid %></a></li>
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>

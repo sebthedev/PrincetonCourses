@@ -1,5 +1,3 @@
-// dependencies: resizable.js
-
 // initialization
 $(document).ready(function() {
   init_globals();
