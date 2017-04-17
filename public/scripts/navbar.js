@@ -10,8 +10,15 @@ function toggleNavbar(element) {
 var toggleFeedback = function() {
   // update navbar
   var isActive = $('#feedback-toggle').hasClass("active")
-  if (isActive) $('#feedback-toggle').removeClass("active")
-  else $('#feedback-toggle').addClass("active")
+  if (isActive) 
+  {
+    $('#feedback-toggle').removeClass("active");
+  }
+  else 
+  {  
+    $('#feedback-toggle').addClass("active");
+    $('#feedback-form').removeAttr("onkeypress");
+  }
 
   // animate
   $('#feedback-container').slideToggle(function() {
