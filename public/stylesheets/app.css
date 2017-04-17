@@ -35,7 +35,8 @@
   #suggest-pane, #search-pane,
   #display-pane, #evals-pane, #info-pane {
     width: 100vw !important;
-    height: 100%;
+    height: inherit;
+    /*height: 100%;*/
   }
 
   #search-searchbox-form {
