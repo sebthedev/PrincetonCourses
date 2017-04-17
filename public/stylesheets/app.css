@@ -35,6 +35,7 @@
   #suggest-pane, #search-pane,
   #display-pane, #evals-pane, #info-pane {
     width: 100vw !important;
+    height: inherit;
     height: 100%;
   }
 
@@ -478,7 +479,7 @@ body {
 
 /* DISPLAY HEADER CSS */
 #display-initial {
-  overflow-y: auto;
+  overflow-y: scroll !important;
 }
 
 #display-header {
@@ -492,7 +493,7 @@ body {
 #info-pane {
   background-color: #ddd;
   padding: 5px 10px 0px;
-  overflow-y: auto;
+  overflow-y: scroll !important;
 }
 
 .info-list-item {
@@ -502,7 +503,7 @@ body {
 /* EVALS PANE CSS */
 #evals-pane {
   padding: 5px 10px 0px;
-  overflow-y: auto;
+  overflow-y: scroll !important;
   background-color: #fff;
 }
 
@@ -535,7 +536,7 @@ body {
 #suggest-pane {
   background-color: #ccc;
   padding: 5px 10px 0px;
-  overflow-y: auto;
+  overflow-y: scroll !important;
 }
 
 .suggest-result {
