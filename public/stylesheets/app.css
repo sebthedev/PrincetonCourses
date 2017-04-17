@@ -167,17 +167,21 @@ body {
 #display-welcome {
   overflow-y: auto;
   overflow-x: hidden;
+  height:100%;
+  display: table;
   padding:10px 0 10px 0;
 }
 #welcome {
-  align-items: center;
-  justify-content: center;
+  display: table-cell;
   vertical-align: middle;
+  justify-content: center;
   text-align: center;
+  /*width:98%;*/
+  margin: auto;
 }
 
 #welcome>#image {
-  margin:20px 0 10px 0;
+  margin:10px 0 10px 0;
 }
 #welcome>#image>img {
   opacity: 0.8;
@@ -194,6 +198,7 @@ body {
   display:flex;
   flex-wrap: wrap;
 }
+
 .tip-item {
   padding:10px;
   margin: auto;
