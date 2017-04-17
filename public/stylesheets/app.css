@@ -5,6 +5,9 @@
 
 /* MOBILE OVERRIDES */
 @media (max-width: 767px) {
+  body, html {
+    position: fixed;
+  }
   #menu-header {
     /* flex-container-row */
     display: flex;
