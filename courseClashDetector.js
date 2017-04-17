@@ -109,7 +109,6 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
 
     // Ignore courses from other semesters
     if (thisFavoriteCourse.semester._id !== semester) {
-      console.log('Skipping over course', thisFavoriteCourse.commonName, 'because it is in semester', thisFavoriteCourse.semester._id)
       continue
     }
 
@@ -256,8 +255,8 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     let maxLengthIndex = 0
     let courseSections = []
 
-    for (let currentClass = 0; currentClass < thisCourse.classes.length; currentClass++) {
-      let currentSection = thisCourse.classes[currentClass]
+    for (let currentClassIndex in thisCourse.classes) {
+      let currentSection = thisCourse.classes[currentClassIndex]
       if (prevSectionType !== '' && currentSection.section != null) {
         // new section type within a course, push previous information into arrays
         if (prevSectionType !== currentSection.section.charAt(0)) {
