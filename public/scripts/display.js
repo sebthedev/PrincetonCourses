@@ -45,8 +45,9 @@ var displayCourseDetails = function(courseId) {
   $('#info-pane').scrollTop(0)
 
   // make sure it can be seen
-  $('#display-body').css('display', '')
-  $('#display-welcome').css('display', 'none')
+  $('#display-body').show()
+  $("#display-pane").css('overflow-y', 'hidden')
+  $('#display-welcome').hide()
 }
 
 // mark all corresponding courses as active
