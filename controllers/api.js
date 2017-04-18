@@ -288,9 +288,6 @@ router.get('/search/:query', function (req, res) {
       return b.scores['Overall Quality of the Course'] - a.scores['Overall Quality of the Course']
     })
 
-    // Insert the query as a response header
-    res.set('PC-Query', req.params.query)
-
     // Send the result to the client
     res.set('Cache-Control', 'public, max-age=28800').json(combinedResult)
   }).catch(reason => {

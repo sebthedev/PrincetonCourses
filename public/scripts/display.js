@@ -182,8 +182,8 @@ var display_readings = function(course) {
 
 // returns a DOM object for a reading of the displayed course
 var newDOMreadingListing = function(reading) {
-  var author = reading.author
-  var title = reading.title
+  var author = reading.author || ''
+  var title = reading.title || ''
 
   var librarySearchURL = 'https://pulsearch.princeton.edu/catalog?f1=title&op1=OR&q1=' + encodeURIComponent(title) + '&f2=author&op2=OR&q2=' + encodeURIComponent(author) + '&search_field=advanced&commit=Search'
 
