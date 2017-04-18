@@ -286,5 +286,11 @@ var init_layout = function() {
 
   $('#menu-back').click(function() {
     window.history.back();
+    $('#menu-back').blur()
+    )
+  })
+
+  $('#menu-collapse').click(function() {
+    $('#menu-collapse').blur()
   })
 }
