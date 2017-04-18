@@ -349,7 +349,7 @@ body {
   vertical-align: middle;
   justify-content: center;
   text-align: center;
-  /*width:98%;*/
+  max-width: 100vw;
   margin: auto;
 }
 
