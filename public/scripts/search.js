@@ -11,6 +11,8 @@ var getSearchQueryURL = function () {
     parameters.push('sort=' + $('#sort').val())
   }
   return '?' + parameters.join('&')
+
+  // search += '&track=' + 'UGRD'
 }
 
 // update search results from the search box
@@ -36,6 +38,7 @@ var searchForCourses = function (query, semester, sort) {
   var search = '/api/search/' + query
   search += '?semester=' + semester
   search += '&sort=' + sort
+  // search += '&track=' + 'UGRD'
 
   // display search
   $('#searchbox').val(query)

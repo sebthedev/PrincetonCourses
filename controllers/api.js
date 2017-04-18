@@ -67,19 +67,26 @@ router.get('/search/:query', function (req, res) {
 
     // Check for distribution areas, pdf status, and wildcards
     if (distributionAreas.indexOf(thisQueryWord) > -1) {
-      courseQuery.distribution = thisQueryWord
+      if (!courseQuery.hasOwnProperty('distribution')) {
+        courseQuery.distribution = {
+          '$in': []
+        }
+      }
+      courseQuery.distribution['$in'].push(thisQueryWord)
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
     } else if (thisQueryWord === 'NPDF') {
       courseQuery['pdf.permitted'] = false
     } else if (thisQueryWord === 'PDFO') {
       courseQuery['pdf.required'] = true
+    } else if (thisQueryWord === 'NEW') {
+      courseQuery['new'] = true
     } else if (thisQueryWord === 'AUDIT') {
       courseQuery['audit'] = true
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])
-    } else if (thisQueryWord !== '*') {
+    } else if (thisQueryWord !== '*' && thisQueryWord.length > 0) {
       newQueryWords.push(thisQueryWord)
     }
   }
@@ -111,6 +118,15 @@ router.get('/search/:query', function (req, res) {
   // Filter courses by semester
   if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
     courseQuery.semester = req.query.semester
+  }
+
+  // Filter courses by track (Graduate / Undergraduate courses)
+  if (typeof (req.query.track) !== 'undefined') {
+    if (req.query.track === 'GRAD') {
+      courseQuery.track = 'GRAD'
+    } else if (req.query.track === 'UGRD') {
+      courseQuery.track = 'UGRD'
+    }
   }
 
   // Remove in-depth course information if the client requests "brief" results
