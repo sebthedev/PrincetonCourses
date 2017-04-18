@@ -60,7 +60,6 @@ var displayCourseDetails = function(courseId) {
 
       // go to display pane for mobile
       if (document.isMobile && $('#main-pane').slick('slickCurrentSlide') !== 2) {
-        console.log('iamhere')
         $('#main-pane').slick('slickGoTo', 2)
         $('#display-body').slick('slickGoTo', 1)
       }
