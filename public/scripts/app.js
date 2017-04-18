@@ -4,6 +4,7 @@
 $(document).ready(function() {
 
   /* init_load(); MEL: now loads after semesters have been loaded in init_search */
+  init_layout();
   init_panes();
   init_searchpane();
   init_search();
@@ -15,8 +16,6 @@ $(document).ready(function() {
   init_logout();
   init_suggest();
   init_updates();
-
-  init_layout();
 })
 
 // loads course from url

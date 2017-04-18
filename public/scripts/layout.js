@@ -36,8 +36,8 @@ function layout_refresh() {
 // set up mobile layout
 function layout_mobile() {
   /* set up slick */
-  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
   $('#main-pane').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
+  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
 
   $('#display-body').on('edge', function(event, slick, direction) {
     if (direction === 'right') $('#main-pane').slick('slickPrev')
