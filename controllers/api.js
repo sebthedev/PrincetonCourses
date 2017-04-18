@@ -206,7 +206,8 @@ router.get('/search/:query', function (req, res) {
       // Check whether all of the query words are in the courseDetailsConcatenation
       let passingWords = 0
       newQueryWords.forEach(function (queryWord) {
-        if (courseDetailsConcatenation.indexOf(queryWord) > -1) {
+        let re = new RegExp('\\b' + queryWord)
+        if (re.test(courseDetailsConcatenation)) {
           passingWords++
         }
       })
