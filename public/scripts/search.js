@@ -40,11 +40,6 @@ var searchForCourses = function () {
       return false
     }
 
-    // Discard the result if it is for a search query other than the current search query
-    if (xhr.getResponseHeader('PC-Query') !== $('#searchbox').val()) {
-      return
-    }
-
     // Remove any search results already in the results pane
     $('#results').children().remove()
 
