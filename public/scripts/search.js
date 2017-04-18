@@ -53,13 +53,11 @@ var searchForCourses = function (query, semester, sort, noswipe) {
     return false
   }
 
-  // don't search if it's the same!
-  if (document.lastSearch === search) {
-    // go to search pane for mobile
-    if (document.isMobile && noswipe !== true) $('#main-pane').slick('slickGoTo', 1)
+  // go to search pane for mobile
+  if (document.isMobile && noswipe !== true) $('#main-pane').slick('slickGoTo', 1)
 
-    return;
-  }
+  // don't search if it's the same!
+  if (document.lastSearch === search) return;
   document.lastSearch = search
 
   // search!
@@ -90,9 +88,6 @@ var searchForCourses = function (query, semester, sort, noswipe) {
         $('#results').append(newDOMResult(result, {"tags": 1}))
       }
     }
-    
-    // go to search pane for mobile
-    if (document.isMobile && noswipe !== true) $('#main-pane').slick('slickGoTo', 1)
 
     displayActive() // update highlighting of active course
   })
