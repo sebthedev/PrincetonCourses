@@ -9,11 +9,13 @@ window.onpopstate = function (event) {
   // save stack size
   document.history_id = event.state._id
 
+  // keep track of swiping
+  var disp_noswipe = (event.state && event.state.hasOwnProperty('courseId') && event.state.courseId === '')
+  var search_noswipe = (event.state && event.state.hasOwnProperty('courseId') && event.state.courseId !== '')
+
   // load content as required
-  var noswipe = false // to monitor swiping
   if (event.state && event.state.hasOwnProperty('courseId')) {
-    displayCourseDetails(event.state.courseId)
-    if (event.state.courseId !== '') noswipe = true
+    displayCourseDetails(event.state.courseId, disp_noswipe)
   } else if (event.state && !event.state.hasOwnProperty('courseId')) {
     // skip search-only history if in desktop
     if (!document.isMobile) {
@@ -25,7 +27,7 @@ window.onpopstate = function (event) {
   if (event.state && event.state.hasOwnProperty('searchQuery')) {
     var parameters = parseSearchParameters(event.state.searchQuery)
     // perform search
-    searchForCourses(parameters.search, parameters.semester, parameters.sort, noswipe)
+    searchForCourses(parameters.search, parameters.semester, parameters.sort, search_noswipe)
   }
 
   // handle mobile back button

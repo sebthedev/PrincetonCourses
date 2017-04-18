@@ -14,7 +14,8 @@ var displayResult = function() {
 }
 
 // function for displaying course details
-var displayCourseDetails = function(courseId) {
+// -- noswipe to prevent swiping if on mobile
+var displayCourseDetails = function(courseId, noswipe) {
   // return to default view if undefined
   if (courseId === '') {
     document.courseId = undefined;
@@ -59,7 +60,7 @@ var displayCourseDetails = function(courseId) {
       layout_initial_hide()
 
       // go to display pane for mobile
-      if (document.isMobile && $('#main-pane').slick('slickCurrentSlide') !== 2) {
+      if (document.isMobile && $('#main-pane').slick('slickCurrentSlide') !== 2 && noswipe !== true) {
         $('#main-pane').slick('slickGoTo', 2)
         /* $('#display-body').slick('slickGoTo', 1) */
       }
