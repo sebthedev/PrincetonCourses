@@ -44,22 +44,22 @@ router.delete('*', function (req, res, next) {
 
 // Intelligent searching for both courses and instructors
 router.get('/search/:query', function (req, res) {
-    // Validate that the request is correct
+  // Validate that the request contains a query
   if (typeof (req.params.query) === 'undefined') {
     res.sendStatus(400)
     return
   }
 
   // Initialise the queries and projections for the courses and instructors searches
-  var courseQuery = {}
-  var courseProjection = {}
-  var instructorQuery = {}
-  var instructorProjection = {}
+  let courseQuery = {}
+  let courseProjection = {}
+  let instructorQuery = {}
+  let instructorProjection = {}
 
-  // Permit explicit filtering based on keywords
-  var queryWords = req.params.query.split(' ')
-  const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
+  // Perform filtering based on explicit keywords
+  let queryWords = req.params.query.split(' ')
   var newQueryWords = []
+  const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
   const courseDeptNumberRegexp = /([A-Z]{3})(\d{1,3})/
   for (var queryWordsIndex in queryWords) {
     var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
@@ -91,33 +91,44 @@ router.get('/search/:query', function (req, res) {
     }
   }
 
-  // Build the database queries and projections
+  // Build the database queries and projections for searching for courses and instructors
   if (newQueryWords.length > 0) {
-    var searchQuery = newQueryWords.join(' ')
+    // Prepend each query word with the regex word boundary token so that searching matches only the beginning of words
+    let prependedNewQueryWords = newQueryWords.map(function (word) {
+      return '\\b' + word
+    })
 
-    // Basic query that performs a full-text-search with the search string
-    const initialQuery = {
-      $text: {
-        $search: searchQuery
-      }
+    // Construct a query that performs a regex-based search looking for courses that contain at least one of the query words in at least one of the search fields
+    const queryRegex = new RegExp(prependedNewQueryWords.join('|'), 'i')
+    const courseTextSearchQuery = {
+      $or: [
+        {'title': queryRegex},
+        {'department': queryRegex},
+        {'catalogNumber': queryRegex},
+        {'crosslistings.department': queryRegex},
+        {'crosslistings.catalogNumber': queryRegex}
+      ]
     }
 
-    // The basic projection that inserts the document's relevance into each returned document
-    const initialProjection = {
+    // Insert the courseTextSearchQuery into the main courseQuery object
+    Object.assign(courseQuery, courseTextSearchQuery)
+
+    // Insert the MongoDB full-text search query and projections into the instructor query and projectio
+    Object.assign(instructorQuery, {
+      $text: {
+        $search: newQueryWords.join(' ')
+      }
+    })
+    Object.assign(instructorProjection, {
       relevance: {
         $meta: 'textScore'
       }
-    }
-
-    Object.assign(instructorQuery, initialQuery)
-    Object.assign(courseQuery, initialQuery)
-    Object.assign(instructorProjection, initialProjection)
-    Object.assign(courseProjection, initialProjection)
+    })
   }
 
   // Filter courses by semester
   if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
-    courseQuery.semester = req.query.semester
+    courseQuery.semester = parseInt(req.query.semester)
   }
 
   // Filter courses by track (Graduate / Undergraduate courses)
@@ -171,40 +182,73 @@ router.get('/search/:query', function (req, res) {
       instructors = []
     }
 
-    // Perform and-based filtering on the courses returned from the database
-    var filteredCourses = []
+    // Filter returned courses to include only the courses that include all of the query terms
     // Define the properties in which all of the query terms must occur
     const filteringProperties = ['title', 'department', 'catalogNumber']
-    for (let courseIndex in courses) {
-      let thisCourse = courses[courseIndex].toObject()
+    courses = courses.filter(function (thisCourse) {
+      thisCourse = thisCourse.toObject()
 
       // Concatenate the course's relevant filtering properties into a single string
       let courseDetailsConcatenation = []
-      for (let filteringPropertyIndex in filteringProperties) {
-        if (thisCourse.hasOwnProperty(filteringProperties[filteringPropertyIndex])) {
-          courseDetailsConcatenation.push(thisCourse[filteringProperties[filteringPropertyIndex]])
+      filteringProperties.forEach(function (filteringProperty) {
+        if (thisCourse.hasOwnProperty(filteringProperty)) {
+          courseDetailsConcatenation.push(thisCourse[filteringProperty])
         }
-      }
+      })
       if (thisCourse.hasOwnProperty('crosslistings')) {
-        for (let crosslistingIndex in thisCourse.crosslistings) {
-          courseDetailsConcatenation.push(thisCourse.crosslistings[crosslistingIndex].department)
-          courseDetailsConcatenation.push(thisCourse.crosslistings[crosslistingIndex].catalogNumber)
-        }
+        thisCourse.crosslistings.forEach(function (crosslisting) {
+          courseDetailsConcatenation.push(crosslisting.department)
+          courseDetailsConcatenation.push(crosslisting.catalogNumber)
+        })
       }
       courseDetailsConcatenation = courseDetailsConcatenation.join(' ').toUpperCase()
 
       // Check whether all of the query words are in the courseDetailsConcatenation
       let passingWords = 0
-      for (let thisQueryWordIndex in newQueryWords) {
-        if (courseDetailsConcatenation.indexOf(newQueryWords[thisQueryWordIndex]) > -1) {
+      newQueryWords.forEach(function (queryWord) {
+        if (courseDetailsConcatenation.indexOf(queryWord) > -1) {
           passingWords++
         }
+      })
+      return passingWords === newQueryWords.length
+    })
+
+    // Determine the relevance of each course to the entered query
+    const scoringProperties = [
+      {
+        property: 'title',
+        weight: 10
+      },
+      {
+        property: 'department',
+        weight: 20
+      },
+      {
+        property: 'catalogNumber',
+        weight: 10
+      },
+      {
+        property: 'crosslisting.department',
+        weight: 15
+      },
+      {
+        property: 'crosslisting.catalogNumber',
+        weight: 10
       }
-      if (passingWords === newQueryWords.length) {
-        filteredCourses.push(thisCourse)
-      }
-    }
-    courses = filteredCourses
+    ]
+    courses.forEach(function (course, index) {
+      courses[index].relevance = 0
+      scoringProperties.forEach(function (scoringProperty) {
+        newQueryWords.forEach(function (queryWord) {
+          if (course.hasOwnProperty(scoringProperty.property)) {
+            let matches = course[scoringProperty.property].match(new RegExp('\\b' + queryWord, 'i'))
+            if (matches != null) {
+              courses[index].relevance += matches.length * scoringProperty.weight
+            }
+          }
+        })
+      })
+    })
 
     // Insert into the course or instructor object its type
     for (var i in courses) {
