@@ -86,7 +86,7 @@ router.get('/search/:query', function (req, res) {
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])
-    } else if (thisQueryWord !== '*') {
+    } else if (thisQueryWord !== '*' && thisQueryWord.length > 0) {
       newQueryWords.push(thisQueryWord)
     }
   }
