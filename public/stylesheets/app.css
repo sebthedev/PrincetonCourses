@@ -13,7 +13,7 @@
 
 /* BOOTSTRAP OVERRIDES */
 body {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 .badge-large {
