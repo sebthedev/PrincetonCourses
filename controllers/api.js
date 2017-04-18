@@ -218,30 +218,22 @@ router.get('/search/:query', function (req, res) {
     const scoringProperties = [
       {
         property: 'title',
-        weight: 10
+        weight: 1
       },
       {
         property: 'department',
-        weight: 20
+        weight: 2
       },
       {
         property: 'catalogNumber',
-        weight: 10
-      },
-      {
-        property: 'crosslisting.department',
-        weight: 15
-      },
-      {
-        property: 'crosslisting.catalogNumber',
-        weight: 10
+        weight: 1.5
       }
     ]
     courses.forEach(function (course, index) {
       courses[index].relevance = 0
       scoringProperties.forEach(function (scoringProperty) {
         newQueryWords.forEach(function (queryWord) {
-          if (course.hasOwnProperty(scoringProperty.property)) {
+          if (typeof (course[scoringProperty.property]) !== 'undefined') {
             let matches = course[scoringProperty.property].match(new RegExp('\\b' + queryWord, 'i'))
             if (matches != null) {
               courses[index].relevance += matches.length * scoringProperty.weight
@@ -284,12 +276,11 @@ router.get('/search/:query', function (req, res) {
       }
 
       // Then sort by course rating
-
       // If the course lacks a score it is lower than a course that has a score
-      if (!a.hasOwnProperty('scores') || !a.scores.hasOwnProperty('Overall Quality of the Course')) {
+      if (typeof (a.scores) === 'undefined' || typeof (a.scores['Overall Quality of the Course']) === 'undefined') {
         return 1
       }
-      if (!b.hasOwnProperty('scores') || !b.scores.hasOwnProperty('Overall Quality of the Course')) {
+      if (typeof (b.scores) === 'undefined' || typeof (b.scores['Overall Quality of the Course']) === 'undefined') {
         return -1
       }
 
