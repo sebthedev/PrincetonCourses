@@ -13,7 +13,7 @@ window.onpopstate = function (event) {
   var noswipe = false // to monitor swiping
   if (event.state && event.state.hasOwnProperty('courseId')) {
     displayCourseDetails(event.state.courseId)
-    noswipe = true
+    if (event.state.courseId !== '') noswipe = true
   } else if (event.state && !event.state.hasOwnProperty('courseId')) {
     // skip search-only history if in desktop
     if (!document.isMobile) {
