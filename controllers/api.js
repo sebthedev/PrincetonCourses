@@ -67,7 +67,12 @@ router.get('/search/:query', function (req, res) {
 
     // Check for distribution areas, pdf status, and wildcards
     if (distributionAreas.indexOf(thisQueryWord) > -1) {
-      courseQuery.distribution = thisQueryWord
+      if (!courseQuery.hasOwnProperty('distribution')) {
+        courseQuery.distribution = {
+          '$in': []
+        }
+      }
+      courseQuery.distribution['$in'].push(thisQueryWord)
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
     } else if (thisQueryWord === 'NPDF') {
