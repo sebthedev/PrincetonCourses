@@ -40,7 +40,8 @@ courseModel.find({
       }
     }, {
       'scores.Overall Quality of the Course': 1,
-      courseID: 1
+      courseID: 1,
+      'semester': 1
     }).sort({_id: -1}).limit(1).exec())
 
     // Find the most recent Overall Quality of the Course score taught by this instructor
@@ -58,7 +59,8 @@ courseModel.find({
         instructors: course.instructors[0]._id
       }, {
         'scores.Overall Quality of the Course': 1,
-        courseID: 1
+        courseID: 1,
+        'semester': 1
       }).sort({_id: -1}).limit(1).exec())
     }
 
@@ -80,6 +82,7 @@ courseModel.find({
           scores: {
             'Overall Quality of the Course': mostRecentCourseWithRatings[0].scores['Overall Quality of the Course']
           },
+          scoresFromPreviousSemesterSemester: mostRecentCourseWithRatings[0].semester._id,
           scoresFromPreviousSemester: true
         }, function (err) {
           if (err) {
