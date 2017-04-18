@@ -28,7 +28,7 @@
         <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
           <span class="fa fa-chevron-left"></span>
         </button>
-        <form id="menu-form" class="navbar-btn" role="search"> <!-- M only, flex-item-stretch -->
+        <form id="menu-form" class="navbar-btn" role="search" onkeypress="return event.keyCode !== 13"> <!-- M only, flex-item-stretch -->
           <!-- searchbox: D: flex-item-stretch -->
           <input id="searchbox" class="form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
         </form>

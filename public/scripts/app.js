@@ -277,6 +277,10 @@ var init_layout = function() {
   if (document.isMobile) layout_mobile()
   else layout_desktop()
 
+  layout_initial_show()
+
+  $('#searchbox').focus()
+
   // bind to resizing
   $(window).resize(layout_refresh)
 

@@ -16,14 +16,13 @@ var getSearchQueryURL = function () {
 }
 
 // update search results from the search box
-searchFromBox = function() {
+var searchFromBox = function() {
   // query url
   var queryURL = getSearchQueryURL()
 
   var query = encodeURIComponent($('#searchbox').val())
   var semester = $('#semester').val()
   var sort = $('#sort').val()
-
 
   // save search into history
   history_search(queryURL)
@@ -32,7 +31,8 @@ searchFromBox = function() {
 }
 
 // function for updating search results
-var searchForCourses = function (query, semester, sort) {
+// -- noswipe to prevent swiping if on mobile
+var searchForCourses = function (query, semester, sort, noswipe) {
 
   // construct search query
   var search = '/api/search/' + query
@@ -49,11 +49,16 @@ var searchForCourses = function (query, semester, sort) {
   if (query === undefined || query === '') {
     $('#results').children().remove();
     $('#search-title').text('0 Search Results')
+    document.lastSearch = ''
     return false
   }
 
-  // query url
-  var queryURL = getSearchQueryURL()
+  // go to search pane for mobile
+  if (document.isMobile && noswipe !== true) $('#main-pane').slick('slickGoTo', 1)
+
+  // don't search if it's the same!
+  if (document.lastSearch === search) return;
+  document.lastSearch = search
 
   // search!
   $.get(search, function (results, success, xhr) {
@@ -62,10 +67,11 @@ var searchForCourses = function (query, semester, sort) {
       return false
     }
 
+    // MEL: it is always null for some reason at the moment
     // Discard the result if it is for a search query other than the current search query
-    if (xhr.getResponseHeader('PC-Query') !== $('#searchbox').val()) {
+    /*if (xhr.getResponseHeader('PC-Query') !== $('#searchbox').val()) {
       return
-    }
+    }*/
 
     // Remove any search results already in the results pane
     $('#results').children().remove()
@@ -84,9 +90,6 @@ var searchForCourses = function (query, semester, sort) {
     }
 
     displayActive() // update highlighting of active course
-
-    // go to search pane for mobile
-    if (document.isMobile) $('#main-pane').slick('slickGoTo', 1)
   })
 
 }
