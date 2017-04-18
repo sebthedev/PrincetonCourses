@@ -183,9 +183,8 @@
   margin-left: 15px; /* to match the right */
 }
 
-/* BOOTSTRAP OVERRIDES */
 body {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 .badge-score {

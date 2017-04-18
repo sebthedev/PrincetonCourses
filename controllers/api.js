@@ -288,9 +288,6 @@ router.get('/search/:query', function (req, res) {
       return b.scores['Overall Quality of the Course'] - a.scores['Overall Quality of the Course']
     })
 
-    // Insert the query as a response header
-    res.set('PC-Query', req.params.query)
-
     // Send the result to the client
     res.set('Cache-Control', 'public, max-age=28800').json(combinedResult)
   }).catch(reason => {
@@ -343,7 +340,7 @@ router.get('/course/:id', function (req, res) {
   }, {
     scores: 1,
     semester: 1
-  }).sort({'semester': -1}).limit(1).populate({
+  }).sort({'semester': -1}).populate({
     path: 'comments',
     options: {
       sort: {
@@ -408,8 +405,20 @@ router.get('/course/:id', function (req, res) {
     let useOldEvaluations = queryCourse.scoresFromPreviousSemester || !queryCourse.hasOwnProperty('scores') || queryCourse.hasOwnProperty('scores') && queryCourse.scores === {}
 
     // Insert into the queryCourse the evaluation data for the most recent semester for which evaluations exist
-    if (useOldEvaluations && mostRecentEvaluations.length === 1) {
+    if (useOldEvaluations && mostRecentEvaluations.length > 0) {
       queryCourse.evaluations = mostRecentEvaluations[0].toObject()
+
+      // If there exist evaluations for a semester of this course taught by this instructor, use those evaluations instead
+      if (typeof (queryCourse.scoresFromPreviousSemesterSemester) === 'number') {
+        mostRecentEvaluations.find(function (thisPastSemesterCourse) {
+          if (thisPastSemesterCourse.semester._id === queryCourse.scoresFromPreviousSemesterSemester) {
+            queryCourse.evaluations = thisPastSemesterCourse.toObject()
+            return true
+          } else {
+            return false
+          }
+        })
+      }
 
       // Note if the user has previously up-voted this comment
       for (var commentIndex in queryCourse.evaluations.comments) {
