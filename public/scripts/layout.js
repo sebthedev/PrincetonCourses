@@ -2,7 +2,7 @@ const WIDTH_THRESHOLD = 768;
 
 // handles showing of initial content
 function layout_initial_show() {
-  if ($('#display-initial').css('display') !== 'none') return;
+  if ($('#display-initial').css('display') !== 'none' && $('#display-body').css('display') === 'none') return;
 
   $('#display-body').css('display', 'none')
   $('#display-initial').css('display', '')
@@ -17,7 +17,7 @@ function layout_initial_show() {
 
 // handles hiding of initial content
 function layout_initial_hide() {
-  if ($('#display-initial').css('display') === 'none') return;
+  if ($('#display-initial').css('display') === 'none' && $('#display-body').css('display') !== 'none') return;
 
   $('#display-body').css('display', '')
   $('#display-initial').css('display', 'none')
