@@ -5,9 +5,6 @@
 
 /* MOBILE OVERRIDES */
 @media (max-width: 767px) {
-  body, html {
-    /*position: fixed;*/
-  }
   #menu-header {
     /* flex-container-row */
     display: flex;
@@ -36,7 +33,7 @@
   }
 
   #suggest-pane, #search-pane,
-  #display-pane, #evals-pane, #info-pane {
+  #display-pane, #evals-pane, #info-pane, #display-initial {
     width: 100vw !important;
     -webkit-overflow-scrolling: touch; /* for quick scrolling */
   }
