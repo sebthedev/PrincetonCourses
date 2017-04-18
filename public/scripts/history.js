@@ -3,8 +3,11 @@
 // Handle displaying a course after pushing the back/forward button in the browser
 //  -- courseId = '' ==> display initial screen
 window.onpopstate = function (event) {
-  // record history entry
-  document.history_pos -= 1;
+  // find navigation direction
+  var isBack = (event.state._id < document.history_id)
+
+  // save stack size
+  document.history_id = event.state._id
 
   // load content as required
   var noswipe = false // to monitor swiping
@@ -13,7 +16,10 @@ window.onpopstate = function (event) {
     noswipe = true
   } else if (event.state && !event.state.hasOwnProperty('courseId')) {
     // skip search-only history if in desktop
-    if (!document.isMobile) window.history.back()
+    if (!document.isMobile) {
+      if (isBack) window.history.back()
+      else window.history.forward()
+    }
   }
 
   if (event.state && event.state.hasOwnProperty('searchQuery')) {
@@ -22,9 +28,8 @@ window.onpopstate = function (event) {
     searchForCourses(parameters.search, parameters.semester, parameters.sort, noswipe)
   }
 
-
   // handle mobile back button
-  if (document.history_pos === 0) {
+  if (document.history_id === 0) {
     $('#menu-brand-abbr').css('display', '')
     $('#menu-back').css('display', 'none')
   } else {
@@ -51,7 +56,7 @@ var parseSearchParameters = function(queryURL) {
 // handles storing history on page load
 function history_init(courseId, queryURL) {
   // record start of history
-  document.history_pos = 0
+  document.history_id = 0
 
   // correct first history entry
   var state = {}
@@ -60,6 +65,7 @@ function history_init(courseId, queryURL) {
   if (courseId !== '') stateURL += 'course/' + courseId
   state.searchQuery = queryURL
   stateURL += queryURL
+  state._id = 0
 
   window.history.replaceState(state, null, stateURL)
 }
@@ -74,12 +80,12 @@ function history_search(queryURL) {
 
   delay(function() {
     // record history entry
-    document.history_pos += 1;
+    document.history_id += 1;
 
     // put search into history
     var course = '/'
     if (document.courseId) course = '/course/' + document.courseId
-    window.history.pushState({searchQuery: queryURL}, queryURL, course + queryURL)
+    window.history.pushState({searchQuery: queryURL, _id: document.history_id}, queryURL, course + queryURL)
 
     // handle mobile back button
     $('#menu-brand-abbr').css('display', 'none')
@@ -89,16 +95,16 @@ function history_search(queryURL) {
 
 // handles storing history on display
 function history_display(courseId) {
-  // record history entry
-  document.history_pos += 1;
-
   // flush search history
   delay(undefined, 0)
+
+  // record history entry
+  document.history_id += 1;
 
   var queryURL = getSearchQueryURL()
 
   // put course into history
-  window.history.pushState({courseId: courseId, searchQuery: queryURL}, courseId, '/course/' + courseId + queryURL)
+  window.history.pushState({courseId: courseId, searchQuery: queryURL, _id: document.history_id}, courseId, '/course/' + courseId + queryURL)
 
   // handle mobile back button
   $('#menu-brand-abbr').css('display', 'none')
