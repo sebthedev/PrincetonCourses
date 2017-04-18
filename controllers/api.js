@@ -296,7 +296,7 @@ router.get('/search/:query', function (req, res) {
     })
 
     // Send the result to the client
-    res.set('Cache-Control', 'public, max-age=28800').json(combinedResult)
+    res.set('Cache-Control', 'no-cache').json(combinedResult)
   }).catch(reason => {
     console.log(reason)
     res.sendStatus(500)
