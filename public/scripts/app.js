@@ -279,12 +279,12 @@ var init_layout = function() {
 
   layout_initial_show()
 
-  $('#searchbox').focus()
-
   // bind to resizing
   $(window).resize(layout_refresh)
 
   $('#menu-back').click(function() {
     window.history.back();
   })
+
+  document.isReady = true;
 }

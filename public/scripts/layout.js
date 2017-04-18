@@ -12,7 +12,9 @@ function layout_initial_show() {
   $('#disp-subtitle').text('Search to begin!')
   $('#disp-subtitle-right').text('')
 
-  if (document.isMobile) $('#main-pane').slick('slickGoTo', 2)
+  $('#searchbox').focus()
+
+  if (document.isMobile && document.isReady) $('#main-pane').slick('slickGoTo', 2)
 }
 
 // handles hiding of initial content
@@ -36,8 +38,8 @@ function layout_refresh() {
 // set up mobile layout
 function layout_mobile() {
   /* set up slick */
-  $('#main-pane').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
-  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
+  $('#main-pane').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 2})
+  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 0})
 
   $('#display-body').on('edge', function(event, slick, direction) {
     if (direction === 'right') $('#main-pane').slick('slickPrev')
