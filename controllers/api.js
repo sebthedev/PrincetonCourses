@@ -115,6 +115,15 @@ router.get('/search/:query', function (req, res) {
     courseQuery.semester = req.query.semester
   }
 
+  // Filter courses by track (Graduate / Undergraduate courses)
+  if (typeof (req.query.track) !== 'undefined') {
+    if (req.query.track === 'GRAD') {
+      courseQuery.track = 'GRAD'
+    } else if (req.query.track === 'UGRD') {
+      courseQuery.track = 'UGRD'
+    }
+  }
+
   // Remove in-depth course information if the client requests "brief" results
   if (typeof (req.query.detailed) !== 'string' || (typeof (req.query.detailed) === 'string' && JSON.parse(req.query.detailed) !== false)) {
     // Merge the existing projection parameters with the parameters filtering-out all of these attributes

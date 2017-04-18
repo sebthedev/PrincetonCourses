@@ -28,6 +28,8 @@ var searchForCourses = function () {
   search += encodeURIComponent($('#searchbox').val())
   search += '?semester=' + $('#semester').val()
   search += '&sort=' + $('#sort').val()
+  // search += '&track=' + 'UGRD'
+  // search += '&track=' + 'GRAD'
 
   window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
