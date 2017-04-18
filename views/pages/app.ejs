@@ -21,7 +21,7 @@
   <div id="full-page" class="flex-item-rigid flex-container-col">
     <nav id="menu-bar" class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand">Princeton Courses <sup>beta</sup></a>
+        <a class="navbar-brand" href="/#">Princeton Courses <sup>beta</sup></a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
           <!-- <span class="sr-only">Toggle navigation</span> -->
           <span class="icon-bar"></span>
@@ -35,7 +35,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle"><a href="#">About</a></li>
+          <li id="about-toggle"><a href="/about">About</a></li>
           <li id="netid"><a href="#"><%= netid %></a></li>
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
@@ -142,6 +142,7 @@
             </h4>
           </div>
         </div>
+        <div class="col-md-12" id="display-welcome"><% include ../partials/welcomepage.ejs %></div>
         <div id="display-body" class="flex-item-stretch flex-container-row" style="display: none;">
           <div id="evals-pane" class="flex-item-stretch">
             <div id="evals-semesters">
@@ -272,19 +273,6 @@
       <button id="feedback-submit" class="btn btn-default" type="submit">Submit</button>
     </form>
     <iframe src="about:blank" id="no-target" name="no-target" style="display: none;"></iframe>
-  </div>
-
-  <div id="about-popup" style="display: none;">
-    <div id="about-panel" class="panel panel-default">
-      <div class="panel-heading flex-container-row">
-        <h3 class="panel-title flex-item-stretch">About</h3>
-        <h3 class="panel-title flex-item-rigid"><i id="about-popup-close" class="fa fa-close"></i></h3>
-      </div>
-      <div class="panel-body">
-        <p>A project by Kara&nbsp;Bressler (team leader), Caterina&nbsp;Golner, Sebastian&nbsp;Hallum&nbsp;Clarke, Mel&nbsp;Shu, and Bensu&nbsp;Sicim for COS&nbsp;333. The team is advised by <a href="https://www.cs.princeton.edu/~cmoretti/" target="_blank">Christopher Moretti</a>.</p>
-      <p>View our <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank">design document</a>.</p>
-      </div>
-    </div>
   </div>
 
   <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">

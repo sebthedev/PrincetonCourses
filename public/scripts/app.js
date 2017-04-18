@@ -13,7 +13,6 @@ $(document).ready(function() {
   init_display();
   init_evals();
   init_logout();
-  init_about();
   init_suggest();
   init_updates();
 })
@@ -175,19 +174,24 @@ var init_favorites = function() {
 // to initialize feedback mechanism
 var init_feedback = function() {
   // submission
-  $('#feedback-form').one('submit', function() {
-    var submitURL = ''
-    submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
-    submitURL += 'entry.1257302391=' + document.netid
-    submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-
-    $(this)[0].action = submitURL
-    $('#feedback-submit').text('Thank You!')
-    $('#feedback-submit').addClass('disabled')
-    $('#feedback-text').attr('disabled', true)
-    setTimeout(toggleFeedback, 1000)
+  $('#feedback-form').submit(function() {
+    if ($('#feedback-text').val().length > 0) 
+    {
+      var submitURL = ''
+      submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
+      submitURL += 'entry.1257302391=' + document.netid
+      submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
+  
+      $(this)[0].action = submitURL
+      $('#feedback-submit').text('Thank You!')
+      $('#feedback-submit').addClass('disabled')
+      $('#feedback-text').attr('disabled', true)
+      setTimeout(toggleFeedback, 1000)
+    }
+    else {
+      $('#feedback-text').attr("placeholder", "Please enter feedback.");
+    }
   })
-
   $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
 }
 
@@ -223,12 +227,6 @@ var init_logout = function() {
     if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
     return false;
   })
-}
-
-// to initialize about display
-var init_about = function() {
-  $('#about-toggle').click(function() {return toggleNavbar('about')})
-  $('#about-popup-close').click(function() {return toggleNavbar('about')})
 }
 
 // to initialize suggest display

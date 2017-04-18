@@ -1,3 +1,8 @@
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+@import 'https://fonts.googleapis.com/css?family=Raleway:500';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
+
 /* MEL: on codepen at https://codepen.io/melyshu/pen/aJXmNo
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
@@ -7,6 +12,9 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
 
 .badge-large {
   font-size: 20px;
@@ -155,6 +163,89 @@ body {
   border-radius: 0;
 }
 
+/* WELCOME PANE CSS */
+#display-welcome {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height:100%;
+  display: table;
+  padding:10px 0 10px 0;
+}
+#welcome {
+  display: table-cell;
+  vertical-align: middle;
+  justify-content: center;
+  text-align: center;
+  /*width:98%;*/
+  margin: auto;
+}
+
+#welcome>#image {
+  margin:10px 0 10px 0;
+}
+#welcome>#image>img {
+  opacity: 0.8;
+}
+#welcome-header>h2 {
+  margin:10px 0 0px 0;
+}
+
+#welcome-header {
+  /*width:100%;*/
+  margin: 0 0 25px 0;
+}
+#tip-items {
+  display:flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.tip-item {
+  background-color: #F5F5F5;
+  transition: linear 0.2s;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  margin: 7.5px;
+  padding: 10px 5px;
+  width: calc(25% - 15px);
+  min-width: 200px;
+}
+.tip-item:last-child {
+  margin-right: 0;
+}
+
+.tip-item>.title {
+  font-size:1.3em;
+  padding:2px;
+  text-transform: capitalize;
+}
+
+.icon-container{
+  vertical-align: middle;
+  text-align: center;
+  margin:auto;
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  background-color: #92D4E3;
+  color: #fff;
+  font-size:3em;
+  /*margin-top:10px;*/
+  transition: linear 0.2s;
+}
+.icon-container>i{
+  vertical-align: middle;
+}
+
+.tip-item:hover {
+  background-color: #F0F0F0;
+}
+.tip-item:hover .icon-container{
+  font-size: 3.2em;
+}
+
 /* SEARCH PANE CSS */
 
 #search-pane {
@@ -228,12 +319,9 @@ body {
 /* DISPLAY HEADER CSS */
 
 /* Background, originally Princeton Crest*/
-/*#display-pane {
-  background-image: url("/media/princeton_logo.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:25vw;
-}*/
+#display-pane {
+  overflow-y: scroll;
+}
 
 #display-header {
   padding: 10px;
