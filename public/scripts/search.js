@@ -34,10 +34,15 @@ var searchForCourses = function () {
   window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
   // search!
-  $.get(search, function (results, success) {
+  $.get(search, function (results, success, xhr) {
     if (!success) {
       window.alert('An error occured and your search could not be completed.')
       return false
+    }
+
+    // Discard the result if it is for a search query other than the current search query
+    if (xhr.getResponseHeader('PC-Query') !== $('#searchbox').val()) {
+      return
     }
 
     // Remove any search results already in the results pane
