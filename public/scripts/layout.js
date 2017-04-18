@@ -21,7 +21,8 @@ function layout_initial_hide() {
 
   $('#display-body').css('display', '')
   $('#display-initial').css('display', 'none')
-  $('#display-body')[0].slick.refresh()
+
+  if (document.isMobile) $('#display-body')[0].slick.refresh()
 }
 
 // handles refreshing of layout after resizing
