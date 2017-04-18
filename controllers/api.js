@@ -223,10 +223,10 @@ router.get('/search/:query', function (req, res) {
       if (detectClashesResult.hasOwnProperty('status')) {
         if (detectClashesResult.status === 'success') {
           courses = detectClashesResult.courses
-        } else if (detectClashesResult.status === 'favoritesClash') {
-          res.set('PC-Favorites-Clash', 'true')
-        } else {
-          console.log(detectClashesResult.status)
+        } else if (detectClashesResult.status === 'favoritesClash' && courses.length > 0) {
+          for (courseIndex in courses) {
+            courses[courseIndex].favoritesClash = true
+          }
         }
       }
     }

@@ -40,9 +40,8 @@ var searchForCourses = function () {
     }
 
     // Check whether there is a clash among the favorite courses
-    if (xhr.getResponseHeader('PC-Favorites-Clash') === 'true') {
+    if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
       // Do something elegant here
-      $('#favorite-title').text('FAVORITES CLASH')
       console.log('There is a time clash between one or more of the courses in your favorites list.')
     }
 
