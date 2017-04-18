@@ -19,8 +19,7 @@ var displayCourseDetails = function(courseId) {
   if (courseId === '') {
     document.courseId = undefined;
     document.course = undefined;
-    layout_initial()
-    if (document.isMobile) $('#main-pane').slick('slickGoTo', 2)
+    layout_initial_show()
 
     displayActive() // update highlighting of active course
     return;
@@ -52,21 +51,20 @@ var displayCourseDetails = function(courseId) {
 
       displayActive() // update highlighting of active course
 
+      // set scroll to top
+      $('#evals-pane').scrollTop(0)
+      $('#info-pane').scrollTop(0)
+
+      // make sure it can be seen
+      layout_initial_hide()
+
       // go to display pane for mobile
-      if (document.isMobile) {
-        $('#display-body').slick('slickGoTo', 0)
+      if (document.isMobile && $('#main-pane').slick('slickCurrentSlide') !== 2) {
+        console.log('iamhere')
         $('#main-pane').slick('slickGoTo', 2)
+        $('#display-body').slick('slickGoTo', 1)
       }
   })
-
-  // set scroll to top
-  $('#evals-pane').scrollTop(0)
-  $('#info-pane').scrollTop(0)
-
-  // make sure it can be seen
-  $('#display-body').css('display', '')
-  //$("#display-pane").css('overflow-y', 'hidden')
-  $('#display-initial').hide()
 }
 
 // mark all corresponding courses as active

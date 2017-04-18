@@ -1,7 +1,9 @@
 const WIDTH_THRESHOLD = 768;
 
-// handles loading of initial content
-function layout_initial() {
+// handles showing of initial content
+function layout_initial_show() {
+  if ($('#display-initial').css('display') !== 'none') return;
+
   $('#display-body').css('display', 'none')
   $('#display-initial').css('display', '')
 
@@ -9,6 +11,17 @@ function layout_initial() {
   $('#disp-title-right').text('')
   $('#disp-subtitle').text('Search to begin!')
   $('#disp-subtitle-right').text('')
+
+  if (document.isMobile) $('#main-pane').slick('slickGoTo', 2)
+}
+
+// handles hiding of initial content
+function layout_initial_hide() {
+  if ($('#display-initial').css('display') === 'none') return;
+
+  $('#display-body').css('display', '')
+  $('#display-initial').css('display', 'none')
+  $('#display-body')[0].slick.refresh()
 }
 
 // handles refreshing of layout after resizing
@@ -22,7 +35,7 @@ function layout_refresh() {
 // set up mobile layout
 function layout_mobile() {
   /* set up slick */
-  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 0})
+  $('#display-body').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
   $('#main-pane').slick({infinite: false, edgeFriction: 0.1, slide: '.slide', initialSlide: 1})
 
   $('#display-body').on('edge', function(event, slick, direction) {

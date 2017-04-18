@@ -37,8 +37,8 @@
 
   #suggest-pane, #search-pane,
   #display-pane, #evals-pane, #info-pane {
-    -webkit-overflow-scrolling: touch; /* for quick scrolling */
     width: 100vw !important;
+    -webkit-overflow-scrolling: touch; /* for quick scrolling */
   }
 
   #search-searchbox-form {
