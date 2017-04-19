@@ -122,6 +122,9 @@ var init_searchpane = function() {
 // to initialize searching function
 var init_search = function() {
   // Every time a key is pressed inside the #searchbox, call the searchForCourses function
+  var savedSort = localStorage.getItem("sort");
+  $('#sort').val((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName")
+  
   $('#searchbox').on('input', searchForCourses)
   $('#semester, #sort').change(searchForCourses)
 

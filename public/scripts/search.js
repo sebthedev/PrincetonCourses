@@ -31,6 +31,8 @@ var searchForCourses = function () {
   // search += '&track=' + 'UGRD'
   // search += '&track=' + 'GRAD'
 
+  localStorage.setItem("sort", $('#sort').val())
+
   window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
   // search!
