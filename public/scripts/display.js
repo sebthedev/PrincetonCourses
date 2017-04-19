@@ -1,18 +1,30 @@
-// dependencies: module.js, fav.js, eval.js
+// dependencies: module.js, fav.js, eval.js, layout.js, history.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
 var displayResult = function() {
   var courseId = this.courseId
 
+  history_display(courseId)
+
   // Display the information for this course
   displayCourseDetails(courseId)
+
+  return false
 }
 
 // function for displaying course details
-var displayCourseDetails = function(courseId) {
-  // Push to the history this course
-  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
+// -- noswipe to prevent swiping if on mobile
+var displayCourseDetails = function(courseId, noswipe) {
+  // return to default view if undefined
+  if (courseId === '') {
+    document.courseId = undefined;
+    document.course = undefined;
+    layout_initial_show()
+
+    displayActive() // update highlighting of active course
+    return;
+  }
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
@@ -38,16 +50,21 @@ var displayCourseDetails = function(courseId) {
       display_evals(course); // in eval.js
       display_past(course);
 
-  }).then(displayActive)
+      displayActive() // update highlighting of active course
 
-  // set scroll to top
-  $('#evals-pane').scrollTop(0)
-  $('#info-pane').scrollTop(0)
+      // set scroll to top
+      $('#evals-pane').scrollTop(0)
+      $('#info-pane').scrollTop(0)
 
-  // make sure it can be seen
-  $('#display-body').show()
-  $("#display-pane").css('overflow-y', 'hidden')
-  $('#display-welcome').hide()
+      // make sure it can be seen
+      layout_initial_hide()
+
+      // go to display pane for mobile
+      if (document.isMobile && $('#main-pane').slick('slickCurrentSlide') !== 2 && noswipe !== true) {
+        $('#main-pane').slick('slickGoTo', 2)
+        /* $('#display-body').slick('slickGoTo', 1) */
+      }
+  })
 }
 
 // mark all corresponding courses as active

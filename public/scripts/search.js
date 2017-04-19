@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, display.js
+// dependencies: module.js, fav.js, display.js, history.js
 var getSearchQueryURL = function () {
   var parameters = []
   if ($('#searchbox').val() != null) {
@@ -11,29 +11,59 @@ var getSearchQueryURL = function () {
     parameters.push('sort=' + $('#sort').val())
   }
   return '?' + parameters.join('&')
+
+  // search += '&track=' + 'UGRD'
+}
+
+// update search results from the search box
+var searchFromBox = function() {
+  // query url
+  var queryURL = getSearchQueryURL()
+
+  var query = encodeURIComponent($('#searchbox').val())
+  var semester = $('#semester').val()
+  var sort = $('#sort').val()
+
+  // save search into history
+  history_search(queryURL)
+
+  searchForCourses(query, semester, sort)
 }
 
 // function for updating search results
-var searchForCourses = function () {
-  // return if no search
-  if ($('#searchbox').val() === '')
-  {
+// -- noswipe to prevent swiping if on mobile
+var searchForCourses = function (query, semester, sort, noswipe) {
+
+  // construct search query
+  var search = '/api/search/' + query
+  search += '?semester=' + semester
+  search += '&sort=' + sort
+  // search += '&track=' + 'UGRD'
+
+  if (query === undefined || query === null) query = ''
+
+  // display search
+  $('#searchbox').val(decodeURIComponent(query))
+  if (semester) $('#semester').val(semester)
+  if (sort) $('#sort').val(sort)
+
+  // stop if no query
+  if (query === '') {
     $('#results').children().remove();
-    $('#search-title').text('0' + ' Search Results')
+    $('#search-title').text('0 Search Results')
+    document.lastSearch = ''
     return false
   }
 
-  // construct search query
-  var search = '/api/search/'
-  search += encodeURIComponent($('#searchbox').val())
-  search += '?semester=' + $('#semester').val()
-  search += '&sort=' + $('#sort').val()
-  // search += '&track=' + 'UGRD'
-  // search += '&track=' + 'GRAD'
+  // go to search pane for mobile
+  if (document.isMobile && noswipe !== true) $('#main-pane').slick('slickGoTo', 1)
 
+  // don't search if it's the same!
+  if (document.lastSearch === search) return;
+  document.lastSearch = search
+
+  // store search value used
   localStorage.setItem("sort", $('#sort').val())
-
-  window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
 
   // search!
   $.get(search, function (results, success, xhr) {
@@ -57,16 +87,10 @@ var searchForCourses = function () {
         $('#results').append(newDOMResult(result, {"tags": 1}))
       }
     }
-  }).then(displayActive)
-}
 
-// length of non-instructor results (for temporary hiding of instructors)
-function courseLength(results) {
-  var count = 0
-  for (var index in results)
-    if (results[index].type !== 'instructor') count++
+    displayActive() // update highlighting of active course
+  })
 
-  return count
 }
 
 // returns a DOM object for a search result

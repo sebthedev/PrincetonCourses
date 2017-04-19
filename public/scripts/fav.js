@@ -1,14 +1,12 @@
 // update the favorite heart icons
 var updateFavIcons = function() {
-  $(".fa-heart").each(function() {
+  $(".fav-icon, .unfav-icon").each(function() {
     var isFav = (document.favorites.indexOf(this.courseId) !== -1)
 
     var icon = $(this)
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
     icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
   })
-  $("#welcome-heart").removeClass('fav-icon');
-  $("#welcome-heart").removeClass('unfav-icon');
 }
 
 // update the display of favorites upon new fav/unfav from course

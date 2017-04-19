@@ -8,6 +8,9 @@ function toggleNavbar(element) {
 
 // feedback form toggling
 var toggleFeedback = function() {
+  // hide menu if in mobile
+  if (document.isMobile) $('.navbar-collapse').collapse('hide')
+
   // update navbar
   var isActive = $('#feedback-toggle').hasClass("active")
   if (isActive) 
