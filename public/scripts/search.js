@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, display.js
+// dependencies: module.js, fav.js, display.js, history.js
 var getSearchQueryURL = function () {
   var parameters = []
   if ($('#searchbox').val() != null) {

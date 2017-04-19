@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, eval.js, layout.js
+// dependencies: module.js, fav.js, eval.js, layout.js, history.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
