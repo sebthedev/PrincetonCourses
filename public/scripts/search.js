@@ -60,6 +60,9 @@ var searchForCourses = function (query, semester, sort, noswipe) {
   if (document.lastSearch === search) return;
   document.lastSearch = search
 
+  // store search value used
+  localStorage.setItem("sort", $('#sort').val())
+
   // search!
   $.get(search, function (results, success, xhr) {
     if (!success) {
@@ -190,10 +193,10 @@ function newDOMcourseResult(course, props) {
   if (props.hasOwnProperty('tags')) {
     if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
     if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF ONLY" class="text-danger-dim">P</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="NPDF" class="text-danger-dim">N</span>'
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF ONLY" class="text-danger-dim">PDFO</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="NPDF" class="text-danger-dim">NPDF</span>'
     }
-    if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">A</span>'
+    if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">AUDIT</span>'
     if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
   }
 

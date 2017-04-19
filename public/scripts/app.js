@@ -105,6 +105,10 @@ var init_searchpane = function() {
 
 // to initialize searching function
 var init_search = function() {
+  // restore sort used
+  var savedSort = localStorage.getItem("sort");
+  $('#sort').val((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName")
+
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
   $('#semester, #sort').change(searchFromBox)

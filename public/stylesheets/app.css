@@ -227,19 +227,22 @@ body {
 
 /* these are an rgb average of the corresponding bootstrap color and white */
 .text-info-dim {
-  color: #addfee;
+  color: #8CC7E0;
 }
 .text-warning-dim {
-  color: #f7d6a6;
+  color: #F0C993;
 }
 .text-danger-dim {
   color: #eca8a7;
 }
 .text-success-dim {
-  color: #addbad;
+  color: #94C499;
 }
 .text-dim {
-  color: #bbb;
+  color: #9E9E9E;
+}
+.active .text-dim {
+  color: #fff;
 }
 
 /* PAGEWIDE CSS */
