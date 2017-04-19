@@ -345,9 +345,9 @@ body {
   padding:10px 0 10px 0;
 }
 #welcome {
-  display: table-cell;
+  /*display: table-cell;
   vertical-align: middle;
-  justify-content: center;
+  justify-content: center;*/
   text-align: center;
   max-width: 100vw;
   margin: auto;
