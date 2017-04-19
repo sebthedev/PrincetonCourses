@@ -339,11 +339,10 @@ body {
 }
 
 /* WELCOME PANE CSS */
-#display-welcome {
+#display-initial {
   overflow-y: auto;
   overflow-x: hidden;
-  height:100%;
-  display: table;
+  /*display: table;*/
   padding:10px 0 10px 0;
 }
 #welcome {
@@ -486,9 +485,6 @@ body {
 }
 
 /* DISPLAY HEADER CSS */
-#display-initial {
-  overflow-y: auto;
-}
 
 #display-header {
   padding: 10px;
