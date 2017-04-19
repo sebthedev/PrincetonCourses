@@ -40,13 +40,15 @@ var searchForCourses = function (query, semester, sort, noswipe) {
   search += '&sort=' + sort
   // search += '&track=' + 'UGRD'
 
+  if (query === undefined || query === null) query = ''
+
   // display search
   $('#searchbox').val(decodeURIComponent(query))
   if (semester) $('#semester').val(semester)
   if (sort) $('#sort').val(sort)
 
   // stop if no query
-  if (query === undefined || query === '') {
+  if (query === '') {
     $('#results').children().remove();
     $('#search-title').text('0 Search Results')
     document.lastSearch = ''
