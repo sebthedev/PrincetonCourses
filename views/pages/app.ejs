@@ -28,9 +28,9 @@
         <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
           <span class="fa fa-chevron-left"></span>
         </button>
-        <form id="menu-form" class="navbar-btn" role="search" onkeypress="return event.keyCode !== 13"> <!-- M only, flex-item-stretch -->
+        <form id="menu-form" class="navbar-btn" action="." role="search" onkeypress="return event.keyCode !== 13"> <!-- M only, flex-item-stretch -->
           <!-- searchbox: D: flex-item-stretch -->
-          <input id="searchbox" class="form-control" type="text" placeholder="Search (e.g. COS 126, QR, Katz, ...)" autofocus="" autocomplete="off">
+          <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off">
         </form>
         <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse"> <!-- M: flex-item-rigid -->
           <span class="icon-bar"></span>

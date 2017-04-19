@@ -113,6 +113,15 @@ var init_search = function() {
   $('#searchbox').on('input', searchFromBox)
   $('#semester, #sort').change(searchFromBox)
 
+  // Allow clicking the "Search" keyboard button on mobile
+  if (document.isMobile) {
+    $('#searchbox').keypress(function (event) {
+      if (event.keyCode === 13) {
+        $(this).blur()
+      }
+    })
+  }
+
   // load the semesters for the dropdown
   $('#semester').children(":not([disabled])").remove()
   $.get('/api/semesters', function (semesters) {
