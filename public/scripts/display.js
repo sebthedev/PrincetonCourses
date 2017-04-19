@@ -78,10 +78,7 @@ var display_title = function(course) {
   $('#disp-subtitle').html('')
   $('#disp-subtitle-right').html('')
 
-  var website = (course.website === undefined ? '' : ' <a href="' + course.website
-                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
-
-  $('#disp-title').append(course.title + website)
+  $('#disp-title').append(course.title)
 
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
@@ -131,8 +128,10 @@ var display_subtitle = function(course) {
     else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="label label-danger">NPDF</span>'
   }
   if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
-
-  $('#disp-subtitle').append(listings + tags)
+  
+  var website = (course.website === undefined ? '' : ' <a href="' + course.website
+                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
+  $('#disp-subtitle').append(listings + tags + website)
 
   var semester = ' &middot; ' + course.semester.name
 
