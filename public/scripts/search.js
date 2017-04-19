@@ -41,7 +41,7 @@ var searchForCourses = function (query, semester, sort, noswipe) {
   // search += '&track=' + 'UGRD'
 
   // display search
-  $('#searchbox').val(query)
+  $('#searchbox').val(decodeURIComponent(query))
   if (semester) $('#semester').val(semester)
   if (sort) $('#sort').val(sort)
 
