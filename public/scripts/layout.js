@@ -7,10 +7,17 @@ function layout_initial_show() {
   $('#display-body').css('display', 'none')
   $('#display-initial').css('display', '')
 
-  $('#disp-title').text('Welcome to Princeton Courses')
-  $('#disp-title-right').text('')
-  $('#disp-subtitle').text('Search to begin!')
-  $('#disp-subtitle-right').text('')
+  if (document.isMobile) {
+    $('#disp-title').text('Navigate by swiping left and right')
+    $('#disp-title-right').text('')
+    $('#disp-subtitle').text('Search to begin!')
+    $('#disp-subtitle-right').text('')
+  } else {
+    $('#disp-title').text('Search to begin!')
+    $('#disp-title-right').text('')
+    $('#disp-subtitle').text('')
+    $('#disp-subtitle-right').text('')
+  }
 
   $('#searchbox').focus()
 
