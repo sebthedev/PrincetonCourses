@@ -12,30 +12,6 @@ var init_globals = function() {
   document.netid = $("#netid").text()
 }
 
-// to initialize feedback mechanism
-var init_feedback = function() {
-  // submission
-  $('#feedback-form').submit(function() {
-    if ($('#feedback-text').val().length > 0)
-    {
-      var submitURL = ''
-      submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
-      submitURL += 'entry.1257302391=' + document.netid
-      submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-
-      $(this)[0].action = submitURL
-      $('#feedback-submit').text('Thank You!')
-      $('#feedback-submit').addClass('disabled')
-      $('#feedback-text').attr('disabled', true)
-      setTimeout(toggleFeedback, 1000)
-    }
-    else {
-      $('#feedback-text').attr("placeholder", "Please enter feedback.");
-    }
-  })
-  $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
-}
-
 // to intialize logout button
 var init_logout = function() {
   $('#menu-bar').mouseleave(function() {
@@ -48,30 +24,6 @@ var init_logout = function() {
     if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
     return false;
   })
-}
-
-// to initialize updates popup
-var init_updates = function() {
-  var updateMessage = 'You can now search for instructors. Also, take a look at Search Suggestions!'
-  var updateNo = 0 //  BENSU: increment this number for new updates
-  var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
-  $("#updates-bottom-popup").append(updateMessage);
-  if (updateNo != updateNoStored) // new update
-  {
-    localStorage.setItem('updateRead', 'False');
-    setTimeout(function() {
-      $('#updates-bottom-popup').show();
-    }, 1000); // milliseconds
-    localStorage.setItem('updateNo', updateNo);
-  }
-  else {
-    var updateRead = localStorage.getItem('updateRead');
-    if (updateRead !== 'True') {
-      setTimeout(function() {
-        $('#updates-bottom-popup').show();
-      }, 1000); // milliseconds
-    }
-  }
 }
 
 // toggles the feedback form

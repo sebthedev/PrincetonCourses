@@ -1,9 +1,173 @@
-@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
-@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+/*@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'; MEL: bootstrap is in header.ejs already */
+/*@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'; MEL: font awesome is in header.ejs already */
 @import 'https://fonts.googleapis.com/css?family=Raleway:500';
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
 
-/* MEL: on codepen at https://codepen.io/melyshu/pen/aJXmNo
+/* MOBILE OVERRIDES */
+@media (max-width: 767px) {
+  #menu-header {
+    /* flex-container-row */
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  #menu-brand, #menu-left, .resizer {
+    display: none;
+  }
+
+  #menu-back {
+    /* flex-item-rigid */
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 6px 16px; /* to match other button */
+  }
+
+  #menu-form {
+    /* flex-item-stretch */
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
+  }
+
+  #suggest-pane, #search-pane,
+  #display-pane, #evals-pane, #info-pane, #display-initial {
+    width: 100vw !important;
+    -webkit-overflow-scrolling: touch; /* for quick scrolling */
+  }
+
+  #search-searchbox-form {
+    display: none !important;
+  }
+
+  #disp-title, #disp-title-right {
+    font-size: 18px;
+    margin: 5px 0 10px;
+    line-height: normal;
+  }
+  #disp-subtitle, #disp-subtitle-right {
+    font-size: 14px;
+    margin: 0;
+    padding-bottom: 5px;
+  }
+
+  .badge-large {
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  }
+
+  #feedback-container {
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+/* DESKTOP OVERRIDES */
+@media (min-width: 768px) {
+  #menu-back, #menu-form, #menu-brand-abbr {
+    display: none;
+  }
+
+  #suggest-pane {
+    max-width: 200px;
+    width: 200px;
+    order: 10;
+  }
+
+  #search-pane {
+    padding-right: 5px !important; /* compensate for resizer */
+    min-width: 200px;
+    max-width: 40vw;
+    width: 25%;
+    order: 20;
+  }
+
+  #search-resizer {
+    order: 30;
+  }
+
+  #display-pane {
+    /* flex-item-stretch */
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
+    order: 40;
+  }
+
+  #evals-pane {
+    /* flex-item-stretch */
+    flex-grow: 10000;
+    flex-shrink: 10000;
+    flex-basis: 0;
+    overflow: hidden;
+    order: 10;
+  }
+
+  #info-resizer {
+    order: 20;
+  }
+
+  #info-pane {
+    padding-left: 5px !important; /* compensate for resizer */
+    width: 50%; /* default */
+    min-width: 150px;
+    max-width: 80%;
+    max-width: calc(100% - 150px);
+    order: 30;
+  }
+
+  #disp-title, #disp-title-right {
+    margin: 5px 0 10px;
+    line-height: normal;
+  }
+  #disp-subtitle, #disp-subtitle-right {
+    margin: 0;
+    padding-bottom: 5px;
+  }
+
+  .badge-large {
+    font-size: 20px;
+    padding: 5px 12px;
+    border-radius: 17px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  }
+
+  #feedback-container {
+    right: 50px;
+    width: 30vw;
+    min-width: 300px;
+  }
+}
+
+/* THINGS FOR SLICK CAROUSEL */
+.slick-list {
+  /* flex-container-row */
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+}
+.slick-track {
+  /* flex-container-row */
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+}
+.slick-slide {
+  /* so that height is stretched (safari) */
+  height: auto;
+}
+/* override (for flex in display-body) */
+.flex-container-col.slick-slide {
+  display: flex;
+}
+
+/* MEL: on codepen at https://codepen.io/melyshu/pen/zwxqej
    MEL: uses bootstrap and some flexboxes https://css-tricks.com/snippets/css/a-guide-to-flexbox/
    MEL: navbar and scrollbar customisation from external sites (scroll to bottom) */
 
@@ -12,19 +176,19 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
-body {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
+}
+.navbar-toggle {
+  margin-left: 15px; /* to match the right */
 }
 
-.badge-large {
-  font-size: 20px;
-  padding: 5px 12px;
-  border-radius: 17px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 .badge-score {
-  width: 3.5em;
+  width: 3.7em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
 }
 
@@ -63,22 +227,33 @@ body {
 
 /* these are an rgb average of the corresponding bootstrap color and white */
 .text-info-dim {
-  color: #addfee;
+  color: #8CC7E0;
 }
 .text-warning-dim {
-  color: #f7d6a6;
+  color: #F0C993;
 }
 .text-danger-dim {
   color: #eca8a7;
 }
 .text-success-dim {
-  color: #addbad;
+  color: #94C499;
 }
 .text-dim {
-  color: #bbb;
+  color: #9E9E9E;
+}
+.active .text-dim {
+  color: #fff;
 }
 
 /* PAGEWIDE CSS */
+
+.pane-padding {
+  height: 15px;
+}
+
+#main-pane {
+  margin-top: 50px; /* compensate for navbar */
+}
 
 .resizer {
   width: 5px;
@@ -164,99 +339,47 @@ body {
 }
 
 /* WELCOME PANE CSS */
-#display-welcome {
+#display-initial {
   overflow-y: auto;
   overflow-x: hidden;
-  height:100%;
-  display: table;
-  padding:10px 0 10px 0;
+  max-width: 100vw;
 }
-#welcome {
-  display: table-cell;
-  vertical-align: middle;
-  justify-content: center;
-  text-align: center;
-  /*width:98%;*/
-  margin: auto;
+@media (min-width: 992px) {
+  .row-md-flex {
+    display: flex;
+  }
 }
 
-#welcome>#image {
-  margin:10px 0 10px 0;
-}
-#welcome>#image>img {
-  opacity: 0.8;
-}
-#welcome-header>h2 {
-  margin:10px 0 0px 0;
+@media (max-width: 767px) {
+  .col-xs-welcome {
+    max-width: 300px;
+    margin: 0 auto;
+  }
 }
 
-#welcome-header {
-  /*width:100%;*/
-  margin: 0 0 25px 0;
-}
-#tip-items {
-  display:flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: center;
+.welcome-well {
+  margin: 20px;
 }
 
-.tip-item {
-  background-color: #F5F5F5;
-  transition: linear 0.2s;
-  justify-content: center;
-  align-items: center;
-  vertical-align: middle;
-  margin: 7.5px;
-  padding: 10px 5px;
-  width: calc(25% - 15px);
-  min-width: 200px;
-}
-.tip-item:last-child {
-  margin-right: 0;
-}
-
-.tip-item>.title {
-  font-size:1.3em;
-  padding:2px;
-  text-transform: capitalize;
-}
-
-.icon-container{
-  vertical-align: middle;
-  text-align: center;
-  margin:auto;
-  border-radius: 50%;
-  width: 75px;
-  height: 75px;
+.welcome-icon {
   background-color: #92D4E3;
   color: #fff;
-  font-size:3em;
-  /*margin-top:10px;*/
+  font-size: 3em !important;
+  line-height: 75px !important;
+  width: 75px;
+  border-radius: 50%;
   transition: linear 0.2s;
 }
-.icon-container>i{
-  vertical-align: middle;
-}
 
-.tip-item:hover {
-  background-color: #F0F0F0;
-}
-.tip-item:hover .icon-container{
-  font-size: 3.2em;
+.welcome-icon:hover {
+  font-size: 3.6em !important;
 }
 
 /* SEARCH PANE CSS */
 
 #search-pane {
-  z-index: 400;
   background-color: #ddd;
-  padding: 10px;
-  padding-right: 5px; /* compensate for resizer */
-  padding-bottom: 15px;
-  min-width: 200px;
-  max-width: 40vw;
-  width: 25%;
+  padding: 10px 10px 15px;
 }
 
 #search-resizer {
@@ -317,12 +440,6 @@ body {
 }
 
 /* DISPLAY HEADER CSS */
-
-/* Background, originally Princeton Crest*/
-#display-pane {
-  overflow-y: scroll;
-}
-
 #display-header {
   padding: 10px;
   background-color: #eee;
@@ -330,34 +447,11 @@ body {
   z-index: 500;
 }
 
-#disp-title {
-  margin: 5px 0 10px;
-  line-height: normal;
-}
-#disp-title-right {
-  margin: 5px 0 10px;
-}
-#disp-subtitle {
-  margin: 0;
-  padding-bottom: 5px;
-}
-#disp-subtitle-right {
-  margin: 0;
-}
-
 /* INFO PANE CSS */
 #info-pane {
   background-color: #ddd;
   padding: 5px 10px 0px;
-  padding-left: 5px; /* compensate for resizer */
-  width: 50%; /* default */
-  min-width: 150px;
-  max-width: 80%;
-  max-width: calc(100% - 150px);
   overflow-y: auto;
-  /* ugly thing to deal with flexbox and resizable */
-  /*left:0 !important;
-  position:relative !important;*/
 }
 
 .info-list-item {
@@ -366,13 +460,9 @@ body {
 
 /* EVALS PANE CSS */
 #evals-pane {
-  padding: 5px 10px 0px ;
+  padding: 5px 10px 0px;
   overflow-y: auto;
   background-color: #fff;
-}
-
-#evals-comments-body {
-  margin-bottom: 15px;
 }
 
 .flex-eval {
@@ -380,10 +470,6 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-}
-
-#disp-classes-body {
-  margin-bottom:15px;
 }
 
 .up-icon {
@@ -407,9 +493,7 @@ body {
 
 #suggest-pane {
   background-color: #ccc;
-  padding: 5px 10px 15px;
-  max-width: 200px;
-  width: 200px;
+  padding: 5px 10px 0px;
   overflow-y: auto;
 }
 
@@ -427,8 +511,6 @@ body {
   position: fixed;
   top: 0;
   padding-top: 50px;
-  right: 50px;
-  width: 30vw;
   z-index: 700;
   border-color: #f58025;
   border-width: 2px;
@@ -459,14 +541,25 @@ body {
 }
 
 /* UPDATES POPUP CSS*/
-
 #updates-bottom-popup {
   position: fixed;
-  width: 25%;
   z-index: 1000;
-  background-color: rgba(224, 255, 255, 0.7);
+  background-color: rgba(224, 255, 255, 0.9);
   border-color: rgb(194, 232, 232);
   right: 10px;
   bottom: 0;
   margin-bottom: 10px;
+}
+
+@media (min-width: 767px) {
+  #updates-bottom-popup {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+    #updates-bottom-popup {
+    width: 95%;
+    left: 10px;
+  }
 }

@@ -1,9 +1,10 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js
 
 // initialization
 $(document).ready(function() {
 
   /* init_load(); MEL: now loads after semesters have been loaded in init_search */
+  init_layout();
   init_panes();
   init_searchpane();
   init_search();
@@ -19,49 +20,32 @@ $(document).ready(function() {
 
 // loads course from url
 var init_load = function () {
-  // Parse and display search parameters, if any exist
-  parseSearchParameters()
+  var courseId = ''
 
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
     courseId = parseInt(pathnameMatch[1])
-    if (!isNaN(courseId)) displayCourseDetails(courseId)
-  }
-}
-
-// Handle displaying a course after pushing the back/forward button in the browser
-window.onpopstate = function (event) {
-  if (event.state && event.state.courseID) {
-    displayCourseDetails(event.state.courseID)
-  }
-  parseSearchParameters()
-}
-
-// Parse the URL to check for whether the app should be showing a course and displaying any search terms
-var parseSearchParameters = function () {
-  // Parse search terms
-  var unparsedParameters = window.location.search.replace('?', '').split('&')
-  var parameters = {}
-  for (var parametersIndex in unparsedParameters) {
-    var keyValue = unparsedParameters[parametersIndex].split('=')
-    if (keyValue.length === 2) {
-      parameters[keyValue[0]] = decodeURIComponent(keyValue[1])
+    if (!isNaN(courseId)) {
+      displayCourseDetails(courseId)
+      var courseDisplayed = true;
     }
   }
-  if (parameters.hasOwnProperty('search')) {
-    $('#searchbox').val(parameters.search)
-  }
-  if (parameters.hasOwnProperty('semester')) {
-    $('#semester').data('query', parameters.semester).val(parameters.semester)
-  }
-  if (parameters.hasOwnProperty('sort')) {
-    $('#sort').val(parameters.sort)
-  }
-  if (parameters !== {}) {
-    searchForCourses()
-  }
+
+  // Parse search parameters, if any exist
+  var parameters = parseSearchParameters(window.location.search)
+
+  // perform search
+  searchForCourses(parameters.search, parameters.semester, parameters.sort)
+
+  // initialize history
+  history_init(courseId, window.location.search)
+
+  // handle displaying default page
+  if (courseId === '' && (parameters.search === undefined || parameters.search === ''))
+    displayCourseDetails(courseId)
+
 }
 
 // to initialize draggability
@@ -121,9 +105,22 @@ var init_searchpane = function() {
 
 // to initialize searching function
 var init_search = function() {
-  // Every time a key is pressed inside the #searchbox, call the searchForCourses function
-  $('#searchbox').on('input', searchForCourses)
-  $('#semester, #sort').change(searchForCourses)
+  // restore sort used
+  var savedSort = localStorage.getItem("sort");
+  $('#sort').val((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName")
+
+  // Every time a key is pressed inside the #searchbox, search
+  $('#searchbox').on('input', searchFromBox)
+  $('#semester, #sort').change(searchFromBox)
+
+  // Allow clicking the "Search" keyboard button on mobile
+  if (document.isMobile) {
+    $('#searchbox').keypress(function (event) {
+      if (event.keyCode === 13) {
+        $(this).blur()
+      }
+    })
+  }
 
   // load the semesters for the dropdown
   $('#semester').children(":not([disabled])").remove()
@@ -175,13 +172,13 @@ var init_favorites = function() {
 var init_feedback = function() {
   // submission
   $('#feedback-form').submit(function() {
-    if ($('#feedback-text').val().length > 0) 
+    if ($('#feedback-text').val().length > 0)
     {
       var submitURL = ''
       submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
       submitURL += 'entry.1257302391=' + document.netid
       submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-  
+
       $(this)[0].action = submitURL
       $('#feedback-submit').text('Thank You!')
       $('#feedback-submit').addClass('disabled')
@@ -219,12 +216,18 @@ var init_evals = function() {
 var init_logout = function() {
   $('#menu-bar').mouseleave(function() {
     var isNetidInvisible = $('#netid').css('display') === 'none'
-    if (isNetidInvisible) $('#netid, #logout').animate({width: 'toggle'})
+    if (isNetidInvisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
   })
 
   $('#netid').click(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
+    if (!isLogoutVisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
     return false;
   })
 }
@@ -241,8 +244,8 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateMessage = 'You can now search for instructors. Also, take a look at Search Suggestions!'
-  var updateNo = 0 //  BENSU: increment this number for new updates
+  var updateMessage = 'Princeton Courses is now optimized for mobile. Feel free to browse comfortably on any device. Happy course selection!'
+  var updateNo = 1 //  BENSU: increment this number for new updates
   var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
   $("#updates-bottom-popup").append(updateMessage);
   if (updateNo != updateNoStored) // new update
@@ -277,4 +280,24 @@ var section_toggle = function(pane, section) {
 // update is read by the user
 var saveUpdatePopupState = function() {
   localStorage.setItem('updateRead', 'True');
+}
+
+// to initialize responsive layout
+var init_layout = function() {
+  // initial layout
+  var width = $(window).width()
+  document.isMobile = (width < WIDTH_THRESHOLD)
+  if (document.isMobile) layout_mobile()
+  else layout_desktop()
+
+  layout_initial_show()
+
+  // bind to resizing
+  $(window).resize(layout_refresh)
+
+  $('#menu-back').click(function() {
+    window.history.back();
+  })
+
+  document.isReady = true;
 }
