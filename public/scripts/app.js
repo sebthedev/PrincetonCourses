@@ -37,7 +37,7 @@ var init_load = function () {
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchForCourses(parameters.search, parameters.semester, parameters.sort)
+  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.track)
 
   // initialize history
   history_init(courseId, window.location.search)
@@ -101,6 +101,16 @@ var init_searchpane = function() {
     $('#search-results').slideToggle()
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
+
+  // toggle display of advanced search
+  var toggleAdvancedDisplay = function() {
+    var isVisible = $('#advanced-body').css('display') !== 'none'
+
+    $('#advanced-title').text((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options')
+
+    $('#advanced-body').slideToggle()
+  }
+  $('#advanced-title').click(toggleAdvancedDisplay)
 }
 
 // to initialize searching function
@@ -111,7 +121,7 @@ var init_search = function() {
 
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
-  $('#semester, #sort').change(searchFromBox)
+  $('#semester, #sort, #advanced-grad-hide').change(searchFromBox)
 
   // Allow clicking the "Search" keyboard button on mobile
   if (document.isMobile) {

@@ -386,6 +386,10 @@ body {
   z-index: 400;
 }
 
+#advanced-form {
+  background-color: #ccc;
+}
+
 .text-button {
   cursor: pointer;
   color: #888;

@@ -11,6 +11,9 @@ var getSearchQueryURL = function () {
   if ($('#sort').val() != null) {
     parameters.push('sort=' + $('#sort').val())
   }
+  if ($('#advanced-grad-hide').is(':checked')) {
+    parameters.push('track=UGRD')
+  }
   return '?' + parameters.join('&')
 
   // search += '&track=' + 'UGRD'
@@ -24,21 +27,23 @@ var searchFromBox = function() {
   var query = encodeURIComponent($('#searchbox').val())
   var semester = $('#semester').val()
   var sort = $('#sort').val()
+  var track = ($('#advanced-grad-hide').is(':checked') ? 'UGRD' : '')
 
   // save search into history
   history_search(queryURL)
 
-  searchForCourses(query, semester, sort)
+  searchForCourses(query, semester, sort, track)
 }
 
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
-var searchForCourses = function (query, semester, sort, noswipe) {
+var searchForCourses = function (query, semester, sort, track, noswipe) {
 
   // construct search query
   var search = '/api/search/' + query
   search += '?semester=' + semester
   search += '&sort=' + sort
+  search += (track !== undefined && track !== '') ? '&track=' + track : ''
   // search += '&track=' + 'UGRD'
 
   if (query === undefined || query === null) query = ''
@@ -47,6 +52,7 @@ var searchForCourses = function (query, semester, sort, noswipe) {
   $('#searchbox').val(decodeURIComponent(query))
   if (semester) $('#semester').val(semester)
   if (sort) $('#sort').val(sort)
+  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
 
   // stop if no query
   if (query === '') {
