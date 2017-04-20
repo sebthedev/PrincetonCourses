@@ -135,7 +135,7 @@ courseSchema.index({
   'weights': {
     title: 10,
     description: 1,
-    department: 10,
+    department: 20,
     catalogNumber: 10,
     distribution: 10,
     'crosslistings.department': 15,
