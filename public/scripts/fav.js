@@ -6,6 +6,7 @@ var updateFavIcons = function() {
     var icon = $(this)
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
     icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
+    icon.attr('title', isFav ? 'Click to unfavorite' : 'Click to favorite')
   })
 }
 

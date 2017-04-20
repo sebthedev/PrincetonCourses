@@ -185,7 +185,7 @@ function newDOMsuggestResult(term, description) {
 
   var htmlString = (
     '<li class="list-group-item suggest-result truncate" ' + tooltip + '>'
-    + '<strong>' + term + '</strong>\xa0 '
+    + '<strong>' + term + '</strong>&nbsp; '
     + description
   + '</li>'
   )

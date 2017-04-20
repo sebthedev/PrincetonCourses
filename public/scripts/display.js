@@ -145,7 +145,7 @@ var display_subtitle = function(course) {
     else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="label label-danger">NPDF</span>'
   }
   if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
-  
+
   var website = (course.website === undefined ? '' : ' <a href="' + course.website
                                                    + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
   $('#disp-subtitle').append(listings + tags + website)
@@ -355,7 +355,7 @@ var newDOMclassListing = function(aclass) {
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + name + '\xa0<small' + statusColor + '>' + status + '</small></strong>'
+        + '<strong>' + name + '&nbsp;<small' + statusColor + '>' + status + '</small></strong>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'
