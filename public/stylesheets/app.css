@@ -544,7 +544,7 @@ body {
 #updates-bottom-popup {
   position: fixed;
   z-index: 1000;
-  background-color: rgba(224, 255, 255, 0.7);
+  background-color: rgba(224, 255, 255, 0.9);
   border-color: rgb(194, 232, 232);
   right: 10px;
   bottom: 0;
