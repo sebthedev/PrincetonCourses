@@ -64,6 +64,7 @@ var courseSchema = new mongoose.Schema({
   }],
   scores: {},
   scoresFromPreviousSemester: Boolean,
+  scoresFromPreviousSemesterSemester: Number,
   distribution: {
     type: String,
     uppercase: true,

@@ -2,14 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <script src="/scripts/resizable.js"></script>
-  <script src="/scripts/navbar.js"></script>
-  <script src="/scripts/module.js"></script>
-  <script src="/scripts/eval.js"></script>
-  <script src="/scripts/fav.js"></script>
-  <script src="/scripts/display.js"></script>
-  <script src="/scripts/search.js"></script>
-  <script src="/scripts/suggest.js"></script>
+  <script src="/scripts/about.js"></script>
   <script src="/scripts/app.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/about.css" type="text/css">
@@ -22,19 +15,21 @@
   <div id="full-page" class="flex-item-rigid">
     <nav id="menu-bar" class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand">Princeton Courses <sup>beta</sup></a>
+        <a class="navbar-brand" href="/#">Princeton Courses <sup>beta</sup></a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-          <!-- <span class="sr-only">Toggle navigation</span> -->
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
       </div>
       <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav">
+          <li><a href="/#">Course Search</a></li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle"><a href="/app.ejs">About</a></li>
-          <li id="netid"><a href="#"><%= netid %></a></li>
+          <li id="about-toggle" class="active"><a href="#">About</a></li>
+          <!-- <li id="netid"><a href="#"><%= netid %></a></li> -->
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
       </div>
@@ -43,9 +38,24 @@
     <section id="team" class="team content-section">
       <div class="container">
 
+        <div class="row text-center">
+          <div class="col-md-12">
+            <h2>About Princeton Courses</h2>
+            <p3>Princeton Courses is currently being built as the group's final project for <a href="http://www.cs.princeton.edu/courses/archive/spring17/cos333/" target="_blank" style="color: rgba(0,0,0,0.8);">COS 333: Advanced Programming Techniques</a> taught by Brian Kernighan in Spring 2017.</p3>
+            <br></br>
+            <p3>Right now, we are in the process of beta testing, so all feedback is welcome. Tell us about any bugs you experience - we want to know what YOU want out of Princeton Courses for years to come! </p3>
+            <br></br>
+            <p3>The team is currently advised by <a href="https://www.cs.princeton.edu/~cmoretti/" target="_blank" style="color: rgba(0,0,0,0.8);">Christopher Moretti</a>.</p3>
+            <br></br>
+            <p3>View our design document <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank" style="color: rgba(0,0,0,0.8);">here</a>.</p3>
+            <br></br>
+          </div>
+        </div>
+
         <div class="row text-center col-md-12">
-            <h2>Meet Our Team</h2>
-            <h3 class="caption gray subtitle"> On Front End </h3>
+          <br></br>
+          <h2>Meet Our Team</h2>
+          <h3 class="caption gray subtitle"> On Front End </h3>
         </div>
 
         <div class="row text-center">
@@ -54,10 +64,10 @@
               <figure>
                 <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/12494916_10201931491844820_4380261856249089998_n.jpg?oh=9a31f2a6598a78a7b83e5793e9a9d7a1&oe=5951C198" alt="" class="img-responsive prof-pic">
                 <figcaption>
-                  <p>I'm Mel, and front end is my one and only friend.</p>
+                  <p>I'm Mel!</p>
                   <ul>
                     <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                    <li><a href="https://au.linkedin.com/in/melshu"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://au.linkedin.com/in/melshu" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
@@ -70,10 +80,10 @@
               <figure>
                 <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/13325443_10154241456974834_592086043633881283_n.jpg?oh=e0fad3719a98f7ad825644ff6898b333&oe=595491BE" alt="" class="img-responsive prof-pic">
                 <figcaption>
-                  <p> I'm Bensu, and I love Quad. </p>
+                  <p> Hello! I'm from Turkey. I draw, play the violin, and sing a cappella. My blood/coffee concentration is approximately 50%.</p>
                   <ul>
-                    <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/bensusicim"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://www.instagram.com/bensusicim/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/bensusicim" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
@@ -88,8 +98,8 @@
                 <figcaption>
                   <p>Valar Morghulis.</p>
                   <ul>
-                    <li><a href="https://www.instagram.com/kare_bear_/"><i class="fa fa-instagram fa-2x"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/kara-bressler-77bb3a128"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://www.instagram.com/kare_bear_/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/kara-bressler-77bb3a128" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
@@ -112,14 +122,15 @@
                 <figure>
                   <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t31.0-8/s960x960/15157025_10205759026573695_3989749895210506511_o.jpg?oh=7a1171d1f23c2910d9152c75d870c76c&oe=595384B5" alt="" class="img-responsive prof-pic">
                   <figcaption>
-                    <p>Hey y'all, I'm Seb.</p>
+                    <p>I'm from New Zealand. I do improv comedy and quite enjoy eating pasta.</p>
                     <ul>
-                      <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                      <li><a href="https://www.linkedin.com/in/sebthedev"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                      <li><a href="https://www.twitter.com/sebthedev" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
+                      <li><a href="http://www.zibity.com" target="_blank"><i class="fa fa-home fa-2x"></i></a></li>
+                      <li><a href="https://www.linkedin.com/in/sebthedev" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                     </ul>
                   </figcaption>
                 </figure>
-                <h4>Sebastian Hallum-Clarke</h4>
+                <h4>Sebastian Hallum Clarke</h4>
                 <p>Computer Science, 2019</p>
               </div>
             </div>
@@ -130,8 +141,7 @@
                   <figcaption>
                     <p> Hey guys, I'm Cat. </p>
                     <ul>
-                      <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
-                      <li><a href="https://www.linkedin.com/in/caterina-golner-359775113"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                      <li><a href="https://www.linkedin.com/in/caterina-golner-359775113" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
                     </ul>
                   </figcaption>
                 </figure>
@@ -142,20 +152,9 @@
             <div class="col-md-2"> </div>
           </div>
 
-          <div class="row text-center">
-            <div class="col-md-12">
-              <br></br>
-              <h2>About Princeton Courses</h2>
-              <p3>Princeton Courses was initially built as the group's final project for <a href="http://www.cs.princeton.edu/courses/archive/spring17/cos333/" target="_blank" style="color: rgba(0,0,0,0.8);">COS 333: Advanced Programming Techniques</a> taught by Brian Kernighan in Spring 2017.</p3>
-              <br></br>
-              <p3>The team is currently advised by <a href="https://www.cs.princeton.edu/~cmoretti/" target="_blank" style="color: rgba(0,0,0,0.8);">Christopher Moretti</a>.</p3>
-              <br></br>
-              <p3>View our design document <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank" style="color: rgba(0,0,0,0.8);">here</a>.</p3>
-              <br></br>
-              <br></br>
-            </div>
+          <div class="row text-center col-md-12">
+            <br></br>
           </div>
-
         </div>
       </div>
     </section>
@@ -178,6 +177,7 @@
   <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">
     <button type="button" class="close" data-dismiss="alert" aria-label="close" onclick="saveUpdatePopupState()">&times;</button>
     <strong>Update:</strong>
+  </div>
   </body>
 
 </html>

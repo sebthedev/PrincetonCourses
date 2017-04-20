@@ -1,3 +1,30 @@
+// initialization
+$(document).ready(function() {
+  init_globals();
+  init_feedback();
+  init_logout();
+  init_updates();
+})
+
+// to initialize global data
+var init_globals = function() {
+  // Saving the user's netid so it is globally available
+  document.netid = $("#netid").text()
+}
+
+// to intialize logout button
+var init_logout = function() {
+  $('#menu-bar').mouseleave(function() {
+    var isNetidInvisible = $('#netid').css('display') === 'none'
+    if (isNetidInvisible) $('#netid, #logout').animate({width: 'toggle'})
+  })
+
+  $('#netid').click(function() {
+    var isLogoutVisible = $('#logout').css('display') !== 'none'
+    if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
+    return false;
+  })
+}
 
 // toggles the feedback form
 function toggleNavbar(element) {
@@ -8,17 +35,14 @@ function toggleNavbar(element) {
 
 // feedback form toggling
 var toggleFeedback = function() {
-  // hide menu if in mobile
-  if (document.isMobile) $('.navbar-collapse').collapse('hide')
-
   // update navbar
   var isActive = $('#feedback-toggle').hasClass("active")
-  if (isActive) 
+  if (isActive)
   {
     $('#feedback-toggle').removeClass("active");
   }
-  else 
-  {  
+  else
+  {
     $('#feedback-toggle').addClass("active");
     $('#feedback-form').removeAttr("onkeypress");
   }

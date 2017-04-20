@@ -23,7 +23,8 @@ const pdfoptions = {
   'PDF': 'P/D/F available',
   'PDFO': 'P/D/F only',
   'NPDF': 'No P/D/F',
-  'AUDIT': 'Audit available'
+  'AUDIT': 'Audit available',
+  'NEW': 'New Course'
 }
 
 // departments
@@ -138,6 +139,13 @@ const departments = {
 
 // handles click in navbar to toggle suggest pane
 function toggleSuggest() {
+  // swipe if in mobile
+  if (document.isMobile) {
+    $('#main-pane').slick('slickGoTo', 0)
+    $('.navbar-collapse').collapse('hide')
+    return false
+  }
+
   var isVisible = $('#suggest-pane').css('display') !== 'none'
 
   $('#suggest-pane').animate({width: 'toggle'})
@@ -177,7 +185,7 @@ function newDOMsuggestResult(term, description) {
 
   var htmlString = (
     '<li class="list-group-item suggest-result truncate" ' + tooltip + '>'
-    + '<strong>' + term + '</strong>\xa0 '
+    + '<strong>' + term + '</strong>&nbsp; '
     + description
   + '</li>'
   )
@@ -186,7 +194,7 @@ function newDOMsuggestResult(term, description) {
   // enable click to search
   $(entry).click(function() {
     $('#searchbox').val(term)
-    searchForCourses()
+    searchFromBox()
     return false
   })
 
