@@ -45,18 +45,26 @@ var loadPage = function (term, courseID, externalCallback) {
 
 var extractSingle = function ($, container, title) {
   var inside
-  var lines = container.first().contents().filter(function () {
+
+  let lines = container.first().contents().filter(function () {
     if ($(this).is('strong')) {
       inside = $(this).text().indexOf(title) > -1
     }
-    return (this.nodeType === 3 && inside)
+    return inside
   }).text().split('\n')
+
+  lines = lines.filter(function (line) {
+    let trimmedLine = line.trim()
+    return trimmedLine.length > 0 && trimmedLine !== title + ':'
+  }).map(function (line) {
+    return line.trim()
+  })
   for (var lineIndex in lines) {
     var line = lines[lineIndex].trim()
     if (line.length > 1 && line.substring(line.length - 2) === '..') {
       line = line.substring(0, line.length - 1)
     }
-    if (line.length > 0) {
+    if (line.trim() !== title.trim() && line.trim().length > 0) {
       return line
     }
   }
