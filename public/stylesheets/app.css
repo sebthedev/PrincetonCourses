@@ -541,14 +541,25 @@ body {
 }
 
 /* UPDATES POPUP CSS*/
-
 #updates-bottom-popup {
   position: fixed;
-  width: 25%;
   z-index: 1000;
   background-color: rgba(224, 255, 255, 0.7);
   border-color: rgb(194, 232, 232);
   right: 10px;
   bottom: 0;
   margin-bottom: 10px;
+}
+
+@media (min-width: 767px) {
+  #updates-bottom-popup {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+    #updates-bottom-popup {
+    width: 95%;
+    left: 10px;
+  }
 }
