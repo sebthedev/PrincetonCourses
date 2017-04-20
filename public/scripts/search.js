@@ -72,6 +72,11 @@ var searchForCourses = function (query, semester, sort, noswipe) {
       return false
     }
 
+    // Discard the response if the query does not match the text currently in the search box
+    if (decodeURIComponent(query) !== $('#searchbox').val()) {
+      return false
+    }
+
     // Remove any search results already in the results pane
     $('#results').children().remove()
 
