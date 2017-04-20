@@ -64,7 +64,6 @@ var courseSchema = new mongoose.Schema({
   }],
   scores: {},
   scoresFromPreviousSemester: Boolean,
-  scoresFromPreviousSemesterSemester: Number,
   distribution: {
     type: String,
     uppercase: true,
@@ -135,7 +134,7 @@ courseSchema.index({
   'weights': {
     title: 10,
     description: 1,
-    department: 20,
+    department: 10,
     catalogNumber: 10,
     distribution: 10,
     'crosslistings.department': 15,

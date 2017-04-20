@@ -45,26 +45,18 @@ var loadPage = function (term, courseID, externalCallback) {
 
 var extractSingle = function ($, container, title) {
   var inside
-
-  let lines = container.first().contents().filter(function () {
+  var lines = container.first().contents().filter(function () {
     if ($(this).is('strong')) {
       inside = $(this).text().indexOf(title) > -1
     }
-    return inside
+    return (this.nodeType === 3 && inside)
   }).text().split('\n')
-
-  lines = lines.filter(function (line) {
-    let trimmedLine = line.trim()
-    return trimmedLine.length > 0 && trimmedLine !== title + ':'
-  }).map(function (line) {
-    return line.trim()
-  })
   for (var lineIndex in lines) {
     var line = lines[lineIndex].trim()
     if (line.length > 1 && line.substring(line.length - 2) === '..') {
       line = line.substring(0, line.length - 1)
     }
-    if (line.trim() !== title.trim() && line.trim().length > 0) {
+    if (line.length > 0) {
       return line
     }
   }
@@ -96,11 +88,7 @@ var getCourseListingData = function (semester, courseID, callback) {
     }
 
     // Get Audit Status
-    if (attributes.indexOf('No Audit') === -1 || attributes.indexOf('na') === -1) {
-      results.audit = false
-    } else {
-      results.audit = true
-    }
+    results.audit = (attributes.indexOf('Audit') > -1)
 
     // Get Assignments
     var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')
