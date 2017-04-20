@@ -44,6 +44,7 @@ var searchForCourses = function (query, semester, sort, track, noswipe) {
   search += '?semester=' + semester
   search += '&sort=' + sort
   search += (track !== undefined && track !== '') ? '&track=' + track : ''
+  search += '&detectClashes=true'
   // search += '&track=' + 'UGRD'
 
   if (query === undefined || query === null) query = ''
@@ -85,6 +86,12 @@ var searchForCourses = function (query, semester, sort, track, noswipe) {
     // Discard the response if the query does not match the text currently in the search box
     if (decodeURIComponent(query) !== $('#searchbox').val()) {
       return false
+    }
+    
+    // Check whether there is a clash among the favorite courses
+    if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
+      // Do something elegant here
+      console.log('There is a time clash between one or more of the courses in your favorites list.')
     }
 
     // Remove any search results already in the results pane
@@ -217,8 +224,16 @@ function newDOMcourseResult(course, props) {
       if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF only" class="text-danger-dim">PDFO</span>'
       else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="No PDF" class="text-danger-dim">NPDF</span>'
     }
+<<<<<<< HEAD
     if (course.audit) tags += ' <span title="Audit available" class="text-warning-dim">AUDIT</span>'
     if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
+=======
+    if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">A</span>'
+    if (course.hasOwnProperty('clash') && course.clash === true) {
+      tags += ' <span title="This course clashes with one or more of your favorite courses." class="label label-danger">CLASH</span>'
+    }
+    if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
+>>>>>>> course-clash-detection
   }
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
