@@ -342,81 +342,37 @@ body {
 #display-initial {
   overflow-y: auto;
   overflow-x: hidden;
-  padding:10px 0 10px 0;
-}
-#welcome {
-  display: table-cell;
-  vertical-align: middle;
-  justify-content: center;
-  text-align: center;
   max-width: 100vw;
-  margin: auto;
+}
+@media (min-width: 992px) {
+  .row-md-flex {
+    display: flex;
+  }
 }
 
-#welcome>#image {
-  margin:10px 0 10px 0;
-}
-#welcome>#image>img {
-  opacity: 0.8;
-}
-#welcome-header>h2 {
-  margin:10px 0 0px 0;
+@media (max-width: 767px) {
+  .col-xs-welcome {
+    max-width: 300px;
+    margin: 0 auto;
+  }
 }
 
-#welcome-header {
-  /*width:100%;*/
-  margin: 0 0 25px 0;
-}
-#tip-items {
-  display:flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: center;
+.welcome-well {
+  margin: 20px;
 }
 
-.tip-item {
-  background-color: #F5F5F5;
-  transition: linear 0.2s;
-  justify-content: center;
-  align-items: center;
-  vertical-align: middle;
-  margin: 7.5px;
-  padding: 10px 5px;
-  width: calc(25% - 15px);
-  min-width: 200px;
-}
-.tip-item:last-child {
-  margin-right: 0;
-}
-
-.tip-item>.title {
-  font-size:1.3em;
-  padding:2px;
-  text-transform: capitalize;
-}
-
-.icon-container{
-  vertical-align: middle;
-  text-align: center;
-  margin:auto;
-  border-radius: 50%;
-  width: 75px;
-  height: 75px;
+.welcome-icon {
   background-color: #92D4E3;
   color: #fff;
-  font-size:3em;
-  /*margin-top:10px;*/
+  font-size: 3em !important;
+  line-height: 75px !important;
+  width: 75px;
+  border-radius: 50%;
   transition: linear 0.2s;
 }
-.icon-container>i{
-  vertical-align: middle;
-}
 
-.tip-item:hover {
-  background-color: #F0F0F0;
-}
-.tip-item:hover .icon-container{
-  font-size: 3.2em;
+.welcome-icon:hover {
+  font-size: 3.6em !important;
 }
 
 /* SEARCH PANE CSS */
