@@ -235,8 +235,6 @@ function newDOMcourseResult(course, props) {
 
   var tipFav = ' title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
 
-  console.log(course)
-
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result"' + tip + '>'
