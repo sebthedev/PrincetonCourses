@@ -6,6 +6,9 @@ function display_evals(course) {
   $('#evals-semesters-body').children().remove()
   $('#evals-numeric-body').children().remove()
   $('#evals-comments-body').children().remove()
+  $('#evals-semesters').css('display', '')
+  $('#evals-numeric').css('display', '')
+  $('#evals-comments').css('display', '')
 
   // display eval pane
   evals_semesters(course)
