@@ -56,8 +56,11 @@ var searchForCourses = function (query, semester, sort, noswipe) {
     return false
   }
 
-  // go to search pane for mobile
-  if (document.isMobile && noswipe !== true) $('#main-pane').slick('slickGoTo', 1)
+  // go to search pane for mobile and hide favorites
+  if (document.isMobile && noswipe !== true) {
+    $('#main-pane').slick('slickGoTo', 1)
+    if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
+  }
 
   // don't search if it's the same!
   if (document.lastSearch === search) return;
