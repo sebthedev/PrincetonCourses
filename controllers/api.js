@@ -45,22 +45,22 @@ router.delete('*', function (req, res, next) {
 
 // Intelligent searching for both courses and instructors
 router.get('/search/:query', function (req, res) {
-  // Validate that the request contains a query
+    // Validate that the request is correct
   if (typeof (req.params.query) === 'undefined') {
     res.sendStatus(400)
     return
   }
 
   // Initialise the queries and projections for the courses and instructors searches
-  let courseQuery = {}
-  let courseProjection = {}
-  let instructorQuery = {}
-  let instructorProjection = {}
+  var courseQuery = {}
+  var courseProjection = {}
+  var instructorQuery = {}
+  var instructorProjection = {}
 
-  // Perform filtering based on explicit keywords
-  let queryWords = req.params.query.split(' ')
-  var newQueryWords = []
+  // Permit explicit filtering based on keywords
+  var queryWords = req.params.query.split(' ')
   const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
+  var newQueryWords = []
   const courseDeptNumberRegexp = /([A-Z]{3})(\d{1,3})/
   for (var queryWordsIndex in queryWords) {
     var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
@@ -68,77 +68,50 @@ router.get('/search/:query', function (req, res) {
 
     // Check for distribution areas, pdf status, and wildcards
     if (distributionAreas.indexOf(thisQueryWord) > -1) {
-      if (!courseQuery.hasOwnProperty('distribution')) {
-        courseQuery.distribution = {
-          '$in': []
-        }
-      }
-      courseQuery.distribution['$in'].push(thisQueryWord)
+      courseQuery.distribution = thisQueryWord
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
     } else if (thisQueryWord === 'NPDF') {
       courseQuery['pdf.permitted'] = false
     } else if (thisQueryWord === 'PDFO') {
       courseQuery['pdf.required'] = true
-    } else if (thisQueryWord === 'NEW') {
-      courseQuery['new'] = true
     } else if (thisQueryWord === 'AUDIT') {
       courseQuery['audit'] = true
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])
-    } else if (thisQueryWord !== '*' && thisQueryWord.length > 0) {
+    } else if (thisQueryWord !== '*') {
       newQueryWords.push(thisQueryWord)
     }
   }
 
-  // Build the database queries and projections for searching for courses and instructors
+  // Build the database queries and projections
   if (newQueryWords.length > 0) {
-    // Prepend each query word with the regex word boundary token so that searching matches only the beginning of words
-    let prependedNewQueryWords = newQueryWords.map(function (word) {
-      return '\\b' + word
-    })
+    var searchQuery = newQueryWords.join(' ')
 
-    // Construct a query that performs a regex-based search looking for courses that contain at least one of the query words in at least one of the search fields
-    const queryRegex = new RegExp(prependedNewQueryWords.join('|'), 'i')
-    const courseTextSearchQuery = {
-      $or: [
-        {'title': queryRegex},
-        {'department': queryRegex},
-        {'catalogNumber': queryRegex},
-        {'crosslistings.department': queryRegex},
-        {'crosslistings.catalogNumber': queryRegex}
-      ]
+    // Basic query that performs a full-text-search with the search string
+    const initialQuery = {
+      $text: {
+        $search: searchQuery
+      }
     }
 
-    // Insert the courseTextSearchQuery into the main courseQuery object
-    Object.assign(courseQuery, courseTextSearchQuery)
-
-    // Insert the MongoDB full-text search query and projections into the instructor query and projectio
-    Object.assign(instructorQuery, {
-      $text: {
-        $search: newQueryWords.join(' ')
-      }
-    })
-    Object.assign(instructorProjection, {
+    // The basic projection that inserts the document's relevance into each returned document
+    const initialProjection = {
       relevance: {
         $meta: 'textScore'
       }
-    })
+    }
+
+    Object.assign(instructorQuery, initialQuery)
+    Object.assign(courseQuery, initialQuery)
+    Object.assign(instructorProjection, initialProjection)
+    Object.assign(courseProjection, initialProjection)
   }
 
   // Filter courses by semester
   if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
-    courseQuery.semester = parseInt(req.query.semester)
-  }
-
-  // Filter courses by track (Graduate / Undergraduate courses)
-  if (typeof (req.query.track) !== 'undefined') {
-    if (req.query.track === 'GRAD') {
-      courseQuery.track = 'GRAD'
-    } else if (req.query.track === 'UGRD') {
-      courseQuery.track = 'UGRD'
-    }
+    courseQuery.semester = req.query.semester
   }
 
   // Remove in-depth course information if the client requests "brief" results
@@ -210,66 +183,40 @@ router.get('/search/:query', function (req, res) {
       instructors = []
     }
 
-    // Filter returned courses to include only the courses that include all of the query terms
+    // Perform and-based filtering on the courses returned from the database
+    var filteredCourses = []
     // Define the properties in which all of the query terms must occur
     const filteringProperties = ['title', 'department', 'catalogNumber']
-    courses = courses.filter(function (thisCourse) {
-      thisCourse = thisCourse.toObject()
+    for (let courseIndex in courses) {
+      let thisCourse = courses[courseIndex].toObject()
 
       // Concatenate the course's relevant filtering properties into a single string
       let courseDetailsConcatenation = []
-      filteringProperties.forEach(function (filteringProperty) {
-        if (thisCourse.hasOwnProperty(filteringProperty)) {
-          courseDetailsConcatenation.push(thisCourse[filteringProperty])
+      for (let filteringPropertyIndex in filteringProperties) {
+        if (thisCourse.hasOwnProperty(filteringProperties[filteringPropertyIndex])) {
+          courseDetailsConcatenation.push(thisCourse[filteringProperties[filteringPropertyIndex]])
         }
-      })
+      }
       if (thisCourse.hasOwnProperty('crosslistings')) {
-        thisCourse.crosslistings.forEach(function (crosslisting) {
-          courseDetailsConcatenation.push(crosslisting.department)
-          courseDetailsConcatenation.push(crosslisting.catalogNumber)
-        })
+        for (let crosslistingIndex in thisCourse.crosslistings) {
+          courseDetailsConcatenation.push(thisCourse.crosslistings[crosslistingIndex].department)
+          courseDetailsConcatenation.push(thisCourse.crosslistings[crosslistingIndex].catalogNumber)
+        }
       }
       courseDetailsConcatenation = courseDetailsConcatenation.join(' ').toUpperCase()
 
       // Check whether all of the query words are in the courseDetailsConcatenation
       let passingWords = 0
-      newQueryWords.forEach(function (queryWord) {
-        let re = new RegExp('\\b' + queryWord)
-        if (re.test(courseDetailsConcatenation)) {
+      for (let thisQueryWordIndex in newQueryWords) {
+        if (courseDetailsConcatenation.indexOf(newQueryWords[thisQueryWordIndex]) > -1) {
           passingWords++
         }
-      })
-      return passingWords === newQueryWords.length
-    })
-
-    // Determine the relevance of each course to the entered query
-    const scoringProperties = [
-      {
-        property: 'title',
-        weight: 1
-      },
-      {
-        property: 'department',
-        weight: 2
-      },
-      {
-        property: 'catalogNumber',
-        weight: 1.5
       }
-    ]
-    courses.forEach(function (course, index) {
-      courses[index].relevance = 0
-      scoringProperties.forEach(function (scoringProperty) {
-        newQueryWords.forEach(function (queryWord) {
-          if (typeof (course[scoringProperty.property]) !== 'undefined') {
-            let matches = course[scoringProperty.property].match(new RegExp('\\b' + queryWord, 'i'))
-            if (matches != null) {
-              courses[index].relevance += matches.length * scoringProperty.weight
-            }
-          }
-        })
-      })
-    })
+      if (passingWords === newQueryWords.length) {
+        filteredCourses.push(thisCourse)
+      }
+    }
+    courses = filteredCourses
 
     if (detectClashes) {
       let detectClashesResult = courseClashDetector.detectCourseClash(favoriteCourses, courses, parseInt(courseQuery.semester))
@@ -335,11 +282,12 @@ router.get('/search/:query', function (req, res) {
       }
 
       // Then sort by course rating
+
       // If the course lacks a score it is lower than a course that has a score
-      if (typeof (a.scores) === 'undefined' || typeof (a.scores['Overall Quality of the Course']) === 'undefined') {
+      if (!a.hasOwnProperty('scores') || !a.scores.hasOwnProperty('Overall Quality of the Course')) {
         return 1
       }
-      if (typeof (b.scores) === 'undefined' || typeof (b.scores['Overall Quality of the Course']) === 'undefined') {
+      if (!b.hasOwnProperty('scores') || !b.scores.hasOwnProperty('Overall Quality of the Course')) {
         return -1
       }
 
@@ -399,7 +347,7 @@ router.get('/course/:id', function (req, res) {
   }, {
     scores: 1,
     semester: 1
-  }).sort({'semester': -1}).populate({
+  }).sort({'semester': -1}).limit(1).populate({
     path: 'comments',
     options: {
       sort: {
@@ -464,20 +412,8 @@ router.get('/course/:id', function (req, res) {
     let useOldEvaluations = queryCourse.scoresFromPreviousSemester || !queryCourse.hasOwnProperty('scores') || queryCourse.hasOwnProperty('scores') && queryCourse.scores === {}
 
     // Insert into the queryCourse the evaluation data for the most recent semester for which evaluations exist
-    if (useOldEvaluations && mostRecentEvaluations.length > 0) {
+    if (useOldEvaluations && mostRecentEvaluations.length === 1) {
       queryCourse.evaluations = mostRecentEvaluations[0].toObject()
-
-      // If there exist evaluations for a semester of this course taught by this instructor, use those evaluations instead
-      if (typeof (queryCourse.scoresFromPreviousSemesterSemester) === 'number') {
-        mostRecentEvaluations.find(function (thisPastSemesterCourse) {
-          if (thisPastSemesterCourse.semester._id === queryCourse.scoresFromPreviousSemesterSemester) {
-            queryCourse.evaluations = thisPastSemesterCourse.toObject()
-            return true
-          } else {
-            return false
-          }
-        })
-      }
 
       // Note if the user has previously up-voted this comment
       for (var commentIndex in queryCourse.evaluations.comments) {

@@ -1,30 +1,18 @@
-// dependencies: module.js, fav.js, eval.js, layout.js, history.js
+// dependencies: module.js, fav.js, eval.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
 var displayResult = function() {
   var courseId = this.courseId
 
-  history_display(courseId)
-
   // Display the information for this course
   displayCourseDetails(courseId)
-
-  return false
 }
 
 // function for displaying course details
-// -- noswipe to prevent swiping if on mobile
-var displayCourseDetails = function(courseId, noswipe) {
-  // return to default view if undefined
-  if (courseId === '') {
-    document.courseId = undefined;
-    document.course = undefined;
-    layout_initial_show()
-
-    displayActive() // update highlighting of active course
-    return;
-  }
+var displayCourseDetails = function(courseId) {
+  // Push to the history this course
+  window.history.pushState({courseID: courseId}, courseId, '/course/' + courseId + getSearchQueryURL())
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
@@ -50,21 +38,14 @@ var displayCourseDetails = function(courseId, noswipe) {
       display_evals(course); // in eval.js
       display_past(course);
 
-      displayActive() // update highlighting of active course
+  }).then(displayActive)
 
-      // set scroll to top
-      $('#evals-pane').scrollTop(0)
-      $('#info-pane').scrollTop(0)
+  // set scroll to top
+  $('#evals-pane').scrollTop(0)
+  $('#info-pane').scrollTop(0)
 
-      // make sure it can be seen
-      layout_initial_hide()
-
-      // go to display pane for mobile
-      if (document.isMobile && $('#main-pane').slick('slickCurrentSlide') !== 2 && noswipe !== true) {
-        $('#main-pane').slick('slickGoTo', 2)
-        /* $('#display-body').slick('slickGoTo', 1) */
-      }
-  })
+  // make sure it can be seen
+  $('#display-body').css('display', '')
 }
 
 // mark all corresponding courses as active
@@ -95,7 +76,10 @@ var display_title = function(course) {
   $('#disp-subtitle').html('')
   $('#disp-subtitle-right').html('')
 
-  $('#disp-title').append(course.title)
+  var website = (course.website === undefined ? '' : ' <a href="' + course.website
+                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
+
+  $('#disp-title').append(course.title + website)
 
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
@@ -146,9 +130,7 @@ var display_subtitle = function(course) {
   }
   if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
 
-  var website = (course.website === undefined ? '' : ' <a href="' + course.website
-                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
-  $('#disp-subtitle').append(listings + tags + website)
+  $('#disp-subtitle').append(listings + tags)
 
   var semester = ' &middot; ' + course.semester.name
 
@@ -198,8 +180,8 @@ var display_readings = function(course) {
 
 // returns a DOM object for a reading of the displayed course
 var newDOMreadingListing = function(reading) {
-  var author = reading.author || ''
-  var title = reading.title || ''
+  var author = reading.author
+  var title = reading.title
 
   var librarySearchURL = 'https://pulsearch.princeton.edu/catalog?f1=title&op1=OR&q1=' + encodeURIComponent(title) + '&f2=author&op2=OR&q2=' + encodeURIComponent(author) + '&search_field=advanced&commit=Search'
 
@@ -355,7 +337,7 @@ var newDOMclassListing = function(aclass) {
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + name + '&nbsp;<small' + statusColor + '>' + status + '</small></strong>'
+        + '<strong>' + name + '\xa0<small' + statusColor + '>' + status + '</small></strong>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'

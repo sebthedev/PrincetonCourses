@@ -68,22 +68,6 @@ app.get('/course/:id', function (req, res) {
   }
 })
 
-// Route a request for the about page
-app.get('/about', function (req, res) {
-  res.render('pages/about', {
-    netid: app.get('user')._id,
-    environment: process.env.NODE_ENV
-  })
-})
-
-// Route a request for the main app page
-app.get('/app', function (req, res) {
-  res.render('pages/app', {
-    netid: app.get('user')._id,
-    environment: process.env.NODE_ENV
-  })
-})
-
 // Map any files in the /public folder to the root of our domain
 // For example, if there is a file at /public/cat.jpg of this app,
 // it can be accessed on the web at [APP DOMAIN NAME]/cat.jpg

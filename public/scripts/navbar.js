@@ -1,32 +1,51 @@
 
-// toggles the feedback form
+// toggles the about popup, feedback form, or both
 function toggleNavbar(element) {
-  toggleFeedback()
+  if (element === 'about') {
+    if ($('#feedback-container').css('display') !== 'none') toggleFeedback()
+    toggleAbout()
+  } else {
+    if ($('#about-popup').css('display') !== 'none') toggleAbout()
+    toggleFeedback()
+  }
+  toggleAboutBodyClick()
   toggleFeedbackBodyClick()
   return false
 }
 
 // feedback form toggling
 var toggleFeedback = function() {
-  // hide menu if in mobile
-  if (document.isMobile) $('.navbar-collapse').collapse('hide')
-
   // update navbar
   var isActive = $('#feedback-toggle').hasClass("active")
-  if (isActive) 
-  {
-    $('#feedback-toggle').removeClass("active");
-  }
-  else 
-  {  
-    $('#feedback-toggle').addClass("active");
-    $('#feedback-form').removeAttr("onkeypress");
-  }
+  if (isActive) $('#feedback-toggle').removeClass("active")
+  else $('#feedback-toggle').addClass("active")
 
   // animate
   $('#feedback-container').slideToggle(function() {
     if($('#feedback-toggle').hasClass("active")) $('#feedback-text').focus()
   })
+}
+
+// about popup toggling
+var toggleAbout = function() {
+  // update navbar
+  var isVisible = $('#about-popup').css('display') !== 'none'
+  if (isVisible) $('#about-toggle').removeClass('active')
+  else  $('#about-toggle').addClass('active')
+
+  // animate
+  $('#about-popup').fadeToggle()
+}
+
+// hide about popup if clicked outside of div
+var toggleAboutBodyClick = function() {
+  $(document).on("click", function(event){
+    var $trigger = $("#about-popup");
+    if($trigger !== event.target && !$trigger.has(event.target).length){
+      $("#about-popup").fadeOut();
+      $("#about-toggle").removeClass('active');
+    }            
+  });
 }
 
 // hide feedback popup if clicked outside of div
@@ -36,6 +55,6 @@ var toggleFeedbackBodyClick = function() {
     if($trigger !== event.target && !$trigger.has(event.target).length){
       $("#feedback-container").slideUp();
       $("#feedback-toggle").removeClass('active');
-    }
+    }            
   });
 }

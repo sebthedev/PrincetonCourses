@@ -1,12 +1,11 @@
 // update the favorite heart icons
 var updateFavIcons = function() {
-  $(".fav-icon, .unfav-icon").each(function() {
+  $(".fa-heart").each(function() {
     var isFav = (document.favorites.indexOf(this.courseId) !== -1)
 
     var icon = $(this)
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
     icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
-    icon.attr('title', isFav ? 'Click to unfavorite' : 'Click to favorite')
   })
 }
 
