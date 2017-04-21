@@ -88,7 +88,9 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     // Check whether there is a clash among the favorite courses
     if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
       // Do something elegant here
-      console.log('There is a time clash between one or more of the courses in your favorites list.')
+      $('#fav-clash-indicator').css('display', '')
+    } else {
+      $('#fav-clash-indicator').css('display', 'none')
     }
 
     // Remove any search results already in the results pane
