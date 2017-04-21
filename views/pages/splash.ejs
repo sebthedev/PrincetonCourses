@@ -3,6 +3,7 @@
 
 <head>
     <% include ../partials/header.ejs %>
+    <script src="/scripts/app.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,7 +58,7 @@
     <!-- Note: The background image is set within the business-casual.css file. -->
     <header class="business-header text-center align-middle" id="image-container">
       <div class="col-md-12 text-center align-middle" id="button-container"> 
-        <button id="singlebutton" name="singlebutton" class="btn btn-default btn-lg"><span>Click here to Login</span></button> 
+        <button id="singlebutton" name="singlebutton" class="btn btn-default btn-lg" href="/auth/login"><span>Click here to Login</span></button> 
       </div>
     </header>
 
