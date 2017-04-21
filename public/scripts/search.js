@@ -88,7 +88,9 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     // Check whether there is a clash among the favorite courses
     if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
       // Do something elegant here
-      console.log('There is a time clash between one or more of the courses in your favorites list.')
+      $('#fav-clash-indicator').css('display', '')
+    } else {
+      $('#fav-clash-indicator').css('display', 'none')
     }
 
     // Remove any search results already in the results pane
@@ -219,23 +221,26 @@ function newDOMcourseResult(course, props) {
       tags += ' <span data-toggle="tooltip" class="text-info-dim"' + tipTag + '>' + course.distribution + '</span>'
     }
     if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF only" class="text-danger-dim">PDFO</span>'
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span data-toggle="tooltip" title="PDF only" class="text-danger-dim">PDFO</span>'
       else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-danger-dim">NPDF</span>'
     }
-    if (course.audit) tags += ' <span title="Audit available" class="text-warning-dim">AUDIT</span>'
+    if (course.audit) tags += ' <span title="Audit available" data-toggle="tooltip" class="text-warning-dim">AUDIT</span>'
     if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
 
     if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
   }
 
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var scoreTooltip = 'Overall Quality of the Course'
-  if (isPast) {
-    scoreTooltip += ' from the last time this instructor taught this course.'
-  }
-
   // is this a new course
   var isNew = course.hasOwnProperty('new') && course.new
+
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var scoreTooltip = 'No score available'
+  if (hasScore) {
+    scoreTooltip = 'Overall Quality of the Course'
+    if (isPast) scoreTooltip += ' from the last time this instructor taught this course'
+  } else if (isNew) {
+    scoreTooltip = 'New course'
+  }
 
   var badgeColor = '#ddd' /* light grey */
   if (hasScore) badgeColor = colorAt(score)
@@ -249,7 +254,7 @@ function newDOMcourseResult(course, props) {
   // var tip = (' title="' + mainListing(course) + crossListings(course) + '&#013;'
   //          + course.title + '"')
 
-  var tipFav = ' title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
+  var tipFav = ' data-original-title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
 
   // html string for the DOM object
   var htmlString = (
@@ -260,7 +265,7 @@ function newDOMcourseResult(course, props) {
       + '</div>'
       + '<div class="flex-item-rigid">'
         + clashIcon
-        + '&nbsp;<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"' + tipFav + '></i> '
+        + '&nbsp;<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '" data-toggle="tooltip"' + tipFav + '></i> '
         + '<span title="' + scoreTooltip + '" data-toggle="tooltip" class="badge badge-score" style="background-color: ' + badgeColor + '">'
           + badgeText
         + '</span>'
