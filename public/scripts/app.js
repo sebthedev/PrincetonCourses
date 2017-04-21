@@ -261,8 +261,8 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateMessage = 'Princeton Courses is now optimized for mobile. Feel free to browse comfortably on any device. Happy course selection!'
-  var updateNo = 1 //  BENSU: increment this number for new updates
+  var updateMessage = 'Princeton Courses is now optimized for mobile and will warn you if courses you\'re searching for have time conflicts with your favorite courses. Happy course selection!'
+  var updateNo = 2 //  BENSU: increment this number for new updates
   var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
   $("#updates-bottom-popup").append(updateMessage);
   if (updateNo != updateNoStored) // new update
