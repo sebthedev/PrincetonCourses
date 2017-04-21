@@ -91,7 +91,7 @@ var init_searchpane = function() {
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
-    var isVisible = $('#search-results').css('display') !== 'none'
+    var isVisible = $('#search-results').is(':visible')
 
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
@@ -104,7 +104,7 @@ var init_searchpane = function() {
 
   // toggle display of advanced search
   var toggleAdvancedDisplay = function() {
-    var isVisible = $('#advanced-body').css('display') !== 'none'
+    var isVisible = $('#advanced-body').is(':visible')
 
     $('#advanced-title').text((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options')
 
