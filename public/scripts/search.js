@@ -215,13 +215,13 @@ function newDOMcourseResult(course, props) {
     if (course.distribution !== undefined) {
       var tipTag = distributions[course.distribution]
       tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : '';
-      tags += ' <span data-toggle="tooltip" class="text-info"' + tipTag + '>' + course.distribution + '</span>'
+      tags += ' <span data-toggle="tooltip" class="text-info-dim"' + tipTag + '>' + course.distribution + '</span>'
     }
     if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF only" class="text-info-dim">PDFO</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-info-dim">NPDF</span>'
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF only" class="text-danger-dim">PDFO</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-danger-dim">NPDF</span>'
     }
-    if (course.audit) tags += ' <span title="Audit available" class="text-info">AUDIT</span>'
+    if (course.audit) tags += ' <span title="Audit available" class="text-warning-dim">AUDIT</span>'
     if (course.clash) tags += ' <span data-toggle="tooltip" title="This course clashes with one or more of your favorite courses." class="text-danger">CLASH</span>'
     if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
   }
@@ -242,6 +242,7 @@ function newDOMcourseResult(course, props) {
   var badgeText = 'N/A'
   if (hasScore) badgeText = score.toFixed(2)
   else if (isNew) badgeText = 'New'
+  if (isPast) badgeText += '*'
 
   // var tip = (' title="' + mainListing(course) + crossListings(course) + '&#013;'
   //          + course.title + '"')
