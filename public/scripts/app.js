@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js
 
 // initialization
 $(document).ready(function() {
@@ -11,6 +11,7 @@ $(document).ready(function() {
   init_globals();
   init_favorites();
   init_feedback();
+  init_demo();
   init_display();
   init_evals();
   init_logout();
@@ -37,7 +38,7 @@ var init_load = function () {
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchForCourses(parameters.search, parameters.semester, parameters.sort)
+  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, parameters.track)
 
   // initialize history
   history_init(courseId, window.location.search)
@@ -91,7 +92,7 @@ var init_searchpane = function() {
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
-    var isVisible = $('#search-results').css('display') !== 'none'
+    var isVisible = $('#search-results').is(':visible')
 
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
@@ -101,6 +102,16 @@ var init_searchpane = function() {
     $('#search-results').slideToggle()
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
+
+  // toggle display of advanced search
+  var toggleAdvancedDisplay = function() {
+    var isVisible = $('#advanced-body').is(':visible')
+
+    $('#advanced-title').text((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options')
+
+    $('#advanced-body').slideToggle()
+  }
+  $('#advanced-title').click(toggleAdvancedDisplay)
 }
 
 // to initialize searching function
@@ -111,7 +122,7 @@ var init_search = function() {
 
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
-  $('#semester, #sort').change(searchFromBox)
+  $('#semester, #sort, #advanced-grad-hide, #advanced-filter-clashes').change(searchFromBox)
 
   // Allow clicking the "Search" keyboard button on mobile
   if (document.isMobile) {
@@ -192,6 +203,12 @@ var init_feedback = function() {
   $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
 }
 
+// to initialize demo mechanism
+var init_demo = function() {
+  // conductInitialDemo(); // We need to make it so that the tour doesn't show on every page load
+  $("#demo-toggle").click(conductInitialDemo)
+}
+
 // to initialize display toggling
 var init_display = function() {
   $('#disp-instructors-toggle'  ).click(function() {section_toggle('disp', 'instructors')})
@@ -244,8 +261,8 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateMessage = 'Princeton Courses is now optimized for mobile. Feel free to browse comfortably on any device. Happy course selection!'
-  var updateNo = 1 //  BENSU: increment this number for new updates
+  var updateMessage = 'Princeton Courses is now optimized for mobile and will warn you if courses you\'re searching for have time conflicts with your favorite courses. Happy course selection!'
+  var updateNo = 2 //  BENSU: increment this number for new updates
   var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
   $("#updates-bottom-popup").append(updateMessage);
   if (updateNo != updateNoStored) // new update
@@ -298,6 +315,13 @@ var init_layout = function() {
   $('#menu-back').click(function() {
     window.history.back();
   })
+
+  // Initialise Bootstrap tooltips
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]',
+    container: 'body',
+    delay: 200
+  });
 
   document.isReady = true;
 }

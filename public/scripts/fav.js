@@ -67,6 +67,7 @@ var toggleFav = function() {
     updateFavIcons()
     updateFavList(courseId, course)
     displayActive()
+    setTimeout(searchFromBox, 10)
   }).catch(function (error) {
     console.log(error)
   })
