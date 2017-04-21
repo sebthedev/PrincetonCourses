@@ -247,6 +247,9 @@ body {
 .active .text-info {
   color: #9bddfa
 }
+.active .text-danger {
+  color: #ff6764
+}
 
 /* PAGEWIDE CSS */
 
