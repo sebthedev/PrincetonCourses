@@ -70,10 +70,6 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
   }
 
-  // don't search if it's the same!
-  if (document.lastSearch === search) return;
-  document.lastSearch = search
-
   // store search value used
   localStorage.setItem("sort", $('#sort').val())
 
