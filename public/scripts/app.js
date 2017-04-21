@@ -309,5 +309,12 @@ var init_layout = function() {
     window.history.back();
   })
 
+  // Initialise Bootstrap tooltips
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]',
+    container: 'body',
+    delay: 200
+  });
+
   document.isReady = true;
 }

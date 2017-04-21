@@ -225,7 +225,7 @@ function newDOMcourseResult(course, props) {
       else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="No PDF" class="text-info-dim">NPDF</span>'
     }
     if (course.audit) tags += ' <span title="Audit available" class="text-info">AUDIT</span>'
-    if (course.clash) tags += ' <span title="This course clashes with one or more of your favorite courses." class="text-danger">CLASH</span>'
+    if (course.clash) tags += ' <span data-toggle="tooltip" title="This course clashes with one or more of your favorite courses." class="text-danger">CLASH</span>'
     if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
   }
 
