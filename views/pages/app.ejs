@@ -2,6 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="/scripts/demo.js"></script>
   <script src="/scripts/history.js"></script>
   <script src="/scripts/layout.js"></script>
   <script src="/scripts/resizable.js"></script>
@@ -14,6 +15,7 @@
   <script src="/scripts/search.js"></script>
   <script src="/scripts/app.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/demo.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
 </head>
@@ -44,6 +46,7 @@
           <li id="suggest-toggle"><a href="#">Search Suggestions</a></li>
         </ul>
         <ul id="menu-right" class="nav navbar-nav navbar-right">
+          <li id="demo-toggle"><a href="javascript:void(0);">Demo</a></li>
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
           <li id="about-toggle"><a href="/about" target="_blank">About</a></li>
           <li id="netid"><a href="#"><%= netid %></a></li>
@@ -109,8 +112,26 @@
             </select>
           </div>
         </form>
+        <div id="advanced-header" class="flex-item-rigid flex-container-row" style="margin-top: 4px">
+          <small id="advanced-title" class="flex-item-stretch truncate text-button text-center">Show Advanced Search Options</small>
+        </div>
+        <div id="advanced-body" class="flex-item-shrink list-group marginless" style="display: none;">
+          <form id="advanced-form" class="list-group-item">
+            <div class="checkbox">
+              <label>
+                <input id="advanced-grad-hide" type="checkbox" checked> Hide graduate courses
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with favorites
+              </label>
+            </div>
+          </form>
+        </div>
         <div id="favorite-header" class="flex-item-rigid flex-container-row">
-          <h4 id="favorite-title" class="flex-item-stretch truncate">0 Favorite Courses</h4>
+          <h4 id="favorite-title" class="flex-item-shrink truncate">0 Favorite Courses</h4>
+          <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" title="There is a time clash between one or more of the courses in your favorites list." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
           <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus text-button"></i></h4>
         </div>
         <div id="favorite-courses" class="flex-item-shrink">

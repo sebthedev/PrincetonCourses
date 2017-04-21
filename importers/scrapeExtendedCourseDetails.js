@@ -23,40 +23,57 @@ var loadPage = function (term, courseID, externalCallback) {
   }
 
   // Make the request
-  var req = http.request(options, function (res) {
-    var str = ''
+  try {
+    var req = http.request(options, function (res) {
+      var str = ''
 
-    // Append received data to already received data
-    res.on('data', function (chunk) {
-      str += chunk
+      // Append received data to already received data
+      res.on('data', function (chunk) {
+        str += chunk
+      })
+
+      // Handle data once it has all been received
+      res.on('end', function () {
+        externalCallback(str)
+      })
+
+      res.on('error', function (err) {
+        console.log(err)
+      })
     })
 
-    // Handle data once it has all been received
-    res.on('end', function () {
-      externalCallback(str)
-    })
-
-    res.on('error', function (err) {
+    req.on('error', function (err) {
       console.log(err)
     })
-  })
-  req.end()
+
+    req.end()
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 var extractSingle = function ($, container, title) {
   var inside
-  var lines = container.first().contents().filter(function () {
+
+  let lines = container.first().contents().filter(function () {
     if ($(this).is('strong')) {
       inside = $(this).text().indexOf(title) > -1
     }
-    return (this.nodeType === 3 && inside)
+    return inside
   }).text().split('\n')
+
+  lines = lines.filter(function (line) {
+    let trimmedLine = line.trim()
+    return trimmedLine.length > 0 && trimmedLine !== title + ':'
+  }).map(function (line) {
+    return line.trim()
+  })
   for (var lineIndex in lines) {
     var line = lines[lineIndex].trim()
     if (line.length > 1 && line.substring(line.length - 2) === '..') {
       line = line.substring(0, line.length - 1)
     }
-    if (line.length > 0) {
+    if (line.trim() !== title.trim() && line.trim().length > 0) {
       return line
     }
   }
@@ -88,7 +105,11 @@ var getCourseListingData = function (semester, courseID, callback) {
     }
 
     // Get Audit Status
-    results.audit = (attributes.indexOf('Audit') > -1)
+    if (attributes.indexOf('No Audit') > -1 || attributes.indexOf('na') > -1) {
+      results.audit = false
+    } else {
+      results.audit = true
+    }
 
     // Get Assignments
     var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')

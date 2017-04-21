@@ -244,6 +244,12 @@ body {
 .active .text-dim {
   color: #fff;
 }
+.active .text-info {
+  color: #9bddfa
+}
+.active .text-danger {
+  color: #ff6764
+}
 
 /* PAGEWIDE CSS */
 
@@ -292,6 +298,11 @@ body {
 .flex-item-rigid {
   flex-grow: 0;
   flex-shrink: 0;
+}
+.flex-item-grow {
+  flex-grow: 10000;
+  flex-shrink: 0;
+  flex-basis: auto;
 }
 .flex-item-stretch {
   flex-grow: 10000;
@@ -358,7 +369,7 @@ body {
 }
 
 .welcome-well {
-  margin: 20px;
+  margin: 10px;
 }
 
 .welcome-icon {
@@ -386,6 +397,10 @@ body {
   z-index: 400;
 }
 
+#advanced-form {
+  background-color: #ccc;
+}
+
 .text-button {
   cursor: pointer;
   color: #888;
@@ -402,7 +417,6 @@ body {
 .unfav-icon {
   color: #d9534f;
   cursor: pointer;
-  padding:0 0 0 5px;
   transition: color 0.4s ease;
 }
 .unfav-icon:hover {
@@ -412,7 +426,6 @@ body {
 .fav-icon {
   color: #ddd;
   cursor: pointer;
-  padding:0 0 0 5px;
   transition: color 0.4s ease;
 }
 .fav-icon:hover {

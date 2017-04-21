@@ -4,9 +4,10 @@ var updateFavIcons = function() {
     var isFav = (document.favorites.indexOf(this.courseId) !== -1)
 
     var icon = $(this)
+    icon.tooltip('hide')
     icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
     icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
-    icon.attr('title', isFav ? 'Click to unfavorite' : 'Click to favorite')
+    icon.attr('data-original-title', isFav ? 'Click to unfavorite' : 'Click to favorite')
   })
 }
 
@@ -67,6 +68,7 @@ var toggleFav = function() {
     updateFavIcons()
     updateFavList(courseId, course)
     displayActive()
+    setTimeout(searchFromBox, 10)
   }).catch(function (error) {
     console.log(error)
   })
