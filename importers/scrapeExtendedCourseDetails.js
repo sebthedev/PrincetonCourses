@@ -23,24 +23,33 @@ var loadPage = function (term, courseID, externalCallback) {
   }
 
   // Make the request
-  var req = http.request(options, function (res) {
-    var str = ''
+  try {
+    var req = http.request(options, function (res) {
+      var str = ''
 
-    // Append received data to already received data
-    res.on('data', function (chunk) {
-      str += chunk
+      // Append received data to already received data
+      res.on('data', function (chunk) {
+        str += chunk
+      })
+
+      // Handle data once it has all been received
+      res.on('end', function () {
+        externalCallback(str)
+      })
+
+      res.on('error', function (err) {
+        console.log(err)
+      })
     })
 
-    // Handle data once it has all been received
-    res.on('end', function () {
-      externalCallback(str)
-    })
-
-    res.on('error', function (err) {
+    req.on('error', function (err) {
       console.log(err)
     })
-  })
-  req.end()
+
+    req.end()
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 var extractSingle = function ($, container, title) {
@@ -96,7 +105,7 @@ var getCourseListingData = function (semester, courseID, callback) {
     }
 
     // Get Audit Status
-    if (attributes.indexOf('No Audit') === -1 || attributes.indexOf('na') === -1) {
+    if (attributes.indexOf('No Audit') > -1 || attributes.indexOf('na') > -1) {
       results.audit = false
     } else {
       results.audit = true
