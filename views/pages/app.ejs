@@ -2,6 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="/scripts/demo.js"></script>
   <script src="/scripts/history.js"></script>
   <script src="/scripts/layout.js"></script>
   <script src="/scripts/resizable.js"></script>
@@ -14,6 +15,7 @@
   <script src="/scripts/search.js"></script>
   <script src="/scripts/app.js"></script>
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/demo.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
 </head>
@@ -44,6 +46,7 @@
           <li id="suggest-toggle"><a href="#">Search Suggestions</a></li>
         </ul>
         <ul id="menu-right" class="nav navbar-nav navbar-right">
+          <li id="demo-toggle"><a href="javascript:void(0);">Demo</a></li>
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
           <li id="about-toggle"><a href="/about" target="_blank">About</a></li>
           <li id="netid"><a href="#"><%= netid %></a></li>

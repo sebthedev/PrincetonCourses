@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js
 
 // initialization
 $(document).ready(function() {
@@ -11,6 +11,7 @@ $(document).ready(function() {
   init_globals();
   init_favorites();
   init_feedback();
+  init_demo();
   init_display();
   init_evals();
   init_logout();
@@ -200,6 +201,12 @@ var init_feedback = function() {
     }
   })
   $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
+}
+
+// to initialize demo mechanism
+var init_demo = function() {
+  conductInitialDemo();
+  $("#demo-toggle").click(function() { conductInitialDemo(); });
 }
 
 // to initialize display toggling
