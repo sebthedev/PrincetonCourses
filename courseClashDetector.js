@@ -255,21 +255,23 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     let maxLengthIndex = 0
     let courseSections = []
 
-    thisCourse.classes.forEach(function (thisClass) {
-      if (prevSectionType !== '' && thisClass.section != null) {
+    if (typeof (thisCourse.classes) !== 'undefined' && thisCourse.classes !== null) {
+      thisCourse.classes.forEach(function (thisClass) {
+        if (prevSectionType !== '' && thisClass.section != null) {
         // new section type within a course, push previous information into arrays
-        if (prevSectionType !== thisClass.section.charAt(0)) {
-          currentCourseSectionsAll.push(courseSections)
-          courseSections = []
-          currentMaxLength.push(maxLengthIndex)
-          maxLengthIndex = 0
-          currentSectionIndex.push(0)
+          if (prevSectionType !== thisClass.section.charAt(0)) {
+            currentCourseSectionsAll.push(courseSections)
+            courseSections = []
+            currentMaxLength.push(maxLengthIndex)
+            maxLengthIndex = 0
+            currentSectionIndex.push(0)
+          }
         }
-      }
-      courseSections.push(thisClass)
-      prevSectionType = thisClass.section.charAt(0)
-      maxLengthIndex++
-    })
+        courseSections.push(thisClass)
+        prevSectionType = thisClass.section.charAt(0)
+        maxLengthIndex++
+      })
+    }
 
     // all sections seen within course, push information into arrays
     if (courseSections != null) {
