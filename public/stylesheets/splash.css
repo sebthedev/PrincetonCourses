@@ -54,6 +54,7 @@ footer {
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 350px;
   transform: translateY(-50%);
   transform: translateX(-50%);
   background-color: transparent;
@@ -69,8 +70,28 @@ footer {
   transition: all 0.5s;
 }
 
+#singlebutton span {
+    transition: 0.5s;
+}
+
 #singlebutton:hover {
   color:#ddd;
   border-color:#ddd;
+}
 
+#singlebutton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#singlebutton:hover span {
+  padding-right: 25px;
+}
+
+#singlebutton:hover span:after {
+  opacity: 1;
+  right: 30px;
 }
