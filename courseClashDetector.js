@@ -320,16 +320,8 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
 
       possibleScheduleFound = true
     }
-    thisCourse.clash = (!possibleScheduleFound)
-    // courses[courseIndex].set('clash', !possibleScheduleFound)
-    courses[courseIndex] = thisCourse
-    console.log(thisCourse.clash, courses[courseIndex].clash)
+    courses[courseIndex].clash = (!possibleScheduleFound)
   }
-
-  console.log('courseClashDetector.js:')
-  courses.forEach(function (course) {
-    console.log(course.clash)
-  })
 
   // console.log(courses)
 

@@ -164,7 +164,6 @@ router.get('/search/:query', function (req, res) {
   // Determine whether the user has asked that we detect clashes with favorite courses
   let detectClashes = req.query.hasOwnProperty('detectClashes') && req.query.detectClashes !== 'false' && courseQuery.hasOwnProperty('semester')
   let filterOutClashes = detectClashes && req.query.detectClashes === 'filter'
-  console.log('detectClashes:', detectClashes)
 
   let promises = []
   let promiseNames = []
@@ -280,12 +279,6 @@ router.get('/search/:query', function (req, res) {
     // Detect clashes
     if (detectClashes) {
       var detectClashesResult = courseClashDetector.detectCourseClash(favoriteCourses, courses, parseInt(courseQuery.semester))
-
-      console.log('In API.js:')
-      detectClashesResult.courses.forEach(function (course) {
-        console.log(course.clash)
-      })
-
       if (detectClashesResult.hasOwnProperty('status')) {
         if (detectClashesResult.status === 'success') {
           courses = detectClashesResult.courses
