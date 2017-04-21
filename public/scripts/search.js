@@ -230,14 +230,17 @@ function newDOMcourseResult(course, props) {
     if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
   }
 
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var scoreTooltip = 'Overall Quality of the Course'
-  if (isPast) {
-    scoreTooltip += ' from the last time this instructor taught this course.'
-  }
-
   // is this a new course
   var isNew = course.hasOwnProperty('new') && course.new
+
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var scoreTooltip = 'No score available'
+  if (hasScore) {
+    scoreTooltip = 'Overall Quality of the Course'
+    if (isPast) scoreTooltip += ' from the last time this instructor taught this course'
+  } else if (isNew) {
+    scoreTooltip = 'New course'
+  }
 
   var badgeColor = '#ddd' /* light grey */
   if (hasScore) badgeColor = colorAt(score)

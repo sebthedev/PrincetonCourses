@@ -99,11 +99,8 @@ var display_title = function(course) {
 
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var scoreTooltip = 'Overall Quality of the Course'
-  if (isPast) {
-    scoreTooltip += ' from the last time this instructor taught this course.'
-  }
+  // is this a new course
+  var isNew = course.hasOwnProperty('new') && course.new
 
   // Determine the overall score for this course, if it exists
   var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
@@ -111,8 +108,14 @@ var display_title = function(course) {
     var score = course.evaluations.scores['Overall Quality of the Course']
   }
 
-  // is this a new course
-  var isNew = course.hasOwnProperty('new') && course.new
+  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
+  var scoreTooltip = 'No score available'
+  if (hasScore) {
+    scoreTooltip = 'Overall Quality of the Course'
+    if (isPast) scoreTooltip += ' from the last time this instructor taught this course'
+  } else if (isNew) {
+    scoreTooltip = 'New course'
+  }
 
   var badgeColor = '#ddd' /* light grey */
   if (hasScore) badgeColor = colorAt(score)
