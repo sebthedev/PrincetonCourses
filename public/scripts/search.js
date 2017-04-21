@@ -28,23 +28,24 @@ var searchFromBox = function() {
   var semester = $('#semester').val()
   var sort = $('#sort').val()
   var track = ($('#advanced-grad-hide').is(':checked') ? 'UGRD' : '')
+  var filterClashes = $('#advanced-filter-clashes').is(':checked')
 
   // save search into history
   history_search(queryURL)
 
-  searchForCourses(query, semester, sort, track)
+  searchForCourses(query, semester, sort, track, filterClashes)
 }
 
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
-var searchForCourses = function (query, semester, sort, track, noswipe) {
+var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
 
   // construct search query
   var search = '/api/search/' + query
   search += '?semester=' + semester
   search += '&sort=' + sort
   search += (track !== undefined && track !== '') ? '&track=' + track : ''
-  search += '&detectClashes=true'
+  search += '&detectClashes=' + (filterClashes ? 'filter' : 'true')
   // search += '&track=' + 'UGRD'
 
   if (query === undefined || query === null) query = ''

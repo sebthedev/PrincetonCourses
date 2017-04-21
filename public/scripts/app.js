@@ -37,7 +37,7 @@ var init_load = function () {
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.track)
+  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, parameters.track)
 
   // initialize history
   history_init(courseId, window.location.search)
@@ -121,7 +121,7 @@ var init_search = function() {
 
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
-  $('#semester, #sort, #advanced-grad-hide').change(searchFromBox)
+  $('#semester, #sort, #advanced-grad-hide, #advanced-filter-clashes').change(searchFromBox)
 
   // Allow clicking the "Search" keyboard button on mobile
   if (document.isMobile) {

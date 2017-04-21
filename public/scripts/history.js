@@ -27,7 +27,7 @@ window.onpopstate = function (event) {
   if (event.state && event.state.hasOwnProperty('searchQuery')) {
     var parameters = parseSearchParameters(event.state.searchQuery)
     // perform search
-    searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.track, search_noswipe)
+    searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes, search_noswipe)
   }
 
   // handle mobile back button
