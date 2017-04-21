@@ -1,17 +1,76 @@
-.fullpage{
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/*
+ * Start Bootstrap - Business Frontpage (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+    padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
-.jumbotron-banner {
-  text-align: center;
-  background-color: #EE7F2D;
-  color: #ffffff;
+/* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
+
+.business-header {
+    height: 600px;
+    background: url('..\\media\\princeton.jpg') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }
 
-.banner-button {
-  margin-top: 40px;
+/* Customize the text color and shadow color and to optimize text legibility. */
+
+.tagline {
+    text-shadow: 0 0 10px #000;
+    color: #fff;
+}
+
+.img-center {
+    margin: 0 auto;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+#navbar-content {
+    width:100%;
+}
+
+/*.business-header {
+    vertical-align: middle;
+    display:block;
+    align-items: center;
+}*/
+
+#button-container {
+  position: relative;
+  height: 100%;
+  text-align:center;
+}
+
+#singlebutton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  background-color: transparent;
+  border-radius: 0;
+  border-width: 3px;
+  color: #fff;
+  border-color:#fff;
+  text-shadow: 3px 2px 5px rgba(50, 50, 50, 1);
+  font-size:2em;
+  -webkit-box-shadow: 0px 0px 16px -1px rgba(0,0,0,0.52);
+  -moz-box-shadow: 0px 0px 16px -1px rgba(0,0,0,0.52);
+  box-shadow: 0px 0px 16px -1px rgba(0,0,0,0.52);
+  transition: all 0.5s;
+}
+
+#singlebutton:hover {
+  color:#ddd;
+  border-color:#ddd;
+
 }

@@ -1,25 +1,139 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <% include ../partials/header.ejs %>
-    <link rel="stylesheet" href="/stylesheets/splash.css" type="text/css">
-  </head>
+<html lang="en">
 
-  <body>
-    <div class="fullpage">
-      <div class="jumbotron jumbotron-banner">
-        <div class="container">
-          <h1>Princeton Courses</h1>
-          <p>Exploring course listings and evaluations made easy</p>
-          <div class="banner-button">
-            <a class="btn btn-lg btn-default" href="/auth/login" style="min-width: 150px;">Login</a>
-          </div>
+<head>
+    <% include ../partials/header.ejs %>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Business Frontpage - Start Bootstrap Template</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/stylesheets/splash.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container" id="navbar-content">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Princeton Courses <sup>beta</sup></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <li><a href="/#">Course Search</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li id="feedback-toggle" class="active"><a href="#">Home</a></li>
+                  <li id="feedback-toggle"><a href="#">Feedback</a></li>
+                  <li id="about-toggle"><a href="/about">About</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Image Background Page Header -->
+    <!-- Note: The background image is set within the business-casual.css file. -->
+    <header class="business-header text-center align-middle" id="image-container">
+      <div class="col-md-12 text-center align-middle" id="button-container"> 
+        <button id="singlebutton" name="singlebutton" class="btn btn-default btn-lg">Click here to Login</button> 
       </div>
-      <div style="text-align:center; max-width: 600px; margin: 10px auto -50px;">
-          <p>A project by Kara&nbsp;Bressler (team leader), Caterina&nbsp;Golner, <a href="http://www.zibity.com">Sebastian&nbsp;Hallum&nbsp;Clarke</a>, Mel&nbsp;Shu, and Bensu&nbsp;Sicim for COS&nbsp;333. The team is advised by <a href="https://www.cs.princeton.edu/~cmoretti/">Christopher Moretti</a>.</p>
-          <p>View our <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank">design document</a>.</p>
-      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>What We Do</h2>
+                <p>Introduce the visitor to the business using clear, informative text. Use well-targeted keywords within your sentences to make sure search engines can find the business.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et molestiae similique eligendi reiciendis sunt distinctio odit? Quia, neque, ipsa, adipisci quisquam ullam deserunt accusantium illo iste exercitationem nemo voluptates asperiores.</p>
+                <p>
+                    <a class="btn btn-default btn-lg" href="#">Call to Action &raquo;</a>
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h2>Contact Us</h2>
+                <address>
+                    <strong>Start Bootstrap</strong>
+                    <br>3481 Melrose Place
+                    <br>Beverly Hills, CA 90210
+                    <br>
+                </address>
+                <address>
+                    <abbr title="Phone">P:</abbr>(123) 456-7890
+                    <br>
+                    <abbr title="Email">E:</abbr> <a href="mailto:#">name@example.com</a>
+                </address>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <h2>Marketing Box #1</h2>
+                <p>These marketing boxes are a great place to put some information. These can contain summaries of what the company does, promotional information, or anything else that is relevant to the company. These will usually be below-the-fold.</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <h2>Marketing Box #2</h2>
+                <p>The images are set to be circular and responsive. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <h2>Marketing Box #3</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
     </div>
-  </body>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
 </html>
