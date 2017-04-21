@@ -302,7 +302,7 @@ body {
 .flex-item-grow {
   flex-grow: 10000;
   flex-shrink: 0;
-  flex-basis: 0;
+  flex-basis: auto;
 }
 .flex-item-stretch {
   flex-grow: 10000;
