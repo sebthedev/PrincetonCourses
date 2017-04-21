@@ -8,7 +8,7 @@ function conductInitialDemo() {
     steps: [
       {
           element: '#full-container',
-          intro: 'Welcome to Princeton Courses! We have a brief tour to show you the most important features. Click "Next" to begin',
+          intro: 'Welcome to Princeton Courses! We have a brief tour to show you the most important features. Click "Next" to begin.',
           position: 'bottom'
       },
       {
@@ -22,13 +22,18 @@ function conductInitialDemo() {
           position: 'bottom'
       },
       {
+          element: '#sort',
+          intro: 'Sort your search results by Course Code, Relevance, Rating, or Title here.',
+          position: 'bottom'
+      },
+      {
           element: '#favorite-header',
           intro: 'Courses that you mark as "Favorites" will appear here.',
           position: 'bottom'
       },
       {
           element: '#advanced-header',
-          intro: 'Filter through grad courses and classes which conflict with your favorited schedule.',
+          intro: 'Filter through grad courses and classes which conflict with your "Favorites."',
           position: 'bottom'
       },
       {
