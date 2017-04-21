@@ -205,8 +205,8 @@ var init_feedback = function() {
 
 // to initialize demo mechanism
 var init_demo = function() {
-  conductInitialDemo();
-  $("#demo-toggle").click(function() { conductInitialDemo(); });
+  // conductInitialDemo(); // We need to make it so that the tour doesn't show on every page load
+  $("#demo-toggle").click(conductInitialDemo)
 }
 
 // to initialize display toggling
