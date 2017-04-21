@@ -244,6 +244,9 @@ body {
 .active .text-dim {
   color: #fff;
 }
+.active .text-info {
+  color: #9bddfa
+}
 
 /* PAGEWIDE CSS */
 

@@ -219,11 +219,11 @@ function newDOMcourseResult(course, props) {
     if (course.distribution !== undefined) {
       var tipTag = distributions[course.distribution]
       tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : '';
-      tags += ' <span class="text-info"' + tipTag + '>' + course.distribution + '</span>'
+      tags += ' <span data-toggle="tooltip" class="text-info"' + tipTag + '>' + course.distribution + '</span>'
     }
     if (course.hasOwnProperty('pdf')) {
       if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF only" class="text-info-dim">PDFO</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="No PDF" class="text-info-dim">NPDF</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-info-dim">NPDF</span>'
     }
     if (course.audit) tags += ' <span title="Audit available" class="text-info">AUDIT</span>'
     if (course.clash) tags += ' <span data-toggle="tooltip" title="This course clashes with one or more of your favorite courses." class="text-danger">CLASH</span>'
@@ -231,7 +231,10 @@ function newDOMcourseResult(course, props) {
   }
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var tipPast = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
+  var scoreTooltip = 'Overall Quality of the Course'
+  if (isPast) {
+    scoreTooltip += ' from the last time this instructor taught this course.'
+  }
 
   // is this a new course
   var isNew = course.hasOwnProperty('new') && course.new
@@ -243,23 +246,22 @@ function newDOMcourseResult(course, props) {
   var badgeText = 'N/A'
   if (hasScore) badgeText = score.toFixed(2)
   else if (isNew) badgeText = 'New'
-  if (isPast) badgeText += '*'
 
-  var tip = (' title="' + mainListing(course) + crossListings(course) + '&#013;'
-           + course.title + '"')
+  // var tip = (' title="' + mainListing(course) + crossListings(course) + '&#013;'
+  //          + course.title + '"')
 
   var tipFav = ' title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
 
   // html string for the DOM object
   var htmlString = (
-    '<li class="list-group-item search-result"' + tip + '>'
+    '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
         + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
         + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"' + tipFav + '></i> '
-        + '<span' + tipPast + ' class="badge badge-score" style="background-color: ' + badgeColor + '">'
+        + '<span title="' + scoreTooltip + '" data-toggle="tooltip" class="badge badge-score" style="background-color: ' + badgeColor + '">'
           + badgeText
         + '</span>'
       + '</div>'
