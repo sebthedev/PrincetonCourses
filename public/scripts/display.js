@@ -362,12 +362,18 @@ var newDOMclassListing = function(aclass) {
     )
   }
 
+  console.log(aclass)
+
   // html string
   var htmlString = (
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + name + '&nbsp;<small' + statusColor + '>' + status + '</small></strong>'
+        + '<strong>'
+          + name
+          + ' <small' + statusColor + '>' + status + '</small>'
+          + ' <small class="class-code text-dim">#' + aclass.class_number + '</small>'
+        + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'
