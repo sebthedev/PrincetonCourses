@@ -412,7 +412,6 @@ body {
 .unfav-icon {
   color: #d9534f;
   cursor: pointer;
-  padding:0 0 0 5px;
   transition: color 0.4s ease;
 }
 .unfav-icon:hover {
@@ -422,7 +421,6 @@ body {
 .fav-icon {
   color: #ddd;
   cursor: pointer;
-  padding:0 0 0 5px;
   transition: color 0.4s ease;
 }
 .fav-icon:hover {

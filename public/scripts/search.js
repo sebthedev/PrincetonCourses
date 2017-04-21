@@ -211,6 +211,7 @@ function newDOMcourseResult(course, props) {
 
   // tags: dist / pdf / audit
   var tags = ''
+  var clashIcon = ''
   if (props.hasOwnProperty('tags')) {
     if (course.distribution !== undefined) {
       var tipTag = distributions[course.distribution]
@@ -222,8 +223,9 @@ function newDOMcourseResult(course, props) {
       else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-danger-dim">NPDF</span>'
     }
     if (course.audit) tags += ' <span title="Audit available" class="text-warning-dim">AUDIT</span>'
-    if (course.clash) tags += ' <span data-toggle="tooltip" title="This course clashes with one or more of your favorite courses." class="text-danger">CLASH</span>'
     if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
+
+    if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
   }
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
@@ -257,7 +259,8 @@ function newDOMcourseResult(course, props) {
         + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"' + tipFav + '></i> '
+        + clashIcon
+        + '&nbsp;<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"' + tipFav + '></i> '
         + '<span title="' + scoreTooltip + '" data-toggle="tooltip" class="badge badge-score" style="background-color: ' + badgeColor + '">'
           + badgeText
         + '</span>'
