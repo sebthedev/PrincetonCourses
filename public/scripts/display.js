@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, eval.js, layout.js, history.js
+// dependencies: module.js, fav.js, eval.js, layout.js, history.js, suggest.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
@@ -100,7 +100,10 @@ var display_title = function(course) {
   var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
+  var scoreTooltip = 'Overall Quality of the Course'
+  if (isPast) {
+    scoreTooltip += ' from the last time this instructor taught this course.'
+  }
 
   // Determine the overall score for this course, if it exists
   var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
@@ -120,8 +123,10 @@ var display_title = function(course) {
   else if (isNew) badgeText = 'New'
   if (isPast) badgeText += '*'
 
-  var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-                 + '<span' + tooltip + ' class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
+  var tipFav = ' data-original-title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
+
+  var htmlString = '<i data-placement="bottom" class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '" data-toggle="tooltip"' + tipFav + '></i> '
+                 + '<span data-placement="bottom" data-toggle="tooltip" title="' + scoreTooltip + '" class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
                    + badgeText
                  + '</span>'
 
@@ -138,16 +143,20 @@ var display_subtitle = function(course) {
 
   // tags
   var tags = ''
-  if (course.distribution !== undefined) tags += ' <span class="label label-info">' + course.distribution + '</span>'
-  if (course.hasOwnProperty('pdf')) {
-    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="label label-danger">PDF ONLY</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span class="label label-warning">PDF</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="label label-danger">NPDF</span>'
+  if (course.distribution !== undefined) {
+    var tipTag = distributions[course.distribution]
+    tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : ''
+    tags += ' <span data-placement="bottom" data-toggle="tooltip"' + tipTag + 'class="label label-info">' + course.distribution + '</span>'
   }
-  if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
+  if (course.hasOwnProperty('pdf')) {
+    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="PDF only" class="label label-danger">PDFO</span>'
+    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="PDF available" class="label label-warning">PDF</span>'
+    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="No PDF" class="label label-danger">NPDF</span>'
+  }
+  if (course.audit) tags += ' <span data-placement="bottom" title="Audit available" data-toggle="tooltip" class="label label-warning">AUDIT</span>'
 
-  var website = (course.website === undefined ? '' : ' <a href="' + course.website
-                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
+  var website = (course.website === undefined ? '' : ' <a href="' + course.website + '" target="_blank">'
+                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link-square"></i></a>')
   $('#disp-subtitle').append(listings + tags + website)
 
   var semester = ' &middot; ' + course.semester.name
@@ -156,7 +165,7 @@ var display_subtitle = function(course) {
   var link = ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml'
            + '?courseid=' + course.courseID
            + '&amp;term=' + course.semester._id
-           + '" target="_blank"><i class="fa fa-external-link"></i></a>'
+           + '" target="_blank"><i data-placement="bottom" data-toggle="tooltip" title="Registrar\'s page" class="fa fa-external-link"></i></a>'
 
   $('#disp-subtitle-right').append(link + semester)
 }
