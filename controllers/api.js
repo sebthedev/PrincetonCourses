@@ -242,6 +242,11 @@ router.get('/search/:query', function (req, res) {
       return passingWords === newQueryWords.length
     })
 
+    // Convert Mongoose objects to regular JavaScript objects
+    courses = courses.map(function (course) {
+      return course.toObject()
+    })
+
     // Determine the relevance of each course to the entered query
     const scoringProperties = [
       {
@@ -269,11 +274,6 @@ router.get('/search/:query', function (req, res) {
           }
         })
       })
-    })
-
-    // Convert Mongoose objects to regular JavaScript objects
-    courses = courses.map(function (course) {
-      return course.toObject()
     })
 
     // Detect clashes
