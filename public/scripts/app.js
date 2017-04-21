@@ -1,68 +1,52 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js
+// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js
 
 // initialization
 $(document).ready(function() {
 
   /* init_load(); MEL: now loads after semesters have been loaded in init_search */
+  init_layout();
   init_panes();
   init_searchpane();
   init_search();
   init_globals();
   init_favorites();
   init_feedback();
+  init_demo();
   init_display();
   init_evals();
   init_logout();
-  init_about();
   init_suggest();
   init_updates();
 })
 
 // loads course from url
 var init_load = function () {
-  // Parse and display search parameters, if any exist
-  parseSearchParameters()
+  var courseId = ''
 
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
     // Load the course
     courseId = parseInt(pathnameMatch[1])
-    if (!isNaN(courseId)) displayCourseDetails(courseId)
-  }
-}
-
-// Handle displaying a course after pushing the back/forward button in the browser
-window.onpopstate = function (event) {
-  if (event.state && event.state.courseID) {
-    displayCourseDetails(event.state.courseID)
-  }
-  parseSearchParameters()
-}
-
-// Parse the URL to check for whether the app should be showing a course and displaying any search terms
-var parseSearchParameters = function () {
-  // Parse search terms
-  var unparsedParameters = window.location.search.replace('?', '').split('&')
-  var parameters = {}
-  for (var parametersIndex in unparsedParameters) {
-    var keyValue = unparsedParameters[parametersIndex].split('=')
-    if (keyValue.length === 2) {
-      parameters[keyValue[0]] = decodeURIComponent(keyValue[1])
+    if (!isNaN(courseId)) {
+      displayCourseDetails(courseId)
+      var courseDisplayed = true;
     }
   }
-  if (parameters.hasOwnProperty('search')) {
-    $('#searchbox').val(parameters.search)
-  }
-  if (parameters.hasOwnProperty('semester')) {
-    $('#semester').data('query', parameters.semester).val(parameters.semester)
-  }
-  if (parameters.hasOwnProperty('sort')) {
-    $('#sort').val(parameters.sort)
-  }
-  if (parameters !== {}) {
-    searchForCourses()
-  }
+
+  // Parse search parameters, if any exist
+  var parameters = parseSearchParameters(window.location.search)
+
+  // perform search
+  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, parameters.track)
+
+  // initialize history
+  history_init(courseId, window.location.search)
+
+  // handle displaying default page
+  if (courseId === '' && (parameters.search === undefined || parameters.search === ''))
+    displayCourseDetails(courseId)
+
 }
 
 // to initialize draggability
@@ -108,7 +92,7 @@ var init_searchpane = function() {
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
-    var isVisible = $('#search-results').css('display') !== 'none'
+    var isVisible = $('#search-results').is(':visible')
 
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
@@ -118,13 +102,36 @@ var init_searchpane = function() {
     $('#search-results').slideToggle()
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
+
+  // toggle display of advanced search
+  var toggleAdvancedDisplay = function() {
+    var isVisible = $('#advanced-body').is(':visible')
+
+    $('#advanced-title').text((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options')
+
+    $('#advanced-body').slideToggle()
+  }
+  $('#advanced-title').click(toggleAdvancedDisplay)
 }
 
 // to initialize searching function
 var init_search = function() {
-  // Every time a key is pressed inside the #searchbox, call the searchForCourses function
-  $('#searchbox').on('input', searchForCourses)
-  $('#search-form').find('select, input').change(searchForCourses)
+  // restore sort used
+  var savedSort = localStorage.getItem("sort");
+  $('#sort').val((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName")
+
+  // Every time a key is pressed inside the #searchbox, search
+  $('#searchbox').on('input', searchFromBox)
+  $('#semester, #sort, #advanced-grad-hide, #advanced-filter-clashes').change(searchFromBox)
+
+  // Allow clicking the "Search" keyboard button on mobile
+  if (document.isMobile) {
+    $('#searchbox').keypress(function (event) {
+      if (event.keyCode === 13) {
+        $(this).blur()
+      }
+    })
+  }
 
   // load the semesters for the dropdown
   $('#semester').children(":not([disabled])").remove()
@@ -175,20 +182,31 @@ var init_favorites = function() {
 // to initialize feedback mechanism
 var init_feedback = function() {
   // submission
-  $('#feedback-form').one('submit', function() {
-    var submitURL = ''
-    submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
-    submitURL += 'entry.1257302391=' + document.netid
-    submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
+  $('#feedback-form').submit(function() {
+    if ($('#feedback-text').val().length > 0)
+    {
+      var submitURL = ''
+      submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
+      submitURL += 'entry.1257302391=' + document.netid
+      submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
 
-    $(this)[0].action = submitURL
-    $('#feedback-submit').text('Thank You!')
-    $('#feedback-submit').addClass('disabled')
-    $('#feedback-text').attr('disabled', true)
-    setTimeout(toggleFeedback, 1000)
+      $(this)[0].action = submitURL
+      $('#feedback-submit').text('Thank You!')
+      $('#feedback-submit').addClass('disabled')
+      $('#feedback-text').attr('disabled', true)
+      setTimeout(toggleFeedback, 1000)
+    }
+    else {
+      $('#feedback-text').attr("placeholder", "Please enter feedback.");
+    }
   })
-
   $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
+}
+
+// to initialize demo mechanism
+var init_demo = function() {
+  // conductInitialDemo(); // We need to make it so that the tour doesn't show on every page load
+  $("#demo-toggle").click(conductInitialDemo)
 }
 
 // to initialize display toggling
@@ -215,20 +233,20 @@ var init_evals = function() {
 var init_logout = function() {
   $('#menu-bar').mouseleave(function() {
     var isNetidInvisible = $('#netid').css('display') === 'none'
-    if (isNetidInvisible) $('#netid, #logout').animate({width: 'toggle'})
+    if (isNetidInvisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
   })
 
   $('#netid').click(function() {
     var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
+    if (!isLogoutVisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
     return false;
   })
-}
-
-// to initialize about display
-var init_about = function() {
-  $('#about-toggle').click(function() {return toggleNavbar('about')})
-  $('#about-popup-close').click(function() {return toggleNavbar('about')})
 }
 
 // to initialize suggest display
@@ -243,8 +261,8 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateMessage = 'You can now search for instructors. Also, take a look at Search Suggestions!'
-  var updateNo = 0 //  BENSU: increment this number for new updates
+  var updateMessage = 'Princeton Courses is now optimized for mobile and will warn you if courses you\'re searching for have time conflicts with your favorite courses. Happy course selection!'
+  var updateNo = 2 //  BENSU: increment this number for new updates
   var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
   $("#updates-bottom-popup").append(updateMessage);
   if (updateNo != updateNoStored) // new update
@@ -279,4 +297,31 @@ var section_toggle = function(pane, section) {
 // update is read by the user
 var saveUpdatePopupState = function() {
   localStorage.setItem('updateRead', 'True');
+}
+
+// to initialize responsive layout
+var init_layout = function() {
+  // initial layout
+  var width = $(window).width()
+  document.isMobile = (width < WIDTH_THRESHOLD)
+  if (document.isMobile) layout_mobile()
+  else layout_desktop()
+
+  layout_initial_show()
+
+  // bind to resizing
+  $(window).resize(layout_refresh)
+
+  $('#menu-back').click(function() {
+    window.history.back();
+  })
+
+  // Initialise Bootstrap tooltips
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]',
+    container: 'body',
+    delay: 200
+  });
+
+  document.isReady = true;
 }

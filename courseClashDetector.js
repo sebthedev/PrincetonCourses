@@ -255,21 +255,22 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     let maxLengthIndex = 0
     let courseSections = []
 
-    for (let currentClassIndex in thisCourse.classes) {
-      let currentSection = thisCourse.classes[currentClassIndex]
-      if (prevSectionType !== '' && currentSection.section != null) {
+    if (typeof (thisCourse.classes) !== 'undefined' && thisCourse.classes !== null) {
+      thisCourse.classes.forEach(function (thisClass) {
+        if (prevSectionType !== '' && thisClass.section != null) {
         // new section type within a course, push previous information into arrays
-        if (prevSectionType !== currentSection.section.charAt(0)) {
-          currentCourseSectionsAll.push(courseSections)
-          courseSections = []
-          currentMaxLength.push(maxLengthIndex)
-          maxLengthIndex = 0
-          currentSectionIndex.push(0)
+          if (prevSectionType !== thisClass.section.charAt(0)) {
+            currentCourseSectionsAll.push(courseSections)
+            courseSections = []
+            currentMaxLength.push(maxLengthIndex)
+            maxLengthIndex = 0
+            currentSectionIndex.push(0)
+          }
         }
-      }
-      courseSections.push(currentSection)
-      prevSectionType = currentSection.section.charAt(0)
-      maxLengthIndex++
+        courseSections.push(thisClass)
+        prevSectionType = thisClass.section.charAt(0)
+        maxLengthIndex++
+      })
     }
 
     // all sections seen within course, push information into arrays
@@ -321,10 +322,10 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
 
       possibleScheduleFound = true
     }
-
-    thisCourse.clash = (!possibleScheduleFound)
-    courses[courseIndex] = thisCourse
+    courses[courseIndex].clash = (!possibleScheduleFound)
   }
+
+  // console.log(courses)
 
   // Return the courses array with each course containing a new 'clash' property indicating whether the course clashes with any favorites
   return {

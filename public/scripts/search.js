@@ -1,4 +1,5 @@
-// dependencies: module.js, fav.js, display.js
+// dependencies: module.js, fav.js, display.js, history.js, suggest.js
+
 var getSearchQueryURL = function () {
   var parameters = []
   if ($('#searchbox').val() != null) {
@@ -10,32 +11,77 @@ var getSearchQueryURL = function () {
   if ($('#sort').val() != null) {
     parameters.push('sort=' + $('#sort').val())
   }
+  if ($('#advanced-grad-hide').is(':checked')) {
+    parameters.push('track=UGRD')
+  }
   return '?' + parameters.join('&')
+
+  // search += '&track=' + 'UGRD'
+}
+
+// update search results from the search box
+var searchFromBox = function() {
+  // query url
+  var queryURL = getSearchQueryURL()
+
+  var query = encodeURIComponent($('#searchbox').val())
+  var semester = $('#semester').val()
+  var sort = $('#sort').val()
+  var track = ($('#advanced-grad-hide').is(':checked') ? 'UGRD' : '')
+  var filterClashes = $('#advanced-filter-clashes').is(':checked')
+
+  // save search into history
+  history_search(queryURL)
+
+  searchForCourses(query, semester, sort, track, filterClashes)
 }
 
 // function for updating search results
-var searchForCourses = function () {
-  // return if no search
-  if ($('#searchbox').val() === '')
-  {
+// -- noswipe to prevent swiping if on mobile
+var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
+
+  // construct search query
+  var search = '/api/search/' + query
+  search += '?semester=' + semester
+  search += '&sort=' + sort
+  search += (track !== undefined && track !== '') ? '&track=' + track : ''
+  search += '&detectClashes=' + (filterClashes ? 'filter' : 'true')
+  // search += '&track=' + 'UGRD'
+
+  if (query === undefined || query === null) query = ''
+
+  // display search
+  $('#searchbox').val(decodeURIComponent(query))
+  if (semester) $('#semester').val(semester)
+  if (sort) $('#sort').val(sort)
+  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
+
+  // stop if no query
+  if (query === '') {
     $('#results').children().remove();
-    $('#search-title').text('0' + ' Search Results')
+    $('#search-title').text('0 Search Results')
+    document.lastSearch = ''
     return false
   }
 
-  // construct search query
-  var search = '/api/search/'
-  search += encodeURIComponent($('#searchbox').val())
-  search += '?semester=' + $('#semester').val()
-  search += '&sort=' + $('#sort').val()
-  search += '&detectClashes=' + ($('#filterclashes').is(':checked') ? 'filter' : 'true')
+  // go to search pane for mobile and hide favorites
+  if (document.isMobile && noswipe !== true) {
+    $('#main-pane').slick('slickGoTo', 1)
+    if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
+  }
 
-  window.history.replaceState({courseID: document.courseID}, null, window.location.pathname + getSearchQueryURL())
+  // store search value used
+  localStorage.setItem("sort", $('#sort').val())
 
   // search!
   $.get(search, function (results, success, xhr) {
     if (!success) {
       window.alert('An error occured and your search could not be completed.')
+      return false
+    }
+
+    // Discard the response if the query does not match the text currently in the search box
+    if (decodeURIComponent(query) !== $('#searchbox').val()) {
       return false
     }
 
@@ -60,16 +106,10 @@ var searchForCourses = function () {
         $('#results').append(newDOMResult(result, {"tags": 1}))
       }
     }
-  }).then(displayActive)
-}
 
-// length of non-instructor results (for temporary hiding of instructors)
-function courseLength(results) {
-  var count = 0
-  for (var index in results)
-    if (results[index].type !== 'instructor') count++
+    displayActive() // update highlighting of active course
+  })
 
-  return count
 }
 
 // returns a DOM object for a search result
@@ -167,25 +207,32 @@ function newDOMcourseResult(course, props) {
     var score = course.scores['Overall Quality of the Course']
 
   // append semester if appropriate
-  var semester = props.hasOwnProperty('semester') ? '\xa0<small class="text-dim">' + course.semester.name + '</small>' : ''
+  var semester = props.hasOwnProperty('semester') ? '&nbsp;<small class="text-dim">' + course.semester.name + '</small>' : ''
 
   // tags: dist / pdf / audit
   var tags = ''
+  var clashIcon = ''
   if (props.hasOwnProperty('tags')) {
-    if (course.distribution !== undefined) tags += ' <span class="text-info-dim">' + course.distribution + '</span>'
+    if (course.distribution !== undefined) {
+      var tipTag = distributions[course.distribution]
+      tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : '';
+      tags += ' <span data-toggle="tooltip" class="text-info-dim"' + tipTag + '>' + course.distribution + '</span>'
+    }
     if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF ONLY" class="text-danger-dim">P</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span title="NPDF" class="text-danger-dim">N</span>'
+      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span title="PDF only" class="text-danger-dim">PDFO</span>'
+      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-danger-dim">NPDF</span>'
     }
-    if (course.audit) tags += ' <span title="AUDIT" class="text-warning-dim">A</span>'
-    if (course.hasOwnProperty('clash') && course.clash === true) {
-      tags += ' <span title="This course clashes with one or more of your favorite courses." class="label label-danger">CLASH</span>'
-    }
-    if (tags !== '') tags = '<small>\xa0' + tags + '</small>'
+    if (course.audit) tags += ' <span title="Audit available" class="text-warning-dim">AUDIT</span>'
+    if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
+
+    if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
   }
 
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
+  var scoreTooltip = 'Overall Quality of the Course'
+  if (isPast) {
+    scoreTooltip += ' from the last time this instructor taught this course.'
+  }
 
   // is this a new course
   var isNew = course.hasOwnProperty('new') && course.new
@@ -199,6 +246,11 @@ function newDOMcourseResult(course, props) {
   else if (isNew) badgeText = 'New'
   if (isPast) badgeText += '*'
 
+  // var tip = (' title="' + mainListing(course) + crossListings(course) + '&#013;'
+  //          + course.title + '"')
+
+  var tipFav = ' title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
@@ -207,8 +259,9 @@ function newDOMcourseResult(course, props) {
         + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-        + '<span' + tooltip + ' class="badge badge-score" style="background-color: ' + badgeColor + '">'
+        + clashIcon
+        + '&nbsp;<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"' + tipFav + '></i> '
+        + '<span title="' + scoreTooltip + '" data-toggle="tooltip" class="badge badge-score" style="background-color: ' + badgeColor + '">'
           + badgeText
         + '</span>'
       + '</div>'
@@ -221,7 +274,7 @@ function newDOMcourseResult(course, props) {
   )
 
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
-  var icon = $(entry).find('i')[0]                                           // favorite icon
+  var icon = $(entry).find('i.fa-heart')[0]                                  // favorite icon
   entry.courseId = course._id                                                // attach course id to entry
   icon.courseId = course._id                                                 // attach course id to icon
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
