@@ -8,7 +8,7 @@ function conductInitialDemo() {
     steps: [
       {
           element: '#full-container',
-          intro: 'Welcome! Click \'Next\' for a Princeton Courses demo!',
+          intro: 'Welcome to Princeton Courses! We have a brief tour to show you the most important features. Click "Next" to begin',
           position: 'bottom'
       },
       {
@@ -23,7 +23,7 @@ function conductInitialDemo() {
       },
       {
           element: '#favorite-header',
-          intro: 'Favorite your courses here!',
+          intro: 'Courses that you mark as "Favorites" will appear here.',
           position: 'bottom'
       },
       {
