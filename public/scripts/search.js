@@ -274,7 +274,7 @@ function newDOMcourseResult(course, props) {
   )
 
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
-  var icon = $(entry).find('i')[0]                                           // favorite icon
+  var icon = $(entry).find('i.fa-heart')[0]                                  // favorite icon
   entry.courseId = course._id                                                // attach course id to entry
   icon.courseId = course._id                                                 // attach course id to icon
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
