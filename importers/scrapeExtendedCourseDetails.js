@@ -96,7 +96,7 @@ var getCourseListingData = function (semester, courseID, callback) {
     }
 
     // Get Audit Status
-    if (attributes.indexOf('No Audit') === -1 || attributes.indexOf('na') === -1) {
+    if (attributes.indexOf('No Audit') > -1 || attributes.indexOf('na') > -1) {
       results.audit = false
     } else {
       results.audit = true
