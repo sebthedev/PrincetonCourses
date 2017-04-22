@@ -186,6 +186,9 @@ function toggleInstructor(icon, body, entry) {
 // - entry: DOM object of whole entry
 function loadInstructor(icon, body, entry) {
   $.get('/api/instructor/' + icon.instructorId, function (instructor) {
+    // Stop if already loaded
+    if (!$(body).is(':empty')) return;
+
     var courses = instructor.courses;
     for (var index in courses) {
       var course = courses[index]
