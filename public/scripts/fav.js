@@ -22,18 +22,21 @@ var updateFavList = function(courseId, course, i) {
   var isFav = (i === -1)
 
   // toggle title if necessary
-  if ((document.favorites.length === 0 && $('#favorite-header').css('display') !== 'none')
-   || (document.favorites.length  >  0 && $('#favorite-header').css('display') === 'none')) {
-    $('#favorite-header').slideToggle()
+  if (document.favorites.length === 0) {
+    $('#favorite-header').slideUp()
+    $('#favorite-prompt').slideDown()
+  } else {
+    $('#favorite-header').slideDown()
+    $('#favorite-prompt').slideUp()
   }
 
   // if newly a favorite
   if (isFav) {
     var entry = newDOMcourseResult(course, {"semester": 1, "tags": 1})
-    $(entry).css('display', 'none')
+    $(entry).hide()
 
     $('#favs').append(entry)
-    $(entry).slideToggle()
+    $(entry).slideDown()
     return
   }
 
@@ -43,7 +46,7 @@ var updateFavList = function(courseId, course, i) {
     if (this.courseId !== courseId) return
 
     // remove
-    $(this).slideToggle(function() {
+    $(this).slideUp(function() {
       this.remove()
     })
   })

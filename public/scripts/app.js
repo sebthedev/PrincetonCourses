@@ -61,8 +61,8 @@ var init_panes = function() {
     $('#info-pane').css('width', infoPaneWidth);
   }
 
-  $('#search-pane').css('display', "");
-  $('#display-pane').css('display', "");
+  $('#search-pane').show()
+  $('#display-pane').show()
 
   $('#search-pane').resizable({
     handleSelector: "#search-resizer",
@@ -81,7 +81,7 @@ var init_searchpane = function() {
   $('#favorite-courses').css('max-height', '30vh')
     // toggle display of favorite things
   var toggleFavDisplay = function() {
-    var isVisible = $('#favorite-courses').css('display') !== 'none'
+    var isVisible = $('#favorite-courses').is(':visible')
 
     var icon = $('#fav-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
@@ -161,7 +161,14 @@ var init_favorites = function() {
   document.favorites = []
   $.get('/api/user/favorites', function(courses) {
 
-    $('#favorite-header').css('display', (courses === undefined || courses.length === 0) ? 'none' : '')
+    var hasFavorites = (courses !== undefined && courses.length !== 0)
+    if (hasFavorites) {
+      $('#favorite-header').show()
+      $('#favorite-prompt').hide()
+    } else {
+      $('#favorite-header').hide()
+      $('#favorite-prompt').show()
+    }
 
     $('#favs').html('');
     $('#favorite-title').html('');
@@ -232,7 +239,7 @@ var init_evals = function() {
 // to intialize logout button
 var init_logout = function() {
   $('#menu-bar').mouseleave(function() {
-    var isNetidInvisible = $('#netid').css('display') === 'none'
+    var isNetidInvisible = !$('#netid').is(':visible')
     if (isNetidInvisible) {
       if (document.isMobile) $('#netid, #logout').slideToggle()
       else $('#netid, #logout').animate({width: 'toggle'})
@@ -240,7 +247,7 @@ var init_logout = function() {
   })
 
   $('#netid').click(function() {
-    var isLogoutVisible = $('#logout').css('display') !== 'none'
+    var isLogoutVisible = $('#logout').is(':visible')
     if (!isLogoutVisible) {
       if (document.isMobile) $('#netid, #logout').slideToggle()
       else $('#netid, #logout').animate({width: 'toggle'})
@@ -287,7 +294,7 @@ var init_updates = function() {
 var section_toggle = function(pane, section) {
   var body = $('#' + pane + '-' + section + '-body')
   var icon = $('#' + pane + '-' + section + '-toggle')
-  var isVisible = (body.css('display') !== 'none')
+  var isVisible = (body.is(':visible'))
 
   icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
   icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')

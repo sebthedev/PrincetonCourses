@@ -15,12 +15,12 @@ var init_globals = function() {
 // to intialize logout button
 var init_logout = function() {
   $('#menu-bar').mouseleave(function() {
-    var isNetidInvisible = $('#netid').css('display') === 'none'
+    var isNetidInvisible = !$('#netid').is(':visible')
     if (isNetidInvisible) $('#netid, #logout').animate({width: 'toggle'})
   })
 
   $('#netid').click(function() {
-    var isLogoutVisible = $('#logout').css('display') !== 'none'
+    var isLogoutVisible = $('#logout').is(':visible')
     if (!isLogoutVisible) $('#netid, #logout').animate({width: 'toggle'})
     return false;
   })

@@ -61,7 +61,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     $('#results').children().remove();
     $('#search-title').text('0 Search Results')
     document.lastSearch = ''
-    $('#search-load-indicator').css('display', 'none')
+    $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
     return false
   }
@@ -75,7 +75,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   // store search value used
   localStorage.setItem("sort", $('#sort').val())
 
-  $('#search-load-indicator').css('display', '')
+  $('#search-load-indicator').show()
   $('#search-results').stop().animate({'opacity': '0.5'})
 
   // search!
@@ -92,9 +92,9 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
     // Check whether there is a clash among the favorite courses
     if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
-      $('#fav-clash-indicator').css('display', '')
+      $('#fav-clash-indicator').show()
     } else {
-      $('#fav-clash-indicator').css('display', 'none')
+      $('#fav-clash-indicator').hide()
     }
 
     // Remove any search results already in the results pane
@@ -115,7 +115,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
     displayActive() // update highlighting of active course
 
-    $('#search-load-indicator').css('display', 'none')
+    $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
   })
 
@@ -171,7 +171,7 @@ function toggleInstructor(icon, body, entry) {
     return
   }
 
-  var isVisible = $(body).css('display') !== 'none'
+  var isVisible = $(body).is(':visible')
 
   $(icon).removeClass(isVisible ? 'fa-caret-up' : 'fa-caret-down')
   $(icon).addClass(isVisible ? 'fa-caret-down' : 'fa-caret-up')

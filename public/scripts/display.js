@@ -84,11 +84,12 @@ var displayActive = function() {
 
 // shows/hides sections of no content
 var display_autotoggle = function(section) {
-  var div = $('#disp-' + section)
-  var body = $('#disp-' + section + '-body')
-  var isEmpty = body.is(':empty')
+  var $div = $('#disp-' + section)
+  var $body = $('#disp-' + section + '-body')
+  var isEmpty = $body.is(':empty')
 
-  div.css('display', isEmpty ? 'none' : '')
+  if (isEmpty) $div.hide()
+  else $div.show()
 }
 
 // display course data for title TODO: favoriting
