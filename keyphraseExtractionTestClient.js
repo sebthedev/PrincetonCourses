@@ -8,10 +8,10 @@ require('./controllers/database.js')
 require('./models/semester.js')
 var courseModel = require('./models/course.js')
 var userModel = require('./models/user.js')
-var clashDetector = require('./courseClashDetector.js')
+var extractKeyPhrases = require('./extractKeyphrases.js')
 
 // Greet the user
-console.log('Testing the Course Clash Detector')
+console.log('Testing Keyphrase Extraction')
 
 // Define an database query that will yield an array of courses that will be compared against the favorite courses for clashes
 const comparisonCoursesQuery = {
@@ -20,7 +20,7 @@ const comparisonCoursesQuery = {
 }
 
 // Execute the database queries
-let userPromise = userModel.findById('cgolner').populate('favoriteCourses').exec()
+let userPromise = userModel.findById('smclarke').populate('favoriteCourses').exec()
 let comparisonCoursesPromise = courseModel.find(comparisonCoursesQuery).exec()
 
 // Wait for both of the database queries to return
