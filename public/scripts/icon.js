@@ -131,8 +131,8 @@ function newHTMLtags(course, props) {
 
   var hasPDF = course.hasOwnProperty('pdf') && course.pdf.hasOwnProperty('required') && course.pdf.hasOwnProperty('permitted')
   var pdf_pdfo = hasPDF && course.pdf.required
-  var pdf_pdf = hasPDF && course.pdf.permitted
-  var pdf_npdf = hasPDF && !course.pdf.permitted
+  var pdf_pdf = hasPDF && !pdf_pdfo && course.pdf.permitted
+  var pdf_npdf = hasPDF && !pdf_pdfo && !course.pdf.permitted
 
   if (pdf_pdfo) {
     var pdf_tooltip = 'PDF only'
@@ -152,7 +152,7 @@ function newHTMLtags(course, props) {
   else pdf_style = 'text-' + pdf_style + '-dim'
 
   var tag_pdf = ''
-  if (hasPDF && (isTitle || pdf_pdfo || pdf_pdf || pdf_npdf)) tag_pdf = newHTMLtag(
+  if (hasPDF) tag_pdf = newHTMLtag(
     {
       'tooltip': pdf_tooltip,
       'placement': tipPlacement,
