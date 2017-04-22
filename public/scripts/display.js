@@ -27,7 +27,7 @@ var displayCourseDetails = function(courseId, noswipe) {
     return;
   }
 
-  $('#display-pane').animate({'opacity': '0.5'})
+  $('#display-pane').stop().animate({'opacity': '0.5'})
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling

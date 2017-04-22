@@ -76,7 +76,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   localStorage.setItem("sort", $('#sort').val())
 
   $('#search-load-indicator').css('display', '')
-  $('#search-results').animate({'opacity': '0.5'})
+  $('#search-results').stop().animate({'opacity': '0.5'})
 
   // search!
   $.get(search, function (results, success, xhr) {
