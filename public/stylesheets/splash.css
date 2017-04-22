@@ -16,7 +16,7 @@ body {
 
 .business-header {
     height: 600px;
-    /*background: url('..\\media\\princeton.jpg') center center no-repeat scroll;*/
+    background: url('..\\media\\princeton.jpg') center center no-repeat scroll;
     background-color:#ddd;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -41,6 +41,10 @@ footer {
 
 #navbar-content {
     width:100%;
+}
+
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
 }
 
 /*.business-header {
