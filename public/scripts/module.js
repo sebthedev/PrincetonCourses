@@ -34,18 +34,3 @@ function hsllg(h1,s1,l1, h2,s2,l2, x1,x2,x) {
 
   return 'hsl(' + h + ', ' + s + '%, ' + l + '%)'
 }
-
-// returns a string of the main course listing of the given course
-function mainListing(course) {
-  return course.department + "" + course.catalogNumber
-}
-
-// returns a string of the cross listings of the given course
-function crossListings(course) {
-  var listings = ''
-  for (var listing in course.crosslistings) {
-    listings += ' / '  + course.crosslistings[listing].department + course.crosslistings[listing].catalogNumber
-  }
-
-  return listings
-}

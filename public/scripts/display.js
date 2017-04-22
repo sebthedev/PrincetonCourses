@@ -112,7 +112,7 @@ var display_title = function(course) {
 // display course data for subtitle
 var display_subtitle = function(course) {
   // string for course listings
-  var listings = mainListing(course) + crossListings(course)
+  var listings = newHTMLlistings(course, {'title': 1})
 
   // tags
   var tags = newHTMLtags(course, {'title': 1})

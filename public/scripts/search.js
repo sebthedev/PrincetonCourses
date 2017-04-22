@@ -62,7 +62,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     $('#search-title').text('0 Search Results')
     document.lastSearch = ''
     $('#search-load-indicator').css('display', 'none')
-    $('#search-results').css('opacity', '')
+    $('#search-results').stop().css('opacity', '')
     return false
   }
 
@@ -76,7 +76,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   localStorage.setItem("sort", $('#sort').val())
 
   $('#search-load-indicator').css('display', '')
-  $('#search-results').css('opacity', '0.5')
+  $('#search-results').animate({'opacity': '0.5'})
 
   // search!
   $.get(search, function (results, success, xhr) {
@@ -116,7 +116,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     displayActive() // update highlighting of active course
 
     $('#search-load-indicator').css('display', 'none')
-    $('#search-results').css('opacity', '')
+    $('#search-results').stop().css('opacity', '')
   })
 
 }
@@ -226,7 +226,7 @@ function newDOMcourseResult(course, props) {
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
+        + '<strong>' + newHTMLlistings(course) + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
         + clashIcon + ' '

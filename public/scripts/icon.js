@@ -58,7 +58,8 @@ function newHTMLscoreBadge(course, props) {
     + 'data-original-title="' + tooltip + '" '
     + (isTitle ? 'data-placement="bottom" ' : '')
     + 'class="badge badge-score' + (isTitle ? ' badge-large' : '') + '" '
-    + 'style="background-color: ' + color + '">'
+    + 'style="background-color: ' + color + '"'
+  + '>'
       + text
   + '</span>'
   )
@@ -167,9 +168,46 @@ function newHTMLtag(props) {
     + tooltip
     + placement
     + classes
-    + '>'
+  + '>'
       + text
  + '</span>'
+  )
+
+  return htmlString
+}
+
+// returns a HTML string for the listings of a course
+// props is an object that contains the following info:
+// -- title: indicates tags for display title if defined
+function newHTMLlistings(course, props) {
+  var htmlString = newHTMLlisting(course.department, course.catalogNumber, props)
+  for (var i in course.crosslistings) {
+    var listing = course.crosslistings[i]
+
+    htmlString += ' / ' + newHTMLlisting(listing.department, listing.catalogNumber, props)
+  }
+
+  return htmlString
+}
+
+// returns a HTML string for the given listing
+// props is an object that contains the following info:
+// -- title: indicates tags for display title if defined
+function newHTMLlisting(department, catalogNumber, props) {
+  var hasTooltip = (department in departments)
+  var isTitle = (props != undefined && props.hasOwnProperty('title'))
+
+  var tooltip = (hasTooltip ? ' data-toggle="tooltip" data-original-title="' + departments[department] + '"' : '')
+  var placement = ' data-placement="' + (isTitle ? 'bottom' : 'top') + '"'
+  var text = department + catalogNumber
+
+  var htmlString = (
+    '<span'
+    + tooltip
+    + placement
+  + '>'
+      + text
+  + '</span>'
   )
 
   return htmlString
