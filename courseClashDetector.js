@@ -226,6 +226,11 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     incFavCourseSections.push(incSections)
   }
 
+  //update values in maxLength to account for dropped sections
+  for (let i = 0; i < incFavCourseSections.length; i++) {
+    maxLength[i] = incFavCourseSections[i].length
+  }
+
   // Check if there is no clash currently, if there is, return all courses, since clash will persist
   for (let i = 0; i < incFavCourseSections.length; i++) {
     if (incFavCourseSections[i].length <= 0) {
@@ -324,8 +329,6 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     }
     courses[courseIndex].clash = (!possibleScheduleFound)
   }
-
-  // console.log(courses)
 
   // Return the courses array with each course containing a new 'clash' property indicating whether the course clashes with any favorites
   return {
