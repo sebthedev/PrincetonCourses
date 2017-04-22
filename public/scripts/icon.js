@@ -101,7 +101,7 @@ function newHTMLtags(course, props) {
     var pdf_text = 'PDFO'
   } else if (pdf_pdf) {
     var pdf_tooltip = 'PDF available'
-    var pdf_style = 'success'
+    var pdf_style = 'warning'
     var pdf_text = 'PDF'
   } else if (pdf_npdf) {
     var pdf_tooltip = 'No PDF'

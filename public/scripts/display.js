@@ -111,22 +111,11 @@ var display_subtitle = function(course) {
   var listings = mainListing(course) + crossListings(course)
 
   // tags
-  var tags = ''
-  if (course.distribution !== undefined) {
-    var tipTag = distributions[course.distribution]
-    tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : ''
-    tags += ' <span data-placement="bottom" data-toggle="tooltip"' + tipTag + 'class="label label-info">' + course.distribution + '</span>'
-  }
-  if (course.hasOwnProperty('pdf')) {
-    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="PDF only" class="label label-danger">PDFO</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="PDF available" class="label label-warning">PDF</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="No PDF" class="label label-danger">NPDF</span>'
-  }
-  if (course.audit) tags += ' <span data-placement="bottom" title="Audit available" data-toggle="tooltip" class="label label-warning">AUDIT</span>'
+  var tags = newHTMLtags(course, {'title': 1})
 
-  var website = (course.website === undefined ? '' : ' <a href="' + course.website + '" target="_blank">'
-                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link-square"></i></a>')
-  $('#disp-subtitle').append(listings + tags + website)
+  var website = (course.website === undefined ? '' : '<a href="' + course.website + '" target="_blank">'
+                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link"></i></a>')
+  $('#disp-subtitle').append(listings + ' ' + tags + ' ' + website)
 
   var semester = ' &middot; ' + course.semester.name
 

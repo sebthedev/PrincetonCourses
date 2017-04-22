@@ -61,6 +61,8 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     $('#results').children().remove();
     $('#search-title').text('0 Search Results')
     document.lastSearch = ''
+    $('#search-load-indicator').css('display', 'none')
+    $('#search-results').css('opacity', '')
     return false
   }
 
@@ -72,6 +74,9 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
   // store search value used
   localStorage.setItem("sort", $('#sort').val())
+
+  $('#search-load-indicator').css('display', '')
+  $('#search-results').css('opacity', '0.5')
 
   // search!
   $.get(search, function (results, success, xhr) {
@@ -87,7 +92,6 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
     // Check whether there is a clash among the favorite courses
     if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
-      // Do something elegant here
       $('#fav-clash-indicator').css('display', '')
     } else {
       $('#fav-clash-indicator').css('display', 'none')
@@ -110,6 +114,9 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     }
 
     displayActive() // update highlighting of active course
+
+    $('#search-load-indicator').css('display', 'none')
+    $('#search-results').css('opacity', '')
   })
 
 }
