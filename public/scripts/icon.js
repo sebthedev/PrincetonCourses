@@ -152,7 +152,7 @@ function newHTMLtags(course, props) {
   else pdf_style = 'text-' + pdf_style + '-dim'
 
   var tag_pdf = ''
-  if (hasPDF && (isTitle || pdf_pdfo || pdf_npdf)) tag_pdf = newHTMLtag(
+  if (hasPDF && (isTitle || pdf_pdfo || pdf_pdf || pdf_npdf)) tag_pdf = newHTMLtag(
     {
       'tooltip': pdf_tooltip,
       'placement': tipPlacement,
