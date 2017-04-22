@@ -23,8 +23,11 @@ var displayCourseDetails = function(courseId, noswipe) {
     layout_initial_show()
 
     displayActive() // update highlighting of active course
+    $('#display-pane').stop().css('opacity', '')
     return;
   }
+
+  $('#display-pane').animate({'opacity': '0.5'})
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
@@ -64,6 +67,7 @@ var displayCourseDetails = function(courseId, noswipe) {
         $('#main-pane').slick('slickGoTo', 2)
         /* $('#display-body').slick('slickGoTo', 1) */
       }
+      $('#display-pane').stop().css('opacity', '')
   })
 }
 
