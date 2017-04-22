@@ -471,6 +471,13 @@ body {
   overflow-y: auto;
 }
 
+.class-code {
+  display: none;
+}
+.info-list-item:hover .class-code {
+  display: inline;
+}
+
 .info-list-item {
   /*background-color:#eee;*/
 }

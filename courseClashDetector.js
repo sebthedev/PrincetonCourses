@@ -227,6 +227,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
   }
 
   // Check if there is no clash currently, if there is, return all courses, since clash will persist
+  //update values in maxLength to account for dropped sections
   for (let i = 0; i < incFavCourseSections.length; i++) {
     if (incFavCourseSections[i].length <= 0) {
       return {
@@ -234,6 +235,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
         courses: courses
       }
     }
+    maxLength[i] = incFavCourseSections[i].length
   }
 
   // now that the original subgraph has been made, run clash on all courses from search results
@@ -292,7 +294,6 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
 
     // now check for all possible schedules to include only possible sections
     // note that if sectionIndex[0] >= maxLengthIndex[0] all possibilities have been checked and the algorithm should terminate
-    // while (!checkedAll(sectionIndex, maxLength)  && !runBack) {
     while (!possibleScheduleFound) {
       while (i < currentSectionIndex.length) {
         for (let j = 0; j < i; j++) {
@@ -324,8 +325,6 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     }
     courses[courseIndex].clash = (!possibleScheduleFound)
   }
-
-  // console.log(courses)
 
   // Return the courses array with each course containing a new 'clash' property indicating whether the course clashes with any favorites
   return {
