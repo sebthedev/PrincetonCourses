@@ -8,6 +8,10 @@ body {
     padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+.container {
+  margin-top:20px;
+}
+
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 
 .business-header {
@@ -51,6 +55,7 @@ footer {
   text-align:center;
 }
 
+/* Login Button */
 #singlebutton {
   position: absolute;
   top: 50%;
@@ -95,4 +100,18 @@ footer {
 #singlebutton:hover span:after {
   opacity: 1;
   right: 30px;
+}
+
+/* Slideshow */
+.slideshow-container {
+  background-color: #eee;
+}
+
+.slideshow-div>img {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.slideshow-div>.caption {
+  position:absolute;
+  top:-50px;
 }
