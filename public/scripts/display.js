@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, eval.js, layout.js, history.js, suggest.js
+// dependencies: module.js, fav.js, eval.js, layout.js, history.js, suggest.js, icon.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
@@ -97,44 +97,10 @@ var display_title = function(course) {
 
   $('#disp-title').append(course.title)
 
-  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
-
-  // is this a new course
-  var isNew = course.hasOwnProperty('new') && course.new
-
-  // Determine the overall score for this course, if it exists
-  var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-  if (hasScore) {
-    var score = course.evaluations.scores['Overall Quality of the Course']
-  }
-
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var scoreTooltip = 'No score available'
-  if (hasScore) {
-    scoreTooltip = 'Overall Quality of the Course'
-    if (isPast) scoreTooltip += ' from the last time this instructor taught this course'
-  } else if (isNew) {
-    scoreTooltip = 'New course'
-  }
-
-  var badgeColor = '#ddd' /* light grey */
-  if (hasScore) badgeColor = colorAt(score)
-  else if (isNew) badgeColor = '#92D4E3' /* blue */
-
-  var badgeText = 'N/A'
-  if (hasScore) badgeText = score.toFixed(2)
-  else if (isNew) badgeText = 'New'
-  if (isPast) badgeText += '*'
-
-  var tipFav = ' data-original-title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
-
-  var htmlString = '<i data-placement="bottom" class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '" data-toggle="tooltip"' + tipFav + '></i> '
-                 + '<span data-placement="bottom" data-toggle="tooltip" title="' + scoreTooltip + '" class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
-                   + badgeText
-                 + '</span>'
+  var htmlString = newHTMLfavIcon(course._id, {'title': 1}) + ' ' + newHTMLscoreBadge(course, {'title': 1})
 
   $('#disp-title-right').append(htmlString)
-  var icon = $('#disp-title-right').find('i')[0]
+  var icon = $('#disp-title-right').find('i.fa-heart')[0]
   icon.courseId = course._id  // bind course id
   $(icon).click(toggleFav)    // enable click to fav/unfav
 }
@@ -361,8 +327,6 @@ var newDOMclassListing = function(aclass) {
     + '</div>'
     )
   }
-
-  console.log(aclass)
 
   // html string
   var htmlString = (

@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, display.js, history.js, suggest.js
+// dependencies: module.js, fav.js, display.js, history.js, suggest.js, icon.js
 
 var getSearchQueryURL = function () {
   var parameters = []
@@ -201,60 +201,15 @@ function loadInstructor(icon, body, entry) {
 //  - 'semester' is defined => displays semester name too
 //  - 'tags' is defined => displays pdf/audit tags
 function newDOMcourseResult(course, props) {
-  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
-
-  var hasScore = (course.hasOwnProperty('scores') && course.scores.hasOwnProperty('Overall Quality of the Course'))
-
-  if (hasScore)
-    var score = course.scores['Overall Quality of the Course']
-
   // append semester if appropriate
   var semester = props.hasOwnProperty('semester') ? '&nbsp;<small class="text-dim">' + course.semester.name + '</small>' : ''
 
   // tags: dist / pdf / audit
   var tags = ''
+  if (props.hasOwnProperty('tags')) tags = ' <small>' + newHTMLtags(course) + '</small>'
+
   var clashIcon = ''
-  if (props.hasOwnProperty('tags')) {
-    if (course.distribution !== undefined) {
-      var tipTag = distributions[course.distribution]
-      tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : '';
-      tags += ' <span data-toggle="tooltip" class="text-info-dim"' + tipTag + '>' + course.distribution + '</span>'
-    }
-    if (course.hasOwnProperty('pdf')) {
-      if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span data-toggle="tooltip" title="PDF only" class="text-danger-dim">PDFO</span>'
-      else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-toggle="tooltip" title="No PDF" class="text-danger-dim">NPDF</span>'
-    }
-    if (course.audit) tags += ' <span title="Audit available" data-toggle="tooltip" class="text-warning-dim">AUDIT</span>'
-    if (tags !== '') tags = '<small>&nbsp;' + tags + '</small>'
-
-    if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
-  }
-
-  // is this a new course
-  var isNew = course.hasOwnProperty('new') && course.new
-
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var scoreTooltip = 'No score available'
-  if (hasScore) {
-    scoreTooltip = 'Overall Quality of the Course'
-    if (isPast) scoreTooltip += ' from the last time this instructor taught this course'
-  } else if (isNew) {
-    scoreTooltip = 'New course'
-  }
-
-  var badgeColor = '#ddd' /* light grey */
-  if (hasScore) badgeColor = colorAt(score)
-  else if (isNew) badgeColor = '#92D4E3' /* blue */
-
-  var badgeText = 'N/A'
-  if (hasScore) badgeText = score.toFixed(2)
-  else if (isNew) badgeText = 'New'
-  if (isPast) badgeText += '*'
-
-  // var tip = (' title="' + mainListing(course) + crossListings(course) + '&#013;'
-  //          + course.title + '"')
-
-  var tipFav = ' data-original-title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
+  if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
 
   // html string for the DOM object
   var htmlString = (
@@ -264,11 +219,9 @@ function newDOMcourseResult(course, props) {
         + '<strong>' + mainListing(course) + crossListings(course) + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
-        + clashIcon
-        + '&nbsp;<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '" data-toggle="tooltip"' + tipFav + '></i> '
-        + '<span title="' + scoreTooltip + '" data-toggle="tooltip" class="badge badge-score" style="background-color: ' + badgeColor + '">'
-          + badgeText
-        + '</span>'
+        + clashIcon + ' '
+        + newHTMLfavIcon(course._id) + ' '
+        + newHTMLscoreBadge(course)
       + '</div>'
     + '</div>'
     + '<div class="flex-container-row">'
