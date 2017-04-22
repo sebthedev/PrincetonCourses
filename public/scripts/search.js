@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, display.js, history.js, suggest.js, icon.js
+// dependencies: fav.js, display.js, history.js, suggest.js, icon.js
 
 var getSearchQueryURL = function () {
   var parameters = []
