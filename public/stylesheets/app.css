@@ -65,6 +65,10 @@
     left: 0;
     right: 0;
   }
+
+  #demo-toggle {
+    display:none;
+  }
 }
 
 /* DESKTOP OVERRIDES */
