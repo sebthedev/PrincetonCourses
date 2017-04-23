@@ -13,8 +13,6 @@ h4 {
   margin: 15px;
 }
 
-
-
 /* Header */
 
 .header-container {
@@ -41,6 +39,29 @@ h4 {
   left: 50%;
   transform: translate(-50%, -50%);
   color:#fff;
+}
+
+.header-credit {
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  background-color: rgba(0, 0, 0, .5);
+  color:#fff;
+}
+
+.header-credit>p {
+  margin:10px;
+}
+
+.header-credit a {
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.5s;
+  text-decoration: none;
+}
+
+.header-credit a:hover {
+  color: #EE7F2D;
 }
 
 /* Navbar */
