@@ -1,4 +1,4 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js
+// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js
 
 // initialization
 $(document).ready(function() {

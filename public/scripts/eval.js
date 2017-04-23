@@ -1,4 +1,4 @@
-// dependencies: module.js
+// dependencies: icon.js
 
 // display course evals in the eval pane
 function display_evals(course) {

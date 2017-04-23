@@ -13,12 +13,13 @@ var updateFavIcons = function() {
 
 // update the display of favorites upon new fav/unfav from course
 // input course only on favoriting
-var updateFavList = function(courseId, course) {
+// i: index of course in local list before fav toggled
+var updateFavList = function(courseId, course, i) {
 
   $('#favorite-title').html('')
   $('#favorite-title').append(document.favorites.length + ' Favorite Course'+ (document.favorites.length !== 1 ? 's' : ''))
 
-  var isFav = (document.favorites.indexOf(courseId) !== -1)
+  var isFav = (i === -1)
 
   // toggle title if necessary
   if ((document.favorites.length === 0 && $('#favorite-header').css('display') !== 'none')
@@ -29,7 +30,7 @@ var updateFavList = function(courseId, course) {
   // if newly a favorite
   if (isFav) {
     var entry = newDOMcourseResult(course, {"semester": 1, "tags": 1})
-    entry.setAttribute('style', 'display: none;')
+    $(entry).css('display', 'none')
 
     $('#favs').append(entry)
     $(entry).slideToggle()
@@ -65,8 +66,8 @@ var toggleFav = function() {
     type: (i === -1) ? 'PUT' : 'DELETE'
   }).done(function (course) {
     // update display
+    updateFavList(courseId, course, i)
     updateFavIcons()
-    updateFavList(courseId, course)
     displayActive()
     setTimeout(searchFromBox, 10)
   }).catch(function (error) {

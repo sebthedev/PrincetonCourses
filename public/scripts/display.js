@@ -1,4 +1,4 @@
-// dependencies: module.js, fav.js, eval.js, layout.js, history.js, suggest.js
+// dependencies: fav.js, eval.js, layout.js, history.js, suggest.js, icon.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
@@ -23,8 +23,11 @@ var displayCourseDetails = function(courseId, noswipe) {
     layout_initial_show()
 
     displayActive() // update highlighting of active course
+    $('#display-pane').stop().css('opacity', '')
     return;
   }
+
+  $('#display-pane').stop().animate({'opacity': '0.5'})
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
@@ -64,6 +67,7 @@ var displayCourseDetails = function(courseId, noswipe) {
         $('#main-pane').slick('slickGoTo', 2)
         /* $('#display-body').slick('slickGoTo', 1) */
       }
+      $('#display-pane').stop().css('opacity', '')
   })
 }
 
@@ -97,44 +101,10 @@ var display_title = function(course) {
 
   $('#disp-title').append(course.title)
 
-  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
-
-  // is this a new course
-  var isNew = course.hasOwnProperty('new') && course.new
-
-  // Determine the overall score for this course, if it exists
-  var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-  if (hasScore) {
-    var score = course.evaluations.scores['Overall Quality of the Course']
-  }
-
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var scoreTooltip = 'No score available'
-  if (hasScore) {
-    scoreTooltip = 'Overall Quality of the Course'
-    if (isPast) scoreTooltip += ' from the last time this instructor taught this course'
-  } else if (isNew) {
-    scoreTooltip = 'New course'
-  }
-
-  var badgeColor = '#ddd' /* light grey */
-  if (hasScore) badgeColor = colorAt(score)
-  else if (isNew) badgeColor = '#92D4E3' /* blue */
-
-  var badgeText = 'N/A'
-  if (hasScore) badgeText = score.toFixed(2)
-  else if (isNew) badgeText = 'New'
-  if (isPast) badgeText += '*'
-
-  var tipFav = ' data-original-title="' + (isFav ? 'Click to unfavorite' : 'Click to favorite') + '"'
-
-  var htmlString = '<i data-placement="bottom" class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '" data-toggle="tooltip"' + tipFav + '></i> '
-                 + '<span data-placement="bottom" data-toggle="tooltip" title="' + scoreTooltip + '" class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
-                   + badgeText
-                 + '</span>'
+  var htmlString = newHTMLfavIcon(course._id, {'title': 1}) + ' ' + newHTMLscoreBadge(course, {'title': 1})
 
   $('#disp-title-right').append(htmlString)
-  var icon = $('#disp-title-right').find('i')[0]
+  var icon = $('#disp-title-right').find('i.fa-heart')[0]
   icon.courseId = course._id  // bind course id
   $(icon).click(toggleFav)    // enable click to fav/unfav
 }
@@ -142,25 +112,14 @@ var display_title = function(course) {
 // display course data for subtitle
 var display_subtitle = function(course) {
   // string for course listings
-  var listings = mainListing(course) + crossListings(course)
+  var listings = newHTMLlistings(course, {'title': 1})
 
   // tags
-  var tags = ''
-  if (course.distribution !== undefined) {
-    var tipTag = distributions[course.distribution]
-    tipTag = (tipTag !== undefined) ? ' title="' + tipTag + '"' : ''
-    tags += ' <span data-placement="bottom" data-toggle="tooltip"' + tipTag + 'class="label label-info">' + course.distribution + '</span>'
-  }
-  if (course.hasOwnProperty('pdf')) {
-    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="PDF only" class="label label-danger">PDFO</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="PDF available" class="label label-warning">PDF</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span data-placement="bottom" data-toggle="tooltip" title="No PDF" class="label label-danger">NPDF</span>'
-  }
-  if (course.audit) tags += ' <span data-placement="bottom" title="Audit available" data-toggle="tooltip" class="label label-warning">AUDIT</span>'
+  var tags = newHTMLtags(course, {'title': 1})
 
-  var website = (course.website === undefined ? '' : ' <a href="' + course.website + '" target="_blank">'
-                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link-square"></i></a>')
-  $('#disp-subtitle').append(listings + tags + website)
+  var website = (course.website === undefined ? '' : '<a href="' + course.website + '" target="_blank">'
+                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link"></i></a>')
+  $('#disp-subtitle').append(listings + ' ' + tags + ' ' + website)
 
   var semester = ' &middot; ' + course.semester.name
 
@@ -367,7 +326,11 @@ var newDOMclassListing = function(aclass) {
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + name + '&nbsp;<small' + statusColor + '>' + status + '</small></strong>'
+        + '<strong>'
+          + name
+          + ' <small' + statusColor + '>' + status + '</small>'
+          + ' <small class="class-code text-dim">#' + aclass.class_number + '</small>'
+        + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'

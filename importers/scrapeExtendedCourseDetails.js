@@ -99,9 +99,11 @@ var getCourseListingData = function (semester, courseID, callback) {
     var attributes = detailsContainer.find('em').first().text()
 
     // Get PDF Status
-    results.pdf = {
-      required: (attributes.indexOf('P/D/F Only') > -1),
-      permitted: (attributes.indexOf('P/D/F') > -1)
+    if (attributes.indexOf('P/D/F') > -1 || attributes.indexOf('npdf') > -1 || attributes.indexOf('No Pass/D/Fail') > -1) {
+      results.pdf = {
+        required: (attributes.indexOf('P/D/F Only') > -1),
+        permitted: (attributes.indexOf('P/D/F') > -1)
+      }
     }
 
     // Get Audit Status
@@ -189,7 +191,11 @@ var getCourseListingData = function (semester, courseID, callback) {
 }
 
 // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-courseModel.find({}, function (error, courses) {
+let query = {}
+if (process.argv.length > 2) {
+  query = JSON.parse(process.argv[2])
+}
+courseModel.find(query, function (error, courses) {
   if (error) {
     console.log(error)
   }

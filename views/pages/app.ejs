@@ -7,7 +7,7 @@
   <script src="/scripts/layout.js"></script>
   <script src="/scripts/resizable.js"></script>
   <script src="/scripts/navbar.js"></script>
-  <script src="/scripts/module.js"></script>
+  <script src="/scripts/icon.js"></script>
   <script src="/scripts/eval.js"></script>
   <script src="/scripts/fav.js"></script>
   <script src="/scripts/display.js"></script>
@@ -131,7 +131,7 @@
         </div>
         <div id="favorite-header" class="flex-item-rigid flex-container-row">
           <h4 id="favorite-title" class="flex-item-shrink truncate">0 Favorite Courses</h4>
-          <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" title="There is a time clash between one or more of the courses in your favorites list." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
+          <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" data-original-title="There is a time clash between one or more of the courses in your favorites list." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
           <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus text-button"></i></h4>
         </div>
         <div id="favorite-courses" class="flex-item-shrink">
@@ -140,7 +140,8 @@
           </ul>
         </div>
         <div id="search-header" class="flex-item-rigid flex-container-row">
-          <h4 id="search-title" class="flex-item-stretch truncate">0 Search Results</h4>
+          <h4 id="search-title" class="flex-item-shrink truncate">0 Search Results</h4>
+          <h4 class="flex-item-grow">&nbsp;<i id="search-load-indicator" data-toggle="tooltip" class="fa fa-circle-o-notch fa-spin text-info" data-original-title="Loading courses!" style="display: none;"></i>&nbsp;</h4>
           <h4 class="flex-item-rigid"><i id="search-display-toggle" class="fa fa-minus text-button"></i></h4>
         </div>
         <div id="search-results" class="flex-item-scroll">

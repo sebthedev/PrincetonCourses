@@ -65,6 +65,10 @@
     left: 0;
     right: 0;
   }
+
+  #demo-toggle {
+    display:none;
+  }
 }
 
 /* DESKTOP OVERRIDES */
@@ -465,6 +469,13 @@ body {
   background-color: #ddd;
   padding: 5px 10px 0px;
   overflow-y: auto;
+}
+
+.class-code {
+  display: none;
+}
+.info-list-item:hover .class-code {
+  display: inline;
 }
 
 .info-list-item {
