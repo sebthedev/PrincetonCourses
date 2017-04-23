@@ -97,9 +97,22 @@ var init_searchpane = function() {
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').animate({'max-height': (isVisible ? '100vh' : '30vh')})
 
     $('#search-results').slideToggle()
+
+    // smoother transition: start from current height as max-height
+    var currHeight = $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh'
+    $('#favorite-courses').css('max-height', currHeight)
+
+    // expand to full height as max-height
+    var fullHeight = $('#favs').outerHeight()/$(window).outerHeight()*100
+    fullHeight = ((fullHeight > 100) ? 100 : fullHeight) + 'vh'
+
+    // animate
+    $('#favorite-courses').animate({'max-height': (isVisible ? fullHeight : '30vh')}, function() {
+      // unset max-height if search results are not visible
+      if (isVisible) $('#favorite-courses').css('max-height', '')
+    })
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
 
