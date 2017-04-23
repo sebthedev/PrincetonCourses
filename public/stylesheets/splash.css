@@ -4,6 +4,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 h4 {
@@ -23,9 +24,9 @@ h4 {
 /* Header */
 
 .header-container {
-    height:100vh;
-    width:100%;
-    background-color: #fff;
+  height:100vh;
+  width:100%;
+  background-color: #fff;
 }
 
 .header-image {
