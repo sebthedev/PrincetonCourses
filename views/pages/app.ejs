@@ -6,7 +6,7 @@
   <script src="/scripts/history.js"></script>
   <script src="/scripts/layout.js"></script>
   <script src="/scripts/resizable.js"></script>
-  <script src="/scripts/navbar.js"></script>
+  <script src="/scripts/feedback.js"></script>
   <script src="/scripts/icon.js"></script>
   <script src="/scripts/eval.js"></script>
   <script src="/scripts/fav.js"></script>
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/demo.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/feedback.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
 </head>
 
@@ -293,16 +294,8 @@
 
   <!-- Popups -->
 
-  <div id="feedback-container" class="panel" style="display: none;">
-    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode !== 13">
-      <div class="form-group">
-        <label for="feedback-text">Any thoughts, comments or complaints?</label>
-        <textarea id="feedback-text" class="form-control" rows="3"></textarea>
-      </div>
-      <button id="feedback-submit" class="btn btn-default" type="submit">Submit</button>
-    </form>
-    <iframe src="about:blank" id="no-target" name="no-target" style="display: none;"></iframe>
-  </div>
+  <% include ../partials/feedback.ejs %>
+
 
   <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">
     <button type="button" class="close" data-dismiss="alert" aria-label="close" onclick="saveUpdatePopupState()">&times;</button>

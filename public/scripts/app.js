@@ -1,4 +1,4 @@
-// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js
+// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js
 
 // initialization
 $(document).ready(function() {
@@ -184,30 +184,6 @@ var init_favorites = function() {
       $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1, 'pin': 1}));
     }
   }).done(updateFavIcons).done(displayActive)
-}
-
-// to initialize feedback mechanism
-var init_feedback = function() {
-  // submission
-  $('#feedback-form').submit(function() {
-    if ($('#feedback-text').val().length > 0)
-    {
-      var submitURL = ''
-      submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
-      submitURL += 'entry.1257302391=' + document.netid
-      submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-
-      $(this)[0].action = submitURL
-      $('#feedback-submit').text('Thank You!')
-      $('#feedback-submit').addClass('disabled')
-      $('#feedback-text').attr('disabled', true)
-      setTimeout(toggleFeedback, 1000)
-    }
-    else {
-      $('#feedback-text').attr("placeholder", "Please enter feedback.");
-    }
-  })
-  $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
 }
 
 // to initialize demo mechanism

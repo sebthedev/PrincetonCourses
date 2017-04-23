@@ -60,12 +60,6 @@
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
   }
 
-  #feedback-container {
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
   #demo-toggle {
     display:none;
   }
@@ -545,17 +539,6 @@ body {
 .suggest-result:hover {
   background-color: #fff;
   transition: background-color 0.4s ease;
-}
-
-/* FEEDBACK CSS */
-
-#feedback-container {
-  position: fixed;
-  top: 0;
-  padding-top: 50px;
-  z-index: 700;
-  border-color: #f58025;
-  border-width: 2px;
 }
 
 /* ABOUT POPUP CSS */
