@@ -22,6 +22,27 @@ h4 {
 }
 
 /* Header */
+@media (max-width: 768px) {
+  .header-container h1 {
+    font-size: 1.6em;
+  }
+  .header-container h3 {
+    font-size: 1.2em;
+  }
+  #singlebutton {
+    width:60%;
+    font-size:1.2em;
+    border-width: 2px;
+  }
+}
+@media (min-width: 767px) {
+  #singlebutton {
+    font-size:2em;
+    border-width: 3px;
+    width: 37%;
+  }
+}
+
 
 .header-container {
   height:100vh;
@@ -77,13 +98,10 @@ h4 {
 #singlebutton {
   margin: 20px 0 10px 0;
   left: 50%;
-  width: 350px;
   background-color: transparent;
   border-radius: 0;
-  border-width: 3px;
   color: #fff;
   border-color:#fff;
-  font-size:2em;
  
 }
 
