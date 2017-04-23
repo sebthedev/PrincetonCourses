@@ -177,7 +177,7 @@ var newDOMreadingListing = function(reading) {
 
   // html string
   var htmlString = (
-    '<li class="list-group-item info-list-item search-result">'
+    '<li class="list-group-item info-list-item search-result" data-toggle="tooltip" data-original-title="Click to search the library for this reading">'
     + '<a href="' + librarySearchURL + '" target="_blank" style="color: #333; text-decoration: none;">'
       + '<div class="flex-container-row">'
         + '<div class="flex-item-stretch truncate"><strong>' + author + '</strong></div>'
@@ -190,11 +190,6 @@ var newDOMreadingListing = function(reading) {
   )
 
   var entry = $.parseHTML(htmlString)[0] // create DOM object
-
-  $(entry).click(function () {
-    console.log("click")
-    console.log(this)
-  })
 
   return entry
 }
@@ -289,7 +284,6 @@ var display_classes = function(course) {
 
 // returns a DOM object for a class of the displayed course
 var newDOMclassListing = function(aclass) {
-  var name = aclass.section
   var status = aclass.status
   var filled = aclass.enrollment + ' / ' + aclass.capacity
   var code = aclass.class_number
@@ -322,6 +316,8 @@ var newDOMclassListing = function(aclass) {
     )
   }
 
+  var name = '<span data-toggle="tooltip" data-original-title="' + aclass.type_name + '">' + aclass.section + '</span>'
+
   // html string
   var htmlString = (
     '<li class="list-group-item info-list-item">'
@@ -330,7 +326,7 @@ var newDOMclassListing = function(aclass) {
         + '<strong>'
           + name
           + ' <small' + statusColor + '>' + status + '</small>'
-          + ' <small class="class-code text-dim">#' + aclass.class_number + '</small>'
+          + ' <small class="class-code text-dim" data-toggle="tooltip" data-original-title="Class number">#' + aclass.class_number + '</small>'
         + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
