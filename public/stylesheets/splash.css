@@ -9,6 +9,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
+h4 {
+  margin: 15px;
+}
+
+
+
 /* Header */
 
 .header-container {
@@ -80,10 +86,24 @@ body {
 /* Slideshow */
 
 .info-container {
-  height:100vh;
+  min-height:100vh;
   background-color:#fff;
+  padding: 20px;
+}
+
+.info-text > h2 {
+  margin: 30px 0px 20px 0;
 }
 
 .info-image > img {
-  border:15px solid rgba(0, 0, 0, .5);;
+  border:15px solid rgba(0, 0, 0, .5);
+  margin: 30px 0 30px 0;
+}
+
+/* Footer */
+
+.footer {
+  width: 100%;
+  background-color: #ddd;
+  padding: 20px 0 20px 0;
 }
