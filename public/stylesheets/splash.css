@@ -13,6 +13,16 @@ h4 {
   margin: 15px;
 }
 
+/* Navbar */
+
+#navbar-content {
+    width:100%;
+}
+
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
+}
+
 /* Header */
 
 .header-container {
@@ -64,17 +74,6 @@ h4 {
   color: #EE7F2D;
 }
 
-/* Navbar */
-
-#navbar-content {
-    width:100%;
-}
-
-.navbar-right {
-  margin: 0; /* to stop things falling off in navbar-fixed-top */
-}
-
-
 /* Login Button */
 
 #singlebutton {
@@ -117,8 +116,21 @@ h4 {
 }
 
 .info-image > img {
-  border:15px solid rgba(0, 0, 0, .5);
   margin: 30px 0 30px 0;
+}
+
+@media (max-width: 767px) {
+  .info-image > img {
+    border:8px solid rgba(0, 0, 0, .5);
+    width:100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .info-image > img {
+    border:15px solid rgba(0, 0, 0, .5);
+    width:85%;
+  }
 }
 
 /* Footer */
