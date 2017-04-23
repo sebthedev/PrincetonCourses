@@ -181,7 +181,7 @@ var init_favorites = function() {
       document.favorites.push(thisCourse._id)
 
       // append favorite into favs pane
-      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1}));
+      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1, 'pin': 1}));
     }
   }).done(updateFavIcons).done(displayActive)
 }

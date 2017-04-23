@@ -209,6 +209,7 @@ function loadInstructor(icon, body, entry) {
 //   -- clicking to favorite/unfavorite (+ course id linking for icon)
 // props: properties for conditional rendering:
 //  - 'semester' is defined => displays semester name too
+//  - 'pin' is defined => displays pin to select courses for course clash
 //  - 'tags' is defined => displays pdf/audit tags
 function newDOMcourseResult(course, props) {
   // append semester if appropriate
@@ -216,19 +217,27 @@ function newDOMcourseResult(course, props) {
 
   // tags: dist / pdf / audit
   var tags = ''
-  if (props.hasOwnProperty('tags')) tags = ' <small>' + newHTMLtags(course) + '</small>'
+  if (props.hasOwnProperty('tags')) tags = '<small>' + newHTMLtags(course) + '</small>'
 
+  // clash icon
   var clashIcon = ''
-  if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
+  if (course.clash) clashIcon = '<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
+
+  // pin icon for selecting courses (only in fav list)
+  var hasPinIcon = (props.hasOwnProperty('pin') && !course.clash)
+  var pinIcon = ''
+  if (hasPinIcon) pinIcon = '<i class="fa fa-thumb-tack pin-icon" data-toggle="tooltip" title="Pin this course to detect possible clashes!"></i>'
 
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + newHTMLlistings(course) + tags + '</strong>'
+        + '<strong>' + newHTMLlistings(course) + ' ' + tags + '</strong>'
       + '</div>'
       + '<div class="flex-item-rigid">'
+        + '&nbsp;'
+        + pinIcon + ' '
         + clashIcon + ' '
         + newHTMLfavIcon(course._id) + ' '
         + newHTMLscoreBadge(course)
@@ -248,5 +257,25 @@ function newDOMcourseResult(course, props) {
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
   $(entry).click(displayResult)                                              // enable click to display
 
+  // bind pin icons
+  if (hasPinIcon) {
+    var pin = $(entry).find('i.fa-thumb-tack')[0]
+    pin.courseId = course._id
+    $(pin).click(togglePin)
+  }
+
   return entry
+}
+
+// handles click of pin
+function togglePin() {
+  var isPinned = $(this).hasClass('unpin-icon')
+
+  $(this).removeClass(isPinned ? 'unpin-icon' : 'pin-icon')
+  $(this).addClass(isPinned ? 'pin-icon' : 'unpin-icon')
+
+  $(this).tooltip('hide')
+  $(this).attr('data-original-title', isPinned ? 'Pin this course to detect possible clashes!' : 'Click to unpin')
+
+  return false;
 }

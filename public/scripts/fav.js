@@ -32,7 +32,7 @@ var updateFavList = function(courseId, course, i) {
 
   // if newly a favorite
   if (isFav) {
-    var entry = newDOMcourseResult(course, {"semester": 1, "tags": 1})
+    var entry = newDOMcourseResult(course, {"semester": 1, "tags": 1, 'pin': 1})
     $(entry).hide()
 
     $('#favs').append(entry)
