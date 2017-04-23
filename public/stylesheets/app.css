@@ -174,13 +174,6 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
-.navbar-right {
-  margin: 0; /* to stop things falling off in navbar-fixed-top */
-}
-.navbar-toggle {
-  margin-left: 15px; /* to match the right */
-}
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }

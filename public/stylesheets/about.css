@@ -7,6 +7,11 @@ html, body {
   height: 100vh;
 }
 
+#full-page {
+  height: 100vh;
+  width: 100vw;
+}
+
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
