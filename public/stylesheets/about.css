@@ -16,9 +16,8 @@ body {
 }
 
 #menu-bar {
-  top:0;
-  position:fixed;
   width:100%;
+  padding:0px;
 }
 
 #team {
@@ -48,7 +47,7 @@ a:hover {
   color: rgba(40,40,40,0.8);
 }
 
-.team{
+.team {
   margin:40px;
 }
 

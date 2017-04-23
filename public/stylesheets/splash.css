@@ -1,11 +1,8 @@
-/*
- * Start Bootstrap - Business Frontpage (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
+/* BENSU: Splash page*/
+
+/* Pagewide CSS */
 
 body {
-    /*padding-top: 50px;*/ /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
@@ -16,7 +13,7 @@ h4 {
 /* Navbar */
 
 #navbar-content {
-    width:100%;
+  width:100%;
 }
 
 .navbar-right {
@@ -28,7 +25,7 @@ h4 {
 .header-container {
     height:100vh;
     width:100%;
-    background-color: #000;
+    background-color: #fff;
 }
 
 .header-image {
