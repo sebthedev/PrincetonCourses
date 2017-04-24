@@ -67,6 +67,11 @@ router.get('/search/:query', function (req, res) {
     var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
     let matches
 
+    // Determine whether thisQueryWord is a department code
+    let isDepartment = thisQueryWord.length === 3 && departments.some(function (department) {
+      return department._id === thisQueryWord
+    })
+
     // Check for distribution areas, pdf status, and wildcards
     if (distributionAreas.indexOf(thisQueryWord) > -1) {
       if (!courseQuery.hasOwnProperty('distribution')) {
@@ -75,6 +80,14 @@ router.get('/search/:query', function (req, res) {
         }
       }
       courseQuery.distribution['$in'].push(thisQueryWord)
+    } else if (isDepartment) {
+      // Create the big $or if it doesn't exist
+      if (!courseQuery.hasOwnProperty('$or')) {
+        courseQuery['$or'] = []
+      }
+
+      // Query for this department being either the main department or a crosslisting department
+      courseQuery['$or'].push({department: thisQueryWord}, {'crosslistings.department': thisQueryWord})
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
     } else if (thisQueryWord === 'NPDF') {
