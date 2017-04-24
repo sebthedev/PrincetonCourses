@@ -429,16 +429,16 @@ body {
   transition: color 0.4s ease;
 }
 .pin-icon:hover {
-  color: #EE7F2D;
+  color: #428BCA;
 }
 
 .unpin-icon {
-  color: #EE7F2D;
+  color: #428BCA;
   cursor: pointer;
   transition: color 0.4s ease;
 }
 .unpin-icon:hover {
-  color: #F2BB91;
+  color: #88B5DE;
 }
 
 .instructor-list-item {
