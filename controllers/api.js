@@ -664,7 +664,7 @@ router.get('/user/favorites', function (req, res) {
   })
 })
 
-// Respond to requests to PUT and DELETE courses into/from the user's favorite courses list
+// Respond to requests to PUT and DELETE courses into/from the user's course clash detection list
 router.route('/user/clashDetectionCourses/:id').all(function (req, res, next) {
   if (typeof (req.params.id) === 'undefined' || isNaN(req.params.id)) {
     res.sendStatus(400)
@@ -719,23 +719,6 @@ router.route('/user/clashDetectionCourses/:id').all(function (req, res, next) {
       return
     }
     res.sendStatus(200).json
-  })
-})
-
-// Respond to a request for a list of this user's favorite courses
-router.get('/user/clashDetectionCourses', function (req, res) {
-  req.app.get('user').populate('favoriteCourses', function (err, user) {
-    if (err) {
-      console.log(err)
-      res.sendStatus(500)
-    } else {
-      res.set('Cache-Control', 'no-cache')
-      if (typeof (user.favoriteCourses) !== 'undefined') {
-        res.status(200).json(user.favoriteCourses)
-      } else {
-        res.status(200).json({})
-      }
-    }
   })
 })
 
