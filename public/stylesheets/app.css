@@ -448,10 +448,13 @@ body {
 }
 .instructor-list-item:hover {
   padding: 8px;
-  background-color: #eaeaea;
+  background-color: #fff;
   cursor: pointer;
 }
 .instructor-list-item-opened {
+  background-color: #eaeaea;
+}
+.instructor-list-item-opened:hover {
   background-color: #eaeaea;
 }
 .instructor-title {
