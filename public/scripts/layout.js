@@ -20,7 +20,6 @@ function layout_initial_show() {
   }
 
   $('#searchbox').focus()
-
   if (document.isMobile && document.isReady) $('#main-pane').slick('slickGoTo', 2)
 }
 

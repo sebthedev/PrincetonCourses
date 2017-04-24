@@ -17,6 +17,7 @@ $(document).ready(function() {
   init_logout();
   init_suggest();
   init_updates();
+  $('#main-pane').css('display', '');
 })
 
 // loads course from url
@@ -300,7 +301,10 @@ var init_layout = function() {
   // initial layout
   var width = $(window).width()
   document.isMobile = (width < WIDTH_THRESHOLD)
-  if (document.isMobile) layout_mobile()
+  if (document.isMobile) {
+    $('#main-pane').css('display', '');
+    layout_mobile(); 
+  }
   else layout_desktop()
 
   layout_initial_show()
