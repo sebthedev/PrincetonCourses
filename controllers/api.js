@@ -126,7 +126,13 @@ router.get('/search/:query', function (req, res) {
     }
 
     // Insert the courseTextSearchQuery into the main courseQuery object
-    Object.assign(courseQuery, courseTextSearchQuery)
+    if (typeof (courseQuery['$or']) !== 'undefined') {
+      courseTextSearchQuery['$or'].forEach(function (alternative) {
+        courseTextSearchQuery['$or'].push(alternative)
+      })
+    } else {
+      Object.assign(courseQuery, courseTextSearchQuery)
+    }
 
     // Insert the MongoDB full-text search query and projections into the instructor query and projectio
     Object.assign(instructorQuery, {
