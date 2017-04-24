@@ -63,8 +63,8 @@ router.get('/search/:query', function (req, res) {
   var newQueryWords = []
   const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
   const courseDeptNumberRegexp = /([A-Z]{3})(\d{1,3})/
-  for (var queryWordsIndex in queryWords) {
-    var thisQueryWord = queryWords[queryWordsIndex].toUpperCase()
+  queryWords.forEach(function (thisQueryWord) {
+    thisQueryWord = thisQueryWord.toUpperCase()
     let matches
 
     // Determine whether thisQueryWord is a department code
@@ -104,7 +104,7 @@ router.get('/search/:query', function (req, res) {
     } else if (thisQueryWord !== '*' && thisQueryWord.length > 0) {
       newQueryWords.push(thisQueryWord)
     }
-  }
+  })
 
   // Build the database queries and projections for searching for courses and instructors
   if (newQueryWords.length > 0) {
