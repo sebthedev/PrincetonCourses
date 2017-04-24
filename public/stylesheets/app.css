@@ -242,6 +242,10 @@ body {
   color: #ff6764
 }
 
+.text-danger {
+  color: #ff6764;
+}
+
 /* PAGEWIDE CSS */
 
 .pane-padding {
