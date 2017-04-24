@@ -484,10 +484,11 @@ body {
 }
 
 .class-code {
-  display: none;
+  opacity:0;
+  transition: all 0.2s;
 }
 .info-list-item:hover .class-code {
-  display: inline;
+  opacity:1;
 }
 
 .info-list-item {
