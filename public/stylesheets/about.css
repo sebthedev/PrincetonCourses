@@ -9,7 +9,8 @@ html, body {
   height: 100vh;
 }
 
-/* define 1/5th of a column */
+/* define 1/5th of a column  */
+/* BENSU : Reference:; http://stackoverflow.com/a/22799354 */
 .col-xs-5ths,
 .col-sm-5ths,
 .col-md-5ths,
