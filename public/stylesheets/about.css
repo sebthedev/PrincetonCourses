@@ -166,8 +166,8 @@ a:hover {
   color: #fff;
   background: rgba(227,98,3, 0.9);
   /* Primary color, can be changed via colors.css */
-
   height: 100%;
+  bottom:0px;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
