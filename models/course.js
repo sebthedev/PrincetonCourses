@@ -108,7 +108,10 @@ var courseSchema = new mongoose.Schema({
     virtuals: true,
     versionKey: false
   },
-  toJSON: { virtuals: true },
+  toJSON: {
+    virtuals: true,
+    versionKey: false
+  },
   id: false
 })
 

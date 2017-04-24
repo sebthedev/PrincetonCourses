@@ -603,12 +603,14 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
   })
 }).delete(function (req, res) {
   var user = req.app.get('user')
+  let courseID = parseInt(req.params.id)
 
   userModel.update({
     _id: user._id
   }, {
     $pull: {
-      favoriteCourses: parseInt(req.params.id)
+      favoriteCourses: courseID,
+      clashDetectionCourses: courseID
     }
   }, function (err) {
     if (err) {
@@ -621,6 +623,107 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
 
 // Respond to a request for a list of this user's favorite courses
 router.get('/user/favorites', function (req, res) {
+  req.app.get('user').populate('favoriteCourses', function (err, user) {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+    } else {
+      res.set('Cache-Control', 'no-cache')
+      if (typeof (user.favoriteCourses) !== 'undefined') {
+        let favoriteCourses = user.favoriteCourses
+
+        // Insert into favoriteCourses each course's clashDetectionPin status
+        if (typeof (user.clashDetectionCourses) !== 'undefined') {
+          // Transform the courses into regular JavaScript objects
+          favoriteCourses = user.favoriteCourses.map(function (course) {
+            return course.toObject()
+          })
+
+          // Extract from favoriteCourses the hydrated favoriteCourses that are on the user's clashDetectionCourses list
+          let clashDetectionCoursesPopulated = favoriteCourses.filter(function (course) {
+            return user.clashDetectionCourses.includes(course._id)
+          })
+
+          // Determine which (if any) of the favoriteCourses that are not on the clashDetectionCourses list clash with the courses on the clashDetectionCourses list
+          let detectClashesResult = courseClashDetector.detectCourseClash(clashDetectionCoursesPopulated, favoriteCourses, semesters[0]._id)
+          if (detectClashesResult.hasOwnProperty('status') && detectClashesResult.status === 'success') {
+            favoriteCourses = detectClashesResult.courses
+          }
+
+          // Insert into each clashDetectionCourses course clashDetectionStatus = true
+          favoriteCourses = favoriteCourses.map(function (course) {
+            course.clashDetectionStatus = user.clashDetectionCourses.includes(course._id)
+            return course
+          })
+        }
+        res.status(200).json(favoriteCourses)
+      } else {
+        res.status(200).json([])
+      }
+    }
+  })
+})
+
+// Respond to requests to PUT and DELETE courses into/from the user's favorite courses list
+router.route('/user/clashDetectionCourses/:id').all(function (req, res, next) {
+  if (typeof (req.params.id) === 'undefined' || isNaN(req.params.id)) {
+    res.sendStatus(400)
+    return
+  }
+  next()
+}).put(function (req, res) {
+  let user = req.app.get('user')
+  let courseID = parseInt(req.params.id)
+
+  // Check that this course is in the favoriteCourses list
+  if (!(typeof (user.favoriteCourses) !== 'undefined' && user.favoriteCourses.includes(courseID))) {
+    res.sendStatus(400)
+    return
+  }
+
+  // Update the user's list of favorite courses
+  var updateUserPromise = userModel.update({
+    _id: user._id
+  }, {
+    $addToSet: {
+      clashDetectionCourses: parseInt(req.params.id)
+    }
+  }).exec()
+
+  // Fetch the data about this course
+  var fetchCoursePromise = courseModel.findById(req.params.id, abbreviatedCourseProjection).exec()
+
+  // Once both requests complete, return the course data to the client
+  Promise.all([updateUserPromise, fetchCoursePromise]).then(function (results) {
+    if (results[1]) {
+      res.json(results[1])
+    } else {
+      res.sendStatus(404)
+    }
+  }).catch(function (error) {
+    console.log(error)
+    res.sendStatus(500)
+  })
+}).delete(function (req, res) {
+  var user = req.app.get('user')
+
+  userModel.update({
+    _id: user._id
+  }, {
+    $pull: {
+      clashDetectionCourses: parseInt(req.params.id)
+    }
+  }, function (err) {
+    if (err) {
+      res.sendStatus(500)
+      return
+    }
+    res.sendStatus(200).json
+  })
+})
+
+// Respond to a request for a list of this user's favorite courses
+router.get('/user/clashDetectionCourses', function (req, res) {
   req.app.get('user').populate('favoriteCourses', function (err, user) {
     if (err) {
       console.log(err)
