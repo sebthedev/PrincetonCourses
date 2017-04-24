@@ -12,6 +12,9 @@ var semesterSchema = new mongoose.Schema({
 }, {
   toObject: {
     versionKey: false
+  },
+  toJSON: {
+    versionKey: false
   }
 })
 
