@@ -9,6 +9,7 @@ var semesterModel = require.main.require('./models/semester.js')
 var instructorModel = require.main.require('./models/instructor.js')
 var userModel = require.main.require('./models/user.js')
 var evaluationModel = require.main.require('./models/evaluation.js')
+var departmentModel = require.main.require('./models/department.js')
 
 const abbreviatedCourseProjection = {
   assignments: 0,
@@ -719,6 +720,21 @@ router.route('/evaluations/:id/vote').all(function (req, res, next) {
       res.sendStatus(200)
     })
   })
+})
+
+// Fetch the departments from the database once, when the application starts
+let departments = []
+departmentModel.find().sort({_id: -1}).exec(function (err, fetchedDepartments) {
+  if (err) {
+    console.log(err)
+  } else {
+    departments = fetchedDepartments
+  }
+})
+
+// Respond to requests for semester listings
+router.get('/departments', function (req, res) {
+  res.set('Cache-Control', 'public, max-age=604800').status(200).json(departments)
 })
 
 // Export the routes on this router
