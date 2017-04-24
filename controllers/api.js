@@ -193,7 +193,9 @@ router.get('/search/:query', function (req, res) {
     delete courseProjection.classes
 
     // Construct the userModel database query to get the user's favorite courses
-    promises.push(userModel.findById(req.app.get('user')._id, {'favoriteCourses': 1}).populate('favoriteCourses').exec())
+    promises.push(userModel.findById(req.app.get('user')._id, {
+      'clashDetectionCourses': 1
+    }).populate('clashDetectionCourses').exec())
     promiseNames.push('user')
   }
 
@@ -210,15 +212,15 @@ router.get('/search/:query', function (req, res) {
   // Trigger both promises and wait for them to both return
   Promise.all(promises).then(values => {
     // Retrieve the promises' results
-    var courses = values[promiseNames.indexOf('courses')]
+    let courses = values[promiseNames.indexOf('courses')]
     if (promiseNames.indexOf('instructors') > -1) {
       var instructors = values[promiseNames.indexOf('instructors')]
     }
 
     if (promiseNames.indexOf('user') > -1) {
       let user = values[promiseNames.indexOf('user')].toObject()
-      if (user.hasOwnProperty('favoriteCourses')) {
-        var favoriteCourses = user.favoriteCourses
+      if (user.hasOwnProperty('clashDetectionCourses')) {
+        var clashDetectionCourses = user.clashDetectionCourses
       }
     }
 
@@ -298,7 +300,7 @@ router.get('/search/:query', function (req, res) {
 
     // Detect clashes
     if (detectClashes) {
-      var detectClashesResult = courseClashDetector.detectCourseClash(favoriteCourses, courses, parseInt(courseQuery.semester))
+      var detectClashesResult = courseClashDetector.detectCourseClash(clashDetectionCourses, courses, parseInt(courseQuery.semester))
       if (detectClashesResult.hasOwnProperty('status')) {
         if (detectClashesResult.status === 'success') {
           courses = detectClashesResult.courses
