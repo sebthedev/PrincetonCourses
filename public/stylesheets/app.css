@@ -350,6 +350,17 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
 }
+.page-header > p {
+  opacity: 0;
+  margin:5px;
+  font-size:1em;
+  font-weight: bold;
+  transition: all 0.5s;
+}
+.page-header >img:hover + p {
+  opacity: 0.5;
+}
+
 @media (min-width: 992px) {
   .row-md-flex {
     display: flex;
@@ -378,7 +389,7 @@ body {
 }
 
 .welcome-icon:hover {
-  font-size: 3.6em !important;
+  font-size: 3.3em !important;
 }
 
 /* SEARCH PANE CSS */
