@@ -444,11 +444,11 @@ body {
   transition: color 0.4s ease;
 }
 .pin-icon:hover {
-  color: #59A1DE;
+  color: #428BCA;
 }
 
 .unpin-icon {
-  color: #59A1DE;
+  color: #428BCA;
   cursor: pointer;
   transition: color 0.4s ease;
 }
