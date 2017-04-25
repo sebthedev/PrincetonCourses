@@ -1,0 +1,23 @@
+<nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
+    <div id="navbar-content">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Princeton Courses <sup>beta</sup></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li id="home-toggle" class="<%= active == 'home' ? 'active' : '' %>"><a href="/">Home</a></li>
+              <li id="about-toggle" class="<%= active == 'about' ? 'active' : '' %>"><a href="/about">About</a></li>
+              <% if (typeof netid != 'undefined') { %>
+              <li id="netid"><a href="#"><%= netid %></a></li>
+              <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
+              <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

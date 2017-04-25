@@ -2,6 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="/scripts/logout.js"></script>
   <script src="/scripts/about.js"></script>
   <link rel="stylesheet" href="/stylesheets/about.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
@@ -11,24 +12,8 @@
 <!-- KARA: initial body on CodePen at https://codepen.io/melyshu/pen/aJXmNo, altered since transporting code -->
 <body>
   <div id="full-page" class="flex-item-rigid">
-    <nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Princeton Courses <sup>beta</sup></a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" id="navigationbar">
-        <ul class="nav navbar-nav navbar-right">
-          <li id="home-toggle"><a href="/">Home</a></li>
-          <!-- <li id="feedback-toggle"><a href="#">Feedback</a></li> -->
-          <li id="about-toggle" class="active"><a href="#">About</a></li>
-          <!-- <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li> -->
-        </ul>
-      </div>
-    </nav>
+    <!-- Navigation -->
+    <%- include('../partials/navbar', {active: 'about'}) %>
 
     <section id="team" class="team content-section">
       <div class="container">
