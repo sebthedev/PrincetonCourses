@@ -14,8 +14,11 @@
               <li id="home-toggle" class="<%= active == 'home' ? 'active' : '' %>"><a href="/">Home</a></li>
               <li id="about-toggle" class="<%= active == 'about' ? 'active' : '' %>"><a href="/about">About</a></li>
               <% if (typeof netid != 'undefined') { %>
+              <li id="feedback-toggle"><a href="#">Feedback</a></li>
               <li id="netid"><a href="#"><%= netid %></a></li>
               <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
+              <% } else { %>
+              <li id="login"><a href="/auth/login">Login</a></li>
               <% } %>
             </ul>
         </div>

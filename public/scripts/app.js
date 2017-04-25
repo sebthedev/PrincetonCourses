@@ -1,4 +1,4 @@
-// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js, pin.js, logout.js
+// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js, pin.js
 
 // initialization
 $(document).ready(function() {
@@ -10,11 +10,10 @@ $(document).ready(function() {
   init_search();
   init_globals();
   init_favorites();
-  init_feedback();
+  init_navbar();
   init_demo();
   init_display();
   init_evals();
-  init_logout();
   init_suggest();
   init_updates();
   $('#main-pane').css('display', '');
