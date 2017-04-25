@@ -1,4 +1,4 @@
-// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js, pin.js, logout.js
+// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js, pin.js
 
 // initialization
 $(document).ready(function() {
