@@ -3,6 +3,11 @@
 // Greet the world!
 console.log('Launching Princeton Courses.')
 
+// Attach Opbeat
+if (process.env.NODE_ENV === 'production') {
+  var opbeat = require('opbeat').start()
+}
+
 // Load Node.js components
 const path = require('path')
 
@@ -14,6 +19,11 @@ var bodyParser = require('body-parser')
 
 // Initialise Express, which makes the server work
 var app = express()
+
+// Configure Opbeat as an error handling middleware
+if (process.env.NODE_ENV === 'production') {
+  app.use(opbeat.middleware.express())
+}
 
 // Initialise bodyParser, which parses the data out of web requests
 app.use(bodyParser.urlencoded({ extended: false }))
