@@ -235,6 +235,26 @@ var init_evals = function() {
   $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
 }
 
+// to intialize logout button
+var init_logout = function() {
+  $('#menu-bar').mouseleave(function() {
+    var isNetidInvisible = !$('#netid').is(':visible')
+    if (isNetidInvisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
+  })
+
+  $('#netid').click(function() {
+    var isLogoutVisible = $('#logout').is(':visible')
+    if (!isLogoutVisible) {
+      if (document.isMobile) $('#netid, #logout').slideToggle()
+      else $('#netid, #logout').animate({width: 'toggle'})
+    }
+    return false;
+  })
+}
+
 // to initialize suggest display
 var init_suggest = function() {
   suggest_load()
