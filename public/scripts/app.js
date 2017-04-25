@@ -1,4 +1,4 @@
-// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js
+// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js, pin.js
 
 // initialization
 $(document).ready(function() {
@@ -173,6 +173,8 @@ var init_globals = function() {
 var init_favorites = function() {
   // call api to get favorites and display
   document.favorites = []
+  document.pins = []
+
   $.get('/api/user/favorites', function(courses) {
 
     var hasFavorites = (courses !== undefined && courses.length !== 0)
@@ -194,10 +196,17 @@ var init_favorites = function() {
       // Saving this user's favorite courses to the global scope
       document.favorites.push(thisCourse._id)
 
+      // save local pinned course list
+      if (thisCourse.clashDetectionStatus) document.pins.push(thisCourse._id)
+
       // append favorite into favs pane
       $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1, 'pin': 1}));
+
+      updateFavIcons()
+      updatePinIcons()
+      displayActive()
     }
-  }).done(updateFavIcons).done(displayActive)
+  })
 }
 
 // to initialize demo mechanism
@@ -303,7 +312,7 @@ var init_layout = function() {
   document.isMobile = (width < WIDTH_THRESHOLD)
   if (document.isMobile) {
     $('#main-pane').css('display', '');
-    layout_mobile(); 
+    layout_mobile();
   }
   else layout_desktop()
 
@@ -320,6 +329,7 @@ var init_layout = function() {
   $('body').tooltip({
     selector: '[data-toggle="tooltip"]',
     container: 'body',
+    trigger : 'hover',
     delay: 200
   });
 

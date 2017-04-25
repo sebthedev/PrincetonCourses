@@ -1,13 +1,14 @@
 // update the favorite heart icons
 var updateFavIcons = function() {
+  $('[data-toggle="tooltip"]').tooltip('hide') // remove tooltips
+
   $(".fav-icon, .unfav-icon").each(function() {
     var isFav = (document.favorites.indexOf(this.courseId) !== -1)
 
-    var icon = $(this)
-    icon.tooltip('hide')
-    icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
-    icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
-    icon.attr('data-original-title', isFav ? 'Click to unfavorite' : 'Click to favorite')
+    var $icon = $(this)
+    $icon.removeClass(isFav ? 'fav-icon' : 'unfav-icon')
+    $icon.addClass(isFav ? 'unfav-icon' : 'fav-icon')
+    $icon.attr('data-original-title', isFav ? 'Click to unfavorite' : 'Click to favorite')
   })
 }
 
@@ -17,7 +18,7 @@ var updateFavIcons = function() {
 var updateFavList = function(courseId, course, i) {
 
   $('#favorite-title').html('')
-  $('#favorite-title').append(document.favorites.length + ' Favorite Course'+ (document.favorites.length !== 1 ? 's' : ''))
+  $('#favorite-title').append(document.favorites.length + ' Favorite Course' + (document.favorites.length !== 1 ? 's' : ''))
 
   var isFav = (i === -1)
 
@@ -72,7 +73,7 @@ var toggleFav = function() {
     updateFavList(courseId, course, i)
     updateFavIcons()
     displayActive()
-    setTimeout(searchFromBox, 10)
+    //setTimeout(searchFromBox, 10)
   }).catch(function (error) {
     console.log(error)
   })

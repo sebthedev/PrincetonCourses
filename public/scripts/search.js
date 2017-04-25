@@ -1,4 +1,4 @@
-// dependencies: fav.js, display.js, history.js, suggest.js, icon.js
+// dependencies: fav.js, display.js, history.js, suggest.js, icon.js, pin.js
 
 var getSearchQueryURL = function () {
   var parameters = []
@@ -221,12 +221,12 @@ function newDOMcourseResult(course, props) {
 
   // clash icon
   var clashIcon = ''
-  if (course.clash) clashIcon = '<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
+  if (course.clash) clashIcon = '<i class="fa fa-warning clash-icon" data-toggle="tooltip" data-original-title="This course clashes with one or more of your pinned courses."></i>'
 
   // pin icon for selecting courses (only in fav list)
   var hasPinIcon = (props.hasOwnProperty('pin') && !course.clash)
   var pinIcon = ''
-  if (hasPinIcon) pinIcon = '<i class="fa fa-thumb-tack pin-icon" data-toggle="tooltip" title="Pin this course to detect possible clashes!"></i>'
+  if (hasPinIcon) pinIcon = '<i class="fa fa-lg fa-thumb-tack pin-icon" data-toggle="tooltip" data-original-title="Pin this course to detect possible clashes!"></i>'
 
   // html string for the DOM object
   var htmlString = (
@@ -265,17 +265,4 @@ function newDOMcourseResult(course, props) {
   }
 
   return entry
-}
-
-// handles click of pin
-function togglePin() {
-  var isPinned = $(this).hasClass('unpin-icon')
-
-  $(this).removeClass(isPinned ? 'unpin-icon' : 'pin-icon')
-  $(this).addClass(isPinned ? 'pin-icon' : 'unpin-icon')
-
-  $(this).tooltip('hide')
-  $(this).attr('data-original-title', isPinned ? 'Pin this course to detect possible clashes!' : 'Click to unpin')
-
-  return false;
 }
