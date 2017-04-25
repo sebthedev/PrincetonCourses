@@ -39,7 +39,7 @@ var init_load = function () {
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, parameters.track)
+  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes)
 
   // initialize history
   history_init(courseId, window.location.search)

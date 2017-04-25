@@ -14,6 +14,9 @@ var getSearchQueryURL = function () {
   if ($('#advanced-grad-hide').is(':checked')) {
     parameters.push('track=UGRD')
   }
+  if ($('#advanced-filter-clashes').is(':checked')) {
+    parameters.push('filterClashes=true')
+  }
   return '?' + parameters.join('&')
 
   // search += '&track=' + 'UGRD'
@@ -36,6 +39,18 @@ var searchFromBox = function() {
   searchForCourses(query, semester, sort, track, filterClashes)
 }
 
+// update search results from a URL
+var searchFromURL = function(query, semester, sort, track, filterClashes, noswipe) {
+  // display search
+  $('#searchbox').val(decodeURIComponent(query))
+  if (semester) $('#semester').val(semester)
+  if (sort) $('#sort').val(sort)
+  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
+  $('#advanced-filter-clashes')[0].checked = (filterClashes === 'true')
+
+  searchForCourses(query, semester, sort, track, filterClashes, noswipe)
+}
+
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
 var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
@@ -49,12 +64,6 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   // search += '&track=' + 'UGRD'
 
   if (query === undefined || query === null) query = ''
-
-  // display search
-  $('#searchbox').val(decodeURIComponent(query))
-  if (semester) $('#semester').val(semester)
-  if (sort) $('#sort').val(sort)
-  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
 
   // stop if no query
   if (query === '') {
