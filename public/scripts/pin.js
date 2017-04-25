@@ -8,7 +8,7 @@ var updatePinIcons = function() {
     var $icon = $(this)
     $icon.removeClass(isPinned ? 'pin-icon' : 'unpin-icon')
     $icon.addClass(isPinned ? 'unpin-icon' : 'pin-icon')
-    $icon.attr('data-original-title', isPinned ? 'Pin this course to detect possible clashes!' : 'Click to unpin')
+    $icon.attr('data-original-title', isPinned ? 'Click to unpin' : 'Pin this course to detect possible clashes!')
   })
 }
 
