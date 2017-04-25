@@ -42,7 +42,7 @@ var searchFromBox = function() {
 // update search results from a URL
 var searchFromURL = function(query, semester, sort, track, filterClashes, noswipe) {
   // display search
-  $('#searchbox').val(decodeURIComponent(query))
+  if (query) $('#searchbox').val(decodeURIComponent(query))
   if (semester) $('#semester').val(semester)
   if (sort) $('#sort').val(sort)
   $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
@@ -54,6 +54,7 @@ var searchFromURL = function(query, semester, sort, track, filterClashes, noswip
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
 var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
+  if (query === undefined || query === null) query = ''
 
   // construct search query
   var search = '/api/search/' + query
@@ -62,8 +63,6 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   search += (track !== undefined && track !== '') ? '&track=' + track : ''
   search += '&detectClashes=' + (filterClashes ? 'filter' : 'true')
   // search += '&track=' + 'UGRD'
-
-  if (query === undefined || query === null) query = ''
 
   // stop if no query
   if (query === '') {
