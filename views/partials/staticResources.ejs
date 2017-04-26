@@ -7,7 +7,7 @@ if (typeof (release) === 'undefined') {
 if (scripts) {
   scripts.forEach(function (script) {
     %>
-    <script title="/scripts/<%= script %>.js?v=<%= release %>"></script>
+    <script src="/scripts/<%= script %>.js?v=<%= release %>"></script>
     <%
   })
 }
