@@ -434,16 +434,16 @@ body {
   transition: color 0.4s ease;
 }
 .pin-icon:hover {
-  color: #EE7F2D;
+  color: #A764D4;
 }
 
 .unpin-icon {
-  color: #EE7F2D;
+  color: #A764D4;
   cursor: pointer;
   transition: color 0.4s ease;
 }
 .unpin-icon:hover {
-  color: #F2BB91;
+  color: #BDA2CF;
 }
 
 .clash-icon {

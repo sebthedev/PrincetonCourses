@@ -95,7 +95,7 @@ router.get('/verify', function (req, res) {
 // Log the user out
 router.get('/logout', function (req, res) {
   req.session = null
-  res.redirect('/')
+  res.redirect(casURL + 'logout')
 })
 
 // Export the routes on this router (/login, /verify, and /logout)
@@ -115,7 +115,8 @@ var loadUser = function (req, res, next) {
         console.log(err)
       }
       if (user != null) {
-        req.app.set('user', user)
+        // Save the user for the duration of the request
+        res.locals.user = user
       }
       next()
     })
