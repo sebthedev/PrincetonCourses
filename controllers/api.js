@@ -580,6 +580,8 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
 }).put(function (req, res) {
   var user = req.app.get('user')
 
+  let userPopulatePromise = req.app.get('user').populate('clashDetectionCourses').execPopulate()
+
   // Update the user's list of favorite courses
   var updateUserPromise = userModel.update({
     _id: user._id
@@ -590,12 +592,34 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
   }).exec()
 
   // Fetch the data about this course
-  var fetchCoursePromise = courseModel.findById(req.params.id, abbreviatedCourseProjection).exec()
+  let projection = {}
+  Object.assign(projection, abbreviatedCourseProjection)
+  delete projection.classes
+  var fetchCoursePromise = courseModel.findById(req.params.id, projection).exec()
 
   // Once both requests complete, return the course data to the client
-  Promise.all([updateUserPromise, fetchCoursePromise]).then(function (results) {
-    if (results[1]) {
-      res.json(results[1])
+  Promise.all([updateUserPromise, fetchCoursePromise, userPopulatePromise]).then(function (results) {
+    let newlyFavoritedCourse = results[1]
+    let user = results[2]
+
+    if (newlyFavoritedCourse) {
+      // Determine whether this newly favorited course clashes with the existing pinned courses
+      if (typeof (user.clashDetectionCourses) !== 'undefined' && user.clashDetectionCourses.length > 0) {
+        // Convert the Mongoose objects to regular JavaScript objects
+        let clashDetectionCourses = user.clashDetectionCourses.map(function (course) {
+          return course.toObject()
+        })
+        newlyFavoritedCourse = newlyFavoritedCourse.toObject()
+
+        // Determine whether this newly favorited course clashes with the existing pinned courses
+        let detectClashesResult = courseClashDetector.detectCourseClash(clashDetectionCourses, [newlyFavoritedCourse], semesters[0]._id)
+        if (detectClashesResult.status === 'success') {
+          newlyFavoritedCourse = detectClashesResult.courses[0]
+        }
+      }
+
+      // Return the newly favorited course
+      res.json(newlyFavoritedCourse)
     } else {
       res.sendStatus(404)
     }
