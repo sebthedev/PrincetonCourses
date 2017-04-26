@@ -221,7 +221,7 @@ function loadInstructor(icon, body, entry) {
 //  - 'tags' is defined => displays pdf/audit tags
 function newDOMcourseResult(course, props) {
   // append semester if appropriate
-  var semester = props.hasOwnProperty('semester') ? '&nbsp;<small class="text-dim">' + course.semester.name + '</small>' : ''
+  var semester = props.hasOwnProperty('semester') ? '&nbsp;<small class="text-muted">' + course.semester.name + '</small>' : ''
 
   // tags: dist / pdf / audit
   var tags = ''
@@ -241,7 +241,7 @@ function newDOMcourseResult(course, props) {
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + newHTMLlistings(course) + ' ' + tags + '</strong>'
+        + '<strong>' + newHTMLlistings(course) + '</strong> ' + tags
       + '</div>'
       + '<div class="flex-item-rigid">'
         + '&nbsp;'

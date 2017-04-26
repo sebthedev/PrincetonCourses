@@ -288,9 +288,9 @@ var newDOMclassListing = function(aclass) {
   var filled = aclass.enrollment + ' / ' + aclass.capacity
   var code = aclass.class_number
   var statusColor = ''
-  if (status === 'Open') statusColor = ' class="text-success-dim"'
-  else if (status === 'Closed') statusColor = ' class="text-warning-dim"'
-  else if (status === 'Cancelled') statusColor = ' class="text-danger-dim"'
+  if (status === 'Open') statusColor = ' class="text-success"'
+  else if (status === 'Closed') statusColor = ' class="text-warning"'
+  else if (status === 'Cancelled') statusColor = ' class="text-danger"'
 
   // a row for each meeting
   var meetingString = ''
@@ -323,11 +323,9 @@ var newDOMclassListing = function(aclass) {
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>'
-          + name
-          + ' <small' + statusColor + '>' + status + '</small>'
-          + ' <small class="class-code text-dim" data-toggle="tooltip" data-original-title="Class number">#' + aclass.class_number + '</small>'
-        + '</strong>'
+        + '<strong>' + name + '</strong>'
+        + ' <small' + statusColor + '>' + status + '</small>'
+        + ' <small class="class-code text-muted" data-toggle="tooltip" data-original-title="Class number">#' + aclass.class_number + '</small>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'

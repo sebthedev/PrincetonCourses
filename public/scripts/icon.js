@@ -122,7 +122,7 @@ function newHTMLtags(course, props) {
     {
       'tooltip': distributions[course.distribution],
       'placement': tipPlacement,
-      'class': tag_type + (isTitle ? 'label-info' : 'text-info-dim'),
+      'class': tag_type + (isTitle ? 'label-info' : 'text-info'),
       'text': course.distribution
     }
   )
@@ -149,7 +149,7 @@ function newHTMLtags(course, props) {
   }
 
   if (isTitle) pdf_style = 'label-' + pdf_style
-  else pdf_style = 'text-' + pdf_style + '-dim'
+  else pdf_style = 'text-' + pdf_style
 
   var tag_pdf = ''
   if (hasPDF) tag_pdf = newHTMLtag(
@@ -170,7 +170,7 @@ function newHTMLtags(course, props) {
     {
       'tooltip': 'Audit available',
       'placement': tipPlacement,
-      'class': tag_type + (isTitle ? 'label-warning' : 'text-warning-dim'),
+      'class': tag_type + (isTitle ? 'label-warning' : 'text-warning'),
       'text': (isTitle ? 'AUDIT' : 'A')
     }
   )

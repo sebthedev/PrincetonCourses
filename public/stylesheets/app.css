@@ -199,8 +199,8 @@ body {
 }
 
 .list-group-item.search-result.active:hover {
-  background-color: #FAE3D2;
-  border-color: #FAE3D2;
+  background-color: #FBE5D5;
+  border-color: #FBE5D5;
   color: #000;
   /*background-color: #428bca;
   border-color: #428bca;*/
@@ -208,9 +208,9 @@ body {
 }
 
 .list-group-item.active { /* dim orange active highlighting */
-  background-color: #F9D8C0;
-  border-color: #F9D8C0;
-  color: black;
+  background-color: #FADBC5;
+  border-color: #FADBC5;
+  color: #000;
 }
 
 /* form focus outline shadow orange */
@@ -219,32 +219,22 @@ body {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(238, 127, 45, 0.6);
 }
 
-/* these are an rgb average of the corresponding bootstrap color and white */
-.text-info-dim {
-  color: #8CC7E0;
+/* from standard Bootstrap */
+.text-muted {
+  color: #636c72;
 }
-.text-warning-dim {
-  color: #F0C993;
+.text-info {
+  color: #5bc0de;
 }
-.text-danger-dim {
-  color: #eca8a7;
+.text-warning {
+  color: #f0ad4e;
 }
-.text-success-dim {
-  color: #94C499;
+.text-danger {
+  color: #d9534f;
 }
-.text-dim {
-  color: #9E9E9E;
+.text-success {
+  color: #5cb85c;
 }
-/* MEL: removed after active highlighting dimmed
-.active .text-dim {
-  color: #fff;
-}
-.active .text-info {
-  color: #9bddfa
-}
-.active .text-danger {
-  color: #ff6764
-}*/
 
 /* PAGEWIDE CSS */
 
@@ -434,6 +424,9 @@ body {
   cursor: pointer;
   transition: color 0.4s ease;
 }
+.active .fav-icon {
+  color: #f4f4f4;
+}
 .fav-icon:hover {
   color: #DE6965;
 }
@@ -442,6 +435,9 @@ body {
   color: #ddd;
   cursor: pointer;
   transition: color 0.4s ease;
+}
+.active .pin-icon {
+  color: #f4f4f4;
 }
 .pin-icon:hover {
   color: #8CC7E0;
