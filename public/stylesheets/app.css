@@ -199,9 +199,18 @@ body {
 }
 
 .list-group-item.search-result.active:hover {
-  background-color: #428bca;
-  border-color: #428bca;
+  background-color: #FAE3D2;
+  border-color: #FAE3D2;
+  color: #000;
+  /*background-color: #428bca;
+  border-color: #428bca;*/
   transition: background-color 0s ease;
+}
+
+.list-group-item.active { /* dim orange active highlighting */
+  background-color: #F9D8C0;
+  border-color: #F9D8C0;
+  color: black;
 }
 
 /* form focus outline shadow orange */
@@ -226,6 +235,7 @@ body {
 .text-dim {
   color: #9E9E9E;
 }
+/* MEL: removed after active highlighting dimmed
 .active .text-dim {
   color: #fff;
 }
@@ -234,7 +244,7 @@ body {
 }
 .active .text-danger {
   color: #ff6764
-}
+}*/
 
 /* PAGEWIDE CSS */
 
