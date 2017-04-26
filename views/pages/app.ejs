@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/header.ejs %>
-  <%-
-  // Include scripts and stylesheets with a per-deploy cache-buster
+  <%
+  // Include basic header tags
+  include ../partials/header.ejs
+
+  // Include page-specific scripts and stylesheets with a per-deploy cache-buster
   include('../partials/staticResources', {
     scripts: ['logout', 'demo', 'history', 'layout', 'resizable', 'feedback', 'navbar', 'icon', 'eval', 'fav', 'pin', 'display', 'suggest', 'search', 'app'],
     stylesheets: ['app', 'demo', 'navbar', 'feedback', 'scrollbar'],

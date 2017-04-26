@@ -2,17 +2,23 @@
 <html lang="en">
 
 <head>
-    <% include ../partials/header.ejs %>
-    <script src="/scripts/splash.js"></script>
-    <link rel="stylesheet" href="/stylesheets/splash.css" type="text/css">
-    <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
-    <!-- <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css"> -->
+    <%
+    // Include basic header tags
+    include ../partials/header.ejs
+
+    // Include page-specific scripts and stylesheets with a per-deploy cache-buster
+    include('../partials/staticResources', {
+      scripts: ['splash'],
+      stylesheets: ['splash', 'navbar'],
+      release: release
+    })
+    %>
 </head>
 
 <body>
     <!-- Navigation -->
     <%- include('../partials/navbar', {active: 'home'}) %>
-    
+
     <header class="header-container container">
       <div class="row" style="height:100%">
         <div class="header-image"></div>
