@@ -193,7 +193,7 @@ router.get('/search/:query', function (req, res) {
     delete courseProjection.classes
 
     // Construct the userModel database query to get the user's favorite courses
-    promises.push(userModel.findById(req.app.get('user')._id, {
+    promises.push(userModel.findById(res.locals.user._id, {
       'clashDetectionCourses': 1
     }).populate('clashDetectionCourses').exec())
     promiseNames.push('user')
@@ -509,7 +509,7 @@ router.get('/course/:id', function (req, res) {
 
       // Note if the user has previously up-voted this comment
       for (var commentIndex in queryCourse.evaluations.comments) {
-        queryCourse.evaluations.comments[commentIndex].voted = queryCourse.evaluations.comments[commentIndex].voters.indexOf(req.app.get('user')._id) > -1
+        queryCourse.evaluations.comments[commentIndex].voted = queryCourse.evaluations.comments[commentIndex].voters.indexOf(res.locals.user._id) > -1
         delete queryCourse.evaluations.comments[commentIndex].voters
       }
       delete queryCourse.evaluations.commonName
@@ -578,9 +578,9 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
   }
   next()
 }).put(function (req, res) {
-  var user = req.app.get('user')
+  var user = res.locals.user
 
-  let userPopulatePromise = req.app.get('user').populate('clashDetectionCourses').execPopulate()
+  let userPopulatePromise = res.locals.user.populate('clashDetectionCourses').execPopulate()
 
   // Update the user's list of favorite courses
   var updateUserPromise = userModel.update({
@@ -628,7 +628,7 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
     res.sendStatus(500)
   })
 }).delete(function (req, res) {
-  var user = req.app.get('user')
+  var user = res.locals.user
   let courseID = parseInt(req.params.id)
 
   userModel.update({
@@ -649,7 +649,7 @@ router.route('/user/favorites/:id').all(function (req, res, next) {
 
 // Respond to a request for a list of this user's favorite courses
 router.get('/user/favorites', function (req, res) {
-  req.app.get('user').populate('favoriteCourses', function (err, user) {
+  res.locals.user.populate('favoriteCourses', function (err, user) {
     if (err) {
       console.log(err)
       res.sendStatus(500)
@@ -698,7 +698,7 @@ router.route('/user/clashDetectionCourses/:id').all(function (req, res, next) {
   }
   next()
 }).put(function (req, res) {
-  let user = req.app.get('user')
+  let user = res.locals.user
   let courseID = parseInt(req.params.id)
 
   // Check that this course is in the favoriteCourses list
@@ -731,7 +731,7 @@ router.route('/user/clashDetectionCourses/:id').all(function (req, res, next) {
     res.sendStatus(500)
   })
 }).delete(function (req, res) {
-  var user = req.app.get('user')
+  var user = res.locals.user
 
   userModel.update({
     _id: user._id
@@ -782,7 +782,7 @@ router.route('/evaluations/:id/vote').all(function (req, res, next) {
     next()
   })
 }).put(function (req, res) {
-  var user = req.app.get('user')
+  var user = res.locals.user
 
   evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
     if (err) {
@@ -817,7 +817,7 @@ router.route('/evaluations/:id/vote').all(function (req, res, next) {
     })
   })
 }).delete(function (req, res) {
-  var user = req.app.get('user')
+  var user = res.locals.user
 
   evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
     if (err || typeof (evaluation.voters) === 'undefined') {

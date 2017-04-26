@@ -115,7 +115,8 @@ var loadUser = function (req, res, next) {
         console.log(err)
       }
       if (user != null) {
-        req.app.set('user', user)
+        // Save the user for the duration of the request
+        res.locals.user = user
       }
       next()
     })
