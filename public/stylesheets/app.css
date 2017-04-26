@@ -195,13 +195,13 @@ body {
 
 .list-group-item.search-result:hover {
   background-color: #fff;
-  transition: background-color 0.4s ease;
+  /* transition: background-color 0.4s ease;*/
 }
 
 .list-group-item.search-result.active:hover {
   background-color: #428bca;
   border-color: #428bca;
-  transition: background-color 0s ease;
+  /* transition: background-color 0s ease; */
 }
 
 /* form focus outline shadow orange */
@@ -466,7 +466,7 @@ body {
 .instructor-list-item {
   padding: 8px;
   background-color: #f4f4f4;
-  transition: background-color 0.4s ease;
+  /* transition: background-color 0.4s ease; */
 }
 .instructor-list-item:hover {
   padding: 8px;
@@ -474,6 +474,7 @@ body {
   cursor: pointer;
 }
 .instructor-list-item-opened {
+  transition: background-color 0.4s ease;
   background-color: #eaeaea;
 }
 .instructor-list-item-opened:hover {
