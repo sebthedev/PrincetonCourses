@@ -84,11 +84,12 @@ var displayActive = function() {
 
 // shows/hides sections of no content
 var display_autotoggle = function(section) {
-  var div = $('#disp-' + section)
-  var body = $('#disp-' + section + '-body')
-  var isEmpty = body.is(':empty')
+  var $div = $('#disp-' + section)
+  var $body = $('#disp-' + section + '-body')
+  var isEmpty = $body.is(':empty')
 
-  div.css('display', isEmpty ? 'none' : '')
+  if (isEmpty) $div.hide()
+  else $div.show()
 }
 
 // display course data for title TODO: favoriting
@@ -176,7 +177,7 @@ var newDOMreadingListing = function(reading) {
 
   // html string
   var htmlString = (
-    '<li class="list-group-item info-list-item search-result">'
+    '<li class="list-group-item info-list-item search-result" data-toggle="tooltip" data-original-title="Click to search the library for this reading">'
     + '<a href="' + librarySearchURL + '" target="_blank" style="color: #333; text-decoration: none;">'
       + '<div class="flex-container-row">'
         + '<div class="flex-item-stretch truncate"><strong>' + author + '</strong></div>'
@@ -189,11 +190,6 @@ var newDOMreadingListing = function(reading) {
   )
 
   var entry = $.parseHTML(htmlString)[0] // create DOM object
-
-  $(entry).click(function () {
-    console.log("click")
-    console.log(this)
-  })
 
   return entry
 }
@@ -288,14 +284,13 @@ var display_classes = function(course) {
 
 // returns a DOM object for a class of the displayed course
 var newDOMclassListing = function(aclass) {
-  var name = aclass.section
   var status = aclass.status
   var filled = aclass.enrollment + ' / ' + aclass.capacity
   var code = aclass.class_number
   var statusColor = ''
-  if (status === 'Open') statusColor = ' class="text-success-dim"'
-  else if (status === 'Closed') statusColor = ' class="text-warning-dim"'
-  else if (status === 'Cancelled') statusColor = ' class="text-danger-dim"'
+  if (status === 'Open') statusColor = ' class="text-success"'
+  else if (status === 'Closed') statusColor = ' class="text-warning"'
+  else if (status === 'Cancelled') statusColor = ' class="text-danger"'
 
   // a row for each meeting
   var meetingString = ''
@@ -321,16 +316,16 @@ var newDOMclassListing = function(aclass) {
     )
   }
 
+  var name = '<span data-toggle="tooltip" data-original-title="' + aclass.type_name + '">' + aclass.section + '</span>'
+
   // html string
   var htmlString = (
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>'
-          + name
-          + ' <small' + statusColor + '>' + status + '</small>'
-          + ' <small class="class-code text-dim">#' + aclass.class_number + '</small>'
-        + '</strong>'
+        + '<strong>' + name + '</strong>'
+        + ' <small' + statusColor + '>' + status + '</small>'
+        + ' <small class="class-code text-muted" data-toggle="tooltip" data-original-title="Class number">#' + aclass.class_number + '</small>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'

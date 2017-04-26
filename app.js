@@ -12,13 +12,16 @@ if (process.env.NODE_ENV === 'production') {
 const path = require('path')
 
 // Load external dependencies
-require('mongoose')
-var express = require('express')
-var session = require('cookie-session')
-var bodyParser = require('body-parser')
+let mongoose = require('mongoose')
+let express = require('express')
+let session = require('cookie-session')
+let bodyParser = require('body-parser')
+
+// Make Mongoose use native promises
+mongoose.Promise = global.Promise
 
 // Initialise Express, which makes the server work
-var app = express()
+let app = express()
 
 // Configure Opbeat as an error handling middleware
 if (process.env.NODE_ENV === 'production') {
@@ -30,9 +33,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Load internal modules
-var config = require('./controllers/config')
-var auth = require('./controllers/authentication.js')
-var api = require('./controllers/api.js')
+let config = require('./controllers/config')
+let auth = require('./controllers/authentication.js')
+let api = require('./controllers/api.js')
 
 // Connect to the database
 require('./controllers/database.js')
@@ -40,8 +43,20 @@ require('./controllers/database.js')
 // Configure the app to save a cookie with two attributes (for netid and status)
 app.use(session({ keys: ['key1', 'key2'] }))
 
-// Attempt to load into the app the currently logged-in user
+// Attempt to load the currently logged-in user
 app.use('*', auth.loadUser)
+
+// Pre-compose the variables that will be sent to the page to render
+app.use('*', function (req, res, next) {
+  res.locals.renderLocals = {}
+  if (res.locals.user) {
+    res.locals.renderLocals.netid = res.locals.user._id
+  }
+  if (process.env.NODE_ENV) {
+    res.locals.renderLocals.environment = process.env.NODE_ENV
+  }
+  next()
+})
 
 // Attach routers (these are modules that contain a distinct set of routes)
 app.use('/auth', auth.router)
@@ -52,15 +67,10 @@ app.get('/', function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
     // The user in unauthenticated. Display a splash page.
-    res.render('pages/splash', {
-      environment: process.env.NODE_ENV
-    })
+    res.render('pages/splash', res.locals.renderLocals)
   } else {
     // The user has authenticated. Display the app
-    res.render('pages/app', {
-      netid: app.get('user')._id,
-      environment: process.env.NODE_ENV
-    })
+    res.render('pages/app', res.locals.renderLocals)
   }
 })
 
@@ -71,27 +81,18 @@ app.get('/course/:id', function (req, res) {
     res.redirect('/auth/login?redirect=' + req.originalUrl)
   } else {
     // The user has authenticated. Display the app
-    res.render('pages/app', {
-      netid: app.get('user')._id,
-      production: process.env.NODE_ENV
-    })
+    res.render('pages/app', res.locals.renderLocals)
   }
 })
 
 // Route a request for the about page
 app.get('/about', function (req, res) {
-  res.render('pages/about', {
-    netid: app.get('user')._id,
-    environment: process.env.NODE_ENV
-  })
+  res.render('pages/about', res.locals.renderLocals)
 })
 
 // Route a request for the main app page
 app.get('/app', function (req, res) {
-  res.render('pages/app', {
-    netid: app.get('user')._id,
-    environment: process.env.NODE_ENV
-  })
+  res.render('pages/app', res.locals.renderLocals)
 })
 
 // Map any files in the /public folder to the root of our domain

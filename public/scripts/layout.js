@@ -2,10 +2,10 @@ const WIDTH_THRESHOLD = 768;
 
 // handles showing of initial content
 function layout_initial_show() {
- // if ($('#display-initial').css('display') !== 'none' && $('#display-body').css('display') === 'none') return;
+ // if ($('#display-initial').is(':visible') && $('#display-body').css('display') === 'none') return;
 
-  $('#display-body').css('display', 'none')
-  $('#display-initial').css('display', '')
+  $('#display-body').hide()
+  $('#display-initial').show()
 
   if (document.isMobile) {
     $('#disp-title').text('Navigate by swiping left and right')
@@ -20,16 +20,15 @@ function layout_initial_show() {
   }
 
   $('#searchbox').focus()
-
   if (document.isMobile && document.isReady) $('#main-pane').slick('slickGoTo', 2)
 }
 
 // handles hiding of initial content
 function layout_initial_hide() {
-  // if ($('#display-initial').css('display') === 'none' && $('#display-body').css('display') !== 'none') return;
+  // if ($('#display-initial').css('display') === 'none' && $('#display-body').is(':visible')) return;
 
-  $('#display-body').css('display', '')
-  $('#display-initial').css('display', 'none')
+  $('#display-body').show()
+  $('#display-initial').hide()
 
   if (document.isMobile) $('#display-body')[0].slick.refresh()
 }
@@ -65,7 +64,7 @@ function layout_mobile() {
   });
 
   /* show suggest pane and attach toggler to right menu */
-  $('#suggest-pane').css('display', '')
+  $('#suggest-pane').show()
   $('#suggest-toggle').removeClass('active')
   $('#menu-right').prepend($('#suggest-toggle').detach())
 
@@ -73,11 +72,11 @@ function layout_mobile() {
   $('#menu-form').append($('#searchbox').detach())
 
   if (document.history_pos !== undefined && document.history_pos > 0) {
-    $('#menu-brand-abbr').css('display', 'none')
-    $('#menu-back').css('display', '')
+    $('#menu-brand-abbr').hide()
+    $('#menu-back').show()
   } else {
-    $('#menu-brand-abbr').css('display', '')
-    $('#menu-back').css('display', 'none')
+    $('#menu-brand-abbr').show()
+    $('#menu-back').hide()
   }
 }
 
@@ -90,7 +89,7 @@ function layout_toMobile() {
 // set up desktop layout
 function layout_desktop() {
   /* hide suggest pane by default and move attach toggler to left menu */
-  $('#suggest-pane').css('display', 'none')
+  $('#suggest-pane').hide()
   $('#suggest-toggle').removeClass('active')
   $('#menu-left').prepend($('#suggest-toggle').detach())
 

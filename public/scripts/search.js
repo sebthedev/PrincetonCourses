@@ -1,4 +1,4 @@
-// dependencies: fav.js, display.js, history.js, suggest.js, icon.js
+// dependencies: fav.js, display.js, history.js, suggest.js, icon.js, pin.js
 
 var getSearchQueryURL = function () {
   var parameters = []
@@ -13,6 +13,9 @@ var getSearchQueryURL = function () {
   }
   if ($('#advanced-grad-hide').is(':checked')) {
     parameters.push('track=UGRD')
+  }
+  if ($('#advanced-filter-clashes').is(':checked')) {
+    parameters.push('filterClashes=true')
   }
   return '?' + parameters.join('&')
 
@@ -36,9 +39,22 @@ var searchFromBox = function() {
   searchForCourses(query, semester, sort, track, filterClashes)
 }
 
+// update search results from a URL
+var searchFromURL = function(query, semester, sort, track, filterClashes, noswipe) {
+  // display search
+  if (query) $('#searchbox').val(decodeURIComponent(query))
+  if (semester) $('#semester').val(semester)
+  if (sort) $('#sort').val(sort)
+  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
+  $('#advanced-filter-clashes')[0].checked = (filterClashes === 'true')
+
+  searchForCourses(query, semester, sort, track, filterClashes, noswipe)
+}
+
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
 var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
+  if (query === undefined || query === null) query = ''
 
   // construct search query
   var search = '/api/search/' + query
@@ -48,20 +64,12 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   search += '&detectClashes=' + (filterClashes ? 'filter' : 'true')
   // search += '&track=' + 'UGRD'
 
-  if (query === undefined || query === null) query = ''
-
-  // display search
-  $('#searchbox').val(decodeURIComponent(query))
-  if (semester) $('#semester').val(semester)
-  if (sort) $('#sort').val(sort)
-  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
-
   // stop if no query
   if (query === '') {
     $('#results').children().remove();
     $('#search-title').text('0 Search Results')
     document.lastSearch = ''
-    $('#search-load-indicator').css('display', 'none')
+    $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
     return false
   }
@@ -75,7 +83,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   // store search value used
   localStorage.setItem("sort", $('#sort').val())
 
-  $('#search-load-indicator').css('display', '')
+  $('#search-load-indicator').show()
   $('#search-results').stop().animate({'opacity': '0.5'})
 
   // search!
@@ -92,9 +100,9 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
     // Check whether there is a clash among the favorite courses
     if (results.length > 0 && results[0].hasOwnProperty('favoritesClash') && results[0].favoritesClash) {
-      $('#fav-clash-indicator').css('display', '')
+      $('#fav-clash-indicator').show()
     } else {
-      $('#fav-clash-indicator').css('display', 'none')
+      $('#fav-clash-indicator').hide()
     }
 
     // Remove any search results already in the results pane
@@ -115,7 +123,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
     displayActive() // update highlighting of active course
 
-    $('#search-load-indicator').css('display', 'none')
+    $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
   })
 
@@ -171,7 +179,7 @@ function toggleInstructor(icon, body, entry) {
     return
   }
 
-  var isVisible = $(body).css('display') !== 'none'
+  var isVisible = $(body).is(':visible')
 
   $(icon).removeClass(isVisible ? 'fa-caret-up' : 'fa-caret-down')
   $(icon).addClass(isVisible ? 'fa-caret-down' : 'fa-caret-up')
@@ -209,26 +217,35 @@ function loadInstructor(icon, body, entry) {
 //   -- clicking to favorite/unfavorite (+ course id linking for icon)
 // props: properties for conditional rendering:
 //  - 'semester' is defined => displays semester name too
+//  - 'pin' is defined => displays pin to select courses for course clash
 //  - 'tags' is defined => displays pdf/audit tags
 function newDOMcourseResult(course, props) {
   // append semester if appropriate
-  var semester = props.hasOwnProperty('semester') ? '&nbsp;<small class="text-dim">' + course.semester.name + '</small>' : ''
+  var semester = props.hasOwnProperty('semester') ? '&nbsp;<small class="text-muted">' + course.semester.name + '</small>' : ''
 
   // tags: dist / pdf / audit
   var tags = ''
-  if (props.hasOwnProperty('tags')) tags = ' <small>' + newHTMLtags(course) + '</small>'
+  if (props.hasOwnProperty('tags')) tags = '<small>' + newHTMLtags(course) + '</small>'
 
+  // clash icon
   var clashIcon = ''
-  if (course.clash) clashIcon = '&nbsp;<i class="fa fa-warning text-danger" data-toggle="tooltip" title="This course clashes with one or more of your favorite courses."></i>'
+  if (course.clash) clashIcon = '<i class="fa fa-warning clash-icon" data-toggle="tooltip" data-original-title="This course clashes with one or more of your pinned courses."></i>'
+
+  // pin icon for selecting courses (only in fav list)
+  var hasPinIcon = (props.hasOwnProperty('pin') && !course.clash)
+  var pinIcon = ''
+  if (hasPinIcon) pinIcon = '<i class="fa fa-lg fa-thumb-tack pin-icon" data-toggle="tooltip" data-original-title="Pin this course to detect possible clashes!"></i>'
 
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + newHTMLlistings(course) + tags + '</strong>'
+        + '<strong>' + newHTMLlistings(course) + '</strong> ' + tags
       + '</div>'
       + '<div class="flex-item-rigid">'
+        + '&nbsp;'
+        + pinIcon + ' '
         + clashIcon + ' '
         + newHTMLfavIcon(course._id) + ' '
         + newHTMLscoreBadge(course)
@@ -247,6 +264,13 @@ function newDOMcourseResult(course, props) {
   icon.courseId = course._id                                                 // attach course id to icon
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
   $(entry).click(displayResult)                                              // enable click to display
+
+  // bind pin icons
+  if (hasPinIcon) {
+    var pin = $(entry).find('i.fa-thumb-tack')[0]
+    pin.courseId = course._id
+    $(pin).click(togglePin)
+  }
 
   return entry
 }

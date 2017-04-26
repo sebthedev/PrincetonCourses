@@ -2,14 +2,17 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="/scripts/logout.js"></script>
   <script src="/scripts/demo.js"></script>
   <script src="/scripts/history.js"></script>
   <script src="/scripts/layout.js"></script>
   <script src="/scripts/resizable.js"></script>
+  <script src="/scripts/feedback.js"></script>
   <script src="/scripts/navbar.js"></script>
   <script src="/scripts/icon.js"></script>
   <script src="/scripts/eval.js"></script>
   <script src="/scripts/fav.js"></script>
+  <script src="/scripts/pin.js"></script>
   <script src="/scripts/display.js"></script>
   <script src="/scripts/suggest.js"></script>
   <script src="/scripts/search.js"></script>
@@ -17,6 +20,7 @@
   <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/demo.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/feedback.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
 </head>
 
@@ -25,7 +29,7 @@
   <div id="full-page" class="flex-container-col">
     <nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
       <div id="menu-header" class="navbar-header"> <!-- M: class flex-container-row -->
-        <a id="menu-brand" class="navbar-brand">Princeton Courses <sup>beta</sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
+         <a class="navbar-brand" id="menu-brand"  href="/">Princeton Courses <sup>beta</sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
         <a id="menu-brand-abbr" class="navbar-brand flex-item-rigid">PC</a> <!-- M: appear, D: hide -->
         <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
           <span class="fa fa-chevron-left"></span>
@@ -48,14 +52,14 @@
         <ul id="menu-right" class="nav navbar-nav navbar-right">
           <li id="demo-toggle"><a href="javascript:void(0);">Demo</a></li>
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle"><a href="/about" target="_blank">About</a></li>
+          <li id="about-toggle"><a href="/about">About</a></li>
           <li id="netid"><a href="#"><%= netid %></a></li>
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
       </div>
     </nav>
 
-    <div id="main-pane" class="flex-item-stretch flex-container-row">
+    <div id="main-pane" class="flex-item-stretch flex-container-row" style="display:none">
       <div id="suggest-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden -->
         <div id="suggest-allcourses">
           <div id="suggest-allcourses-header" class="flex-container-row">
@@ -124,14 +128,17 @@
             </div>
             <div class="checkbox">
               <label>
-                <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with favorites
+                <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with pinned courses
               </label>
             </div>
           </form>
         </div>
+        <div id="favorite-prompt" class="flex-item-rigid">
+          <h5>Click on <i class="fa fa-heart"></i> to favorite a course!</h5>
+        </div>
         <div id="favorite-header" class="flex-item-rigid flex-container-row">
           <h4 id="favorite-title" class="flex-item-shrink truncate">0 Favorite Courses</h4>
-          <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" data-original-title="There is a time clash between one or more of the courses in your favorites list." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
+          <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" data-original-title="There is a time clash between two or more of your pinned courses." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
           <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus text-button"></i></h4>
         </div>
         <div id="favorite-courses" class="flex-item-shrink">
@@ -290,16 +297,8 @@
 
   <!-- Popups -->
 
-  <div id="feedback-container" class="panel" style="display: none;">
-    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode !== 13">
-      <div class="form-group">
-        <label for="feedback-text">Any thoughts, comments or complaints?</label>
-        <textarea id="feedback-text" class="form-control" rows="3"></textarea>
-      </div>
-      <button id="feedback-submit" class="btn btn-default" type="submit">Submit</button>
-    </form>
-    <iframe src="about:blank" id="no-target" name="no-target" style="display: none;"></iframe>
-  </div>
+  <% include ../partials/feedback.ejs %>
+
 
   <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">
     <button type="button" class="close" data-dismiss="alert" aria-label="close" onclick="saveUpdatePopupState()">&times;</button>

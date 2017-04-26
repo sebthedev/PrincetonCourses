@@ -1,4 +1,4 @@
-// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js
+// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js, pin.js
 
 // initialization
 $(document).ready(function() {
@@ -10,13 +10,13 @@ $(document).ready(function() {
   init_search();
   init_globals();
   init_favorites();
-  init_feedback();
+  init_navbar();
   init_demo();
   init_display();
   init_evals();
-  init_logout();
   init_suggest();
   init_updates();
+  $('#main-pane').css('display', '');
 })
 
 // loads course from url
@@ -38,7 +38,7 @@ var init_load = function () {
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, parameters.track)
+  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes)
 
   // initialize history
   history_init(courseId, window.location.search)
@@ -61,8 +61,8 @@ var init_panes = function() {
     $('#info-pane').css('width', infoPaneWidth);
   }
 
-  $('#search-pane').css('display', "");
-  $('#display-pane').css('display', "");
+  $('#search-pane').show()
+  $('#display-pane').show()
 
   $('#search-pane').resizable({
     handleSelector: "#search-resizer",
@@ -81,7 +81,7 @@ var init_searchpane = function() {
   $('#favorite-courses').css('max-height', '30vh')
     // toggle display of favorite things
   var toggleFavDisplay = function() {
-    var isVisible = $('#favorite-courses').css('display') !== 'none'
+    var isVisible = $('#favorite-courses').is(':visible')
 
     var icon = $('#fav-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
@@ -97,9 +97,22 @@ var init_searchpane = function() {
     var icon = $('#search-display-toggle')
     icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
     icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').animate({'max-height': (isVisible ? '100vh' : '30vh')})
 
     $('#search-results').slideToggle()
+
+    // smoother transition: start from current height as max-height
+    var currHeight = $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh'
+    $('#favorite-courses').css('max-height', currHeight)
+
+    // expand to full height as max-height
+    var fullHeight = $('#favs').outerHeight()/$(window).outerHeight()*100
+    fullHeight = ((fullHeight > 100) ? 100 : fullHeight) + 'vh'
+
+    // animate
+    $('#favorite-courses').animate({'max-height': (isVisible ? fullHeight : '30vh')}, function() {
+      // unset max-height if search results are not visible
+      if (isVisible) $('#favorite-courses').css('max-height', '')
+    })
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
 
@@ -159,9 +172,18 @@ var init_globals = function() {
 var init_favorites = function() {
   // call api to get favorites and display
   document.favorites = []
+  document.pins = []
+
   $.get('/api/user/favorites', function(courses) {
 
-    $('#favorite-header').css('display', (courses === undefined || courses.length === 0) ? 'none' : '')
+    var hasFavorites = (courses !== undefined && courses.length !== 0)
+    if (hasFavorites) {
+      $('#favorite-header').show()
+      $('#favorite-prompt').hide()
+    } else {
+      $('#favorite-header').hide()
+      $('#favorite-prompt').show()
+    }
 
     $('#favs').html('');
     $('#favorite-title').html('');
@@ -173,34 +195,17 @@ var init_favorites = function() {
       // Saving this user's favorite courses to the global scope
       document.favorites.push(thisCourse._id)
 
+      // save local pinned course list
+      if (thisCourse.clashDetectionStatus) document.pins.push(thisCourse._id)
+
       // append favorite into favs pane
-      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1}));
-    }
-  }).done(updateFavIcons).done(displayActive)
-}
+      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1, 'pin': 1}));
 
-// to initialize feedback mechanism
-var init_feedback = function() {
-  // submission
-  $('#feedback-form').submit(function() {
-    if ($('#feedback-text').val().length > 0)
-    {
-      var submitURL = ''
-      submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
-      submitURL += 'entry.1257302391=' + document.netid
-      submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-
-      $(this)[0].action = submitURL
-      $('#feedback-submit').text('Thank You!')
-      $('#feedback-submit').addClass('disabled')
-      $('#feedback-text').attr('disabled', true)
-      setTimeout(toggleFeedback, 1000)
-    }
-    else {
-      $('#feedback-text').attr("placeholder", "Please enter feedback.");
+      updateFavIcons()
+      updatePinIcons()
+      displayActive()
     }
   })
-  $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
 }
 
 // to initialize demo mechanism
@@ -227,26 +232,6 @@ var init_evals = function() {
   $('#evals-semesters-toggle').click(function() {section_toggle('evals', 'semesters')})
   $('#evals-numeric-toggle').click(function() {section_toggle('evals', 'numeric')})
   $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
-}
-
-// to intialize logout button
-var init_logout = function() {
-  $('#menu-bar').mouseleave(function() {
-    var isNetidInvisible = $('#netid').css('display') === 'none'
-    if (isNetidInvisible) {
-      if (document.isMobile) $('#netid, #logout').slideToggle()
-      else $('#netid, #logout').animate({width: 'toggle'})
-    }
-  })
-
-  $('#netid').click(function() {
-    var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (!isLogoutVisible) {
-      if (document.isMobile) $('#netid, #logout').slideToggle()
-      else $('#netid, #logout').animate({width: 'toggle'})
-    }
-    return false;
-  })
 }
 
 // to initialize suggest display
@@ -287,7 +272,7 @@ var init_updates = function() {
 var section_toggle = function(pane, section) {
   var body = $('#' + pane + '-' + section + '-body')
   var icon = $('#' + pane + '-' + section + '-toggle')
-  var isVisible = (body.css('display') !== 'none')
+  var isVisible = (body.is(':visible'))
 
   icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
   icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
@@ -304,7 +289,10 @@ var init_layout = function() {
   // initial layout
   var width = $(window).width()
   document.isMobile = (width < WIDTH_THRESHOLD)
-  if (document.isMobile) layout_mobile()
+  if (document.isMobile) {
+    $('#main-pane').css('display', '');
+    layout_mobile();
+  }
   else layout_desktop()
 
   layout_initial_show()
@@ -320,6 +308,7 @@ var init_layout = function() {
   $('body').tooltip({
     selector: '[data-toggle="tooltip"]',
     container: 'body',
+    trigger : 'hover',
     delay: 200
   });
 

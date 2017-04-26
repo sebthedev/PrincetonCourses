@@ -146,7 +146,7 @@ function toggleSuggest() {
     return false
   }
 
-  var isVisible = $('#suggest-pane').css('display') !== 'none'
+  var isVisible = $('#suggest-pane').is(':visible')
 
   $('#suggest-pane').animate({width: 'toggle'})
   if (isVisible) $('#suggest-toggle').removeClass('active')

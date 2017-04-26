@@ -122,7 +122,7 @@ function newHTMLtags(course, props) {
     {
       'tooltip': distributions[course.distribution],
       'placement': tipPlacement,
-      'class': tag_type + (isTitle ? 'label-info' : 'text-info-dim'),
+      'class': tag_type + (isTitle ? 'label-info' : 'text-info'),
       'text': course.distribution
     }
   )
@@ -131,8 +131,8 @@ function newHTMLtags(course, props) {
 
   var hasPDF = course.hasOwnProperty('pdf') && course.pdf.hasOwnProperty('required') && course.pdf.hasOwnProperty('permitted')
   var pdf_pdfo = hasPDF && course.pdf.required
-  var pdf_pdf = hasPDF && course.pdf.permitted
-  var pdf_npdf = hasPDF && !course.pdf.permitted
+  var pdf_pdf = hasPDF && !pdf_pdfo && course.pdf.permitted
+  var pdf_npdf = hasPDF && !pdf_pdfo && !course.pdf.permitted
 
   if (pdf_pdfo) {
     var pdf_tooltip = 'PDF only'
@@ -149,10 +149,10 @@ function newHTMLtags(course, props) {
   }
 
   if (isTitle) pdf_style = 'label-' + pdf_style
-  else pdf_style = 'text-' + pdf_style + '-dim'
+  else pdf_style = 'text-' + pdf_style
 
   var tag_pdf = ''
-  if (hasPDF && (isTitle || pdf_pdfo || pdf_pdf || pdf_npdf)) tag_pdf = newHTMLtag(
+  if (hasPDF) tag_pdf = newHTMLtag(
     {
       'tooltip': pdf_tooltip,
       'placement': tipPlacement,
@@ -170,7 +170,7 @@ function newHTMLtags(course, props) {
     {
       'tooltip': 'Audit available',
       'placement': tipPlacement,
-      'class': tag_type + (isTitle ? 'label-warning' : 'text-warning-dim'),
+      'class': tag_type + (isTitle ? 'label-warning' : 'text-warning'),
       'text': (isTitle ? 'AUDIT' : 'A')
     }
   )

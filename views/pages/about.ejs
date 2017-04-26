@@ -2,38 +2,21 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <script src="/scripts/logout.js"></script>
+  <script src="/scripts/feedback.js"></script>
+  <script src="/scripts/navbar.js"></script>
   <script src="/scripts/about.js"></script>
-  <script src="/scripts/app.js"></script>
-  <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/about.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/feedback.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
+  <!-- <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css"> -->
 </head>
 
 <!-- KARA: initial body on CodePen at https://codepen.io/melyshu/pen/aJXmNo, altered since transporting code -->
 <body>
   <div id="full-page" class="flex-item-rigid">
-    <nav id="menu-bar" class="navbar navbar-default">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/#">Princeton Courses <sup>beta</sup></a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" id="navigationbar">
-        <ul class="nav navbar-nav">
-          <li><a href="/#">Course Search</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li id="feedback-toggle"><a href="#">Feedback</a></li>
-          <li id="about-toggle" class="active"><a href="#">About</a></li>
-          <!-- <li id="netid"><a href="#"><%= netid %></a></li> -->
-          <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
+    <!-- Navigation -->
+    <%- include('../partials/navbar', {active: 'about'}) %>
 
     <section id="team" class="team content-section">
       <div class="container">
@@ -55,129 +38,153 @@
         <div class="row text-center col-md-12">
           <br></br>
           <h2>Meet Our Team</h2>
-          <h3 class="caption gray subtitle"> On Front End </h3>
         </div>
 
         <div class="row text-center">
-          <div class="col-md-4">
+          <div class="col-md-5ths">
             <div class="team-member">
               <figure>
                 <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/12494916_10201931491844820_4380261856249089998_n.jpg?oh=9a31f2a6598a78a7b83e5793e9a9d7a1&oe=5951C198" alt="" class="img-responsive prof-pic">
                 <figcaption>
-                  <p>I'm Mel!</p>
+                  <p>Contact:</p>
                   <ul>
-                    <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li>
+                    <!-- <li><a href=""><i class="fa fa-facebook fa-2x"></i></a></li> -->
                     <li><a href="https://au.linkedin.com/in/melshu" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="mailto:mshu@princeton.edu"><i class="fa fa-envelope fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
               <h4>Mel Shu</h4>
-              <p>Computer Science, 2019</p>
+              <div class="team-member-subtitle">
+                <p>Front End</p>
+              </div>
+              <div class="team-member-description">
+                <p>I'm Mel!</p>
+              </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5ths">
             <div class="team-member">
               <figure>
                 <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/13325443_10154241456974834_592086043633881283_n.jpg?oh=e0fad3719a98f7ad825644ff6898b333&oe=595491BE" alt="" class="img-responsive prof-pic">
                 <figcaption>
-                  <p> Hello! I'm from Turkey. I draw, play the violin, and sing a cappella. My blood/coffee concentration is approximately 50%.</p>
+                  <p>Contact:</p>
                   <ul>
                     <li><a href="https://www.instagram.com/bensusicim/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
                     <li><a href="https://www.linkedin.com/in/bensusicim" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="https://github.com/bnsuoh" target="_blank"><i class="fa fa-github fa-2x"></i></a></li>
+                    <li><a href="mailto:bsicim@princeton.edu"><i class="fa fa-envelope fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
               <h4>Bensu Sicim</h4>
-              <p>Computer Science, 2019</p>
+              <div class="team-member-subtitle">
+                <p>Front End</p>
+              </div>
+              <div class="team-member-description">
+                <p> Hello! I'm a Computer Science Major from the Class of 2019, and from Turkey. I draw, play the violin, and sing a cappella.</p>
+              </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5ths">
             <div class="team-member">
               <figure>
                 <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/14708129_1376403099060065_3764337556317733428_n.jpg?oh=b4be717277f34f85d4a888acae1badc4&oe=59871DBB" alt="" class="img-responsive prof-pic">
                 <figcaption>
-                  <p>Valar Morghulis.</p>
+                  <p>Contact:</p>
                   <ul>
                     <li><a href="https://www.instagram.com/kare_bear_/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
                     <li><a href="https://www.linkedin.com/in/kara-bressler-77bb3a128" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="mailto:karab@princeton.edu"><i class="fa fa-envelope fa-2x"></i></a></li>
                   </ul>
                 </figcaption>
               </figure>
               <h4>Kara Bressler</h4>
-              <p>Computer Science, 2019</p>
+              <div class="team-member-subtitle">
+                <p>Front End</p>
+              </div>
+              <div class="team-member-description">
+                <p>Valar Morghulis.</p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="row text-center col-md-12">
-            <br></br>
-            <h3 class="caption gray subtitle"> On Back End </h3>
-        </div>
-
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-md-2"> </div>
-            <div class="col-md-4">
+          <div class="col-md-5ths">
               <div class="team-member">
                 <figure>
                   <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t31.0-8/s960x960/15157025_10205759026573695_3989749895210506511_o.jpg?oh=7a1171d1f23c2910d9152c75d870c76c&oe=595384B5" alt="" class="img-responsive prof-pic">
                   <figcaption>
-                    <p>I'm from New Zealand. I do improv comedy and quite enjoy eating pasta.</p>
+                    <p>Contact:</p>
                     <ul>
                       <li><a href="https://www.twitter.com/sebthedev" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
                       <li><a href="http://www.zibity.com" target="_blank"><i class="fa fa-home fa-2x"></i></a></li>
                       <li><a href="https://www.linkedin.com/in/sebthedev" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                      <li><a href="mailto:smclarke@princeton.edu"><i class="fa fa-envelope fa-2x"></i></a></li>
                     </ul>
                   </figcaption>
                 </figure>
+
                 <h4>Sebastian Hallum Clarke</h4>
-                <p>Computer Science, 2019</p>
+                <div class="team-member-subtitle">
+                  <p>Back End</p>
+                </div>
+                <div class="team-member-description">
+                  <p>I'm from New Zealand. I do improv comedy and quite enjoy eating pasta.</p>
+                </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5ths">
               <div class="team-member">
                 <figure>
                   <img src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/12112334_854089591371023_2851242896383814240_n.jpg?oh=31a756d659aa21ba1b71bc26498449ae&oe=59936872" alt="" class="img-responsive prof-pic">
                   <figcaption>
-                    <p> Hey guys, I'm Cat. </p>
+                    <p>Contact:</p>
                     <ul>
                       <li><a href="https://www.linkedin.com/in/caterina-golner-359775113" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                      <li><a href="mailto:cgolner@princeton.edu"><i class="fa fa-envelope fa-2x"></i></a></li>
                     </ul>
                   </figcaption>
                 </figure>
                 <h4>Caterina Golner</h4>
-                <p>Computer Science, 2019</p>
+                <div class="team-member-subtitle">
+                  <p>Back End</p>
+                </div>
+                <div class="team-member-description">
+                  <p>Hey guys, I'm Cat!</p>
+                </div>
               </div>
             </div>
-            <div class="col-md-2"> </div>
-          </div>
+        </div>
+        <div class="row text-center col-md-12 acknowledgements">
+          <br></br>
+          <h2>Acknowledgements</h2>
+          <div class="col-md-offset-4 col-md-4">
+            <div class="ack">
+              <h4>Doctor Christopher M. Moretti</h4>
+              <p>Spring 2017 COS 333 Advisor</p>
+            </div>
 
-          <div class="row text-center col-md-12">
-            <br></br>
+            <div class="ack">
+              <h4>Professor Brian W. Kernighan</h4>
+              <p>Spring 2017 COS 333 Instructor</p>
+            </div>
+
+          </div>
+          </div>
+        </div>
+    </section>
+    <div class="footer">
+      <div class="container">
+        <div class="row align-middle text-center">
+          <div class="col-lg-12">
+              <p>Made by <strong>bsicim@</strong>, <strong>cgolner@</strong>, <strong>karab@</strong>, <strong>mshu@</strong>, <strong>smclarke@</strong></p>
+              <p>A Spring 2017 <strong>COS 333</strong> project advised by <strong>cmoretti@</strong></p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
   </div>
 
-  <!-- Popups -->
-
-  <div id="feedback-container" class="panel" style="display: none;">
-    <form id="feedback-form" class="panel-body text-center" method="POST" target="no-target" onkeypress="return event.keyCode !== 13">
-      <div class="form-group">
-        <label for="feedback-text">Any thoughts, comments or complaints?</label>
-        <textarea id="feedback-text" class="form-control" rows="3"></textarea>
-      </div>
-      <button id="feedback-submit" class="btn btn-default" type="submit">Submit</button>
-    </form>
-    <iframe src="about:blank" id="no-target" name="no-target" style="display: none;"></iframe>
-  </div>
-
-  <div class="panel alert alert-info alert-dismissable" id="updates-bottom-popup" style="display:none">
-    <button type="button" class="close" data-dismiss="alert" aria-label="close" onclick="saveUpdatePopupState()">&times;</button>
-    <strong>Update:</strong>
-  </div>
-  </body>
+  <% include ../partials/feedback.ejs %>
 
 </html>

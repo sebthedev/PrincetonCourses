@@ -1,25 +1,65 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <% include ../partials/header.ejs %>
-    <link rel="stylesheet" href="/stylesheets/splash.css" type="text/css">
-  </head>
+<html lang="en">
 
-  <body>
-    <div class="fullpage">
-      <div class="jumbotron jumbotron-banner">
-        <div class="container">
-          <h1>Princeton Courses</h1>
-          <p>Exploring course listings and evaluations made easy</p>
-          <div class="banner-button">
-            <a class="btn btn-lg btn-default" href="/auth/login" style="min-width: 150px;">Login</a>
+<head>
+    <% include ../partials/header.ejs %>
+    <script src="/scripts/splash.js"></script>
+    <link rel="stylesheet" href="/stylesheets/splash.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css"> -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <%- include('../partials/navbar', {active: 'home'}) %>
+    
+    <header class="header-container container">
+      <div class="row" style="height:100%">
+        <div class="header-image"></div>
+        <div class="col-md-8 text-center align-middle" id="header-content">
+          <h1>Welcome to Princeton Courses!</h1>
+          <h3>The easiest and most intuitive way to search for courses and evaluations </h3>
+          <a id="singlebutton" name="singlebutton" class="btn btn-default btn-lg text-center" href="/auth/login">Click Here to Login</a>
+        </div>
+        <div class="header-credit">
+          <p> Photo taken by <a href="https://www.flickr.com/photos/weinelt/33421088922/" target="_blank">Dieter Weinelt</a></p>
+        </div>
+      </div>
+    </header>
+
+    <div class="info-container">
+      <div class= "container">
+        <div class="row align-middle text-center col-lg-12">
+          <div class="info-text">
+            <h2><strong> What is Princeton Courses? </strong></h2>
+            <h4> Princeton Courses is a tool that was developed as an alternative to Registrar's Course Offerings experience.</h4>
+            <h4> This tool is constantly getting developed and gaining more features with your feedback.</h4>
+
+            <h2><strong> What can I do using Princeton Courses? </strong></h2>
+            <h4> Search for professors, departments, distribution requirements, pdf status.</h4>
+            <h4> See search results and display course information & evaluations all in one page. </h4>
+            <h4> See course ratings and information from different semesters. </h4>
+            <h4> See professor information, ratings, and courses by clicking on their name. </h4>
+            <h4> Add courses to your list of Favorites to access them later. </h4>
+            <h4> Get notified if a course in search results clashes with those in your Favorites. </h4>
+            <h4> Browse for courses on desktop and mobile alike. </h4>
+          </div>
+          <div class="info-image">
+            <img src='..\media\screenshot.png'>
           </div>
         </div>
       </div>
-      <div style="text-align:center; max-width: 600px; margin: 10px auto -50px;">
-          <p>A project by Kara&nbsp;Bressler (team leader), Caterina&nbsp;Golner, <a href="http://www.zibity.com">Sebastian&nbsp;Hallum&nbsp;Clarke</a>, Mel&nbsp;Shu, and Bensu&nbsp;Sicim for COS&nbsp;333. The team is advised by <a href="https://www.cs.princeton.edu/~cmoretti/">Christopher Moretti</a>.</p>
-          <p>View our <a href="https://docs.google.com/document/d/1l00Uwu0PcuXWq3vksckGBhOh5mqGTwR8qz6zD3FViLw/edit?usp=sharing" target="_blank">design document</a>.</p>
+    </div>
+    <div class="footer">
+      <div class="container">
+        <div class="row align-middle text-center">
+          <div class="col-lg-12">
+              <p>Made by <strong>bsicim@</strong>, <strong>cgolner@</strong>, <strong>karab@</strong>, <strong>mshu@</strong>, <strong>smclarke@</strong></p>
+              <p>A Spring 2017 <strong>COS 333</strong> project advised by <strong>cmoretti@</strong></p>
+          </div>
+        </div>
       </div>
     </div>
-  </body>
+</body>
+
 </html>
