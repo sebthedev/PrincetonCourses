@@ -1,0 +1,22 @@
+<%
+
+if (typeof (release) === 'undefined') {
+  var release = 'v0'
+}
+
+if (scripts) {
+  scripts.forEach(function (script) {
+    %>
+    <script title="/scripts/<%= script %>.js?v=<%= release %>"></script>
+    <%
+  })
+}
+if (stylesheets) {
+  stylesheets.forEach(function (stylesheet) {
+    %>
+    <link rel="stylesheet" href="/stylesheets/<%= stylesheet %>.js?v=<%= release %>" type="text/css">
+    <%
+  })
+}
+
+%>
