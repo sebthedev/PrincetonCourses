@@ -7,22 +7,25 @@ console.log('Launching Princeton Courses.')
 const path = require('path')
 
 // Load external dependencies
-require('mongoose')
-var express = require('express')
-var session = require('cookie-session')
-var bodyParser = require('body-parser')
+let mongoose = require('mongoose')
+let express = require('express')
+let session = require('cookie-session')
+let bodyParser = require('body-parser')
+
+// Make Mongoose use native promises
+mongoose.Promise = global.Promise
 
 // Initialise Express, which makes the server work
-var app = express()
+let app = express()
 
 // Initialise bodyParser, which parses the data out of web requests
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Load internal modules
-var config = require('./controllers/config')
-var auth = require('./controllers/authentication.js')
-var api = require('./controllers/api.js')
+let config = require('./controllers/config')
+let auth = require('./controllers/authentication.js')
+let api = require('./controllers/api.js')
 
 // Connect to the database
 require('./controllers/database.js')
