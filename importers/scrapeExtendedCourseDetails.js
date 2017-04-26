@@ -140,6 +140,30 @@ var getCourseListingData = function (semester, courseID, callback) {
       }
     }
 
+    // Get Reserved Seats
+    let insideReservedSeats
+    let reservedSeatsRaw = detailsContainer.first().contents().filter(function () {
+      if ($(this).is('strong, b')) {
+        insideReservedSeats = $(this).text().indexOf('Reserved Seats') > -1
+      }
+      return (this.nodeType === 3 && insideReservedSeats)
+    }).text()
+    results.reservedSeats = []
+    reservedSeatsRaw.split('\n').forEach(function (line) {
+      if (line.length > 0) {
+        let match = line.match(/([a-zA-Z]*)\sOnly\s(\d+)/)
+        if (match !== null) {
+          results.reservedSeats.push({
+            group: match[1],
+            seats: parseInt(match[2])
+          })
+        }
+      }
+    })
+    if (results.reservedSeats.length === 0) {
+      delete results.reservedSeats
+    }
+
     // Get Readings
     if ($('div strong:contains(Sample reading list:)').length > 0) {
       let rawReadingsAndAuthors = []
