@@ -127,28 +127,6 @@ courseSchema.virtual('comments', {
   foreignField: 'course'
 })
 
-// Create an index on this schema which allows for awesome weighted text searching
-courseSchema.index({
-  title: 'text',
-  description: 'text',
-  department: 'text',
-  catalogNumber: 'text',
-  'crosslistings.department': 'text',
-  'crosslistings.catalogNumber': 'text'
-}, {
-  'weights': {
-    title: 10,
-    description: 1,
-    department: 20,
-    catalogNumber: 10,
-    distribution: 10,
-    'crosslistings.department': 15,
-    'crosslistings.catalogNumber': 8
-  },
-  name: 'CourseRelevance',
-  language: 'none'
-})
-
 // Catch errors when creating the textindex
 courseSchema.on('index', function (error) {
   if (error) {
