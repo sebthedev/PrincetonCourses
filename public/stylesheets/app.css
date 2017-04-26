@@ -421,7 +421,7 @@ body {
 }
 
 .unfav-icon {
-  color: #d9534f;
+  color: #DE6965;
   cursor: pointer;
   transition: color 0.4s ease;
 }
@@ -435,7 +435,7 @@ body {
   transition: color 0.4s ease;
 }
 .fav-icon:hover {
-  color: #d9534f;
+  color: #DE6965;
 }
 
 .pin-icon {
@@ -444,20 +444,20 @@ body {
   transition: color 0.4s ease;
 }
 .pin-icon:hover {
-  color: #A764D4;
+  color: #8CC7E0;
 }
 
 .unpin-icon {
-  color: #A764D4;
+  color: #8CC7E0;
   cursor: pointer;
   transition: color 0.4s ease;
 }
 .unpin-icon:hover {
-  color: #BDA2CF;
+  color: #C5E4FA;
 }
 
 .clash-icon {
-  color: #a94442;
+  color: #E8716D;
 }
 
 .instructor-list-item {
