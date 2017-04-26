@@ -199,18 +199,9 @@ body {
 }
 
 .list-group-item.search-result.active:hover {
-  background-color: #FBE5D5;
-  border-color: #FBE5D5;
-  color: #000;
-  /*background-color: #428bca;
-  border-color: #428bca;*/
+  background-color: #428bca;
+  border-color: #428bca;
   transition: background-color 0s ease;
-}
-
-.list-group-item.active { /* dim orange active highlighting */
-  background-color: #FADBC5;
-  border-color: #FADBC5;
-  color: #000;
 }
 
 /* form focus outline shadow orange */
@@ -236,6 +227,22 @@ body {
   color: #5cb85c;
 }
 
+
+.active .text-muted {
+  color: #fff;
+}
+.active .text-info {
+  color: #8CC7E0;
+}
+.active .text-warning {
+  color: #F0C993;
+}
+.active .text-danger {
+  color: #eca8a7;
+}
+.active .text-success {
+  color: #94C499;
+}
 /* PAGEWIDE CSS */
 
 .pane-padding {
