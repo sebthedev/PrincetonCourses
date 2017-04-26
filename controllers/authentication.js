@@ -95,7 +95,7 @@ router.get('/verify', function (req, res) {
 // Log the user out
 router.get('/logout', function (req, res) {
   req.session = null
-  res.redirect('/')
+  res.redirect(casURL + 'logout')
 })
 
 // Export the routes on this router (/login, /verify, and /logout)
