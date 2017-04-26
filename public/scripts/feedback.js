@@ -1,6 +1,8 @@
-
 // to initialize feedback mechanism
 var init_feedback = function() {
+  // Saving the user's netid so it is globally available
+  document.netid = $("#netid").text()
+
   // submission
   $('#feedback-form').submit(feedback_submit)
   $('#feedback-toggle').click(feedback_toggle)

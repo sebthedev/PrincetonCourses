@@ -1,4 +1,4 @@
-// dependencies: search.js, display.js, resizable.js, feedback.js, suggest.js, layout.js, demo.js, icon.js, pin.js
+// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js, pin.js
 
 // initialization
 $(document).ready(function() {
@@ -10,11 +10,10 @@ $(document).ready(function() {
   init_search();
   init_globals();
   init_favorites();
-  init_feedback();
+  init_navbar();
   init_demo();
   init_display();
   init_evals();
-  init_logout();
   init_suggest();
   init_updates();
   $('#main-pane').css('display', '');
@@ -233,26 +232,6 @@ var init_evals = function() {
   $('#evals-semesters-toggle').click(function() {section_toggle('evals', 'semesters')})
   $('#evals-numeric-toggle').click(function() {section_toggle('evals', 'numeric')})
   $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
-}
-
-// to intialize logout button
-var init_logout = function() {
-  $('#menu-bar').mouseleave(function() {
-    var isNetidInvisible = !$('#netid').is(':visible')
-    if (isNetidInvisible) {
-      if (document.isMobile) $('#netid, #logout').slideToggle()
-      else $('#netid, #logout').animate({width: 'toggle'})
-    }
-  })
-
-  $('#netid').click(function() {
-    var isLogoutVisible = $('#logout').is(':visible')
-    if (!isLogoutVisible) {
-      if (document.isMobile) $('#netid, #logout').slideToggle()
-      else $('#netid, #logout').animate({width: 'toggle'})
-    }
-    return false;
-  })
 }
 
 // to initialize suggest display
