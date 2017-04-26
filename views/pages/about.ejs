@@ -2,14 +2,15 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <script src="/scripts/logout.js"></script>
-  <script src="/scripts/feedback.js"></script>
-  <script src="/scripts/navbar.js"></script>
-  <script src="/scripts/about.js"></script>
-  <link rel="stylesheet" href="/stylesheets/about.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/feedback.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
-  <!-- <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css"> -->
+  <%-
+
+  // Include page-specific scripts and stylesheets with a per-deploy cache-buster
+  include('../partials/staticResources', {
+    scripts: ['logout', 'feedback', 'navbar', 'about'],
+    stylesheets: ['about', 'feedback', 'navbar'],
+    release: release
+  })
+  %>
 </head>
 
 <!-- KARA: initial body on CodePen at https://codepen.io/melyshu/pen/aJXmNo, altered since transporting code -->

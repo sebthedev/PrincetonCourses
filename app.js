@@ -55,6 +55,11 @@ app.use('*', function (req, res, next) {
   if (process.env.NODE_ENV) {
     res.locals.renderLocals.environment = process.env.NODE_ENV
   }
+  if (process.env.HEROKU_RELEASE_VERSION) {
+    res.locals.renderLocals.release = process.env.HEROKU_RELEASE_VERSION
+  } else {
+    res.locals.renderLocals.release = 'v0'
+  }
   next()
 })
 

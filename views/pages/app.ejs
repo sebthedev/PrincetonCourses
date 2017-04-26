@@ -2,26 +2,14 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <script src="/scripts/logout.js"></script>
-  <script src="/scripts/demo.js"></script>
-  <script src="/scripts/history.js"></script>
-  <script src="/scripts/layout.js"></script>
-  <script src="/scripts/resizable.js"></script>
-  <script src="/scripts/feedback.js"></script>
-  <script src="/scripts/navbar.js"></script>
-  <script src="/scripts/icon.js"></script>
-  <script src="/scripts/eval.js"></script>
-  <script src="/scripts/fav.js"></script>
-  <script src="/scripts/pin.js"></script>
-  <script src="/scripts/display.js"></script>
-  <script src="/scripts/suggest.js"></script>
-  <script src="/scripts/search.js"></script>
-  <script src="/scripts/app.js"></script>
-  <link rel="stylesheet" href="/stylesheets/app.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/demo.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/navbar.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/feedback.css" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/scrollbar.css" type="text/css">
+  <%-
+  // Include page-specific scripts and stylesheets with a per-deploy cache-buster
+  include('../partials/staticResources.ejs', {
+    scripts: ['logout', 'demo', 'history', 'layout', 'resizable', 'feedback', 'navbar', 'icon', 'eval', 'fav', 'pin', 'display', 'suggest', 'search', 'app'],
+    stylesheets: ['app', 'demo', 'navbar', 'feedback', 'scrollbar'],
+    release: release
+  })
+  %>
 </head>
 
 <!-- MEL: body on CodePen at https://codepen.io/melyshu/pen/zwxqej -->
