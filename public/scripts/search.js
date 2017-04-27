@@ -236,11 +236,16 @@ function newDOMcourseResult(course, props) {
   var pinIcon = ''
   if (hasPinIcon) pinIcon = '<i class="fa fa-lg fa-thumb-tack pin-icon" data-toggle="tooltip" data-original-title="Pin this course to detect possible clashes!"></i>'
 
+  // dot to indicate openness
+  var dot = ''
+  if (course.hasOwnProperty('open')) dot = newHTMLdot(course)
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
+        + '<small>' + dot + '</small> '
         + '<strong>' + newHTMLlistings(course) + '</strong> ' + tags
       + '</div>'
       + '<div class="flex-item-rigid">'
