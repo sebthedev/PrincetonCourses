@@ -82,6 +82,7 @@ var courseSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  open: Boolean,
   equivalentcourses: {
     type: String,
     trim: true
@@ -166,6 +167,23 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     })
   }
 
+  // Determine whether this course is open
+  let openStatus = true
+  if (data.classes) {
+    let sectionTypes = {}
+    let sectionTypeNames = []
+    data.classes.forEach(function (section) {
+      if (!sectionTypes.hasOwnProperty(section.type_name)) {
+        sectionTypes[section.type_name] = false
+        sectionTypeNames.push(section.type_name)
+      }
+      sectionTypes[section.type_name] = sectionTypes[section.type_name] || section.status === 'Open'
+    })
+    openStatus = sectionTypeNames.every(function (sectionType) {
+      return sectionTypes[sectionType]
+    })
+  }
+
   courseModel.findOneAndUpdate({
     _id: data.guid
   }, {
@@ -179,7 +197,8 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     classes: data.classes,
     instructors: instructors,
     crosslistings: crosslistings,
-    track: data.detail.track
+    track: data.detail.track,
+    open: openStatus
   }, {
     new: true,
     upsert: true,
