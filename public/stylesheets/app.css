@@ -245,6 +245,11 @@ body {
 }
 /* PAGEWIDE CSS */
 
+.section-header:hover {
+  cursor: pointer;
+  color: #b8b8b8;
+}
+
 .pane-padding {
   height: 15px;
 }
@@ -408,7 +413,7 @@ body {
   cursor: pointer;
   color: #888;
 }
-.text-button:hover {
+.text-button:hover, .section-header:hover .text-button {
   color: #b8b8b8;
   transition: color 0.4s ease;
 }
