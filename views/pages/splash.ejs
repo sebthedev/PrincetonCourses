@@ -5,7 +5,7 @@
     <% include ../partials/header.ejs %>
     <%-
 
-    // Include page-specific scripts and stylesheets with a per-deploy cache-buster
+    <!-- // Include page-specific scripts and stylesheets with a per-deploy cache-buster -->
     include('../partials/staticResources', {
       scripts: ['splash'],
       stylesheets: ['splash', 'navbar'],
@@ -19,15 +19,33 @@
     <%- include('../partials/navbar', {active: 'home'}) %>
 
     <header class="header-container container">
-      <div class="row" style="height:100%">
-        <div class="header-image"></div>
+      <div class="row" style="height:100vh">
+        <div class="header-image">
+          <div class="flex">
+            <i class="fa float1"><img src='..\media\icons\stl.png' class='icon-img'></i>
+            <i class="fa float2"><img src='..\media\icons\heart.png' class='icon-img'></i>
+            <i class="fa float3"><img src='..\media\icons\500.png' class='icon-img'></i>
+            <i class="fa float5"><img src='..\media\icons\266.png' class='icon-img'></i>
+            <i class="fa float1"><img src='..\media\icons\277.png' class='icon-img'></i>
+            <i class="fa float6"><img src='..\media\icons\364.png' class='icon-img'></i>
+            <i class="fa float4"><img src='..\media\icons\heart.png' class='icon-img'></i>
+            <i class="fa float1"><img src='..\media\icons\398.png' class='icon-img'></i>
+            <i class="fa float3"><img src='..\media\icons\424.png' class='icon-img'></i>
+            <i class="fa float6"><img src='..\media\icons\new.png' class='icon-img'></i>
+            <i class="fa float1"><img src='..\media\icons\222.png' class='icon-img'></i>
+            <i class="fa float3"><img src='..\media\icons\npdf.png' class='icon-img'></i>
+            <i class="fa float5"><img src='..\media\icons\480.png' class='icon-img'></i>
+            <i class="fa float1"><img src='..\media\icons\119.png' class='icon-img'></i>
+            <i class="fa float6"><img src='..\media\icons\pdf.png' class='icon-img'></i>
+            <i class="fa float4"><img src='..\media\icons\audit.png' class='icon-img'></i>
+            <i class="fa float1"><img src='..\media\icons\heart.png' class='icon-img'></i>
+            <i class="fa float3"><img src='..\media\icons\heart.png' class='icon-img'></i>
+          </div>
+        </div>
         <div class="col-md-8 text-center align-middle" id="header-content">
           <h1>Welcome to Princeton Courses!</h1>
-          <h3>The easiest and most intuitive way to search for courses and evaluations </h3>
-          <a id="singlebutton" name="singlebutton" class="btn btn-default btn-lg text-center" href="/auth/login">Click Here to Login</a>
-        </div>
-        <div class="header-credit">
-          <p> Photo taken by <a href="https://www.flickr.com/photos/weinelt/33421088922/" target="_blank">Dieter Weinelt</a></p>
+          <h3>Easily explore course listings and evaluations</h3>
+          <a id="singlebutton" name="singlebutton" class="btn btn-default btn-lg text-center" href="/auth/login">CLICK HERE TO LOGIN</a>
         </div>
       </div>
     </header>
@@ -39,7 +57,8 @@
             <h2><strong> What is Princeton Courses? </strong></h2>
             <h4> Princeton Courses is a tool that was developed as an alternative to Registrar's Course Offerings experience.</h4>
             <h4> This tool is constantly getting developed and gaining more features with your feedback.</h4>
-
+          </div>
+          <div class="info-subtext">
             <h2><strong> What can I do using Princeton Courses? </strong></h2>
             <h4> Search for professors, departments, distribution requirements, pdf status.</h4>
             <h4> See search results and display course information & evaluations all in one page. </h4>
