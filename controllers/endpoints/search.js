@@ -6,7 +6,7 @@ let router = express.Router()
 
 // Load internal modules
 let courseModel = require.main.require('./models/course.js')
-let courseClashDetector = require.main.require('./courseClashDetector.js')
+let courseClashDetector = require.main.require('./controllers/courseClashDetector.js')
 let instructorModel = require.main.require('./models/instructor.js')
 let userModel = require.main.require('./models/user.js')
 let departmentModel = require.main.require('./models/department.js')
