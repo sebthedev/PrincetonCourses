@@ -147,15 +147,15 @@ var getCourseListingData = function (semester, courseID, callback) {
         insideReservedSeats = $(this).text().indexOf('Reserved Seats') > -1
       }
       return (this.nodeType === 3 && insideReservedSeats)
-    }).text()
-    results.reservedSeats = reservedSeatsRaw.split('\n').map(function (line) {
-      return line.trim()
-    }).filter(function (line) {
-      return line.length > 0
+    }).toArray()
+    reservedSeatsRaw.forEach(function (item) {
+      if (item.type === 'text' && item.data.trim().length > 0) {
+        if (typeof (results.reservedSeats) === 'undefined') {
+          results.reservedSeats = []
+        }
+        results.reservedSeats.push(item.data.trim().replace(/\n/g, ' ').replace(/\s{2,}/, ' '))
+      }
     })
-    if (results.reservedSeats.length === 0) {
-      delete results.reservedSeats
-    }
 
     // Get Readings
     if ($('div strong:contains(Sample reading list:)').length > 0) {
