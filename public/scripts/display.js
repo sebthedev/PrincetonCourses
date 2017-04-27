@@ -103,7 +103,24 @@ var display_title = function(course) {
 
   $('#disp-title').append(course.title)
 
-  var htmlString = newHTMLfavIcon(course._id, {'title': 1}) + ' ' + newHTMLscoreBadge(course, {'title': 1})
+  var favCount = (
+    '<strong '
+    + 'data-toggle="tooltip" '
+    + 'data-original-title="' + course.favoritesCount + ' users have favorited this course" '
+    + 'data-placement="bottom" '
+  + '>'
+      + course.favoritesCount
+  + '</strong>'
+  )
+
+  var htmlString = (
+    '&nbsp;'
+  + newHTMLfavIcon(course._id, {'title': 1})
+  + '<sub>'
+    + favCount
+  + '</sub> '
+  + newHTMLscoreBadge(course, {'title': 1})
+  )
 
   $('#disp-title-right').append(htmlString)
   var icon = $('#disp-title-right').find('i.fa-heart')[0]
