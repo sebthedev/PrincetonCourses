@@ -49,6 +49,7 @@ var displayCourseDetails = function(courseId, noswipe) {
       display_prerequisites(course);
       display_equivalent(course);
       display_other(course);
+      display_reserved(course);
       display_classes(course);
       display_evals(course); // in eval.js
       display_past(course);
@@ -267,6 +268,21 @@ var display_other = function(course) {
 
   $('#disp-other-body').append(other)
   display_autotoggle('other')
+}
+
+// display reserved seat info
+var display_reserved = function(course) {
+  // refresh
+  $('#disp-reserved-body').html('')
+
+  var reserved = ''
+  for (var index in course.reservedSeats) {
+    var seat = course.reservedSeats[index]
+    reserved += '<li class="list-group-item info-list-item">' + seat.group + ': ' + seat.seats + '</li>'
+  }
+
+  $('#disp-reserved-body').append(reserved)
+  display_autotoggle('reserved')
 }
 
 // display class info

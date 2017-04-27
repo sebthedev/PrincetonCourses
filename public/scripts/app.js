@@ -224,6 +224,7 @@ var init_display = function() {
   $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})
   $('#disp-equivalent-toggle'   ).click(function() {section_toggle('disp', 'equivalent')})
   $('#disp-other-toggle'        ).click(function() {section_toggle('disp', 'other')})
+  $('#disp-reserved-toggle'     ).click(function() {section_toggle('disp', 'reserved')})
   $('#disp-classes-toggle'      ).click(function() {section_toggle('disp', 'classes')})
 }
 
