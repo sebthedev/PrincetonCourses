@@ -148,17 +148,10 @@ var getCourseListingData = function (semester, courseID, callback) {
       }
       return (this.nodeType === 3 && insideReservedSeats)
     }).text()
-    results.reservedSeats = []
-    reservedSeatsRaw.split('\n').forEach(function (line) {
-      if (line.length > 0) {
-        let match = line.match(/([a-zA-Z]*)\sOnly\s(\d+)/)
-        if (match !== null) {
-          results.reservedSeats.push({
-            group: match[1],
-            seats: parseInt(match[2])
-          })
-        }
-      }
+    results.reservedSeats = reservedSeatsRaw.split('\n').map(function (line) {
+      return line.trim()
+    }).filter(function (line) {
+      return line.length > 0
     })
     if (results.reservedSeats.length === 0) {
       delete results.reservedSeats

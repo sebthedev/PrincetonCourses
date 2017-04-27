@@ -278,7 +278,7 @@ var display_reserved = function(course) {
   var reserved = ''
   for (var index in course.reservedSeats) {
     var seat = course.reservedSeats[index]
-    reserved += '<li class="list-group-item info-list-item">' + seat.group + ': ' + seat.seats + '</li>'
+    reserved += '<li class="list-group-item info-list-item">' + seat + '</li>'
   }
 
   $('#disp-reserved-body').append(reserved)
