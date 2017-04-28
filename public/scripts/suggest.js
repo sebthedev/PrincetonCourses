@@ -151,6 +151,9 @@ function toggleSuggest() {
   $('#suggest-pane').animate({width: 'toggle'})
   if (isVisible) $('#suggest-toggle').removeClass('active')
   else $('#suggest-toggle').addClass('active')
+  $('#suggest-toggle').attr('data-original-title', isVisible ? 'Show search suggestions' : 'Hide search suggestions')
+  $('#suggest-toggle').tooltip('hide')
+  $('#suggest-toggle').blur()
 
   return false
 }

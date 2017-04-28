@@ -63,13 +63,13 @@ function layout_mobile() {
     $('#main-pane').slick('slickSetOption', 'swipe', true, false);
   });
 
-  /* show suggest pane and attach toggler to right menu */
+  /* show suggest pane */
   $('#suggest-pane').show()
   $('#suggest-toggle').removeClass('active')
-  $('#menu-right').prepend($('#suggest-toggle').detach())
+  $('#suggest-toggle').attr('data-original-title', 'Show search suggestions')
 
   /* move search box */
-  $('#menu-form').append($('#searchbox').detach())
+  $('#menu-form').append($('#searchbox-group').detach())
 
   if (document.history_pos !== undefined && document.history_pos > 0) {
     $('#menu-brand-abbr').hide()
@@ -88,13 +88,13 @@ function layout_toMobile() {
 
 // set up desktop layout
 function layout_desktop() {
-  /* hide suggest pane by default and move attach toggler to left menu */
+  /* hide suggest pane by default */
   $('#suggest-pane').hide()
   $('#suggest-toggle').removeClass('active')
-  $('#menu-left').prepend($('#suggest-toggle').detach())
+  $('#suggest-toggle').attr('data-original-title', 'Show search suggestions')
 
   /* move search box */
-  $('#search-searchbox-form').append($('#searchbox').detach())
+  $('#search-searchbox-form').append($('#searchbox-group').detach())
 }
 
 // change to desktop layout

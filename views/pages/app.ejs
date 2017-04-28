@@ -17,14 +17,20 @@
   <div id="full-page" class="flex-container-col">
     <nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
       <div id="menu-header" class="navbar-header"> <!-- M: class flex-container-row -->
-         <a class="navbar-brand" id="menu-brand"  href="/"><strong>Princeton Courses </strong><sup><strong>beta</strong></sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
-        <a id="menu-brand-abbr" class="navbar-brand flex-item-rigid"><strong>PC</strong></a> <!-- M: appear, D: hide -->
+         <a class="navbar-brand" id="menu-brand"  href="/">Princeton Courses <sup>beta</sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
+        <a id="menu-brand-abbr" class="navbar-brand flex-item-rigid">PC</a> <!-- M: appear, D: hide -->
         <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
           <span class="fa fa-chevron-left"></span>
         </button>
         <form id="menu-form" class="navbar-btn" action="." role="search" onkeypress="return event.keyCode !== 13"> <!-- M only, flex-item-stretch -->
           <!-- searchbox: D: flex-item-stretch -->
-          <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off">
+          <div id="searchbox-group" class="input-group">
+            <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off">
+            <span class="input-group-btn">
+              <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search suggestions" data-placement="bottom"><i class="fa fa-th-list"></i></button>
+            </span>
+          </div>
+
         </form>
         <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse"> <!-- M: flex-item-rigid -->
           <span class="icon-bar"></span>
@@ -34,15 +40,12 @@
       </div>
 
       <div id="menu-collapse" class="collapse navbar-collapse">
-        <ul id="menu-left" class="nav navbar-nav"> <!-- D only -->
-          <li id="suggest-toggle"><a href="#">Search Suggestions</a></li>
-        </ul>
         <ul id="menu-right" class="nav navbar-nav navbar-right">
           <li id="demo-toggle"><a href="javascript:void(0);">Demo</a></li>
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
           <li id="about-toggle"><a href="/about">About</a></li>
-          <li id="netid"><a href="#"><strong><%= netid %></strong></a></li>
-          <li id="logout" class="active" style="display:none;"><a href="/auth/logout"><strong>LOGOUT</strong></a></li>
+          <li id="netid"><a href="#"><%= netid %></a></li>
+          <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
       </div>
     </nav>

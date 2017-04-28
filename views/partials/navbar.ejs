@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><strong>Princeton Courses </strong><sup><strong>beta</strong></sup></a>
+            <a class="navbar-brand" href="/">Princeton Courses <sup>beta</sup></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -15,10 +15,10 @@
               <li id="about-toggle" class="<%= active == 'about' ? 'active' : '' %>"><a href="/about">About</a></li>
               <% if (typeof netid != 'undefined') { %>
               <li id="feedback-toggle"><a href="#">Feedback</a></li>
-              <li id="netid"><a href="#"><strong><%= netid %></strong></a></li>
+              <li id="netid"><a href="#"><%= netid %></a></li>
               <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
               <% } else { %>
-              <li id="login"><a href="/auth/login"><strong>Login</strong></a></li>
+              <li id="login"><a href="/auth/login">Login</a></li>
               <% } %>
             </ul>
         </div>
