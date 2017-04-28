@@ -238,7 +238,7 @@ function newDOMcourseResult(course, props) {
 
   // dot to indicate openness
   var dot = ''
-  if (course.hasOwnProperty('open')) dot = newHTMLdot(course)
+  if (course.hasOwnProperty('open')) dot = newHTMLlock(course)
 
   // html string for the DOM object
   var htmlString = (

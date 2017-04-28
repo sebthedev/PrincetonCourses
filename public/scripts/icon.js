@@ -251,12 +251,12 @@ function newHTMLlisting(department, catalogNumber, props) {
   return htmlString
 }
 
-// returns a HTML string for a dot indicating the openness of the course
-function newHTMLdot(course) {
+// returns a HTML string for a lock indicating the openness of the course
+function newHTMLlock(course) {
   var isOpen = course.open
 
   var tip = (isOpen ? 'Open' : 'Limited places')
-  var icon = (isOpen ? 'fa-check-circle' : 'fa-exclamation-circle')
+  var icon = (isOpen ? 'fa-unlock-alt' : 'fa-lock')
   var style = (isOpen ? 'text-success' : 'text-danger')
 
   var htmlString = (

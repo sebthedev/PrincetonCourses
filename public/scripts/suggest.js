@@ -143,6 +143,8 @@ function toggleSuggest() {
   if (document.isMobile) {
     $('#main-pane').slick('slickGoTo', 0)
     $('.navbar-collapse').collapse('hide')
+    $('#suggest-toggle').tooltip('hide')
+    $('#suggest-toggle').blur()
     return false
   }
 
