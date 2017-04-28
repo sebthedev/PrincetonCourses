@@ -77,7 +77,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   // go to search pane for mobile and hide favorites
   if (document.isMobile && noswipe !== true) {
     $('#main-pane').slick('slickGoTo', 1)
-    if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
+    // if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
   }
 
   // store search value used
@@ -236,11 +236,16 @@ function newDOMcourseResult(course, props) {
   var pinIcon = ''
   if (hasPinIcon) pinIcon = '<i class="fa fa-lg fa-thumb-tack pin-icon" data-toggle="tooltip" data-original-title="Pin this course to detect possible clashes!"></i>'
 
+  // dot to indicate openness
+  var dot = ''
+  if (course.hasOwnProperty('open')) dot = newHTMLlock(course)
+
   // html string for the DOM object
   var htmlString = (
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
+        + dot + ' '
         + '<strong>' + newHTMLlistings(course) + '</strong> ' + tags
       + '</div>'
       + '<div class="flex-item-rigid">'

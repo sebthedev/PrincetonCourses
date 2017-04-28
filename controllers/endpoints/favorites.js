@@ -8,7 +8,7 @@ let router = express.Router()
 let userModel = require.main.require('./models/user.js')
 let evaluationModel = require.main.require('./models/evaluation.js')
 let courseModel = require.main.require('./models/course.js')
-let courseClashDetector = require.main.require('./courseClashDetector.js')
+let courseClashDetector = require.main.require('./controllers/courseClashDetector.js')
 let semesterModel = require.main.require('./models/semester.js')
 
 const abbreviatedCourseProjection = {

@@ -24,9 +24,11 @@ h4 {
 /* Header */
 @media (max-width: 768px) {
   .header-container h1 {
+    text-align: center;
     font-size: 1.6em;
   }
   .header-container h3 {
+    text-align: center;
     font-size: 1.2em;
   }
   #singlebutton {
@@ -43,7 +45,6 @@ h4 {
   }
 }
 
-
 .header-container {
   height:100vh;
   width:100%;
@@ -51,7 +52,7 @@ h4 {
 }
 
 .header-image {
-  background: url('..\\media\\princeton.jpg') center center no-repeat scroll;
+  background: rgba(255,255,255, 0.5);
   position:absolute;
   height: 100%;
   width: 100%;
@@ -63,11 +64,11 @@ h4 {
 
 #header-content {
   padding:20px;
-  background-color: rgba(0, 0, 0, .5);
+  /*background-color: rgba(0, 0, 0, .5);*/
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color:#fff;
+  color:#000;
 }
 
 .header-credit {
@@ -99,20 +100,16 @@ h4 {
   margin: 20px 0 10px 0;
   left: 50%;
   background-color: transparent;
-  border-radius: 0;
-  color: #fff;
-  border-color:#fff;
- 
-}
+  border-radius: 10;
+  color: #000;
+  border-color:#000;
 
-#singlebutton {
   -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s; 
-  -ms-transition: all 0.5s; 
-  -o-transition: all 0.5s; 
-  transition: all 0.5s; 
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
 }
-
 
 #singlebutton:hover {
   color:#EE7F2D;
@@ -155,4 +152,92 @@ h4 {
   width: 100%;
   background-color: #ddd;
   padding: 20px 0 20px 0;
+}
+
+/* Intro Animation */
+/* Adapted from http://codepen.io/dwyermt/pen/avxQqg */
+
+.flex {
+  width: 100vw;
+  margin: 0px auto;
+}
+
+i {
+  margin: 20px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+}
+
+.icon-img {
+  opacity: 0.3;
+}
+
+.flex i {
+  transform: scale(3);
+  opacity: 0;
+  transform-origin: 0% 0%;
+  animation-name: float_anim;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.float1 {
+  left: 20px;
+  top: 0px;
+  animation-duration: 6s;
+  animation-delay: 0.4s;
+  duration: 2.5s;
+}
+
+.float2 {
+  left: 40px;
+  top: 10px;
+  animation-duration: 7s;
+  animation-delay: 0.5s;
+}
+
+.float3 {
+  left: 60px;
+  transform: translate(50px, 500px);
+  animation-duration: 7.5s;
+  animation-delay: 0.6s;
+  top: 30px;
+}
+
+.float4 {
+  left: 80px;
+  top: 50px;
+  animation-duration: 6s;
+  animation-delay: 0.7s;
+  duration: 2.5s;
+}
+
+.float5 {
+  left: 100px;
+  top: 80px;
+  animation-duration: 5s;
+  animation-delay: 0.8s;
+}
+
+.float6 {
+  left: 60px;
+  top: 70px;
+  animation-duration: 8s;
+  animation-delay: 0.9s;
+}
+
+@keyframes float_anim {
+  0% {
+    transform: translateY(50vh) scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(30vh) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10vh) scale(1.2);
+    opacity: 0;
+  }
 }

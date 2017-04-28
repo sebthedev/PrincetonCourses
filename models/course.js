@@ -77,10 +77,12 @@ var courseSchema = new mongoose.Schema({
   audit: Boolean,
   assignments: [String],
   grading: Array,
+  reservedSeats: Array,
   prerequisites: {
     type: String,
     trim: true
   },
+  open: Boolean,
   equivalentcourses: {
     type: String,
     trim: true
@@ -126,28 +128,6 @@ courseSchema.virtual('comments', {
   foreignField: 'course'
 })
 
-// Create an index on this schema which allows for awesome weighted text searching
-courseSchema.index({
-  title: 'text',
-  description: 'text',
-  department: 'text',
-  catalogNumber: 'text',
-  'crosslistings.department': 'text',
-  'crosslistings.catalogNumber': 'text'
-}, {
-  'weights': {
-    title: 10,
-    description: 1,
-    department: 20,
-    catalogNumber: 10,
-    distribution: 10,
-    'crosslistings.department': 15,
-    'crosslistings.catalogNumber': 8
-  },
-  name: 'CourseRelevance',
-  language: 'none'
-})
-
 // Catch errors when creating the textindex
 courseSchema.on('index', function (error) {
   if (error) {
@@ -187,6 +167,23 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     })
   }
 
+  // Determine whether this course is open
+  let openStatus = true
+  if (data.classes) {
+    let sectionTypes = {}
+    let sectionTypeNames = []
+    data.classes.forEach(function (section) {
+      if (!sectionTypes.hasOwnProperty(section.type_name)) {
+        sectionTypes[section.type_name] = false
+        sectionTypeNames.push(section.type_name)
+      }
+      sectionTypes[section.type_name] = sectionTypes[section.type_name] || section.status === 'Open'
+    })
+    openStatus = sectionTypeNames.every(function (sectionType) {
+      return sectionTypes[sectionType]
+    })
+  }
+
   courseModel.findOneAndUpdate({
     _id: data.guid
   }, {
@@ -200,7 +197,8 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     classes: data.classes,
     instructors: instructors,
     crosslistings: crosslistings,
-    track: data.detail.track
+    track: data.detail.track,
+    open: openStatus
   }, {
     new: true,
     upsert: true,

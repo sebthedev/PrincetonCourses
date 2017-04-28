@@ -143,6 +143,8 @@ function toggleSuggest() {
   if (document.isMobile) {
     $('#main-pane').slick('slickGoTo', 0)
     $('.navbar-collapse').collapse('hide')
+    $('#suggest-toggle').tooltip('hide')
+    $('#suggest-toggle').blur()
     return false
   }
 
@@ -151,6 +153,9 @@ function toggleSuggest() {
   $('#suggest-pane').animate({width: 'toggle'})
   if (isVisible) $('#suggest-toggle').removeClass('active')
   else $('#suggest-toggle').addClass('active')
+  $('#suggest-toggle').attr('data-original-title', isVisible ? 'Show search suggestions' : 'Hide search suggestions')
+  $('#suggest-toggle').tooltip('hide')
+  $('#suggest-toggle').blur()
 
   return false
 }

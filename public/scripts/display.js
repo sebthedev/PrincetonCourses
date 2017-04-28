@@ -49,6 +49,7 @@ var displayCourseDetails = function(courseId, noswipe) {
       display_prerequisites(course);
       display_equivalent(course);
       display_other(course);
+      display_reserved(course);
       display_classes(course);
       display_evals(course); // in eval.js
       display_past(course);
@@ -102,7 +103,24 @@ var display_title = function(course) {
 
   $('#disp-title').append(course.title)
 
-  var htmlString = newHTMLfavIcon(course._id, {'title': 1}) + ' ' + newHTMLscoreBadge(course, {'title': 1})
+  var favCount = (
+    '<strong '
+    + 'data-toggle="tooltip" '
+    + 'data-original-title="' + course.favoritesCount + ' users have favorited this course" '
+    + 'data-placement="bottom" '
+  + '>'
+      + course.favoritesCount
+  + '</strong>'
+  )
+
+  var htmlString = (
+    '&nbsp;'
+  + newHTMLfavIcon(course._id, {'title': 1})
+  + '<sub>'
+    + favCount
+  + '</sub> '
+  + newHTMLscoreBadge(course, {'title': 1})
+  )
 
   $('#disp-title-right').append(htmlString)
   var icon = $('#disp-title-right').find('i.fa-heart')[0]
@@ -200,10 +218,11 @@ var display_assignments = function(course) {
   $('#disp-assignments-body').html('')
 
   var assignments = ''
-  for (var assignment in course.assignments) {
-    var asmt = course.assignments[assignment]
-    assignments += '<li class="list-group-item info-list-item">' + asmt + '</li>'
+  for (var index in course.assignments) {
+    var assignment = course.assignments[index]
+    assignments += '<div>' + assignment + '</div>'
   }
+  if (assignments !== '') assignments = '<li class="list-group-item info-list-item">' + assignments + '</li>'
 
   $('#disp-assignments-body').append(assignments)
   display_autotoggle('assignments')
@@ -217,8 +236,9 @@ var display_grading = function(course) {
   var grading = ''
   for (var index in course.grading) {
     var grade = course.grading[index]
-    grading += '<li class="list-group-item info-list-item">' + grade.component + ': ' + grade.weight + '%</li>'
+    grading += '<div>' + grade.weight + '% ' + grade.component + '</div>'
   }
+  if (grading !== '') grading = '<li class="list-group-item info-list-item">' + grading + '</li>'
 
   $('#disp-grading-body').append(grading)
   display_autotoggle('grading')
@@ -267,6 +287,21 @@ var display_other = function(course) {
 
   $('#disp-other-body').append(other)
   display_autotoggle('other')
+}
+
+// display reserved seat info
+var display_reserved = function(course) {
+  // refresh
+  $('#disp-reserved-body').html('')
+
+  var reserved = ''
+  for (var index in course.reservedSeats) {
+    var seat = course.reservedSeats[index]
+    reserved += '<li class="list-group-item info-list-item">' + seat + '</li>'
+  }
+
+  $('#disp-reserved-body').append(reserved)
+  display_autotoggle('reserved')
 }
 
 // display class info

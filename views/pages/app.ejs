@@ -3,7 +3,7 @@
 <head>
   <% include ../partials/header.ejs %>
   <%-
-  // Include page-specific scripts and stylesheets with a per-deploy cache-buster
+  <!-- // Include page-specific scripts and stylesheets with a per-deploy cache-buster -->
   include('../partials/staticResources.ejs', {
     scripts: ['logout', 'demo', 'history', 'layout', 'resizable', 'feedback', 'navbar', 'icon', 'eval', 'fav', 'pin', 'display', 'suggest', 'search', 'app'],
     stylesheets: ['app', 'demo', 'navbar', 'feedback', 'scrollbar'],
@@ -24,7 +24,13 @@
         </button>
         <form id="menu-form" class="navbar-btn" action="." role="search" onkeypress="return event.keyCode !== 13"> <!-- M only, flex-item-stretch -->
           <!-- searchbox: D: flex-item-stretch -->
-          <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off">
+          <div id="searchbox-group" class="input-group">
+            <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off">
+            <span class="input-group-btn">
+              <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search suggestions" data-placement="bottom"><i class="fa fa-th-list"></i></button>
+            </span>
+          </div>
+
         </form>
         <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse"> <!-- M: flex-item-rigid -->
           <span class="icon-bar"></span>
@@ -34,9 +40,6 @@
       </div>
 
       <div id="menu-collapse" class="collapse navbar-collapse">
-        <ul id="menu-left" class="nav navbar-nav"> <!-- D only -->
-          <li id="suggest-toggle"><a href="#">Search Suggestions</a></li>
-        </ul>
         <ul id="menu-right" class="nav navbar-nav navbar-right">
           <li id="demo-toggle"><a href="javascript:void(0);">Demo</a></li>
           <li id="feedback-toggle"><a href="#">Feedback</a></li>
@@ -47,10 +50,10 @@
       </div>
     </nav>
 
-    <div id="main-pane" class="flex-item-stretch flex-container-row" style="display:none">
+    <div id="main-pane" class="flex-item-stretch flex-container-row">
       <div id="suggest-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden -->
         <div id="suggest-allcourses">
-          <div id="suggest-allcourses-header" class="flex-container-row">
+          <div id="suggest-allcourses-header" class="flex-container-row section-header">
             <h5 class="flex-item-stretch truncate"><strong>All Courses</strong></h5>
             <h5 class="flex-item-rigid"><i id="suggest-allcourses-toggle" class="fa fa-minus text-button"></i></h5>
           </div>
@@ -59,7 +62,7 @@
           </ul>
         </div>
         <div id="suggest-distributions">
-          <div id="suggest-distributions-header" class="flex-container-row">
+          <div id="suggest-distributions-header" class="flex-container-row section-header">
             <h5 class="flex-item-stretch truncate"><strong>Distributions</strong></h5>
             <h5 class="flex-item-rigid"><i id="suggest-distributions-toggle" class="fa fa-minus text-button"></i></h5>
           </div>
@@ -68,7 +71,7 @@
           </ul>
         </div>
         <div id="suggest-pdfoptions">
-          <div id="suggest-pdfoptions-header" class="flex-container-row">
+          <div id="suggest-pdfoptions-header" class="flex-container-row section-header">
             <h5 class="flex-item-stretch truncate"><strong>PDF options</strong></h5>
             <h5 class="flex-item-rigid"><i id="suggest-pdfoptions-toggle" class="fa fa-minus text-button"></i></h5>
           </div>
@@ -77,7 +80,7 @@
           </ul>
         </div>
         <div id="suggest-departments">
-          <div id="suggest-departments-header" class="flex-container-row">
+          <div id="suggest-departments-header" class="flex-container-row section-header">
             <h5 class="flex-item-stretch truncate"><strong>Departments</strong></h5>
             <h5 class="flex-item-rigid"><i id="suggest-departments-toggle" class="fa fa-minus text-button"></i></h5>
           </div>
@@ -124,7 +127,7 @@
         <div id="favorite-prompt" class="flex-item-rigid">
           <h5>Click on <i class="fa fa-heart"></i> to favorite a course!</h5>
         </div>
-        <div id="favorite-header" class="flex-item-rigid flex-container-row">
+        <div id="favorite-header" class="flex-item-rigid flex-container-row search-section-header">
           <h4 id="favorite-title" class="flex-item-shrink truncate">0 Favorite Courses</h4>
           <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" data-original-title="There is a time clash between two or more of your pinned courses." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
           <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus text-button"></i></h4>
@@ -134,7 +137,7 @@
             <!-- favorite list loads here -->
           </ul>
         </div>
-        <div id="search-header" class="flex-item-rigid flex-container-row">
+        <div id="search-header" class="flex-item-rigid flex-container-row search-section-header">
           <h4 id="search-title" class="flex-item-shrink truncate">0 Search Results</h4>
           <h4 class="flex-item-grow">&nbsp;<i id="search-load-indicator" data-toggle="tooltip" class="fa fa-circle-o-notch fa-spin text-info" data-original-title="Loading courses!" style="display: none;"></i>&nbsp;</h4>
           <h4 class="flex-item-rigid"><i id="search-display-toggle" class="fa fa-minus text-button"></i></h4>
@@ -164,7 +167,7 @@
         <div id="display-body" class="flex-item-stretch flex-container-row">
           <div id="evals-pane" class="slide"> <!-- M: height 100%, width 100vw, D: flex-item-stretch -->
             <div id="evals-semesters" style="display: none;">
-              <div id="evals-semesters-header" class="flex-container-row disp-section-header">
+              <div id="evals-semesters-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Past Semesters</strong></h5>
                 <h5 class="flex-item-rigid"><i id="evals-semesters-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -172,7 +175,7 @@
               <ul id="evals-semesters-body" class="list-group marginless"></ul>
             </div>
             <div id="evals-numeric" style="display: none;">
-              <div id="evals-numeric-header" class="flex-container-row disp-section-header">
+              <div id="evals-numeric-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Numeric Evaluations</strong><span class="evals-past" style="display: none;"> (from <span class="evals-past-semester">a different semester</span>)</span></h5>
                 <h5 class="flex-item-rigid"><i id="evals-numeric-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -180,7 +183,7 @@
               <ul id="evals-numeric-body" class="list-group marginless"></ul>
             </div>
             <div id="evals-comments" style="display: none;">
-              <div id="evals-comments-header" class="flex-container-row disp-section-header">
+              <div id="evals-comments-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Student Comments</strong><span class="evals-past" style="display: none;"> (from <span class="evals-past-semester">a different semester</span>)</span></h5>
                 <h5 class="flex-item-rigid"><i id="evals-comments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -192,7 +195,7 @@
           <div id="info-resizer" class="flex-item-rigid resizer"></div>
           <div id="info-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, -->
             <div id="disp-instructors" style="display: none;">
-              <div id="disp-instructors-header" class="flex-container-row disp-section-header">
+              <div id="disp-instructors-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Instructors</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-instructors-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -201,7 +204,7 @@
               </ul>
             </div>
             <div id="disp-description" style="display: none;">
-              <div id="disp-description-header" class="flex-container-row disp-section-header">
+              <div id="disp-description-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Description</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-description-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -210,7 +213,7 @@
               </ul>
             </div>
             <div id="disp-assignments" style="display: none;">
-              <div id="disp-assignments-header" class="flex-container-row disp-section-header">
+              <div id="disp-assignments-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Assignments</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-assignments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -219,7 +222,7 @@
               </ul>
             </div>
             <div id="disp-grading" style="display: none;">
-              <div id="disp-grading-header" class="flex-container-row disp-section-header">
+              <div id="disp-grading-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Grading</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-grading-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -228,7 +231,7 @@
               </ul>
             </div>
             <div id="disp-prerequisites" style="display: none;">
-              <div id="disp-prerequisites-header" class="flex-container-row disp-section-header">
+              <div id="disp-prerequisites-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Prerequisites</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-prerequisites-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -237,7 +240,7 @@
               </ul>
             </div>
             <div id="disp-equivalent" style="display: none;">
-              <div id="disp-equivalent-header" class="flex-container-row disp-section-header">
+              <div id="disp-equivalent-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Equivalent Courses</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-equivalent-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -246,7 +249,7 @@
               </ul>
             </div>
             <div id="disp-other" style="display: none;">
-              <div id="disp-other-header" class="flex-container-row disp-section-header">
+              <div id="disp-other-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Other Information</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-other-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -255,7 +258,7 @@
               </ul>
             </div>
             <div id="disp-readings" style="display: none;">
-              <div id="disp-readings-header" class="flex-container-row disp-section-header">
+              <div id="disp-readings-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Readings</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-readings-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
@@ -263,8 +266,17 @@
                 <!-- readings go here -->
               </ul>
             </div>
+            <div id="disp-reserved" style="display: none;">
+              <div id="disp-reserved-header" class="flex-container-row section-header">
+                <h5 class="flex-item-stretch truncate"><strong>Reserved Seats</strong></h5>
+                <h5 class="flex-item-rigid"><i id="disp-reserved-toggle" class="fa fa-minus text-button"></i></h5>
+              </div>
+              <ul id="disp-reserved-body" class="list-group marginless">
+                <!-- reserved seats go here -->
+              </ul>
+            </div>
             <div id="disp-classes" style="display: none;">
-              <div id="disp-classes-header" class="flex-container-row disp-section-header">
+              <div id="disp-classes-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Classes</strong></h5>
                 <h5 class="flex-item-rigid"><i id="disp-classes-toggle" class="fa fa-minus text-button"></i></h5>
               </div>

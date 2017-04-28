@@ -16,37 +16,42 @@ $(document).ready(function() {
   init_evals();
   init_suggest();
   init_updates();
-  $('#main-pane').css('display', '');
 })
 
 // loads course from url
 var init_load = function () {
   var courseId = ''
 
+  var disp_noswipe = false
+  var search_noswipe = true
+
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
-    // Load the course
+    // Detect if course is to be displayed
     courseId = parseInt(pathnameMatch[1])
-    if (!isNaN(courseId)) {
-      displayCourseDetails(courseId)
-      var courseDisplayed = true;
+    if (isNaN(courseId)) {
+      disp_noswipe = true
+      search_noswipe = false
+      courseId = ''
     }
+  } else {
+    disp_noswipe = true
+    search_noswipe = false
+    courseId = ''
   }
+
+  // display course
+  displayCourseDetails(courseId, disp_noswipe)
 
   // Parse search parameters, if any exist
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes)
+  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes, search_noswipe)
 
   // initialize history
   history_init(courseId, window.location.search)
-
-  // handle displaying default page
-  if (courseId === '' && (parameters.search === undefined || parameters.search === ''))
-    displayCourseDetails(courseId)
-
 }
 
 // to initialize draggability
@@ -89,6 +94,7 @@ var init_searchpane = function() {
     $('#favorite-courses').slideToggle()
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
+  $('#favorite-header').click(toggleFavDisplay)
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
@@ -115,6 +121,7 @@ var init_searchpane = function() {
     })
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
+  $('#search-header').click(toggleSearchDisplay)
 
   // toggle display of advanced search
   var toggleAdvancedDisplay = function() {
@@ -159,7 +166,9 @@ var init_search = function() {
     } else {
       $('#semester').children().eq(1).attr('selected', true)
     }
-  }).then(init_load)
+
+    init_load()
+  })
 }
 
 // to initialize global data
@@ -216,32 +225,50 @@ var init_demo = function() {
 
 // to initialize display toggling
 var init_display = function() {
-  $('#disp-instructors-toggle'  ).click(function() {section_toggle('disp', 'instructors')})
-  $('#disp-description-toggle'  ).click(function() {section_toggle('disp', 'description')})
-  $('#disp-readings-toggle'     ).click(function() {section_toggle('disp', 'readings')})
-  $('#disp-assignments-toggle'  ).click(function() {section_toggle('disp', 'assignments')})
-  $('#disp-grading-toggle'      ).click(function() {section_toggle('disp', 'grading')})
-  $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})
-  $('#disp-equivalent-toggle'   ).click(function() {section_toggle('disp', 'equivalent')})
-  $('#disp-other-toggle'        ).click(function() {section_toggle('disp', 'other')})
-  $('#disp-classes-toggle'      ).click(function() {section_toggle('disp', 'classes')})
+  $('#disp-instructors-toggle'  ).click(function() {return section_toggle('disp', 'instructors')})
+  //$('#disp-instructors-header'  ).click(function() {return section_toggle('disp', 'instructors')})
+  $('#disp-description-toggle'  ).click(function() {return section_toggle('disp', 'description')})
+  //$('#disp-description-header'  ).click(function() {return section_toggle('disp', 'description')})
+  $('#disp-readings-toggle'     ).click(function() {return section_toggle('disp', 'readings')})
+  //$('#disp-readings-header'     ).click(function() {return section_toggle('disp', 'readings')})
+  $('#disp-assignments-toggle'  ).click(function() {return section_toggle('disp', 'assignments')})
+  //$('#disp-assignments-header'  ).click(function() {return section_toggle('disp', 'assignments')})
+  $('#disp-grading-toggle'      ).click(function() {return section_toggle('disp', 'grading')})
+  //$('#disp-grading-header'      ).click(function() {return section_toggle('disp', 'grading')})
+  $('#disp-prerequisites-toggle').click(function() {return section_toggle('disp', 'prerequisites')})
+  //$('#disp-prerequisites-header').click(function() {return section_toggle('disp', 'prerequisites')})
+  $('#disp-equivalent-toggle'   ).click(function() {return section_toggle('disp', 'equivalent')})
+  //$('#disp-equivalent-header'   ).click(function() {return section_toggle('disp', 'equivalent')})
+  $('#disp-other-toggle'        ).click(function() {return section_toggle('disp', 'other')})
+  //$('#disp-other-header'        ).click(function() {return section_toggle('disp', 'other')})
+  $('#disp-reserved-toggle'     ).click(function() {return section_toggle('disp', 'reserved')})
+  //$('#disp-reserved-header'     ).click(function() {return section_toggle('disp', 'reserved')})
+  $('#disp-classes-toggle'      ).click(function() {return section_toggle('disp', 'classes')})
+  //$('#disp-classes-header'      ).click(function() {return section_toggle('disp', 'classes')})
 }
 
 // to initialize evals toggling
 var init_evals = function() {
-  $('#evals-semesters-toggle').click(function() {section_toggle('evals', 'semesters')})
-  $('#evals-numeric-toggle').click(function() {section_toggle('evals', 'numeric')})
-  $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
+  $('#evals-semesters-toggle').click(function() {return section_toggle('evals', 'semesters')})
+  //$('#evals-semesters-header').click(function() {return section_toggle('evals', 'semesters')})
+  $('#evals-numeric-toggle'  ).click(function() {return section_toggle('evals', 'numeric')})
+  //$('#evals-numeric-header'  ).click(function() {return section_toggle('evals', 'numeric')})
+  $('#evals-comments-toggle' ).click(function() {return section_toggle('evals', 'comments')})
+  //$('#evals-comments-header' ).click(function() {return section_toggle('evals', 'comments')})
 }
 
 // to initialize suggest display
 var init_suggest = function() {
   suggest_load()
   $('#suggest-toggle').click(toggleSuggest)
-  $('#suggest-allcourses-toggle'   ).click(function() {section_toggle('suggest', 'allcourses')})
-  $('#suggest-distributions-toggle').click(function() {section_toggle('suggest', 'distributions')})
-  $('#suggest-pdfoptions-toggle'   ).click(function() {section_toggle('suggest', 'pdfoptions')})
-  $('#suggest-departments-toggle'  ).click(function() {section_toggle('suggest', 'departments')})
+  $('#suggest-allcourses-toggle'   ).click(function() {return section_toggle('suggest', 'allcourses')})
+  //$('#suggest-allcourses-header'   ).click(function() {return section_toggle('suggest', 'allcourses')})
+  $('#suggest-distributions-toggle').click(function() {return section_toggle('suggest', 'distributions')})
+  //$('#suggest-distributions-header').click(function() {return section_toggle('suggest', 'distributions')})
+  $('#suggest-pdfoptions-toggle'   ).click(function() {return section_toggle('suggest', 'pdfoptions')})
+  //$('#suggest-pdfoptions-header'   ).click(function() {return section_toggle('suggest', 'pdfoptions')})
+  $('#suggest-departments-toggle'  ).click(function() {return section_toggle('suggest', 'departments')})
+  //$('#suggest-departments-header'  ).click(function() {return section_toggle('suggest', 'departments')})
 }
 
 // to initialize updates popup
@@ -277,6 +304,8 @@ var section_toggle = function(pane, section) {
   icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
   icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
   body.slideToggle();
+
+  return false;
 }
 
 // update is read by the user
@@ -290,7 +319,6 @@ var init_layout = function() {
   var width = $(window).width()
   document.isMobile = (width < WIDTH_THRESHOLD)
   if (document.isMobile) {
-    $('#main-pane').css('display', '');
     layout_mobile();
   }
   else layout_desktop()
