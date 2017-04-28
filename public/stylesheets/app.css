@@ -245,7 +245,7 @@ body {
 }
 /* PAGEWIDE CSS */
 
-.section-header:hover {
+.search-section-header:hover {
   cursor: pointer;
   color: #b8b8b8;
 }
@@ -413,7 +413,7 @@ body {
   cursor: pointer;
   color: #888;
 }
-.text-button:hover, .section-header:hover .text-button {
+.text-button:hover, .search-section-header:hover .text-button {
   color: #b8b8b8;
   transition: color 0.4s ease;
 }
@@ -516,7 +516,8 @@ body {
 }
 
 .info-list-item {
-  /*background-color:#eee;*/
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* EVALS PANE CSS */
@@ -531,6 +532,11 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+}
+
+.eval-list-item {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .up-icon {

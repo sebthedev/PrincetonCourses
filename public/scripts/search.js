@@ -77,7 +77,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   // go to search pane for mobile and hide favorites
   if (document.isMobile && noswipe !== true) {
     $('#main-pane').slick('slickGoTo', 1)
-    if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
+    // if ($('#fav-display-toggle').hasClass('fa-minus')) $('#fav-display-toggle').click()
   }
 
   // store search value used
