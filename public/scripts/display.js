@@ -218,10 +218,11 @@ var display_assignments = function(course) {
   $('#disp-assignments-body').html('')
 
   var assignments = ''
-  for (var assignment in course.assignments) {
-    var asmt = course.assignments[assignment]
-    assignments += '<li class="list-group-item info-list-item">' + asmt + '</li>'
+  for (var index in course.assignments) {
+    var assignment = course.assignments[index]
+    assignments += '<div>' + assignment + '</div>'
   }
+  if (assignments !== '') assignments = '<li class="list-group-item info-list-item">' + assignments + '</li>'
 
   $('#disp-assignments-body').append(assignments)
   display_autotoggle('assignments')
@@ -235,8 +236,9 @@ var display_grading = function(course) {
   var grading = ''
   for (var index in course.grading) {
     var grade = course.grading[index]
-    grading += '<li class="list-group-item info-list-item">' + grade.component + ': ' + grade.weight + '%</li>'
+    grading += '<div>' + grade.weight + '% ' + grade.component + '</div>'
   }
+  if (grading !== '') grading = '<li class="list-group-item info-list-item">' + grading + '</li>'
 
   $('#disp-grading-body').append(grading)
   display_autotoggle('grading')

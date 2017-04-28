@@ -245,7 +245,7 @@ function newDOMcourseResult(course, props) {
     '<li class="list-group-item search-result">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<small>' + dot + '</small> '
+        + dot + ' '
         + '<strong>' + newHTMLlistings(course) + '</strong> ' + tags
       + '</div>'
       + '<div class="flex-item-rigid">'
