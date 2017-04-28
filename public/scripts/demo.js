@@ -17,8 +17,8 @@ function conductInitialDemo() {
           position: 'bottom'
       },
       {
-          element: '#menu-left',
-          intro: 'Search for specific queries here like \'All Courses\' and \'PDF Only\' options!',
+          element: '#suggest-toggle',
+          intro: 'See search suggestions here like \'All Courses\' and \'PDF Only\' options!',
           position: 'bottom'
       },
       {
@@ -28,12 +28,12 @@ function conductInitialDemo() {
       },
       {
           element: '#favorite-header',
-          intro: 'Courses that you mark as "Favorites" will appear here.',
+          intro: 'Courses that you have favorited will appear here.',
           position: 'bottom'
       },
       {
           element: '#advanced-header',
-          intro: 'Filter through grad courses and classes which conflict with your "Favorites."',
+          intro: 'Filter through grad courses and classes which conflict with your pinned favorites.',
           position: 'bottom'
       },
       {
