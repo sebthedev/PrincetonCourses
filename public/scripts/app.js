@@ -16,37 +16,42 @@ $(document).ready(function() {
   init_evals();
   init_suggest();
   init_updates();
-  $('#main-pane').css('display', '');
 })
 
 // loads course from url
 var init_load = function () {
   var courseId = ''
 
+  var disp_noswipe = false
+  var search_noswipe = true
+
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
-    // Load the course
+    // Detect if course is to be displayed
     courseId = parseInt(pathnameMatch[1])
-    if (!isNaN(courseId)) {
-      displayCourseDetails(courseId)
-      var courseDisplayed = true;
+    if (isNaN(courseId)) {
+      disp_noswipe = true
+      search_noswipe = false
+      courseId = ''
     }
+  } else {
+    disp_noswipe = true
+    search_noswipe = false
+    courseId = ''
   }
+
+  // display course
+  displayCourseDetails(courseId, disp_noswipe)
 
   // Parse search parameters, if any exist
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes)
+  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes, search_noswipe)
 
   // initialize history
   history_init(courseId, window.location.search)
-
-  // handle displaying default page
-  if (courseId === '' && (parameters.search === undefined || parameters.search === ''))
-    displayCourseDetails(courseId)
-
 }
 
 // to initialize draggability
@@ -161,7 +166,9 @@ var init_search = function() {
     } else {
       $('#semester').children().eq(1).attr('selected', true)
     }
-  }).then(init_load)
+
+    init_load()
+  })
 }
 
 // to initialize global data
@@ -312,7 +319,6 @@ var init_layout = function() {
   var width = $(window).width()
   document.isMobile = (width < WIDTH_THRESHOLD)
   if (document.isMobile) {
-    $('#main-pane').css('display', '');
     layout_mobile();
   }
   else layout_desktop()
