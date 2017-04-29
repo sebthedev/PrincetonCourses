@@ -5,6 +5,10 @@
 
 /* MOBILE OVERRIDES */
 @media (max-width: 767px) {
+  .tooltip {
+    display: none !important;
+  }
+
   #menu-header {
     /* flex-container-row */
     display: flex;
@@ -580,7 +584,30 @@ body {
 }
 .suggest-result:hover {
   background-color: #fff;
-  transition: background-color 0.4s ease;
+}
+
+.suggest-text {
+  margin-right: 8px;
+}
+
+.suggest-button {
+  margin: -5px -8px;
+  padding: 5px 8px;
+  background-color: #e8e8e8;
+  color: #888;
+  text-align: center;
+  width: 30px;
+}
+.suggest-button:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+.suggest-button.active {
+  background-color: #337ab7;
+  color: #fff;
+}
+.suggest-button.active:hover {
+  background-color: #428bca;
 }
 
 /* ABOUT POPUP CSS */

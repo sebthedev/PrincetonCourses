@@ -137,6 +137,31 @@ const departments = {
  'WWS': 'Woodrow Wilson School'
 }
 
+// updates buttons in the suggest pane based on search query
+function updateSuggest() {
+  $('.suggest-button').each(function() {
+    $(this).removeClass('active')
+    $(this).find('i.suggest-icon').removeClass('fa-minus')
+    $(this).find('i.suggest-icon').addClass('fa-plus')
+    $(this).attr('data-original-title', 'Add to search')
+  })
+
+  var queries = $('#searchbox').val().split(' ')
+
+  for (var index in queries) {
+    var query = queries[index]
+    $('.suggest-button').each(function() {
+      var term = this.term
+      if (query.toLowerCase() !== term.toLowerCase()) return
+
+      $(this).addClass('active')
+      $(this).find('i.suggest-icon').removeClass('fa-plus')
+      $(this).find('i.suggest-icon').addClass('fa-minus')
+      $(this).attr('data-original-title', 'Remove from search')
+    })
+  }
+}
+
 // handles click in navbar to toggle suggest pane
 function toggleSuggest() {
   // swipe if in mobile
@@ -172,39 +197,88 @@ function suggest_load() {
 
   for (var term in distributions) {
     var description = distributions[term]
-    $('#suggest-distributions-body').append(newDOMsuggestResult(term, description))
+    $('#suggest-distributions-body').append(newDOMsuggestResult(term, description, {button: 1}))
   }
 
   for (var term in pdfoptions) {
     var description = pdfoptions[term]
-    $('#suggest-pdfoptions-body').append(newDOMsuggestResult(term, description))
+    $('#suggest-pdfoptions-body').append(newDOMsuggestResult(term, description, {button: 1}))
   }
 
   for (var term in departments) {
     var description = departments[term]
-    $('#suggest-departments-body').append(newDOMsuggestResult(term, description))
+    $('#suggest-departments-body').append(newDOMsuggestResult(term, description, {button: 1}))
   }
 }
 
 // returns a DOM object for a search suggestion
-function newDOMsuggestResult(term, description) {
+// props: properties for conditional rendering:
+//  - 'button' is defined => displays button to add/remove from search
+function newDOMsuggestResult(term, description, props) {
+  var hasButton = (props != undefined) && props.hasOwnProperty('button')
+  if (hasButton) var button = (
+    '<div '
+    + 'class="flex-item-rigid suggest-button" '
+    + 'data-toggle="tooltip" '
+    + 'data-original-title="Add to search"'
+  + '>'
+      + '<i class="fa fa-plus suggest-icon"></div>'
+  + '</div>'
+  )
 
   var tooltip = ' title="' + description + '"'
 
   var htmlString = (
-    '<li class="list-group-item suggest-result truncate" ' + tooltip + '>'
-    + '<strong>' + term + '</strong>&nbsp; '
-    + description
+    '<li class="list-group-item suggest-result flex-container-row">'
+    + '<div '
+      + 'data-toggle="tooltip"'
+      + 'data-original-title="' + description + '" '
+      + 'class="flex-item-stretch truncate suggest-text"'
+    + '>'
+        + '<strong>' + term + '</strong>&nbsp; '
+        + description
+    + '</div>'
+    + (hasButton ? button : '')
   + '</li>'
   )
 
-  var entry = $.parseHTML(htmlString)[0] // create DOM object
+  var entry = $.parseHTML(htmlString)[0]         // create DOM object
+  if (hasButton) {
+    var button = $(entry).find('.suggest-button')[0] // button
+    button.term = term                               // bind term
+
+    $(button).click(toggleTerm)
+  }
+
   // enable click to search
   $(entry).click(function() {
-    $('#searchbox').val(term)
+    $('#searchbox').val(term.toLowerCase())
     searchFromBox()
     return false
   })
 
   return entry
+}
+
+// handles click of suggest button
+function toggleTerm() {
+  var $button = $(this)
+  var isSearched = $button.hasClass('active')
+  var term = this.term
+
+  if (isSearched) { /* remove from searchbox */
+    var queries = $('#searchbox').val().split(' ')
+    var newqueries = []
+    for (index in queries) {
+      var query = queries[index]
+      if (query.toLowerCase() !== term.toLowerCase()) {
+        newqueries.push(query)
+      }
+    }
+    $('#searchbox').val(newqueries.join(' '))
+  } else { /* insert into searchbox */
+    $('#searchbox').val($('#searchbox').val() + ' ' + term.toLowerCase())
+  }
+  searchFromBox(true)
+  return false
 }

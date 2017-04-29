@@ -23,7 +23,7 @@ var getSearchQueryURL = function () {
 }
 
 // update search results from the search box
-var searchFromBox = function() {
+var searchFromBox = function(noswipe) {
   // query url
   var queryURL = getSearchQueryURL()
 
@@ -36,7 +36,7 @@ var searchFromBox = function() {
   // save search into history
   history_search(queryURL)
 
-  searchForCourses(query, semester, sort, track, filterClashes)
+  searchForCourses(query, semester, sort, track, filterClashes, noswipe)
 }
 
 // update search results from a URL
@@ -71,6 +71,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     document.lastSearch = ''
     $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
+    updateSuggest()
     return false
   }
 
@@ -122,6 +123,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     }
 
     displayActive() // update highlighting of active course
+    updateSuggest()
 
     $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
