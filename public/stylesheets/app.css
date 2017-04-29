@@ -237,21 +237,21 @@ body {
   color: #5cb85c;
 }
 
-
+/* RGB average of above colors with #fff */
 .active .text-muted {
-  color: #fff;
+  color: #fff; /* #b1b5b8; */
 }
 .active .text-info {
-  color: #8CC7E0;
+  color: #addfee;
 }
 .active .text-warning {
-  color: #F0C993;
+  color: #f7d6a6;
 }
 .active .text-danger {
-  color: #eca8a7;
+  color: #eca9a7;
 }
 .active .text-success {
-  color: #94C499;
+  color: #addbad;
 }
 /* PAGEWIDE CSS */
 
