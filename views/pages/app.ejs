@@ -17,7 +17,7 @@
   <div id="full-page" class="flex-container-col">
     <nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
       <div id="menu-header" class="navbar-header"> <!-- M: class flex-container-row -->
-         <a class="navbar-brand" id="menu-brand"  href="/">Princeton Courses <sup>beta</sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
+        <a id="menu-brand" class="navbar-brand" href="/">Princeton Courses <sup>beta</sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
         <a id="menu-brand-abbr" class="navbar-brand flex-item-rigid">PC</a> <!-- M: appear, D: hide -->
         <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
           <span class="fa fa-chevron-left"></span>
@@ -30,7 +30,6 @@
               <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search suggestions" data-placement="bottom"><i class="fa fa-th-list"></i></button>
             </span>
           </div>
-
         </form>
         <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse"> <!-- M: flex-item-rigid -->
           <span class="icon-bar"></span>
@@ -90,6 +89,7 @@
         </div>
         <div class="pane-padding"></div>
       </div>
+      <div id="suggest-resizer" class="flex-item-rigid resizer"></div> <!-- M: hidden -->
       <div id="search-pane" class="flex-container-col slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden-->
         <form id="search-form" class="flex-item-rigid" onkeypress="return event.keyCode !== 13">
           <div id="search-searchbox-form" class="form-group flex-container-row"> <!-- M: display: none; -->

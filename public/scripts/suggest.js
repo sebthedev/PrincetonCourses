@@ -150,7 +150,10 @@ function toggleSuggest() {
 
   var isVisible = $('#suggest-pane').is(':visible')
 
-  $('#suggest-pane').animate({width: 'toggle'})
+  if (isVisible) $('#suggest-pane').animate({width: 'hide'})
+  else $('#suggest-pane').animate({width: 'show'})
+  $('#suggest-resizer').removeClass(isVisible ? 'resizer' : 'resizer-inactive')
+  $('#suggest-resizer').addClass(isVisible ? 'resizer-inactive' : 'resizer')
   if (isVisible) $('#suggest-toggle').removeClass('active')
   else $('#suggest-toggle').addClass('active')
   $('#suggest-toggle').attr('data-original-title', isVisible ? 'Show search suggestions' : 'Hide search suggestions')

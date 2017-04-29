@@ -13,7 +13,7 @@
     overflow: hidden;
   }
 
-  #menu-brand, #menu-left, .resizer {
+  #menu-brand, #menu-left, .resizer, .resizer-inactive {
     display: none;
   }
 
@@ -72,13 +72,19 @@
   }
 
   #suggest-pane {
-    max-width: 200px;
-    width: 200px;
+    max-width: 30vw;
+    width: 15%;
     order: 10;
+    overflow-y: scroll !important; /* to fix weird right-padding-overlapping-with-scroll bug */
+  }
+
+  #suggest-resizer {
+    order: 15;
   }
 
   #search-pane {
-    padding-right: 5px !important; /* compensate for resizer */
+    padding-right: 5px !important; /* compensate for search resizer */
+    padding-left: 5px !important; /* compensate for suggest resizer */
     min-width: 200px;
     max-width: 40vw;
     width: 25%;
@@ -256,6 +262,11 @@ body {
 
 #main-pane {
   margin-top: 50px; /* compensate for navbar */
+}
+
+.resizer-inactive { /* for suggest-resizer when suggest pane is hidden */
+  width: 5px;
+  background-color: #ddd;
 }
 
 .resizer {

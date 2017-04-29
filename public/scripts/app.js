@@ -66,6 +66,11 @@ var init_panes = function() {
     $('#info-pane').css('width', infoPaneWidth);
   }
 
+  var suggestPaneWidth = localStorage.getItem('#suggest-resizer');
+  if(suggestPaneWidth !== undefined) {
+    $('#suggest-pane').css('width', suggestPaneWidth);
+  }
+
   $('#search-pane').show()
   $('#display-pane').show()
 
@@ -78,6 +83,11 @@ var init_panes = function() {
     handleSelector: "#info-resizer",
     resizeHeight: false,
     resizeWidthFrom: 'left'
+  })
+
+  $('#suggest-pane').resizable({
+    handleSelector: "#suggest-resizer",
+    resizeHeight: false
   })
 }
 

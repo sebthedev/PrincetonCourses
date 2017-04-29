@@ -90,6 +90,8 @@ function layout_toMobile() {
 function layout_desktop() {
   /* hide suggest pane by default */
   $('#suggest-pane').hide()
+  $('#suggest-resizer').removeClass('resizer')
+  $('#suggest-resizer').addClass('resizer-inactive')
   $('#suggest-toggle').removeClass('active')
   $('#suggest-toggle').attr('data-original-title', 'Show search suggestions')
 
