@@ -231,7 +231,7 @@ function newDOMcourseResult(course, props) {
 
   // clash icon
   var clashIcon = ''
-  if (course.clash) clashIcon = '<i class="fa fa-warning clash-icon" data-toggle="tooltip" data-original-title="This course clashes with one or more of your pinned courses."></i>'
+  if (course.clash) clashIcon = '<i class="fa fa-warning text-danger" data-toggle="tooltip" data-original-title="This course clashes with one or more of your pinned courses."></i>'
 
   // pin icon for selecting courses (only in fav list)
   var hasPinIcon = (props.hasOwnProperty('pin') && !course.clash)
