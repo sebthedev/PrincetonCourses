@@ -255,11 +255,6 @@ body {
 }
 /* PAGEWIDE CSS */
 
-.search-section-header:hover {
-  cursor: pointer;
-  color: #b8b8b8;
-}
-
 .pane-padding {
   height: 15px;
 }
@@ -278,10 +273,20 @@ body {
   background-color: #ddd;
   cursor: col-resize;
 }
+.resizer-v {
+  /*height: 5px;
+  background-color: #ddd;*/
+  cursor: row-resize;
+}
 .resizer:active,
 .resizer:hover {
   background-color: #EE7F2D;
   cursor: col-resize;
+}
+.resizer-v:active,
+.resizer-v:hover {
+  /*background-color: #EE7F2D;*/
+  cursor: row-resize;
 }
 
 body {
@@ -428,7 +433,7 @@ body {
   cursor: pointer;
   color: #888;
 }
-.text-button:hover, .search-section-header:hover .text-button {
+.text-button:hover {
   color: #b8b8b8;
   transition: color 0.4s ease;
 }

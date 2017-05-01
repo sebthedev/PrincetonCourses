@@ -116,20 +116,27 @@ Licensed under MIT License
 
                 if (!opt.onDrag || opt.onDrag(e, $el, newWidth, newHeight, opt) !== false) {
                     if (opt.resizeHeight) {
-                        // MEL: make it a percentage instead
-                        $el.css('height', 100*newHeight/$el.parent().outerHeight() + '%');
+                        // MEL: make it a vh instead
+                        var setHeight = 100*newHeight/$(window).outerHeight()
+                        if (setHeight < 0) setHeight = 0
+                        if (setHeight > 100) setHeight = 100
+                        setHeight = setHeight + 'vh'
+                        $el.css('max-height', setHeight);
+                        localStorage.setItem(opt.handleSelector, setHeight) // save in localStorage
                         //$el.height(newHeight);
                     }
 
                     if (opt.resizeWidth) {
                         // MEL: make it a percentage instead
-                        $el.css('width', 100*newWidth/$el.parent().outerWidth() + '%');
+                        var setWidth = 100*newWidth/$el.parent().outerWidth()
+                        if (setWidth < 0) setWidth = 0
+                        if (setWidth > 100) setWidth = 100
+                        setWidth = setWidth + '%'
+                        $el.css('width', setWidth);
+                        localStorage.setItem(opt.handleSelector, setWidth) // save in localStorage
                         //$el.width(newWidth);
                     }
                 }
-
-                // save percentage in local storage
-                localStorage.setItem(opt.handleSelector, 100*newWidth/$el.parent().outerWidth() + '%')
             }
 
             function stopDragging(e) {

@@ -5,8 +5,8 @@ $(document).ready(function() {
 
   /* init_load(); MEL: now loads after semesters have been loaded in init_search */
   init_layout();
-  init_panes();
   init_searchpane();
+  init_panes();
   init_search();
   init_globals();
   init_favorites();
@@ -93,7 +93,20 @@ var init_panes = function() {
 
 // to initalize search pane section collapsing
 var init_searchpane = function() {
-  $('#favorite-courses').css('max-height', '30vh')
+  // return the last saved height of fav section
+  var getFavHeight = function() {
+    var favHeight = localStorage.getItem('#search-header');
+    if (favHeight === undefined) favHeight = '30vh'
+    return favHeight
+  }
+
+  // make fav section resizable
+  $('#favorite-courses').resizable({
+    handleSelector: '#search-header',
+    resizeWidth: false
+  })
+
+  $('#favorite-courses').css('max-height', getFavHeight())
     // toggle display of favorite things
   var toggleFavDisplay = function() {
     var isVisible = $('#favorite-courses').is(':visible')
@@ -104,7 +117,7 @@ var init_searchpane = function() {
     $('#favorite-courses').slideToggle()
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
-  $('#favorite-header').click(toggleFavDisplay)
+  /*$('#favorite-header').click(toggleFavDisplay)*/
 
   // toggle display of search result things
   var toggleSearchDisplay = function() {
@@ -125,13 +138,13 @@ var init_searchpane = function() {
     fullHeight = ((fullHeight > 100) ? 100 : fullHeight) + 'vh'
 
     // animate
-    $('#favorite-courses').animate({'max-height': (isVisible ? fullHeight : '30vh')}, function() {
+    $('#favorite-courses').animate({'max-height': (isVisible ? fullHeight : getFavHeight())}, function() {
       // unset max-height if search results are not visible
       if (isVisible) $('#favorite-courses').css('max-height', '')
     })
   }
   $('#search-display-toggle').click(toggleSearchDisplay)
-  $('#search-header').click(toggleSearchDisplay)
+  /*$('#search-header').click(toggleSearchDisplay)*/
 
   // toggle display of advanced search
   var toggleAdvancedDisplay = function() {
