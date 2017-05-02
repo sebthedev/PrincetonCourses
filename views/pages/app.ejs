@@ -94,11 +94,11 @@
         <form id="search-form" class="flex-item-rigid" onkeypress="return event.keyCode !== 13">
           <div id="search-searchbox-form" class="form-group flex-container-row"> <!-- M: display: none; -->
           </div>
-          <div class="form-group flex-container-row marginless">
-            <select id="semester" class="form-control flex-item-stretch margin-r">
+          <div class="form-group flex-container-row">
+            <select id="semester" class="form-control flex-item-stretch margin-r" data-toggle="tooltip" data-original-title="Select a semester" data-placement="bottom">
               <option disabled>Show courses from semester…</option>
             </select>
-            <select id="sort" class="flex-item-stretch margin-l form-control">
+            <select id="sort" class="flex-item-stretch margin-l form-control" data-toggle="tooltip" data-original-title="Sort results by..." data-placement="bottom">
               <option disabled>Sort by…</option>
               <option value="commonName" selected>Course Code</option>
               <option value="relevance">Relevance</option>
@@ -106,24 +106,24 @@
               <option value="title">Title</option>
             </select>
           </div>
+          <div id="advanced-header" class="flex-item-rigid flex-container-row">
+            <span id="advanced-title" class="flex-item-stretch truncate text-button text-center">Show Advanced Search Options</span>
+          </div>
+          <div id="advanced-body" class="flex-item-shrink list-group marginless" style="display: none;">
+            <div id="advanced-form" class="list-group-item">
+              <div class="checkbox">
+                <label>
+                  <input id="advanced-grad-hide" type="checkbox" checked> Hide graduate courses
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with pinned courses
+                </label>
+              </div>
+            </div>
+          </div>
         </form>
-        <div id="advanced-header" class="flex-item-rigid flex-container-row" style="margin-top: 4px">
-          <small id="advanced-title" class="flex-item-stretch truncate text-button text-center">Show Advanced Search Options</small>
-        </div>
-        <div id="advanced-body" class="flex-item-shrink list-group marginless" style="display: none;">
-          <form id="advanced-form" class="list-group-item">
-            <div class="checkbox">
-              <label>
-                <input id="advanced-grad-hide" type="checkbox" checked> Hide graduate courses
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with pinned courses
-              </label>
-            </div>
-          </form>
-        </div>
         <div id="favorite-prompt" class="flex-item-rigid">
           <h5>Click on <i class="fa fa-heart"></i> to favorite a course!</h5>
         </div>
