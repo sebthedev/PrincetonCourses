@@ -116,10 +116,15 @@ Licensed under MIT License
 
                 if (!opt.onDrag || opt.onDrag(e, $el, newWidth, newHeight, opt) !== false) {
                     if (opt.resizeHeight) {
+                        var maxHeight = ($('#search-pane').height()
+                                       - $('#search-form').height()
+                                       - $('#search-header').height()
+                                       - $('#favorite-header').height())
+                        maxHeight = 100*maxHeight/$(window).height()
                         // MEL: make it a vh instead
-                        var setHeight = 100*newHeight/$(window).outerHeight()
+                        var setHeight = 100*newHeight/$(window).height()
                         if (setHeight < 0) setHeight = 0
-                        if (setHeight > 100) setHeight = 100
+                        if (setHeight > maxHeight) setHeight = maxHeight
                         setHeight = setHeight + 'vh'
                         updateFavHeight(setHeight) // set and store (only fav resizer is vertical)
                         //$el.height(newHeight);

@@ -297,8 +297,9 @@ var display_reserved = function(course) {
   var reserved = ''
   for (var index in course.reservedSeats) {
     var seat = course.reservedSeats[index]
-    reserved += '<li class="list-group-item info-list-item">' + seat + '</li>'
+    reserved += '<div>' + seat + '</div>'
   }
+  if (reserved !== '') reserved = '<li class="list-group-item info-list-item">' + reserved + '</li>'
 
   $('#disp-reserved-body').append(reserved)
   display_autotoggle('reserved')
