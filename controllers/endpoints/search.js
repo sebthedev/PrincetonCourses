@@ -71,6 +71,10 @@ router.use('/:query', function (req, res) {
       courseQuery['new'] = true
     } else if (thisQueryWord === 'AUDIT') {
       courseQuery['audit'] = true
+    } else if (thisQueryWord === 'UGRD') {
+      courseQuery['track'] = 'UGRD'
+    } else if (thisQueryWord === 'GRAD') {
+      courseQuery['track'] = 'GRAD'
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])
@@ -123,15 +127,6 @@ router.use('/:query', function (req, res) {
   // Filter courses by semester
   if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
     courseQuery.semester = parseInt(req.query.semester)
-  }
-
-  // Filter courses by track (Graduate / Undergraduate courses)
-  if (typeof (req.query.track) !== 'undefined') {
-    if (req.query.track === 'GRAD') {
-      courseQuery.track = 'GRAD'
-    } else if (req.query.track === 'UGRD') {
-      courseQuery.track = 'UGRD'
-    }
   }
 
   // Remove in-depth course information if the client requests "brief" results
