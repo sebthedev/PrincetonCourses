@@ -179,19 +179,11 @@ Licensed under MIT License
 
 function updateFavHeight(height) {
   $('#favorite-courses').css('max-height', height);
-  localStorage.setItem('#search-header', height) // save in localStorage
   if ($('#favorite-courses').height() > 0 && $('#fav-display-toggle').hasClass('fa-plus')) {
     $('#fav-display-toggle').removeClass('fa-plus')
     $('#fav-display-toggle').addClass('fa-minus')
   } else if ($('#favorite-courses').height() === 0 && $('#fav-display-toggle').hasClass('fa-minus')) {
     $('#fav-display-toggle').removeClass('fa-minus')
     $('#fav-display-toggle').addClass('fa-plus')
-  }
-  if ($('#search-results').height() > 0 && $('#search-display-toggle').hasClass('fa-plus')) {
-    $('#search-display-toggle').removeClass('fa-plus')
-    $('#search-display-toggle').addClass('fa-minus')
-  } else if ($('#search-results').height() === 0 && $('#search-display-toggle').hasClass('fa-minus')) {
-    $('#search-display-toggle').removeClass('fa-minus')
-    $('#search-display-toggle').addClass('fa-plus')
   }
 }

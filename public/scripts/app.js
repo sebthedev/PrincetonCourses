@@ -93,20 +93,13 @@ var init_panes = function() {
 
 // to initalize search pane section collapsing
 var init_searchpane = function() {
-  // return the last saved height of fav section
-  var getFavHeight = function() {
-    var favHeight = localStorage.getItem('#search-header');
-    if (favHeight === undefined) favHeight = '30vh'
-    return favHeight
-  }
-
   // make fav section resizable
   $('#favorite-courses').resizable({
     handleSelector: '#search-header',
     resizeWidth: false
   })
 
-  $('#favorite-courses').css('max-height', getFavHeight())
+  $('#favorite-courses').css('max-height', '30vh')
 
   // toggle display of favorite things
   var toggleFavDisplay = function() {
@@ -139,63 +132,12 @@ var init_searchpane = function() {
     return false
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
-  /*$('#favorite-header').click(toggleFavDisplay)*/
-
-  // handle click of search toggle
-  var toggleSearchDisplay = function() {
-    var isVisible = ($('#search-results').height() > 0)
-    console.log('toggleSearchDisplay ' + (isVisible ? 'hiding' : 'showing'))
-    $('#search-display-toggle').removeClass(isVisible ? 'fa-minus' : 'fa-plus').addClass(isVisible ? 'fa-plus' : 'fa-minus')
-
-    var fullHeight = ($('#search-pane').height()
-                    - $('#search-header').height()
-                    - $('#favorite-header').height()
-                    - $('#search-form').height())
-
-    var favHidden = ($('#favorite-courses').height() === 0)
-    var changeFav = ($('#favorite-courses').height() === fullHeight)
-    console.log('changeFav ' + changeFav)
-
-    // set favorite courses and search results transition start point
-    $('#favorite-courses, #search-results').addClass('notransition'); // Disable transitions temporarily
-    if (changeFav) $('#favorite-courses').css('max-height', $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh')
-    $('#search-results').css('max-height', $('#search-results').outerHeight()/$(window).outerHeight()*100 + 'vh')
-    if (changeFav) $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
-    $('#search-results')[0].offsetHeight;
-    $('#favorite-courses, #search-results').removeClass('notransition'); // Re-enable transitions
-
-    var favHeight = $('#favs').height()
-    if (favHeight > fullHeight) favHeight = fullHeight
-
-    newFavHeight = $('#favorite-courses').height()/$(window).height()*100
-    if (changeFav) newFavHeight = 30
-
-    // set search results transition start point
-    if (changeFav) $('#favorite-courses').css('max-height', isVisible ? (favHeight/$(window).outerHeight()*100) + 'vh' : '30vh')
-    $('#search-results').css('max-height', isVisible ? '0vh' : (fullHeight/$(window).outerHeight()*100 - newFavHeight) + 'vh')
-
-    $('#search-results').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-      function(e) {
-        console.log('callback')
-        // set favorite courses and search results transition end point
-        $('#favorite-courses, #search-results').addClass('notransition'); // Disable transitions temporarily
-        if (isVisible && changeFav) $('#favorite-courses').css('max-height', '')
-        if (!isVisible) $('#search-results').css('max-height', '')
-        if (changeFav) $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
-        $('#search-results')[0].offsetHeight;
-        $('#favorite-courses, #search-results').removeClass('notransition'); // Re-enable transitions
-
-        $('#search-results').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend')
-    })
-  }
-  $('#search-display-toggle').click(toggleSearchDisplay)
-  /*$('#search-header').click(toggleSearchDisplay)*/
 
   // toggle display of advanced search
   var toggleAdvancedDisplay = function() {
     var isVisible = $('#advanced-body').is(':visible')
 
-    $('#advanced-title').text((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options')
+    $('#advanced-title').html((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options <i class="fa ' + (isVisible ? 'fa-caret-down' : 'fa-caret-up') + '"></i>')
 
     $('#advanced-body').slideToggle()
   }
@@ -293,6 +235,7 @@ var init_demo = function() {
 
 // to initialize display toggling
 var init_display = function() {
+  /*
   $('#disp-instructors-toggle'  ).click(function() {return section_toggle('disp', 'instructors')})
   //$('#disp-instructors-header'  ).click(function() {return section_toggle('disp', 'instructors')})
   $('#disp-description-toggle'  ).click(function() {return section_toggle('disp', 'description')})
@@ -313,22 +256,26 @@ var init_display = function() {
   //$('#disp-reserved-header'     ).click(function() {return section_toggle('disp', 'reserved')})
   $('#disp-classes-toggle'      ).click(function() {return section_toggle('disp', 'classes')})
   //$('#disp-classes-header'      ).click(function() {return section_toggle('disp', 'classes')})
+  */
 }
 
 // to initialize evals toggling
 var init_evals = function() {
+  /*
   $('#evals-semesters-toggle').click(function() {return section_toggle('evals', 'semesters')})
   //$('#evals-semesters-header').click(function() {return section_toggle('evals', 'semesters')})
   $('#evals-numeric-toggle'  ).click(function() {return section_toggle('evals', 'numeric')})
   //$('#evals-numeric-header'  ).click(function() {return section_toggle('evals', 'numeric')})
   $('#evals-comments-toggle' ).click(function() {return section_toggle('evals', 'comments')})
   //$('#evals-comments-header' ).click(function() {return section_toggle('evals', 'comments')})
+  */
 }
 
 // to initialize suggest display
 var init_suggest = function() {
   suggest_load()
   $('#suggest-toggle').click(toggleSuggest)
+  /*
   $('#suggest-allcourses-toggle'   ).click(function() {return section_toggle('suggest', 'allcourses')})
   //$('#suggest-allcourses-header'   ).click(function() {return section_toggle('suggest', 'allcourses')})
   $('#suggest-distributions-toggle').click(function() {return section_toggle('suggest', 'distributions')})
@@ -337,6 +284,7 @@ var init_suggest = function() {
   //$('#suggest-pdfoptions-header'   ).click(function() {return section_toggle('suggest', 'pdfoptions')})
   $('#suggest-departments-toggle'  ).click(function() {return section_toggle('suggest', 'departments')})
   //$('#suggest-departments-header'  ).click(function() {return section_toggle('suggest', 'departments')})
+  */
 }
 
 // to initialize updates popup
