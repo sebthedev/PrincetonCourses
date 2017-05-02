@@ -107,40 +107,85 @@ var init_searchpane = function() {
   })
 
   $('#favorite-courses').css('max-height', getFavHeight())
-    // toggle display of favorite things
-  var toggleFavDisplay = function() {
-    var isVisible = $('#favorite-courses').is(':visible')
 
-    var icon = $('#fav-display-toggle')
-    icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
-    icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').slideToggle()
+  // toggle display of favorite things
+  var toggleFavDisplay = function() {
+    var isVisible = ($('#favorite-courses').height() > 0)
+    console.log('toggleFavDisplay ' + (isVisible ? 'hiding' : 'showing'))
+    $('#fav-display-toggle').removeClass(isVisible ? 'fa-minus' : 'fa-plus').addClass(isVisible ? 'fa-plus' : 'fa-minus')
+
+    // set favorite courses transition start point
+    $('#favorite-courses').addClass('notransition'); // Disable transitions temporarily
+    $('#favorite-courses').css('max-height', $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh')
+    $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+    $('#favorite-courses').removeClass('notransition'); // Re-enable transitions
+
+    var favHeight = $('#favs').height()/$(window).height()*100
+    if (favHeight > 30) favHeight = 30
+
+    $('#favorite-courses').css('max-height', (isVisible ? '0vh' : favHeight + 'vh'))
+
+    $('#favorite-courses').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+      function(e) {
+        // set favorite courses end point
+        $('#favorite-courses').addClass('notransition'); // Disable transitions temporarily
+        if (!isVisible) $('#favorite-courses').css('max-height', '30vh')
+        $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+        $('#favorite-courses').removeClass('notransition'); // Re-enable transitions
+
+        $('#favorite-courses').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend')
+    })
+
+    return false
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
   /*$('#favorite-header').click(toggleFavDisplay)*/
 
-  // toggle display of search result things
+  // handle click of search toggle
   var toggleSearchDisplay = function() {
-    var isVisible = $('#search-results').is(':visible')
+    var isVisible = ($('#search-results').height() > 0)
+    console.log('toggleSearchDisplay ' + (isVisible ? 'hiding' : 'showing'))
+    $('#search-display-toggle').removeClass(isVisible ? 'fa-minus' : 'fa-plus').addClass(isVisible ? 'fa-plus' : 'fa-minus')
 
-    var icon = $('#search-display-toggle')
-    icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
-    icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
+    var fullHeight = ($('#search-pane').height()
+                    - $('#search-header').height()
+                    - $('#favorite-header').height()
+                    - $('#search-form').height())
 
-    $('#search-results').slideToggle()
+    var favHidden = ($('#favorite-courses').height() === 0)
+    var changeFav = ($('#favorite-courses').height() === fullHeight)
+    console.log('changeFav ' + changeFav)
 
-    // smoother transition: start from current height as max-height
-    var currHeight = $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh'
-    $('#favorite-courses').css('max-height', currHeight)
+    // set favorite courses and search results transition start point
+    $('#favorite-courses, #search-results').addClass('notransition'); // Disable transitions temporarily
+    if (changeFav) $('#favorite-courses').css('max-height', $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh')
+    $('#search-results').css('max-height', $('#search-results').outerHeight()/$(window).outerHeight()*100 + 'vh')
+    if (changeFav) $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+    $('#search-results')[0].offsetHeight;
+    $('#favorite-courses, #search-results').removeClass('notransition'); // Re-enable transitions
 
-    // expand to full height as max-height
-    var fullHeight = $('#favs').outerHeight()/$(window).outerHeight()*100
-    fullHeight = ((fullHeight > 100) ? 100 : fullHeight) + 'vh'
+    var favHeight = $('#favs').height()
+    if (favHeight > fullHeight) favHeight = fullHeight
 
-    // animate
-    $('#favorite-courses').animate({'max-height': (isVisible ? fullHeight : getFavHeight())}, function() {
-      // unset max-height if search results are not visible
-      if (isVisible) $('#favorite-courses').css('max-height', '')
+    newFavHeight = $('#favorite-courses').height()/$(window).height()*100
+    if (changeFav) newFavHeight = 30
+
+    // set search results transition start point
+    if (changeFav) $('#favorite-courses').css('max-height', isVisible ? (favHeight/$(window).outerHeight()*100) + 'vh' : '30vh')
+    $('#search-results').css('max-height', isVisible ? '0vh' : (fullHeight/$(window).outerHeight()*100 - newFavHeight) + 'vh')
+
+    $('#search-results').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+      function(e) {
+        console.log('callback')
+        // set favorite courses and search results transition end point
+        $('#favorite-courses, #search-results').addClass('notransition'); // Disable transitions temporarily
+        if (isVisible && changeFav) $('#favorite-courses').css('max-height', '')
+        if (!isVisible) $('#search-results').css('max-height', '')
+        if (changeFav) $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+        $('#search-results')[0].offsetHeight;
+        $('#favorite-courses, #search-results').removeClass('notransition'); // Re-enable transitions
+
+        $('#search-results').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend')
     })
   }
   $('#search-display-toggle').click(toggleSearchDisplay)

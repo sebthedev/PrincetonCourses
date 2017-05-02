@@ -121,8 +121,7 @@ Licensed under MIT License
                         if (setHeight < 0) setHeight = 0
                         if (setHeight > 100) setHeight = 100
                         setHeight = setHeight + 'vh'
-                        $el.css('max-height', setHeight);
-                        localStorage.setItem(opt.handleSelector, setHeight) // save in localStorage
+                        updateFavHeight(setHeight) // set and store (only fav resizer is vertical)
                         //$el.height(newHeight);
                     }
 
@@ -177,3 +176,22 @@ Licensed under MIT License
         });
     };
 }));
+
+function updateFavHeight(height) {
+  $('#favorite-courses').css('max-height', height);
+  localStorage.setItem('#search-header', height) // save in localStorage
+  if ($('#favorite-courses').height() > 0 && $('#fav-display-toggle').hasClass('fa-plus')) {
+    $('#fav-display-toggle').removeClass('fa-plus')
+    $('#fav-display-toggle').addClass('fa-minus')
+  } else if ($('#favorite-courses').height() === 0 && $('#fav-display-toggle').hasClass('fa-minus')) {
+    $('#fav-display-toggle').removeClass('fa-minus')
+    $('#fav-display-toggle').addClass('fa-plus')
+  }
+  if ($('#search-results').height() > 0 && $('#search-display-toggle').hasClass('fa-plus')) {
+    $('#search-display-toggle').removeClass('fa-plus')
+    $('#search-display-toggle').addClass('fa-minus')
+  } else if ($('#search-results').height() === 0 && $('#search-display-toggle').hasClass('fa-minus')) {
+    $('#search-display-toggle').removeClass('fa-minus')
+    $('#search-display-toggle').addClass('fa-plus')
+  }
+}

@@ -254,6 +254,12 @@ body {
   color: #addbad;
 }
 /* PAGEWIDE CSS */
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
 
 .pane-padding {
   height: 15px;
@@ -419,6 +425,10 @@ body {
 #search-pane {
   background-color: #ddd;
   padding: 10px 10px 15px;
+}
+
+#favorite-courses, #search-results {
+  transition: max-height 0.6s ease-in-out;
 }
 
 #search-resizer {
