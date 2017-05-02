@@ -104,7 +104,6 @@ var init_searchpane = function() {
   // toggle display of favorite things
   var toggleFavDisplay = function() {
     var isVisible = ($('#favorite-courses').height() > 0)
-    console.log('toggleFavDisplay ' + (isVisible ? 'hiding' : 'showing'))
     $('#fav-display-toggle').removeClass(isVisible ? 'fa-minus' : 'fa-plus').addClass(isVisible ? 'fa-plus' : 'fa-minus')
 
     // set favorite courses transition start point
@@ -233,58 +232,20 @@ var init_demo = function() {
   $("#demo-toggle").click(conductInitialDemo)
 }
 
-// to initialize display toggling
+// to initialize display pane
 var init_display = function() {
-  /*
-  $('#disp-instructors-toggle'  ).click(function() {return section_toggle('disp', 'instructors')})
-  //$('#disp-instructors-header'  ).click(function() {return section_toggle('disp', 'instructors')})
-  $('#disp-description-toggle'  ).click(function() {return section_toggle('disp', 'description')})
-  //$('#disp-description-header'  ).click(function() {return section_toggle('disp', 'description')})
-  $('#disp-readings-toggle'     ).click(function() {return section_toggle('disp', 'readings')})
-  //$('#disp-readings-header'     ).click(function() {return section_toggle('disp', 'readings')})
-  $('#disp-assignments-toggle'  ).click(function() {return section_toggle('disp', 'assignments')})
-  //$('#disp-assignments-header'  ).click(function() {return section_toggle('disp', 'assignments')})
-  $('#disp-grading-toggle'      ).click(function() {return section_toggle('disp', 'grading')})
-  //$('#disp-grading-header'      ).click(function() {return section_toggle('disp', 'grading')})
-  $('#disp-prerequisites-toggle').click(function() {return section_toggle('disp', 'prerequisites')})
-  //$('#disp-prerequisites-header').click(function() {return section_toggle('disp', 'prerequisites')})
-  $('#disp-equivalent-toggle'   ).click(function() {return section_toggle('disp', 'equivalent')})
-  //$('#disp-equivalent-header'   ).click(function() {return section_toggle('disp', 'equivalent')})
-  $('#disp-other-toggle'        ).click(function() {return section_toggle('disp', 'other')})
-  //$('#disp-other-header'        ).click(function() {return section_toggle('disp', 'other')})
-  $('#disp-reserved-toggle'     ).click(function() {return section_toggle('disp', 'reserved')})
-  //$('#disp-reserved-header'     ).click(function() {return section_toggle('disp', 'reserved')})
-  $('#disp-classes-toggle'      ).click(function() {return section_toggle('disp', 'classes')})
-  //$('#disp-classes-header'      ).click(function() {return section_toggle('disp', 'classes')})
-  */
+  // nothing here
 }
 
-// to initialize evals toggling
+// to initialize evals pane
 var init_evals = function() {
-  /*
-  $('#evals-semesters-toggle').click(function() {return section_toggle('evals', 'semesters')})
-  //$('#evals-semesters-header').click(function() {return section_toggle('evals', 'semesters')})
-  $('#evals-numeric-toggle'  ).click(function() {return section_toggle('evals', 'numeric')})
-  //$('#evals-numeric-header'  ).click(function() {return section_toggle('evals', 'numeric')})
-  $('#evals-comments-toggle' ).click(function() {return section_toggle('evals', 'comments')})
-  //$('#evals-comments-header' ).click(function() {return section_toggle('evals', 'comments')})
-  */
+  // nothing here
 }
 
 // to initialize suggest display
 var init_suggest = function() {
   suggest_load()
   $('#suggest-toggle').click(toggleSuggest)
-  /*
-  $('#suggest-allcourses-toggle'   ).click(function() {return section_toggle('suggest', 'allcourses')})
-  //$('#suggest-allcourses-header'   ).click(function() {return section_toggle('suggest', 'allcourses')})
-  $('#suggest-distributions-toggle').click(function() {return section_toggle('suggest', 'distributions')})
-  //$('#suggest-distributions-header').click(function() {return section_toggle('suggest', 'distributions')})
-  $('#suggest-pdfoptions-toggle'   ).click(function() {return section_toggle('suggest', 'pdfoptions')})
-  //$('#suggest-pdfoptions-header'   ).click(function() {return section_toggle('suggest', 'pdfoptions')})
-  $('#suggest-departments-toggle'  ).click(function() {return section_toggle('suggest', 'departments')})
-  //$('#suggest-departments-header'  ).click(function() {return section_toggle('suggest', 'departments')})
-  */
 }
 
 // to initialize updates popup
