@@ -68,6 +68,8 @@ router.use('/:query', function (req, res) {
       courseQuery['new'] = true
     } else if (thisQueryWord === 'AUDIT') {
       courseQuery['audit'] = true
+    } else if (thisQueryWord === 'NAUDIT') {
+      courseQuery['audit'] = false
     } else if (thisQueryWord === 'UGRD') {
       courseQuery['track'] = 'UGRD'
     } else if (thisQueryWord === 'GRAD') {
