@@ -2,10 +2,6 @@
 
 /* MEL: ideally these const arrays will be stored in the database */
 
-const allcourses = {
-  '*': 'All Courses'
-}
-
 // distributions
 const distributions = {
   'EC': 'Epistemology and Cognition',
@@ -16,15 +12,6 @@ const distributions = {
   'QR': 'Quantitative Reasoning',
   'STL': 'Science and Technology with Lab',
   'STN': 'Science and Technology without Lab'
-}
-
-// pdf options
-const pdfoptions = {
-  'PDF': 'P/D/F available',
-  'PDFO': 'P/D/F only',
-  'NPDF': 'No P/D/F',
-  'AUDIT': 'Audit available',
-  'NEW': 'New Course'
 }
 
 // departments
@@ -137,6 +124,69 @@ const departments = {
  'WWS': 'Woodrow Wilson School'
 }
 
+// complete list of filters
+const filters = [
+  {
+    'id': 'special',
+    'label': 'Special',
+    'options': {
+      '*': 'All courses'
+    },
+    'props': {}
+  },
+  {
+    'id': 'distributions',
+    'label': 'Distributions',
+    'options': distributions,
+    'props': {'button': 1}
+  },
+  {
+    'id': 'courselevels',
+    'label': 'Course levels',
+    'options': {
+      '1XX': '100 Level',
+      '2XX': '200 Level',
+      '3XX': '300 Level',
+      '4XX': '400 Level',
+      '5XX': '500 Level'
+    },
+    'props': {'button': 1}
+  },
+  {
+    'id': 'ratings',
+    'label': 'Ratings',
+    'options': {
+      'NEW': 'New course'
+    },
+    'props': {'button': 1}
+  },
+  {
+    'id': 'pdfoptions',
+    'label': 'P/D/F options',
+    'options': {
+      'PDF': 'P/D/F available',
+      'PDFO': 'P/D/F only',
+      'NPDF': 'No P/D/F'
+    },
+    'props': {'button': 1}
+  },
+  {
+    'id': 'auditoptions',
+    'label': 'Audit options',
+    'options': {
+      'AUDIT': 'Audit available',
+      'NAUDIT': 'Audit unavailable'
+    },
+    'props': {'button': 1}
+  },
+  {
+    'id': 'departments',
+    'label': 'Departments',
+    'options': departments,
+    'props': {'button': 1}
+  }
+]
+
 // updates buttons in the suggest pane based on search query
 function updateSuggest() {
   $('.suggest-button').each(function() {
@@ -181,7 +231,7 @@ function toggleSuggest() {
   $('#suggest-resizer').addClass(isVisible ? 'resizer-inactive' : 'resizer')
   if (isVisible) $('#suggest-toggle').removeClass('active')
   else $('#suggest-toggle').addClass('active')
-  $('#suggest-toggle').attr('data-original-title', isVisible ? 'Show search suggestions' : 'Hide search suggestions')
+  $('#suggest-toggle').attr('data-original-title', isVisible ? 'Show search filters' : 'Hide search filters')
   $('#suggest-toggle').tooltip('hide')
   $('#suggest-toggle').blur()
 
@@ -190,24 +240,79 @@ function toggleSuggest() {
 
 // loads contents of suggest pane
 function suggest_load() {
-  for (var term in allcourses) {
-    var description = allcourses[term]
-    $('#suggest-allcourses-body').append(newDOMsuggestResult(term, description))
+  $('#suggest-all-toggle').click(function() {
+    $('.suggest-button').each(function() {
+      removeFromSearchBox(this.term)
+    })
+  })
+
+  for (var i in filters) {
+    var filter = filters[i]
+    $padding = $('#suggest-padding').detach()
+    $('#suggest-pane').append(newDOMsuggestSection(filter))
+    $('#suggest-pane').append($padding)
+  }
+}
+
+// returns a DOM object for a section of the suggest pane with the given filter
+function newDOMsuggestSection(filter) {
+  var id = filter.id
+  var label = filter.label
+  var options = filter.options
+  var props = filter.props
+  var hasButton = filter.props.hasOwnProperty('button')
+
+  var buttons = (
+    '<h5 class="flex-item-rigid">'
+    + '<small class="text-button suggest-all" data-toggle="tooltip" data-original-title="Include all"><strong>ALL</strong></small> '
+    + '<small>&middot;</small> '
+    + '<small class="text-button suggest-none" data-toggle="tooltip" data-original-title="Remove all"><strong>NONE</strong></small>'
+  + '</h5> '
+  )
+
+  var htmlString = (
+    '<div id="suggest-' + id + '">'
+    + '<div id="suggest-' + id + '-header" class="flex-container-row section-header">'
+      + '<h5 class="flex-item-stretch truncate"><strong>' + label + '</strong></h5>'
+      + (hasButton ? buttons : '')
+    + '</div>'
+    + '<ul id="suggest-' + id + '-body" class="list-group marginless">'
+      + '<!-- ' + label + ' go here -->'
+    + '</ul>'
+  + '</div>'
+  )
+
+  var section = $.parseHTML(htmlString)[0]
+  var $body = $(section).find('ul')
+  if (hasButton) {
+    var $all = $(section).find('.suggest-all')
+    var $none = $(section).find('.suggest-none')
+
+    $all.click(suggest_toggle(id, 'all'))
+    $none.click(suggest_toggle(id, 'none'))
   }
 
-  for (var term in distributions) {
-    var description = distributions[term]
-    $('#suggest-distributions-body').append(newDOMsuggestResult(term, description, {button: 1}))
+  for (var term in options) {
+    var description = options[term]
+    $body.append(newDOMsuggestResult(term, description, props))
   }
 
-  for (var term in pdfoptions) {
-    var description = pdfoptions[term]
-    $('#suggest-pdfoptions-body').append(newDOMsuggestResult(term, description, {button: 1}))
-  }
+  return section;
+}
 
-  for (var term in departments) {
-    var description = departments[term]
-    $('#suggest-departments-body').append(newDOMsuggestResult(term, description, {button: 1}))
+// returns a function that enables all/none filters in section with given id
+// -- prop: should be 'all' or 'none'
+function suggest_toggle(id, prop) {
+  if (prop === 'all')
+    var func = appendToSearchBox
+  else /* if (prop === 'none') */
+    var func = removeFromSearchBox
+
+  return function() {
+    var $body = $('#suggest-' + id + '-body')
+    $body.children().each(function() {
+      func(this.term)
+    })
   }
 }
 
@@ -220,7 +325,8 @@ function newDOMsuggestResult(term, description, props) {
     '<div '
     + 'class="flex-item-rigid suggest-button" '
     + 'data-toggle="tooltip" '
-    + 'data-original-title="Add to search"'
+    + 'data-original-title="Add to search" '
+    + 'data-placement="right"'
   + '>'
       + '<i class="fa fa-plus suggest-icon"></div>'
   + '</div>'
@@ -243,6 +349,7 @@ function newDOMsuggestResult(term, description, props) {
   )
 
   var entry = $.parseHTML(htmlString)[0]         // create DOM object
+  entry.term = term
   if (hasButton) {
     var button = $(entry).find('.suggest-button')[0] // button
     button.term = term                               // bind term
@@ -267,18 +374,43 @@ function toggleTerm() {
   var term = this.term
 
   if (isSearched) { /* remove from searchbox */
-    var queries = $('#searchbox').val().split(' ')
-    var newqueries = []
-    for (index in queries) {
-      var query = queries[index]
-      if (query.toLowerCase() !== term.toLowerCase()) {
-        newqueries.push(query)
-      }
-    }
-    $('#searchbox').val(newqueries.join(' '))
+    removeFromSearchBox(term)
   } else { /* insert into searchbox */
-    $('#searchbox').val($('#searchbox').val() + ' ' + term.toLowerCase())
+    appendToSearchBox(term)
   }
-  searchFromBox(true)
   return false
+}
+
+// appends the term to the #searchbox
+function appendToSearchBox(term) {
+  var termCount = 0
+  var queries = $('#searchbox').val().split(' ')
+  var newqueries = []
+  for (index in queries) {
+    var query = queries[index]
+    if (query.toLowerCase() !== term.toLowerCase() || termCount === 0) {
+      newqueries.push(query)
+      if (query.toLowerCase() === term.toLowerCase()) termCount += 1
+    }
+  }
+  if (termCount === 0) newqueries.push(term.toLowerCase())
+
+  $('#searchbox').val(newqueries.join(' '))
+
+  searchFromBox(true)
+}
+
+// removes the term from the #searchbox
+function removeFromSearchBox(term) {
+  var queries = $('#searchbox').val().split(' ')
+  var newqueries = []
+  for (index in queries) {
+    var query = queries[index]
+    if (query.toLowerCase() !== term.toLowerCase()) {
+      newqueries.push(query)
+    }
+  }
+  $('#searchbox').val(newqueries.join(' '))
+
+  searchFromBox(true)
 }

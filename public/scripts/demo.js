@@ -18,7 +18,7 @@ function conductInitialDemo() {
       },
       {
           element: '#suggest-toggle',
-          intro: 'See search suggestions here like \'All Courses\' and \'PDF Only\' options!',
+          intro: 'See search filters here for distributions, pdf options, ...',
           position: 'bottom'
       },
       {

@@ -66,7 +66,7 @@ function layout_mobile() {
   /* show suggest pane */
   $('#suggest-pane').show()
   $('#suggest-toggle').removeClass('active')
-  $('#suggest-toggle').attr('data-original-title', 'Show search suggestions')
+  $('#suggest-toggle').attr('data-original-title', 'Show search filters')
 
   /* move search box */
   $('#menu-form').append($('#searchbox-group').detach())
@@ -93,7 +93,7 @@ function layout_desktop() {
   $('#suggest-resizer').removeClass('resizer')
   $('#suggest-resizer').addClass('resizer-inactive')
   $('#suggest-toggle').removeClass('active')
-  $('#suggest-toggle').attr('data-original-title', 'Show search suggestions')
+  $('#suggest-toggle').attr('data-original-title', 'Show search filters')
 
   /* move search box */
   $('#search-searchbox-form').append($('#searchbox-group').detach())

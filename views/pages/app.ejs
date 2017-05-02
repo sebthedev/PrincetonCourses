@@ -27,7 +27,7 @@
           <div id="searchbox-group" class="input-group">
             <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off" data-toggle="tooltip" data-original-title="Search by course code, title, department, instructor or distribution!" data-placement="bottom">
             <span class="input-group-btn">
-              <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search suggestions" data-placement="bottom"><i class="fa fa-th-list"></i></button>
+              <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search filters" data-placement="bottom"><i class="fa fa-filter"></i></button>
             </span>
           </div>
         </form>
@@ -51,39 +51,13 @@
 
     <div id="main-pane" class="flex-item-stretch flex-container-row">
       <div id="suggest-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden -->
-        <div id="suggest-allcourses">
-          <div id="suggest-allcourses-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>All Courses</strong></h5>
+        <div id="suggest-header">
+          <div id="suggest-title" class="flex-container-row">
+            <h4 class="flex-item-stretch truncate"><strong>Filters</strong></h4>
+            <h4 class="flex-item-rigid"><small id="suggest-all-toggle" class="text-button" data-toggle="tooltip" data-original-title="Remove all filters" data-placement="bottom"><strong>RESET</strong></small></h4>
           </div>
-          <ul id="suggest-allcourses-body" class="list-group marginless">
-            <!-- all courses go here -->
-          </ul>
         </div>
-        <div id="suggest-distributions">
-          <div id="suggest-distributions-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>Distributions</strong></h5>
-          </div>
-          <ul id="suggest-distributions-body" class="list-group marginless">
-            <!-- distributions go here -->
-          </ul>
-        </div>
-        <div id="suggest-pdfoptions">
-          <div id="suggest-pdfoptions-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>PDF options</strong></h5>
-          </div>
-          <ul id="suggest-pdfoptions-body" class="list-group marginless">
-            <!-- pdf options go here -->
-          </ul>
-        </div>
-        <div id="suggest-departments">
-          <div id="suggest-departments-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>Departments</strong></h5>
-          </div>
-          <ul id="suggest-departments-body" class="list-group marginless">
-            <!-- departments go here -->
-          </ul>
-        </div>
-        <div class="pane-padding"></div>
+        <div id="suggest-padding" class="pane-padding"></div>
       </div>
       <div id="suggest-resizer" class="flex-item-rigid resizer"></div> <!-- M: hidden -->
       <div id="search-pane" class="flex-container-col slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden-->
