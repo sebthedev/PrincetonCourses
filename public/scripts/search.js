@@ -87,6 +87,8 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
   $('#search-load-indicator').show()
   $('#search-results').stop().animate({'opacity': '0.5'})
 
+  updateSuggest()
+
   // search!
   $.get(search, function (results, success, xhr) {
     if (!success) {
@@ -123,7 +125,6 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     }
 
     displayActive() // update highlighting of active course
-    updateSuggest()
 
     $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
