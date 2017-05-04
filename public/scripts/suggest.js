@@ -130,15 +130,17 @@ const filters = [
     'id': 'special',
     'label': 'Special',
     'options': {
-      '*': 'All courses'
+      '*': 'All courses',
+      'NEW': 'New course'
     },
-    'props': {}
+    'props': {
+      'clearall': 1
+    }
   },
   {
     'id': 'distributions',
     'label': 'Distributions',
-    'options': distributions,
-    'props': {'button': 1}
+    'options': distributions
   },
   {
     'id': 'courselevels',
@@ -148,42 +150,26 @@ const filters = [
       '2XX': '200 Level',
       '3XX': '300 Level',
       '4XX': '400 Level',
-      '5XX': '500 Level'
-    },
-    'props': {'button': 1}
+      '5XX': '500 Level',
+      'UGRD': 'Undergraduate level',
+      'GRAD': 'Graduate level'
+    }
   },
   {
-    'id': 'ratings',
-    'label': 'Ratings',
-    'options': {
-      'NEW': 'New course'
-    },
-    'props': {'button': 1}
-  },
-  {
-    'id': 'pdfoptions',
-    'label': 'P/D/F options',
+    'id': 'gradingoptions',
+    'label': 'Grading options',
     'options': {
       'PDF': 'P/D/F available',
       'PDFO': 'P/D/F only',
-      'NPDF': 'No P/D/F'
-    },
-    'props': {'button': 1}
-  },
-  {
-    'id': 'auditoptions',
-    'label': 'Audit options',
-    'options': {
+      'NPDF': 'No P/D/F',
       'AUDIT': 'Audit available',
       'NAUDIT': 'Audit unavailable'
-    },
-    'props': {'button': 1}
+    }
   },
   {
     'id': 'departments',
     'label': 'Departments',
-    'options': departments,
-    'props': {'button': 1}
+    'options': departments
   }
 ]
 
@@ -240,12 +226,6 @@ function toggleSuggest() {
 
 // loads contents of suggest pane
 function suggest_load() {
-  $('#suggest-all-toggle').click(function() {
-    $('.suggest-button').each(function() {
-      removeFromSearchBox(this.term)
-    })
-  })
-
   for (var i in filters) {
     var filter = filters[i]
     $padding = $('#suggest-padding').detach()
@@ -260,13 +240,20 @@ function newDOMsuggestSection(filter) {
   var label = filter.label
   var options = filter.options
   var props = filter.props
-  var hasButton = filter.props.hasOwnProperty('button')
+  var hasButton = (props == undefined) || !props.hasOwnProperty('nobutton')
+  var hasClearAll = (props != undefined) && props.hasOwnProperty('clearall')
 
-  var buttons = (
+  var button = (
     '<h5 class="flex-item-rigid">'
-    + '<small class="text-button suggest-all" data-toggle="tooltip" data-original-title="Include all"><strong>ALL</strong></small> '
-    + '<small>&middot;</small> '
-    + '<small class="text-button suggest-none" data-toggle="tooltip" data-original-title="Remove all"><strong>NONE</strong></small>'
+    + '<small '
+      + 'class="text-button suggest-clear" '
+      + 'data-toggle="tooltip" '
+      + 'data-original-title="Remove all filters' + (hasClearAll ? '' : ' in this section') + '"'
+    + '>'
+        + '<strong>'
+          + 'CLEAR' + (hasClearAll ? ' ALL' : '')
+        + '</strong>'
+    + '</small>'
   + '</h5> '
   )
 
@@ -274,7 +261,7 @@ function newDOMsuggestSection(filter) {
     '<div id="suggest-' + id + '">'
     + '<div id="suggest-' + id + '-header" class="flex-container-row section-header">'
       + '<h5 class="flex-item-stretch truncate"><strong>' + label + '</strong></h5>'
-      + (hasButton ? buttons : '')
+      + (hasButton ? button : '')
     + '</div>'
     + '<ul id="suggest-' + id + '-body" class="list-group marginless">'
       + '<!-- ' + label + ' go here -->'
@@ -285,11 +272,8 @@ function newDOMsuggestSection(filter) {
   var section = $.parseHTML(htmlString)[0]
   var $body = $(section).find('ul')
   if (hasButton) {
-    var $all = $(section).find('.suggest-all')
-    var $none = $(section).find('.suggest-none')
-
-    $all.click(suggest_toggle(id, 'all'))
-    $none.click(suggest_toggle(id, 'none'))
+    var $clear = $(section).find('.suggest-clear')
+    $clear.click(hasClearAll ? suggest_clear(id, {'all': 1}) : suggest_clear(id))
   }
 
   for (var term in options) {
@@ -300,27 +284,30 @@ function newDOMsuggestSection(filter) {
   return section;
 }
 
-// returns a function that enables all/none filters in section with given id
-// -- prop: should be 'all' or 'none'
-function suggest_toggle(id, prop) {
-  if (prop === 'all')
-    var func = appendToSearchBox
-  else /* if (prop === 'none') */
-    var func = removeFromSearchBox
+// returns a function that enables clearing of all filters in section with given id
+// props: if 'all' is defined, clears everything
+function suggest_clear(id, props) {
+    var isAll = (props != undefined) && props.hasOwnProperty('all')
 
-  return function() {
+    if (isAll) return function() {
+      $('.suggest-button').each(function() {
+        removeFromSearchBox(this.term)
+      })
+    }
+
+    else return function() {
     var $body = $('#suggest-' + id + '-body')
     $body.children().each(function() {
-      func(this.term)
+      removeFromSearchBox(this.term)
     })
   }
 }
 
 // returns a DOM object for a search suggestion
 // props: properties for conditional rendering:
-//  - 'button' is defined => displays button to add/remove from search
+//  - 'nobutton' is defined => displays no button to add/remove from search
 function newDOMsuggestResult(term, description, props) {
-  var hasButton = (props != undefined) && props.hasOwnProperty('button')
+  var hasButton = (props == undefined) || !props.hasOwnProperty('nobutton')
   if (hasButton) var button = (
     '<div '
     + 'class="flex-item-rigid suggest-button" '
