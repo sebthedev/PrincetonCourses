@@ -435,6 +435,10 @@ body {
   z-index: 400;
 }
 
+#advanced-header {
+  margin-top: 5px;
+}
+
 #advanced-form {
   background-color: #ccc;
 }
