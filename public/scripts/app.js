@@ -136,7 +136,7 @@ var init_searchpane = function() {
   var toggleAdvancedDisplay = function() {
     var isVisible = $('#advanced-body').is(':visible')
 
-    $('#advanced-title').html((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options <i class="fa ' + (isVisible ? 'fa-caret-down' : 'fa-caret-up') + '"></i>')
+    $('#advanced-title').html((isVisible ? 'More Options' : 'Hide') + ' <i class="fa ' + (isVisible ? 'fa-caret-down' : 'fa-caret-up') + '"></i>')
 
     $('#advanced-body').slideToggle()
   }
