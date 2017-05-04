@@ -33,7 +33,7 @@ function conductInitialDemo() {
       },
       {
           element: '#advanced-header',
-          intro: 'Filter through grad courses and classes which conflict with your pinned favorites.',
+          intro: 'Filter out classes which conflict with your pinned favorites.',
           position: 'bottom'
       },
       {

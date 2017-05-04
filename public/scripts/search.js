@@ -11,15 +11,10 @@ var getSearchQueryURL = function () {
   if ($('#sort').val() != null) {
     parameters.push('sort=' + $('#sort').val())
   }
-  if ($('#advanced-grad-hide').is(':checked')) {
-    parameters.push('track=UGRD')
-  }
   if ($('#advanced-filter-clashes').is(':checked')) {
     parameters.push('filterClashes=true')
   }
   return '?' + parameters.join('&')
-
-  // search += '&track=' + 'UGRD'
 }
 
 // update search results from the search box
@@ -30,39 +25,35 @@ var searchFromBox = function(noswipe) {
   var query = encodeURIComponent($('#searchbox').val())
   var semester = $('#semester').val()
   var sort = $('#sort').val()
-  var track = ($('#advanced-grad-hide').is(':checked') ? 'UGRD' : '')
   var filterClashes = $('#advanced-filter-clashes').is(':checked')
 
   // save search into history
   history_search(queryURL)
 
-  searchForCourses(query, semester, sort, track, filterClashes, noswipe)
+  searchForCourses(query, semester, sort, filterClashes, noswipe)
 }
 
 // update search results from a URL
-var searchFromURL = function(query, semester, sort, track, filterClashes, noswipe) {
+var searchFromURL = function(query, semester, sort, filterClashes, noswipe) {
   // display search
   if (query) $('#searchbox').val(decodeURIComponent(query))
   if (semester) $('#semester').val(semester)
   if (sort) $('#sort').val(sort)
-  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
   $('#advanced-filter-clashes')[0].checked = (filterClashes === 'true')
 
-  searchForCourses(query, semester, sort, track, filterClashes, noswipe)
+  searchForCourses(query, semester, sort, filterClashes, noswipe)
 }
 
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
-var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
+var searchForCourses = function (query, semester, sort, filterClashes, noswipe) {
   if (query === undefined || query === null) query = ''
 
   // construct search query
   var search = '/api/search/' + query
   search += '?semester=' + semester
   search += '&sort=' + sort
-  search += (track !== undefined && track !== '') ? '&track=' + track : ''
   search += '&detectClashes=' + (filterClashes ? 'filter' : 'true')
-  // search += '&track=' + 'UGRD'
 
   // stop if no query
   if (query === '') {
