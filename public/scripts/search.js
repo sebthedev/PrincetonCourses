@@ -130,8 +130,13 @@ function newDOMResult(result, props) {
 }
 
 // returns a DOM object for a search result of an instructor
+// props: properties for conditional rendering:
+//  - 'opens' is defined => means clicking a course entry under this instructor will open the instructor in the display pane
+//  - 'instructorId' is defined => opens if it matches this instructor
 function newDOMinstructorResult(instructor, props) {
   var name = instructor.name.first + ' ' + instructor.name.last
+  var isOpen = (props != undefined) && props.hasOwnProperty('instructorId') && (props.instructorId === instructor._id)
+  var opens = (props != undefined) && props.hasOwnProperty('opens')
 
   // html string for the DOM object
   var htmlString = (
@@ -145,7 +150,7 @@ function newDOMinstructorResult(instructor, props) {
         + '<i class="text-button fa fa-lg fa-caret-down"></i>'
       + '</div>'
     + '</div>'
-    + '<ul class="list-group instructor-body" style="display:none;">'
+    + '<ul class="list-group instructor-body" style="display: none;">'
     + '</ul>'
   + '</li>'
   )
@@ -155,8 +160,9 @@ function newDOMinstructorResult(instructor, props) {
   var title = $(entry).find('.instructor-title')    // instructor name
   icon.instructorId = instructor._id      // attach instructor id
   var body = $(entry).find('ul')[0]       // body of instructor result
-  $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
-  $(entry).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(icon).click(function() {toggleInstructor(icon, body, entry, opens); return false})
+  $(entry).click(function() {toggleInstructor(icon, body, entry, opens); return false})
+  if (isOpen) {loadInstructor(icon, body, entry, opens)}
 
   return entry
 }
@@ -165,11 +171,12 @@ function newDOMinstructorResult(instructor, props) {
 // - icon: DOM object of toggling icon
 // - body: DOM object of place to insert courses
 // - entry: DOM object of whole entry
-function toggleInstructor(icon, body, entry) {
+// - opens: if clicking the course objects should open the instructor in the display pane
+function toggleInstructor(icon, body, entry, opens) {
   var isEmpty = $(body).is(':empty')
 
   if (isEmpty) {
-    loadInstructor(icon, body, entry)
+    loadInstructor(icon, body, entry, opens)
     return
   }
 
@@ -186,7 +193,8 @@ function toggleInstructor(icon, body, entry) {
 // - icon: DOM object of toggling icon
 // - body: DOM object of place to insert courses
 // - entry: DOM object of whole entry
-function loadInstructor(icon, body, entry) {
+// - opens: if clicking the course objects should open the instructor in the display pane
+function loadInstructor(icon, body, entry, opens) {
   $.get('/api/instructor/' + icon.instructorId, function (instructor) {
     // Stop if already loaded
     if (!$(body).is(':empty')) return;
@@ -194,14 +202,16 @@ function loadInstructor(icon, body, entry) {
     var courses = instructor.courses;
     for (var index in courses) {
       var course = courses[index]
-      $(body).append(newDOMcourseResult(course, {'tags' : 1, 'semester': 1}))
+      var props = {'tags': 1, 'semester': 1}
+      if (opens) props.instructorId = instructor._id
+      $(body).append(newDOMcourseResult(course, props))
     }
 
     $(icon).removeClass('fa-caret-down')
     $(icon).addClass('fa-caret-up')
     $(entry).addClass('instructor-list-item-opened')
     displayActive()
-    $(body).slideToggle()
+    $(body).slideDown()
   })
 }
 
@@ -260,6 +270,7 @@ function newDOMcourseResult(course, props) {
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
   var icon = $(entry).find('i.fa-heart')[0]                                  // favorite icon
   entry.courseId = course._id                                                // attach course id to entry
+  entry.instructorId = props.instructorId                                    // attach instructor id to entry (if applicable)
   icon.courseId = course._id                                                 // attach course id to icon
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
   $(entry).click(displayResult)                                              // enable click to display
