@@ -66,7 +66,6 @@ const departments = {
  'HIS': 'History',
  'HLS': 'Hellenic Studies',
  'HOS': 'History of Science',
- 'HPD': 'History/Practice of Diplomacy',
  'HUM': 'Humanistic Studies',
  'ISC': 'Integated Science Curriculum',
  'ITA': 'Italian',
