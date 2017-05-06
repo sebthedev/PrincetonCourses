@@ -177,26 +177,6 @@ router.use('/:query', function (req, res) {
     courseQuery.semester = parseInt(req.query.semester)
   }
 
-  // Remove in-depth course information if the client requests "brief" results
-  var brief = typeof (req.query.detailed) !== 'string' || (typeof (req.query.detailed) === 'string' && JSON.parse(req.query.detailed) !== false)
-  if (brief) {
-    // Merge the existing projection parameters with the parameters filtering-out all of these attributes
-    Object.assign(courseProjection, {
-      'evaluations.studentComments': 0,
-      assignments: 0,
-      grading: 0,
-      classes: 0,
-      description: 0,
-      otherinformation: 0,
-      otherrequirements: 0,
-      prerequisites: 0,
-      semesters: 0,
-      instructors: 0,
-      comments: 0,
-      website: 0
-    })
-  }
-
   // Determine whether the user has asked that we detect clashes with favorite courses
   let detectClashes = req.query.hasOwnProperty('detectClashes') && req.query.detectClashes !== 'false' && courseQuery.hasOwnProperty('semester')
   let filterOutClashes = detectClashes && req.query.detectClashes === 'filter'
@@ -337,11 +317,6 @@ router.use('/:query', function (req, res) {
 
     // Iterate over courses
     for (var i in courses) {
-      // Remove classes from the course if the response should be brief
-      if (brief) {
-        delete courses[i].classes
-      }
-
       // Note that this object is of type 'course'
       courses[i].type = 'course'
     }
