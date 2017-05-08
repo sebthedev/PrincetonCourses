@@ -147,7 +147,8 @@ var init_searchpane = function() {
 var init_search = function() {
   // restore sort used
   var savedSort = localStorage.getItem("sort");
-  $('#sort').val((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName")
+  console.log(savedSort)
+  $('#sort').selectpicker('val', ((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName"))
 
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
@@ -172,7 +173,7 @@ var init_search = function() {
     }
 
     // re-render drop down
-    $('#semester').selectpicker('render');
+    $('#semester').selectpicker('refresh');
 
     init_load()
   })
