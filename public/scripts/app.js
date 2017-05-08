@@ -163,13 +163,17 @@ var init_search = function() {
   }
 
   // load the semesters for the dropdown
-  $('#semester').children(":not([disabled])").remove()
+  $('#semester').children().remove()
   $.get('/api/semesters', function (semesters) {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
       $('#semester').append(option)
     }
+
+    // re-render select menus
+    $('.selectpicker').selectpicker('render');
+
     if ($('#semester').data('query')) {
       $('#semester').children('[value=' + $('#semester').data('query') +']').attr('selected', true)
     } else {
