@@ -37,8 +37,8 @@ var searchFromBox = function(noswipe) {
 var searchFromURL = function(query, semester, sort, filterClashes, noswipe) {
   // display search
   if (query) $('#searchbox').val(decodeURIComponent(query))
-  if (semester) $('#semester').val(semester)
-  if (sort) $('#sort').val(sort)
+  if (semester) $('#semester').selectpicker('val', semester)
+  if (sort) $('#sort').selectpicker('val', sort)
   $('#advanced-filter-clashes')[0].checked = (filterClashes === 'true')
 
   searchForCourses(query, semester, sort, filterClashes, noswipe)

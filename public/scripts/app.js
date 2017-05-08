@@ -171,14 +171,8 @@ var init_search = function() {
       $('#semester').append(option)
     }
 
-    // re-render select menus
-    $('.selectpicker').selectpicker('render');
-
-    if ($('#semester').data('query')) {
-      $('#semester').children('[value=' + $('#semester').data('query') +']').attr('selected', true)
-    } else {
-      $('#semester').children().eq(1).attr('selected', true)
-    }
+    // re-render drop down
+    $('#semester').selectpicker('render');
 
     init_load()
   })
