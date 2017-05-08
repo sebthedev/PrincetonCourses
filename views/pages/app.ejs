@@ -58,15 +58,15 @@
         <form id="search-form" class="flex-item-rigid" onkeypress="return event.keyCode !== 13">
           <div id="search-searchbox-form" class="flex-container-row"> <!-- M: display: none; -->
           </div>
-          <div class="flex-container-row">
-            <div class="flex-item-stretch margin-r">
+          <div class="row">
+            <div class="col-xs-6">
               <small class="text-muted">Semester</small>
-              <select id="semester" class="form-control" data-toggle="tooltip" data-original-title="Select a semester" data-placement="bottom">
+              <select id="semester" class="form-control selectpicker" data-toggle="tooltip" data-original-title="Select a semester" data-placement="bottom">
               </select>
             </div>
-            <div class="flex-item-stretch margin-l">
+            <div class="col-xs-6">
               <small class="text-muted">Sort by</small>
-              <select id="sort" class="form-control" data-toggle="tooltip" data-original-title="Sort results by..." data-placement="bottom">
+              <select id="sort" class="form-control selectpicker" data-toggle="tooltip" data-original-title="Sort results by..." data-placement="bottom">
                 <option value="commonName" selected>Course Code</option>
                 <option value="relevance">Relevance</option>
                 <option value="rating">Rating</option>
