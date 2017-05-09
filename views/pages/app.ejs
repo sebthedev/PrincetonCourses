@@ -17,7 +17,7 @@
   <div id="full-page" class="flex-container-col">
     <nav id="menu-bar" class="navbar navbar-default navbar-fixed-top">
       <div id="menu-header" class="navbar-header"> <!-- M: class flex-container-row -->
-         <a class="navbar-brand" id="menu-brand"  href="/">Princeton Courses <sup>beta</sup></a> <!-- M: hide class flex-item-rigid, D: full name -->
+        <a id="menu-brand" class="navbar-brand" href="/">Princeton Courses</a> <!-- M: hide class flex-item-rigid, D: full name -->
         <a id="menu-brand-abbr" class="navbar-brand flex-item-rigid">PC</a> <!-- M: appear, D: hide -->
         <button id="menu-back" class="navbar-toggle"> <!-- M only, flex-item-rigid-->
           <span class="fa fa-chevron-left"></span>
@@ -25,12 +25,11 @@
         <form id="menu-form" class="navbar-btn" action="." role="search" onkeypress="return event.keyCode !== 13"> <!-- M only, flex-item-stretch -->
           <!-- searchbox: D: flex-item-stretch -->
           <div id="searchbox-group" class="input-group">
-            <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off">
+            <input id="searchbox" class="form-control" type="search" spellcheck="false" placeholder="Search (e.g. COS 126, QR, Katz&hellip;)" autofocus="" autocomplete="off" autocapitalize="off" autocomplete="off" data-toggle="tooltip" data-original-title="Search by course code, title, department, instructor or distribution!" data-placement="bottom">
             <span class="input-group-btn">
-              <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search suggestions" data-placement="bottom"><i class="fa fa-th-list"></i></button>
+              <button id="suggest-toggle" class="btn btn-default" data-toggle="tooltip" data-original-title="Show search filters" data-placement="bottom"><i class="fa fa-filter"></i></button>
             </span>
           </div>
-
         </form>
         <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse"> <!-- M: flex-item-rigid -->
           <span class="icon-bar"></span>
@@ -42,8 +41,8 @@
       <div id="menu-collapse" class="collapse navbar-collapse">
         <ul id="menu-right" class="nav navbar-nav navbar-right">
           <li id="demo-toggle"><a href="javascript:void(0);">Demo</a></li>
-          <li id="feedback-toggle"><a href="#">Feedback</a></li>
           <li id="about-toggle"><a href="/about">About</a></li>
+          <li id="feedback-toggle"><a href="#">Feedback</a></li>
           <li id="netid"><a href="#"><%= netid %></a></li>
           <li id="logout" class="active" style="display:none;"><a href="/auth/logout">Logout</a></li>
         </ul>
@@ -52,95 +51,60 @@
 
     <div id="main-pane" class="flex-item-stretch flex-container-row">
       <div id="suggest-pane" class="slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden -->
-        <div id="suggest-allcourses">
-          <div id="suggest-allcourses-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>All Courses</strong></h5>
-            <h5 class="flex-item-rigid"><i id="suggest-allcourses-toggle" class="fa fa-minus text-button"></i></h5>
-          </div>
-          <ul id="suggest-allcourses-body" class="list-group marginless">
-            <!-- all courses go here -->
-          </ul>
-        </div>
-        <div id="suggest-distributions">
-          <div id="suggest-distributions-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>Distributions</strong></h5>
-            <h5 class="flex-item-rigid"><i id="suggest-distributions-toggle" class="fa fa-minus text-button"></i></h5>
-          </div>
-          <ul id="suggest-distributions-body" class="list-group marginless">
-            <!-- distributions go here -->
-          </ul>
-        </div>
-        <div id="suggest-pdfoptions">
-          <div id="suggest-pdfoptions-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>PDF options</strong></h5>
-            <h5 class="flex-item-rigid"><i id="suggest-pdfoptions-toggle" class="fa fa-minus text-button"></i></h5>
-          </div>
-          <ul id="suggest-pdfoptions-body" class="list-group marginless">
-            <!-- pdf options go here -->
-          </ul>
-        </div>
-        <div id="suggest-departments">
-          <div id="suggest-departments-header" class="flex-container-row section-header">
-            <h5 class="flex-item-stretch truncate"><strong>Departments</strong></h5>
-            <h5 class="flex-item-rigid"><i id="suggest-departments-toggle" class="fa fa-minus text-button"></i></h5>
-          </div>
-          <ul id="suggest-departments-body" class="list-group marginless">
-            <!-- departments go here -->
-          </ul>
-        </div>
-        <div class="pane-padding"></div>
+        <div id="suggest-padding" class="pane-padding"></div>
       </div>
+      <div id="suggest-resizer" class="flex-item-rigid resizer"></div> <!-- M: hidden -->
       <div id="search-pane" class="flex-container-col slide"> <!-- M: height 100%, width 100vw, D: min/max/width, padding, flex-item-rigid, init: hidden-->
         <form id="search-form" class="flex-item-rigid" onkeypress="return event.keyCode !== 13">
-          <div id="search-searchbox-form" class="form-group flex-container-row"> <!-- M: display: none; -->
+          <div id="search-searchbox-form" class="flex-container-row"> <!-- M: display: none; -->
           </div>
-          <div class="form-group flex-container-row marginless">
-            <select id="semester" class="form-control flex-item-stretch margin-r">
-              <option disabled>Show courses from semester…</option>
-            </select>
-            <select id="sort" class="flex-item-stretch margin-l form-control">
-              <option disabled>Sort by…</option>
-              <option value="commonName" selected>Course Code</option>
-              <option value="relevance">Relevance</option>
-              <option value="rating">Rating</option>
-              <option value="title">Title</option>
-            </select>
+          <div class="row">
+            <div class="col-xs-6">
+              <small class="text-muted">Semester</small>
+              <select id="semester" class="form-control selectpicker" data-toggle="tooltip" data-original-title="Select a semester" data-placement="bottom">
+              </select>
+            </div>
+            <div class="col-xs-6">
+              <small class="text-muted">Sort by</small>
+              <select id="sort" class="form-control selectpicker" data-toggle="tooltip" data-original-title="Sort results by..." data-placement="bottom">
+                <option value="commonName" selected>Course Code</option>
+                <option value="relevance">Relevance</option>
+                <option value="rating">Rating</option>
+                <option value="title">Title</option>
+              </select>
+            </div>
+          </div>
+          <div id="advanced-header" class="flex-item-rigid flex-container-row">
+            <small id="advanced-title" class="flex-item-stretch truncate text-button text-center">More options <i class="fa fa-caret-down"></i></small>
+          </div>
+          <div id="advanced-body" class="flex-item-shrink list-group marginless" style="display: none;">
+            <div id="advanced-form" class="list-group-item">
+              <div class="checkbox">
+                <label>
+                  <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with pinned courses
+                </label>
+              </div>
+            </div>
           </div>
         </form>
-        <div id="advanced-header" class="flex-item-rigid flex-container-row" style="margin-top: 4px">
-          <small id="advanced-title" class="flex-item-stretch truncate text-button text-center">Show Advanced Search Options</small>
-        </div>
-        <div id="advanced-body" class="flex-item-shrink list-group marginless" style="display: none;">
-          <form id="advanced-form" class="list-group-item">
-            <div class="checkbox">
-              <label>
-                <input id="advanced-grad-hide" type="checkbox" checked> Hide graduate courses
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input id="advanced-filter-clashes" type="checkbox"> Hide courses that clash with pinned courses
-              </label>
-            </div>
-          </form>
-        </div>
         <div id="favorite-prompt" class="flex-item-rigid">
           <h5>Click on <i class="fa fa-heart"></i> to favorite a course!</h5>
         </div>
         <div id="favorite-header" class="flex-item-rigid flex-container-row search-section-header">
           <h4 id="favorite-title" class="flex-item-shrink truncate">0 Favorite Courses</h4>
           <h4 class="flex-item-grow">&nbsp;<i id="fav-clash-indicator" data-original-title="There is a time clash between two or more of your pinned courses." data-toggle="tooltip" class="fa fa-warning text-danger" style="display: none;"></i>&nbsp;<h4>
-          <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-minus text-button"></i></h4>
+          <h4 class="flex-item-rigid"><i id="fav-display-toggle" class="fa fa-fw fa-minus text-button"></i></h4>
         </div>
         <div id="favorite-courses" class="flex-item-shrink">
           <ul id="favs" class="list-group marginless">
             <!-- favorite list loads here -->
           </ul>
         </div>
-        <div id="search-header" class="flex-item-rigid flex-container-row search-section-header">
+        <!--<div id="favorite-resizer" class="resizer-v"></div>-->
+        <div id="search-header" class="flex-item-rigid flex-container-row search-section-header resizer-v">
           <h4 id="search-title" class="flex-item-shrink truncate">0 Search Results</h4>
           <h4 class="flex-item-grow">&nbsp;<i id="search-load-indicator" data-toggle="tooltip" class="fa fa-circle-o-notch fa-spin text-info" data-original-title="Loading courses!" style="display: none;"></i>&nbsp;</h4>
-          <h4 class="flex-item-rigid"><i id="search-display-toggle" class="fa fa-minus text-button"></i></h4>
+          <h4 class="flex-item-rigid"><i id="search-display-toggle" class="fa fa-fw fa-arrows-v text-muted"></i></h4>
         </div>
         <div id="search-results" class="flex-item-scroll">
           <ul id="results" class="list-group marginless">
@@ -169,7 +133,6 @@
             <div id="evals-semesters" style="display: none;">
               <div id="evals-semesters-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Past Semesters</strong></h5>
-                <h5 class="flex-item-rigid"><i id="evals-semesters-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <!-- semesters go in here -->
               <ul id="evals-semesters-body" class="list-group marginless"></ul>
@@ -177,7 +140,6 @@
             <div id="evals-numeric" style="display: none;">
               <div id="evals-numeric-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Numeric Evaluations</strong><span class="evals-past" style="display: none;"> (from <span class="evals-past-semester">a different semester</span>)</span></h5>
-                <h5 class="flex-item-rigid"><i id="evals-numeric-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <!-- numeric evals go here -->
               <ul id="evals-numeric-body" class="list-group marginless"></ul>
@@ -185,7 +147,6 @@
             <div id="evals-comments" style="display: none;">
               <div id="evals-comments-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Student Comments</strong><span class="evals-past" style="display: none;"> (from <span class="evals-past-semester">a different semester</span>)</span></h5>
-                <h5 class="flex-item-rigid"><i id="evals-comments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <!-- student comments go here -->
               <ul id="evals-comments-body" class="list-group marginless"></ul>
@@ -197,7 +158,6 @@
             <div id="disp-instructors" style="display: none;">
               <div id="disp-instructors-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Instructors</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-instructors-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-instructors-body" class="list-group marginless">
                 <!-- instructors go here -->
@@ -206,7 +166,6 @@
             <div id="disp-description" style="display: none;">
               <div id="disp-description-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Description</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-description-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-description-body" class="list-group marginless">
                 <!-- description goes here -->
@@ -215,7 +174,6 @@
             <div id="disp-assignments" style="display: none;">
               <div id="disp-assignments-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Assignments</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-assignments-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-assignments-body" class="list-group marginless">
                 <!-- assignments go here -->
@@ -224,7 +182,6 @@
             <div id="disp-grading" style="display: none;">
               <div id="disp-grading-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Grading</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-grading-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-grading-body" class="list-group marginless">
                 <!-- grading goes here -->
@@ -233,7 +190,6 @@
             <div id="disp-prerequisites" style="display: none;">
               <div id="disp-prerequisites-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Prerequisites</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-prerequisites-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-prerequisites-body" class="list-group marginless">
                 <!-- prerequisites go here -->
@@ -242,7 +198,6 @@
             <div id="disp-equivalent" style="display: none;">
               <div id="disp-equivalent-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Equivalent Courses</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-equivalent-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-equivalent-body" class="list-group marginless">
                 <!-- equivalent courses go here -->
@@ -251,7 +206,6 @@
             <div id="disp-other" style="display: none;">
               <div id="disp-other-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Other Information</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-other-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-other-body" class="list-group marginless">
                 <!-- other information goes here -->
@@ -260,7 +214,6 @@
             <div id="disp-readings" style="display: none;">
               <div id="disp-readings-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Readings</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-readings-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-readings-body" class="list-group marginless">
                 <!-- readings go here -->
@@ -269,7 +222,6 @@
             <div id="disp-reserved" style="display: none;">
               <div id="disp-reserved-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Reserved Seats</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-reserved-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-reserved-body" class="list-group marginless">
                 <!-- reserved seats go here -->
@@ -278,7 +230,6 @@
             <div id="disp-classes" style="display: none;">
               <div id="disp-classes-header" class="flex-container-row section-header">
                 <h5 class="flex-item-stretch truncate"><strong>Classes</strong></h5>
-                <h5 class="flex-item-rigid"><i id="disp-classes-toggle" class="fa fa-minus text-button"></i></h5>
               </div>
               <ul id="disp-classes-body" class="list-group marginless">
                 <!-- classes go here -->

@@ -27,3 +27,7 @@
   border-color: #f58025;
   border-width: 2px;
 }
+
+#feedback-text {
+  resize: vertical;
+}

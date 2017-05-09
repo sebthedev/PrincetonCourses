@@ -174,6 +174,14 @@ function newHTMLtags(course, props) {
       'text': (isTitle ? 'AUDIT' : 'A')
     }
   )
+  else tag_audit = newHTMLtag(
+    {
+      'tooltip': 'Audit unavailable',
+      'placement': tipPlacement,
+      'class': tag_type + (isTitle ? 'label-danger' : 'text-danger'),
+      'text': 'NA'
+    }
+  )
 
   var htmlString = (
     tag_distribution + ' '

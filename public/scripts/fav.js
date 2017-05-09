@@ -78,5 +78,7 @@ var toggleFav = function() {
     console.log(error)
   })
 
+  $(this).blur()
+
   return false;
 }

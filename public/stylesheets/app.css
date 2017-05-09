@@ -5,6 +5,10 @@
 
 /* MOBILE OVERRIDES */
 @media (max-width: 767px) {
+  .tooltip {
+    display: none !important;
+  }
+
   #menu-header {
     /* flex-container-row */
     display: flex;
@@ -13,7 +17,7 @@
     overflow: hidden;
   }
 
-  #menu-brand, #menu-left, .resizer {
+  #menu-brand, #menu-left, .resizer, .resizer-inactive {
     display: none;
   }
 
@@ -72,13 +76,19 @@
   }
 
   #suggest-pane {
-    max-width: 200px;
-    width: 200px;
+    max-width: 30vw;
+    width: 15%;
     order: 10;
+    overflow-y: scroll !important; /* to fix weird right-padding-overlapping-with-scroll bug */
+  }
+
+  #suggest-resizer {
+    order: 15;
   }
 
   #search-pane {
-    padding-right: 5px !important; /* compensate for resizer */
+    padding-right: 5px !important; /* compensate for search resizer */
+    padding-left: 5px !important; /* compensate for suggest resizer */
     min-width: 200px;
     max-width: 40vw;
     width: 25%;
@@ -174,7 +184,7 @@ body {
 
 .badge-score {
   width: 3.7em;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .progress {
@@ -227,27 +237,28 @@ body {
   color: #5cb85c;
 }
 
-
+/* RGB average of above colors with #fff */
 .active .text-muted {
-  color: #fff;
+  color: #fff; /* #b1b5b8; */
 }
 .active .text-info {
-  color: #8CC7E0;
+  color: #addfee;
 }
 .active .text-warning {
-  color: #F0C993;
+  color: #f7d6a6;
 }
 .active .text-danger {
-  color: #eca8a7;
+  color: #eca9a7;
 }
 .active .text-success {
-  color: #94C499;
+  color: #addbad;
 }
 /* PAGEWIDE CSS */
-
-.search-section-header:hover {
-  cursor: pointer;
-  color: #b8b8b8;
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }
 
 .pane-padding {
@@ -258,15 +269,30 @@ body {
   margin-top: 50px; /* compensate for navbar */
 }
 
+.resizer-inactive { /* for suggest-resizer when suggest pane is hidden */
+  width: 5px;
+  background-color: #ddd;
+}
+
 .resizer {
   width: 5px;
   background-color: #ddd;
   cursor: col-resize;
 }
+.resizer-v {
+  /*height: 5px;
+  background-color: #ddd;*/
+  cursor: row-resize;
+}
 .resizer:active,
 .resizer:hover {
   background-color: #EE7F2D;
   cursor: col-resize;
+}
+.resizer-v:active,
+.resizer-v:hover {
+  /*background-color: #EE7F2D;*/
+  cursor: row-resize;
 }
 
 body {
@@ -401,8 +427,16 @@ body {
   padding: 10px 10px 15px;
 }
 
+#favorite-courses, #search-results {
+  transition: max-height 0.6s ease-in-out;
+}
+
 #search-resizer {
   z-index: 400;
+}
+
+#advanced-header {
+  margin-top: 5px;
 }
 
 #advanced-form {
@@ -411,9 +445,9 @@ body {
 
 .text-button {
   cursor: pointer;
-  color: #888;
+  color: #636c72;
 }
-.text-button:hover, .search-section-header:hover .text-button {
+.text-button:hover {
   color: #b8b8b8;
   transition: color 0.4s ease;
 }
@@ -462,10 +496,6 @@ body {
 }
 .unpin-icon:hover {
   color: #C5E4FA;
-}
-
-.clash-icon {
-  color: #E8716D;
 }
 
 .instructor-list-item {
@@ -569,7 +599,30 @@ body {
 }
 .suggest-result:hover {
   background-color: #fff;
-  transition: background-color 0.4s ease;
+}
+
+.suggest-text {
+  margin-right: 8px;
+}
+
+.suggest-button {
+  margin: -5px -8px;
+  padding: 5px 8px;
+  background-color: #e8e8e8;
+  color: #888;
+  text-align: center;
+  width: 30px;
+}
+.suggest-button:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+.suggest-button.active {
+  background-color: #337ab7;
+  color: #fff;
+}
+.suggest-button.active:hover {
+  background-color: #428bca;
 }
 
 /* ABOUT POPUP CSS */

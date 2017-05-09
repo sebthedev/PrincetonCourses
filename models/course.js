@@ -76,6 +76,7 @@ var courseSchema = new mongoose.Schema({
   },
   audit: Boolean,
   assignments: [String],
+  readingAmount: Number,
   grading: Array,
   reservedSeats: Array,
   prerequisites: {

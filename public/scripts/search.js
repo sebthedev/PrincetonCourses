@@ -11,58 +11,49 @@ var getSearchQueryURL = function () {
   if ($('#sort').val() != null) {
     parameters.push('sort=' + $('#sort').val())
   }
-  if ($('#advanced-grad-hide').is(':checked')) {
-    parameters.push('track=UGRD')
-  }
   if ($('#advanced-filter-clashes').is(':checked')) {
     parameters.push('filterClashes=true')
   }
   return '?' + parameters.join('&')
-
-  // search += '&track=' + 'UGRD'
 }
 
 // update search results from the search box
-var searchFromBox = function() {
+var searchFromBox = function(noswipe) {
   // query url
   var queryURL = getSearchQueryURL()
 
   var query = encodeURIComponent($('#searchbox').val())
   var semester = $('#semester').val()
   var sort = $('#sort').val()
-  var track = ($('#advanced-grad-hide').is(':checked') ? 'UGRD' : '')
   var filterClashes = $('#advanced-filter-clashes').is(':checked')
 
   // save search into history
   history_search(queryURL)
 
-  searchForCourses(query, semester, sort, track, filterClashes)
+  searchForCourses(query, semester, sort, filterClashes, noswipe)
 }
 
 // update search results from a URL
-var searchFromURL = function(query, semester, sort, track, filterClashes, noswipe) {
+var searchFromURL = function(query, semester, sort, filterClashes, noswipe) {
   // display search
   if (query) $('#searchbox').val(decodeURIComponent(query))
-  if (semester) $('#semester').val(semester)
-  if (sort) $('#sort').val(sort)
-  $('#advanced-grad-hide')[0].checked = (track === 'UGRD')
+  if (semester) $('#semester').selectpicker('val', semester)
+  if (sort) $('#sort').selectpicker('val', sort)
   $('#advanced-filter-clashes')[0].checked = (filterClashes === 'true')
 
-  searchForCourses(query, semester, sort, track, filterClashes, noswipe)
+  searchForCourses(query, semester, sort, filterClashes, noswipe)
 }
 
 // function for updating search results
 // -- noswipe to prevent swiping if on mobile
-var searchForCourses = function (query, semester, sort, track, filterClashes, noswipe) {
+var searchForCourses = function (query, semester, sort, filterClashes, noswipe) {
   if (query === undefined || query === null) query = ''
 
   // construct search query
   var search = '/api/search/' + query
   search += '?semester=' + semester
   search += '&sort=' + sort
-  search += (track !== undefined && track !== '') ? '&track=' + track : ''
   search += '&detectClashes=' + (filterClashes ? 'filter' : 'true')
-  // search += '&track=' + 'UGRD'
 
   // stop if no query
   if (query === '') {
@@ -71,6 +62,7 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
     document.lastSearch = ''
     $('#search-load-indicator').hide()
     $('#search-results').stop().css('opacity', '')
+    updateSuggest()
     return false
   }
 
@@ -85,6 +77,8 @@ var searchForCourses = function (query, semester, sort, track, filterClashes, no
 
   $('#search-load-indicator').show()
   $('#search-results').stop().animate({'opacity': '0.5'})
+
+  updateSuggest()
 
   // search!
   $.get(search, function (results, success, xhr) {
@@ -136,8 +130,13 @@ function newDOMResult(result, props) {
 }
 
 // returns a DOM object for a search result of an instructor
+// props: properties for conditional rendering:
+//  - 'opens' is defined => means clicking a course entry under this instructor will open the instructor in the display pane
+//  - 'instructorId' is defined => opens if it matches this instructor
 function newDOMinstructorResult(instructor, props) {
   var name = instructor.name.first + ' ' + instructor.name.last
+  var isOpen = (props != undefined) && props.hasOwnProperty('instructorId') && (props.instructorId === instructor._id)
+  var opens = (props != undefined) && props.hasOwnProperty('opens')
 
   // html string for the DOM object
   var htmlString = (
@@ -151,7 +150,7 @@ function newDOMinstructorResult(instructor, props) {
         + '<i class="text-button fa fa-lg fa-caret-down"></i>'
       + '</div>'
     + '</div>'
-    + '<ul class="list-group instructor-body" style="display:none;">'
+    + '<ul class="list-group instructor-body" style="display: none;">'
     + '</ul>'
   + '</li>'
   )
@@ -161,8 +160,9 @@ function newDOMinstructorResult(instructor, props) {
   var title = $(entry).find('.instructor-title')    // instructor name
   icon.instructorId = instructor._id      // attach instructor id
   var body = $(entry).find('ul')[0]       // body of instructor result
-  $(icon).click(function() {toggleInstructor(icon, body, entry); return false})
-  $(entry).click(function() {toggleInstructor(icon, body, entry); return false})
+  $(icon).click(function() {toggleInstructor(icon, body, entry, opens); return false})
+  $(entry).click(function() {toggleInstructor(icon, body, entry, opens); return false})
+  if (isOpen) {loadInstructor(icon, body, entry, opens)}
 
   return entry
 }
@@ -171,11 +171,12 @@ function newDOMinstructorResult(instructor, props) {
 // - icon: DOM object of toggling icon
 // - body: DOM object of place to insert courses
 // - entry: DOM object of whole entry
-function toggleInstructor(icon, body, entry) {
+// - opens: if clicking the course objects should open the instructor in the display pane
+function toggleInstructor(icon, body, entry, opens) {
   var isEmpty = $(body).is(':empty')
 
   if (isEmpty) {
-    loadInstructor(icon, body, entry)
+    loadInstructor(icon, body, entry, opens)
     return
   }
 
@@ -192,7 +193,8 @@ function toggleInstructor(icon, body, entry) {
 // - icon: DOM object of toggling icon
 // - body: DOM object of place to insert courses
 // - entry: DOM object of whole entry
-function loadInstructor(icon, body, entry) {
+// - opens: if clicking the course objects should open the instructor in the display pane
+function loadInstructor(icon, body, entry, opens) {
   $.get('/api/instructor/' + icon.instructorId, function (instructor) {
     // Stop if already loaded
     if (!$(body).is(':empty')) return;
@@ -200,14 +202,16 @@ function loadInstructor(icon, body, entry) {
     var courses = instructor.courses;
     for (var index in courses) {
       var course = courses[index]
-      $(body).append(newDOMcourseResult(course, {'tags' : 1, 'semester': 1}))
+      var props = {'tags': 1, 'semester': 1}
+      if (opens) props.instructorId = instructor._id
+      $(body).append(newDOMcourseResult(course, props))
     }
 
     $(icon).removeClass('fa-caret-down')
     $(icon).addClass('fa-caret-up')
     $(entry).addClass('instructor-list-item-opened')
     displayActive()
-    $(body).slideToggle()
+    $(body).slideDown()
   })
 }
 
@@ -229,7 +233,7 @@ function newDOMcourseResult(course, props) {
 
   // clash icon
   var clashIcon = ''
-  if (course.clash) clashIcon = '<i class="fa fa-warning clash-icon" data-toggle="tooltip" data-original-title="This course clashes with one or more of your pinned courses."></i>'
+  if (course.clash) clashIcon = '<i class="fa fa-warning text-danger" data-toggle="tooltip" data-original-title="This course clashes with one or more of your pinned courses."></i>'
 
   // pin icon for selecting courses (only in fav list)
   var hasPinIcon = (props.hasOwnProperty('pin') && !course.clash)
@@ -266,6 +270,7 @@ function newDOMcourseResult(course, props) {
   var entry = $.parseHTML(htmlString)[0]                                     // create DOM object
   var icon = $(entry).find('i.fa-heart')[0]                                  // favorite icon
   entry.courseId = course._id                                                // attach course id to entry
+  entry.instructorId = props.instructorId                                    // attach instructor id to entry (if applicable)
   icon.courseId = course._id                                                 // attach course id to icon
   $(icon).click(toggleFav)                                                   // handle click to fav/unfav
   $(entry).click(displayResult)                                              // enable click to display

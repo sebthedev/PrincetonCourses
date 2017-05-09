@@ -4,18 +4,19 @@
 // - course is the corresponding course object
 var displayResult = function() {
   var courseId = this.courseId
+  var instructorId = this.instructorId
 
   history_display(courseId)
 
   // Display the information for this course
-  displayCourseDetails(courseId)
+  displayCourseDetails(courseId, false, instructorId)
 
   return false
 }
 
 // function for displaying course details
 // -- noswipe to prevent swiping if on mobile
-var displayCourseDetails = function(courseId, noswipe) {
+var displayCourseDetails = function(courseId, noswipe, instructorId) {
   // return to default view if undefined
   if (courseId === '') {
     document.courseId = undefined;
@@ -41,7 +42,7 @@ var displayCourseDetails = function(courseId, noswipe) {
 
       display_title(course);
       display_subtitle(course);
-      display_instructors(course);
+      display_instructors(course, instructorId);
       display_description(course);
       display_readings(course);
       display_assignments(course);
@@ -152,14 +153,14 @@ var display_subtitle = function(course) {
 }
 
 // display instructor info
-var display_instructors = function(course) {
+var display_instructors = function(course, instructorId) {
   // refresh
   $('#disp-instructors-body').html('')
 
   var instructors = ''
   for (var index in course.instructors) {
     var instructor = course.instructors[index]
-    $('#disp-instructors-body').append(newDOMinstructorResult(instructor, {}))
+    $('#disp-instructors-body').append(newDOMinstructorResult(instructor, {'instructorId': instructorId, 'opens': 1}))
   }
 
   display_autotoggle('instructors')
@@ -297,8 +298,9 @@ var display_reserved = function(course) {
   var reserved = ''
   for (var index in course.reservedSeats) {
     var seat = course.reservedSeats[index]
-    reserved += '<li class="list-group-item info-list-item">' + seat + '</li>'
+    reserved += '<div>' + seat + '</div>'
   }
+  if (reserved !== '') reserved = '<li class="list-group-item info-list-item">' + reserved + '</li>'
 
   $('#disp-reserved-body').append(reserved)
   display_autotoggle('reserved')

@@ -117,6 +117,23 @@ var getCourseListingData = function (semester, courseID, callback) {
     var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')
     if (typeof (assignments) !== 'undefined') {
       results.assignments = assignments
+
+      //determine reading amount per week (pages)
+      let maxPages = 0
+      let processedAssignments = assignments.replace(/pp[ .;,]/gi, " pages")
+      let assignmentParts = processedAssignments.split(/[,.!;]/g)
+      for (let index in assignmentParts) {
+        if (/reading/i.test(assignmentParts[index]) && 
+            /pages/i.test(assignmentParts[index])) {
+          numbers = assignmentParts[index].split(/[^0-9]/g)
+          for (let part in numbers) {
+            if (parseInt(numbers[part]) > maxPages)
+              maxPages = parseInt(numbers[part])  
+          }
+        }
+      }     
+      results.readingAmount = maxPages
+      
     }
 
     // Get Grading Components

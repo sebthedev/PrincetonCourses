@@ -36,6 +36,9 @@ router.use('/:query', function (req, res) {
   var newQueryWords = []
   const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
   const courseDeptNumberRegexp = /([A-Z]{3})(\d{1,3})/
+  const catalogNumberLevel = /\dXX/i
+  let departmentsQueried = []
+  let catalogNumberQueriedLevels = []
   queryWords.forEach(function (thisQueryWord) {
     thisQueryWord = thisQueryWord.toUpperCase()
     let matches
@@ -54,13 +57,7 @@ router.use('/:query', function (req, res) {
       }
       courseQuery.distribution['$in'].push(thisQueryWord)
     } else if (isDepartment) {
-      // Create the big $or if it doesn't exist
-      if (!courseQuery.hasOwnProperty('$or')) {
-        courseQuery['$or'] = []
-      }
-
-      // Query for this department being either the main department or a crosslisting department
-      courseQuery['$or'].push({department: thisQueryWord}, {'crosslistings.department': thisQueryWord})
+      departmentsQueried.push(thisQueryWord)
     } else if (thisQueryWord === 'PDF') {
       courseQuery['pdf.permitted'] = true
     } else if (thisQueryWord === 'NPDF') {
@@ -71,6 +68,14 @@ router.use('/:query', function (req, res) {
       courseQuery['new'] = true
     } else if (thisQueryWord === 'AUDIT') {
       courseQuery['audit'] = true
+    } else if (thisQueryWord === 'NAUDIT') {
+      courseQuery['audit'] = false
+    } else if (thisQueryWord === 'UGRD') {
+      courseQuery['track'] = 'UGRD'
+    } else if (thisQueryWord === 'GRAD') {
+      courseQuery['track'] = 'GRAD'
+    } else if ((matches = catalogNumberLevel.exec(thisQueryWord)) !== null) {
+      catalogNumberQueriedLevels.push(parseInt(matches[0].charAt(0)) * 100)
     } else if ((matches = courseDeptNumberRegexp.exec(thisQueryWord)) !== null) {
       // Expand "COS333" to "COS 333"
       newQueryWords.push(matches[1], matches[2])
@@ -78,6 +83,53 @@ router.use('/:query', function (req, res) {
       newQueryWords.push(thisQueryWord)
     }
   })
+
+  // Allow filtering by departments
+  if (departmentsQueried.length > 0) {
+    if (!courseQuery.hasOwnProperty('$and')) {
+      courseQuery['$and'] = []
+    }
+    courseQuery['$and'].push({
+      $or: [
+        {
+          department: {
+            $in: departmentsQueried
+          }
+        },
+        {
+          'crosslistings.department': {
+            $in: departmentsQueried
+          }
+        }
+      ]
+    })
+  }
+
+  // Allow filtering by catalog number level
+  if (catalogNumberQueriedLevels.length > 0) {
+    if (!courseQuery.hasOwnProperty('$and')) {
+      courseQuery['$and'] = []
+    }
+    let catalogNumberQueriedLevelsConstructed = catalogNumberQueriedLevels.map(function (level) {
+      return {
+        $and: [
+          {
+            catalogNumber: {
+              $gte: level
+            }
+          },
+          {
+            catalogNumber: {
+              $lt: level + 100
+            }
+          }
+        ]
+      }
+    })
+    courseQuery['$and'].push({
+      $or: catalogNumberQueriedLevelsConstructed
+    })
+  }
 
   // Build the database queries and projections for searching for courses and instructors
   if (newQueryWords.length > 0) {
@@ -123,35 +175,6 @@ router.use('/:query', function (req, res) {
   // Filter courses by semester
   if (typeof (req.query.semester) !== 'undefined' && !isNaN(req.query.semester)) {
     courseQuery.semester = parseInt(req.query.semester)
-  }
-
-  // Filter courses by track (Graduate / Undergraduate courses)
-  if (typeof (req.query.track) !== 'undefined') {
-    if (req.query.track === 'GRAD') {
-      courseQuery.track = 'GRAD'
-    } else if (req.query.track === 'UGRD') {
-      courseQuery.track = 'UGRD'
-    }
-  }
-
-  // Remove in-depth course information if the client requests "brief" results
-  var brief = typeof (req.query.detailed) !== 'string' || (typeof (req.query.detailed) === 'string' && JSON.parse(req.query.detailed) !== false)
-  if (brief) {
-    // Merge the existing projection parameters with the parameters filtering-out all of these attributes
-    Object.assign(courseProjection, {
-      'evaluations.studentComments': 0,
-      assignments: 0,
-      grading: 0,
-      classes: 0,
-      description: 0,
-      otherinformation: 0,
-      otherrequirements: 0,
-      prerequisites: 0,
-      semesters: 0,
-      instructors: 0,
-      comments: 0,
-      website: 0
-    })
   }
 
   // Determine whether the user has asked that we detect clashes with favorite courses
@@ -294,11 +317,6 @@ router.use('/:query', function (req, res) {
 
     // Iterate over courses
     for (var i in courses) {
-      // Remove classes from the course if the response should be brief
-      if (brief) {
-        delete courses[i].classes
-      }
-
       // Note that this object is of type 'course'
       courses[i].type = 'course'
     }

@@ -14,8 +14,6 @@ router.route('/:id/vote').all(function (req, res, next) {
     return
   }
 
-  console.log('Received request to /evaluations/:id/vote')
-
   evaluationModel.findById(req.params.id).exec(function (err, evaluation) {
     if (err) {
       console.log(err)
