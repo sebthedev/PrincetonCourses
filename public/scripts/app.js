@@ -147,7 +147,6 @@ var init_searchpane = function() {
 var init_search = function() {
   // restore sort used
   var savedSort = localStorage.getItem("sort");
-  console.log(savedSort)
   $('#sort').selectpicker('val', ((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName"))
 
   // Every time a key is pressed inside the #searchbox, search

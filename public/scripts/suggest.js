@@ -142,6 +142,17 @@ const filters = [
     'options': distributions
   },
   {
+    'id': 'gradingoptions',
+    'label': 'Grading options',
+    'options': {
+      'PDF': 'P/D/F available',
+      'PDFO': 'P/D/F only',
+      'NPDF': 'No P/D/F',
+      'AUDIT': 'Audit available',
+      'NAUDIT': 'Audit unavailable'
+    }
+  },
+  {
     'id': 'courselevels',
     'label': 'Course levels',
     'options': {
@@ -152,17 +163,6 @@ const filters = [
       '5XX': '500 Level',
       'UGRD': 'Undergraduate level',
       'GRAD': 'Graduate level'
-    }
-  },
-  {
-    'id': 'gradingoptions',
-    'label': 'Grading options',
-    'options': {
-      'PDF': 'P/D/F available',
-      'PDFO': 'P/D/F only',
-      'NPDF': 'No P/D/F',
-      'AUDIT': 'Audit available',
-      'NAUDIT': 'Audit unavailable'
     }
   },
   {
@@ -286,19 +286,20 @@ function newDOMsuggestSection(filter) {
 // returns a function that enables clearing of all filters in section with given id
 // props: if 'all' is defined, clears everything
 function suggest_clear(id, props) {
-    var isAll = (props != undefined) && props.hasOwnProperty('all')
+  var isAll = (props != undefined) && props.hasOwnProperty('all')
 
-    if (isAll) return function() {
-      $('.suggest-button').each(function() {
-        removeFromSearchBox(this.term)
-      })
-    }
+  if (isAll) return function() {
+    $('#searchbox').val('')
+    searchFromBox(true)
+    return false
+  }
 
-    else return function() {
+  else return function() {
     var $body = $('#suggest-' + id + '-body')
     $body.children().each(function() {
       removeFromSearchBox(this.term)
     })
+    return false
   }
 }
 
