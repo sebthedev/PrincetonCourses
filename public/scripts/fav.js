@@ -61,8 +61,11 @@ var toggleFav = function() {
   // update local list
   if (i === -1)
     document.favorites.push(courseId)
-  else
+  else {
     document.favorites.splice(i, 1)
+    var j = document.pins.indexOf(courseId)
+    if (j !== -1) document.pins.splice(i, 1)
+  }
 
   // update database
   $.ajax({
