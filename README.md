@@ -1,5 +1,9 @@
 # Princeton Courses
-This is a web app to explore Princeton University course listings and evaluations. You can access the app live at [princetoncourses.com](https://www.princetoncourses.com).
+Twice a year, every Princeton student spends hours planning their courses for the following semester. Course selection choices are incredibly important: choosing well can make a semester fun, intellectually stimulating, and exciting, while choosing poorly can result in boredom, academic struggles, and disengagement.
+
+Princeton Courses is the best way to discover and learn about courses offered at Princeton. The website offers users effortless, precise searching and, for every Princeton course, the most comprehensive collection of information about the course’s details, schedule, evaluations, student comments, and history.
+
+**Access Princeton Courses at [princetoncourses.com](https://www.princetoncourses.com).**
 
 ![Screenshot of Princeton Courses](public/media/screenshot.png)
 A screenshot of Princeton Courses in action.
