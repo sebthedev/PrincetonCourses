@@ -22,56 +22,53 @@ This will destroy the user's session cookie and redirect to the homepage.
 
 ## App Interactions
 All of the following endpoints require the request to contain a valid session cookie (i.e. the user must be [logged in](#login)). If the request does not contain a valid session cookie the server will return `401 Unauthorized`.
+
+### Semesters
+```HTTP
+GET /api/semesters
+```
+Return a JSON object of all the semesters for which the database contains course information.
+
+### Departments
+```HTTP
+GET /api/departments
+```
+Return a JSON object of all the departments for which the database contains course information.
+
+### Instructor
+```HTTP
+GET /api/instructor/:id
+```
+Return a JSON object of all the information about the instructor with the ID `:id`.
+
+### Course
+```HTTP
+GET /api/course/:id
+```
+Return a JSON object of all the information about the course with the ID `:id`.
+
 ### Search for Courses and Instructors
 ```HTTP
 GET /api/search/:query
 ```
 Return a JSON object of all the courses and instructors matching the URL-encoded search term `:query`.
 #### Parameters
-* `semester`: Include only courses from the specified semester code (while still showing all matching instructors). By default courses from all semesters are returned. An example semester code is `1174` for Spring 2017.
+* `semester`: Include only courses from the specified semester code (while still showing all matching instructors). By default courses from all semesters are returned. The semester ID is the format 1XXY, where XX is the two-digit representation of the year in which the academic year ends, and Y is 1 for summer, 2 for fall, 3 for winter, and 4 for spring. For example, Spring 2017 is 1174.
 * `sort`: Sort the results by the specified key in the objects. By default results are sorted by `relevance`. Other keys you might like to use for sorting include `title` and `rating`.
-* `detailed`: Boolean (`true` or `false`) indicating whether to include more detailed information (such as their assignments, grading, classes, description, instructors, etc…) about the courses. Defaults to `false`.
+* `detectClashes`: String “true” (default), “false”, or “filter”, indicating whether the results should contain information about whether each course clashes with the user’s list of courses for detecting clashes. If the value is “filter”, then any clashing courses will be excluded from search results.
 
-#### Example
-The following is a JavaScript example (using jQuery) of a search for all courses and instructors matching `Advanced Programming` in Spring 2016.
-```JavaScript
-$.get('/api/search/Advanced%20Programming?semester=1164', function (results, success) {
-  if (success) {
-    console.log(results)
-  }
-})
-```
-
-### Course
+### Favorite Courses
 ```HTTP
-GET /api/course/:id
+GET /api/user/favorites
 ```
-Return a JSON object of all the information about the course with the ID `:id`. Returns `400 Bad Request` if `:id` is not a number and `404 Not Found` if the course doesn't exist in the database.
+Return a list of the user’s favorite courses.
 
-In addition to the information contained in the database about the specified semester of the course, the JSON object returned will have an `evaluations` property. This is an array of the semesters for which evaluations exist for this course (sorted with the most recent semester first). Each semester contains the `scores`, `comments`, and `instructors` for that semester.
-
-#### Example
-The following is a JavaScript example (using jQuery) of fetching the information about COS 333 in Spring 2017.
-```JavaScript
-$.get('/api/course/1174002065', function (course, success) {
-  if (success) {
-    console.log(course)
-  }
-})
-```
-
-### Instructor
 ```HTTP
-GET /api/instructor/:id
+PUT /api/user/favorites/:id
 ```
-Return a JSON object of all the information about the instructor with the ID `:id`. Returns `400 Bad Request` if `:id` is not a number and `404 Not Found` if the course doesn't exist in the database.
+Add the course with the ID :id will be added to the user’s favorites list.
 
-#### Example
-The following is a JavaScript example (using jQuery) of fetching the information about Brian Kernighan.
-```JavaScript
-$.get('/api/instructor/10043181', function (instructor, success) {
-  if (success) {
-    console.log(instructor)
-  }
-})
+```HTTP
+DELETE /api/user/favorites/:id
 ```
+Remove the course with the ID :id from the user’s favorites list.
