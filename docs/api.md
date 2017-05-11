@@ -66,9 +66,30 @@ Return a list of the user’s favorite courses.
 ```HTTP
 PUT /api/user/favorites/:id
 ```
-Add the course with the ID :id will be added to the user’s favorites list.
+Add the course with the ID `:id` to the user’s favorites list.
 
 ```HTTP
 DELETE /api/user/favorites/:id
 ```
-Remove the course with the ID :id from the user’s favorites list.
+Remove the course with the ID `:id` from the user’s favorites list.
+
+### Course Detection Clashes
+```HTTP
+PUT /api/user/clashDetectionCourses/:id
+```
+Add the course with the ID `:id` to the user’s clashDetectionCourses list.
+
+```HTTP
+DELETE /api/user/clashDetectionCourses/:id
+```
+Remove the course with the ID `:id` from the user’s clashDetectionCourses list.
+
+### Voting on Evaluations
+```HTTP
+PUT /api/evaluations/:id/vote
+```
+Increment by one the number of votes of the evaluation with the ID `:id`.
+```HTTP
+DELETE /api/evaluations/:id/vote
+```
+Decrement by one the number of votes of the evaluation with the ID `:id`.
