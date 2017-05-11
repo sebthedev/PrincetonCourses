@@ -4,9 +4,14 @@ Princeton Courses uses a [RESTful API](https://en.wikipedia.org/wiki/Representat
 ### Available endpoints
 * [/auth/login](#login)
 * [/auth/logout](#logout)
-* [/api/search/:query](#search-for-courses-and-instructors)
-* [/api/course/:id](#course)
+* [/api/semesters](#semesters)
+* [/api/departments](#departments)
 * [/api/instructor/:id](#instructor)
+* [/api/course/:id](#course)
+* [/api/search/:query](#search-for-courses-and-instructors)
+* [/api/user/favorites](#favorite-courses), [/api/user/favorites/:id](#favorite-courses)
+* [/api/user/clashDetectionCourses](#course-detection-clashes), [/api/user/clashDetectionCourses/:id](#course-detection-clashes)
+* [/api/evaluations/:id/vote](#voting-on-evaluations)
 
 ## Authentication
 ### Login
