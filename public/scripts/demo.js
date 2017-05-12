@@ -22,12 +22,12 @@ function conductInitialDemo() {
           position: 'bottom'
       },
       {
-          element: '#sort',
+          element: '#search-sort',
           intro: 'Sort your search results by Course Code, Relevance, Rating, or Title here.',
           position: 'bottom'
       },
       {
-          element: '#favorite-header',
+          element: '#favorite-courses',
           intro: 'Courses that you have favorited will appear here.',
           position: 'bottom'
       },
