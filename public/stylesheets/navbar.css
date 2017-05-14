@@ -1,3 +1,14 @@
+
+/* OVERRIDES */
+
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
+}
+.navbar-toggle {
+  margin-left: 15px; /* to match the right */
+}
+
+
 /* ADDING COLOR TO NAVBAR https://work.smarchal.com/twbscolor/ */
 .navbar-default {
   background-color: #EE7F2D;

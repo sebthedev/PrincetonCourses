@@ -99,9 +99,11 @@ var getCourseListingData = function (semester, courseID, callback) {
     var attributes = detailsContainer.find('em').first().text()
 
     // Get PDF Status
-    results.pdf = {
-      required: (attributes.indexOf('P/D/F Only') > -1),
-      permitted: (attributes.indexOf('P/D/F') > -1)
+    if (attributes.indexOf('P/D/F') > -1 || attributes.indexOf('npdf') > -1 || attributes.indexOf('No Pass/D/Fail') > -1) {
+      results.pdf = {
+        required: (attributes.indexOf('P/D/F Only') > -1),
+        permitted: (attributes.indexOf('P/D/F') > -1)
+      }
     }
 
     // Get Audit Status
@@ -115,6 +117,23 @@ var getCourseListingData = function (semester, courseID, callback) {
     var assignments = extractSingle($, detailsContainer, 'Reading/Writing assignments')
     if (typeof (assignments) !== 'undefined') {
       results.assignments = assignments
+
+      //determine reading amount per week (pages)
+      let maxPages = 0
+      let processedAssignments = assignments.replace(/pp[ .;,]/gi, " pages")
+      let assignmentParts = processedAssignments.split(/[,.!;]/g)
+      for (let index in assignmentParts) {
+        if (/reading/i.test(assignmentParts[index]) && 
+            /pages/i.test(assignmentParts[index])) {
+          numbers = assignmentParts[index].split(/[^0-9]/g)
+          for (let part in numbers) {
+            if (parseInt(numbers[part]) > maxPages)
+              maxPages = parseInt(numbers[part])  
+          }
+        }
+      }     
+      results.readingAmount = maxPages
+      
     }
 
     // Get Grading Components
@@ -137,6 +156,23 @@ var getCourseListingData = function (semester, courseID, callback) {
         })
       }
     }
+
+    // Get Reserved Seats
+    let insideReservedSeats
+    let reservedSeatsRaw = detailsContainer.first().contents().filter(function () {
+      if ($(this).is('strong, b')) {
+        insideReservedSeats = $(this).text().indexOf('Reserved Seats') > -1
+      }
+      return (this.nodeType === 3 && insideReservedSeats)
+    }).toArray()
+    reservedSeatsRaw.forEach(function (item) {
+      if (item.type === 'text' && item.data.trim().length > 0) {
+        if (typeof (results.reservedSeats) === 'undefined') {
+          results.reservedSeats = []
+        }
+        results.reservedSeats.push(item.data.trim().replace(/\n/g, ' ').replace(/\s{2,}/, ' '))
+      }
+    })
 
     // Get Readings
     if ($('div strong:contains(Sample reading list:)').length > 0) {
@@ -189,7 +225,11 @@ var getCourseListingData = function (semester, courseID, callback) {
 }
 
 // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-courseModel.find({}, function (error, courses) {
+let query = {}
+if (process.argv.length > 2) {
+  query = JSON.parse(process.argv[2])
+}
+courseModel.find(query, function (error, courses) {
   if (error) {
     console.log(error)
   }

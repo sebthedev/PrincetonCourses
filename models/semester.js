@@ -12,8 +12,22 @@ var semesterSchema = new mongoose.Schema({
 }, {
   toObject: {
     versionKey: false
+  },
+  toJSON: {
+    versionKey: false
   }
 })
+
+// Return all of the departments
+semesterSchema.statics.getAll = function (callback) {
+  this.find().sort({_id: -1}).exec(function (err, semesters) {
+    if (err) {
+      console.log(err)
+    } else {
+      callback(semesters)
+    }
+  })
+}
 
 // Create the Semester model from the courseSchema
 var Semester = mongoose.model('Semester', semesterSchema)

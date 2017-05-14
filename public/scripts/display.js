@@ -1,21 +1,22 @@
-// dependencies: module.js, fav.js, eval.js, layout.js, history.js
+// dependencies: fav.js, eval.js, layout.js, history.js, suggest.js, icon.js
 
 // function for displaying course details for a result
 // - course is the corresponding course object
 var displayResult = function() {
   var courseId = this.courseId
+  var instructorId = this.instructorId
 
   history_display(courseId)
 
   // Display the information for this course
-  displayCourseDetails(courseId)
+  displayCourseDetails(courseId, false, instructorId)
 
   return false
 }
 
 // function for displaying course details
 // -- noswipe to prevent swiping if on mobile
-var displayCourseDetails = function(courseId, noswipe) {
+var displayCourseDetails = function(courseId, noswipe, instructorId) {
   // return to default view if undefined
   if (courseId === '') {
     document.courseId = undefined;
@@ -23,8 +24,11 @@ var displayCourseDetails = function(courseId, noswipe) {
     layout_initial_show()
 
     displayActive() // update highlighting of active course
+    $('#display-pane').stop().css('opacity', '')
     return;
   }
+
+  $('#display-pane').stop().animate({'opacity': '0.5'})
 
   $.get('/api/course/' + courseId, function (course, status) {
       // Basic error handling
@@ -38,7 +42,7 @@ var displayCourseDetails = function(courseId, noswipe) {
 
       display_title(course);
       display_subtitle(course);
-      display_instructors(course);
+      display_instructors(course, instructorId);
       display_description(course);
       display_readings(course);
       display_assignments(course);
@@ -46,6 +50,7 @@ var displayCourseDetails = function(courseId, noswipe) {
       display_prerequisites(course);
       display_equivalent(course);
       display_other(course);
+      display_reserved(course);
       display_classes(course);
       display_evals(course); // in eval.js
       display_past(course);
@@ -64,6 +69,7 @@ var displayCourseDetails = function(courseId, noswipe) {
         $('#main-pane').slick('slickGoTo', 2)
         /* $('#display-body').slick('slickGoTo', 1) */
       }
+      $('#display-pane').stop().css('opacity', '')
   })
 }
 
@@ -80,11 +86,12 @@ var displayActive = function() {
 
 // shows/hides sections of no content
 var display_autotoggle = function(section) {
-  var div = $('#disp-' + section)
-  var body = $('#disp-' + section + '-body')
-  var isEmpty = body.is(':empty')
+  var $div = $('#disp-' + section)
+  var $body = $('#disp-' + section + '-body')
+  var isEmpty = $body.is(':empty')
 
-  div.css('display', isEmpty ? 'none' : '')
+  if (isEmpty) $div.hide()
+  else $div.show()
 }
 
 // display course data for title TODO: favoriting
@@ -97,36 +104,27 @@ var display_title = function(course) {
 
   $('#disp-title').append(course.title)
 
-  var isFav = (document.favorites.indexOf(course["_id"]) !== -1)
+  var favCount = (
+    '<strong '
+    + 'data-toggle="tooltip" '
+    + 'data-original-title="' + course.favoritesCount + ' users have favorited this course" '
+    + 'data-placement="bottom" '
+  + '>'
+      + course.favoritesCount
+  + '</strong>'
+  )
 
-  var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
-  var tooltip = isPast ? ' title="An asterisk * indicates a score from a different semester"' : ''
-
-  // Determine the overall score for this course, if it exists
-  var hasScore = (course.hasOwnProperty('evaluations') && course.evaluations.hasOwnProperty('scores') && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
-  if (hasScore) {
-    var score = course.evaluations.scores['Overall Quality of the Course']
-  }
-
-  // is this a new course
-  var isNew = course.hasOwnProperty('new') && course.new
-
-  var badgeColor = '#ddd' /* light grey */
-  if (hasScore) badgeColor = colorAt(score)
-  else if (isNew) badgeColor = '#92D4E3' /* blue */
-
-  var badgeText = 'N/A'
-  if (hasScore) badgeText = score.toFixed(2)
-  else if (isNew) badgeText = 'New'
-  if (isPast) badgeText += '*'
-
-  var htmlString = '<i class="fa fa-heart ' + (isFav ? 'unfav-icon' : 'fav-icon') + '"></i> '
-                 + '<span' + tooltip + ' class="badge badge-score badge-large" style="background-color: ' + badgeColor + '">'
-                   + badgeText
-                 + '</span>'
+  var htmlString = (
+    '&nbsp;'
+  + newHTMLfavIcon(course._id, {'title': 1})
+  + '<sub>'
+    + favCount
+  + '</sub> '
+  + newHTMLscoreBadge(course, {'title': 1})
+  )
 
   $('#disp-title-right').append(htmlString)
-  var icon = $('#disp-title-right').find('i')[0]
+  var icon = $('#disp-title-right').find('i.fa-heart')[0]
   icon.courseId = course._id  // bind course id
   $(icon).click(toggleFav)    // enable click to fav/unfav
 }
@@ -134,21 +132,14 @@ var display_title = function(course) {
 // display course data for subtitle
 var display_subtitle = function(course) {
   // string for course listings
-  var listings = mainListing(course) + crossListings(course)
+  var listings = newHTMLlistings(course, {'title': 1})
 
   // tags
-  var tags = ''
-  if (course.distribution !== undefined) tags += ' <span class="label label-info">' + course.distribution + '</span>'
-  if (course.hasOwnProperty('pdf')) {
-    if (course.pdf.hasOwnProperty('required') && course.pdf.required) tags += ' <span class="label label-danger">PDF ONLY</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && course.pdf.permitted) tags += ' <span class="label label-warning">PDF</span>'
-    else if (course.pdf.hasOwnProperty('permitted') && !course.pdf.permitted) tags += ' <span class="label label-danger">NPDF</span>'
-  }
-  if (course.audit) tags += ' <span class="label label-warning">AUDIT</span>'
+  var tags = newHTMLtags(course, {'title': 1})
 
-  var website = (course.website === undefined ? '' : ' <a href="' + course.website
-                                                   + '" target="_blank"><i class="fa fa-external-link-square"></i></a>')
-  $('#disp-subtitle').append(listings + tags + website)
+  var website = (course.website === undefined ? '' : '<a href="' + course.website + '" target="_blank">'
+                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link"></i></a>')
+  $('#disp-subtitle').append(listings + ' ' + tags + ' ' + website)
 
   var semester = ' &middot; ' + course.semester.name
 
@@ -156,20 +147,20 @@ var display_subtitle = function(course) {
   var link = ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml'
            + '?courseid=' + course.courseID
            + '&amp;term=' + course.semester._id
-           + '" target="_blank"><i class="fa fa-external-link"></i></a>'
+           + '" target="_blank"><i data-placement="bottom" data-toggle="tooltip" title="Registrar\'s page" class="fa fa-external-link"></i></a>'
 
   $('#disp-subtitle-right').append(link + semester)
 }
 
 // display instructor info
-var display_instructors = function(course) {
+var display_instructors = function(course, instructorId) {
   // refresh
   $('#disp-instructors-body').html('')
 
   var instructors = ''
   for (var index in course.instructors) {
     var instructor = course.instructors[index]
-    $('#disp-instructors-body').append(newDOMinstructorResult(instructor, {}))
+    $('#disp-instructors-body').append(newDOMinstructorResult(instructor, {'instructorId': instructorId, 'opens': 1}))
   }
 
   display_autotoggle('instructors')
@@ -205,7 +196,7 @@ var newDOMreadingListing = function(reading) {
 
   // html string
   var htmlString = (
-    '<li class="list-group-item info-list-item search-result">'
+    '<li class="list-group-item info-list-item search-result" data-toggle="tooltip" data-original-title="Click to search the library for this reading">'
     + '<a href="' + librarySearchURL + '" target="_blank" style="color: #333; text-decoration: none;">'
       + '<div class="flex-container-row">'
         + '<div class="flex-item-stretch truncate"><strong>' + author + '</strong></div>'
@@ -219,11 +210,6 @@ var newDOMreadingListing = function(reading) {
 
   var entry = $.parseHTML(htmlString)[0] // create DOM object
 
-  $(entry).click(function () {
-    console.log("click")
-    console.log(this)
-  })
-
   return entry
 }
 
@@ -233,10 +219,11 @@ var display_assignments = function(course) {
   $('#disp-assignments-body').html('')
 
   var assignments = ''
-  for (var assignment in course.assignments) {
-    var asmt = course.assignments[assignment]
-    assignments += '<li class="list-group-item info-list-item">' + asmt + '</li>'
+  for (var index in course.assignments) {
+    var assignment = course.assignments[index]
+    assignments += '<div>' + assignment + '</div>'
   }
+  if (assignments !== '') assignments = '<li class="list-group-item info-list-item">' + assignments + '</li>'
 
   $('#disp-assignments-body').append(assignments)
   display_autotoggle('assignments')
@@ -250,8 +237,9 @@ var display_grading = function(course) {
   var grading = ''
   for (var index in course.grading) {
     var grade = course.grading[index]
-    grading += '<li class="list-group-item info-list-item">' + grade.component + ': ' + grade.weight + '%</li>'
+    grading += '<div>' + grade.weight + '% ' + grade.component + '</div>'
   }
+  if (grading !== '') grading = '<li class="list-group-item info-list-item">' + grading + '</li>'
 
   $('#disp-grading-body').append(grading)
   display_autotoggle('grading')
@@ -302,6 +290,22 @@ var display_other = function(course) {
   display_autotoggle('other')
 }
 
+// display reserved seat info
+var display_reserved = function(course) {
+  // refresh
+  $('#disp-reserved-body').html('')
+
+  var reserved = ''
+  for (var index in course.reservedSeats) {
+    var seat = course.reservedSeats[index]
+    reserved += '<div>' + seat + '</div>'
+  }
+  if (reserved !== '') reserved = '<li class="list-group-item info-list-item">' + reserved + '</li>'
+
+  $('#disp-reserved-body').append(reserved)
+  display_autotoggle('reserved')
+}
+
 // display class info
 var display_classes = function(course) {
   // refresh
@@ -317,14 +321,13 @@ var display_classes = function(course) {
 
 // returns a DOM object for a class of the displayed course
 var newDOMclassListing = function(aclass) {
-  var name = aclass.section
   var status = aclass.status
   var filled = aclass.enrollment + ' / ' + aclass.capacity
   var code = aclass.class_number
   var statusColor = ''
-  if (status === 'Open') statusColor = ' class="text-success-dim"'
-  else if (status === 'Closed') statusColor = ' class="text-warning-dim"'
-  else if (status === 'Cancelled') statusColor = ' class="text-danger-dim"'
+  if (status === 'Open') statusColor = ' class="text-success"'
+  else if (status === 'Closed') statusColor = ' class="text-warning"'
+  else if (status === 'Cancelled') statusColor = ' class="text-danger"'
 
   // a row for each meeting
   var meetingString = ''
@@ -350,12 +353,16 @@ var newDOMclassListing = function(aclass) {
     )
   }
 
+  var name = '<span data-toggle="tooltip" data-original-title="' + aclass.type_name + '">' + aclass.section + '</span>'
+
   // html string
   var htmlString = (
     '<li class="list-group-item info-list-item">'
     + '<div class="flex-container-row">'
       + '<div class="flex-item-stretch truncate">'
-        + '<strong>' + name + '&nbsp;<small' + statusColor + '>' + status + '</small></strong>'
+        + '<strong>' + name + '</strong>'
+        + ' <small' + statusColor + '>' + status + '</small>'
+        + ' <small class="class-code text-muted" data-toggle="tooltip" data-original-title="Class number">#' + aclass.class_number + '</small>'
       + '</div>'
       + '<div class="flex-item-rigid"><strong>' + filled + '</strong></div>'
     + '</div>'

@@ -17,23 +17,23 @@ function conductInitialDemo() {
           position: 'bottom'
       },
       {
-          element: '#menu-left',
-          intro: 'Search for specific queries here like \'All Courses\' and \'PDF Only\' options!',
+          element: '#suggest-toggle',
+          intro: 'See search filters here for distributions, pdf options, ...',
           position: 'bottom'
       },
       {
-          element: '#sort',
+          element: '#search-sort',
           intro: 'Sort your search results by Course Code, Relevance, Rating, or Title here.',
           position: 'bottom'
       },
       {
-          element: '#favorite-header',
-          intro: 'Courses that you mark as "Favorites" will appear here.',
+          element: '#favorite-courses',
+          intro: 'Courses that you have favorited will appear here.',
           position: 'bottom'
       },
       {
           element: '#advanced-header',
-          intro: 'Filter through grad courses and classes which conflict with your "Favorites."',
+          intro: 'Filter out classes which conflict with your pinned favorites.',
           position: 'bottom'
       },
       {

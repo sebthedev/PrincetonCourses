@@ -1,20 +1,19 @@
-// dependencies: module.js, search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js
+// dependencies: search.js, display.js, resizable.js, navbar.js, suggest.js, layout.js, demo.js, icon.js, pin.js
 
 // initialization
 $(document).ready(function() {
 
   /* init_load(); MEL: now loads after semesters have been loaded in init_search */
   init_layout();
-  init_panes();
   init_searchpane();
+  init_panes();
   init_search();
   init_globals();
   init_favorites();
-  init_feedback();
+  init_navbar();
   init_demo();
   init_display();
   init_evals();
-  init_logout();
   init_suggest();
   init_updates();
 })
@@ -23,30 +22,36 @@ $(document).ready(function() {
 var init_load = function () {
   var courseId = ''
 
+  var disp_noswipe = false
+  var search_noswipe = true
+
   // Parse course from the URL to determine which course (if any) to display on pageload
   var pathnameMatch = /^\/course\/(\d+)$/.exec(window.location.pathname)
   if (pathnameMatch !== null && pathnameMatch.length === 2) {
-    // Load the course
+    // Detect if course is to be displayed
     courseId = parseInt(pathnameMatch[1])
-    if (!isNaN(courseId)) {
-      displayCourseDetails(courseId)
-      var courseDisplayed = true;
+    if (isNaN(courseId)) {
+      disp_noswipe = true
+      search_noswipe = false
+      courseId = ''
     }
+  } else {
+    disp_noswipe = true
+    search_noswipe = false
+    courseId = ''
   }
+
+  // display course
+  displayCourseDetails(courseId, disp_noswipe)
 
   // Parse search parameters, if any exist
   var parameters = parseSearchParameters(window.location.search)
 
   // perform search
-  searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, parameters.track)
+  searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.filterClashes, search_noswipe)
 
   // initialize history
   history_init(courseId, window.location.search)
-
-  // handle displaying default page
-  if (courseId === '' && (parameters.search === undefined || parameters.search === ''))
-    displayCourseDetails(courseId)
-
 }
 
 // to initialize draggability
@@ -61,8 +66,13 @@ var init_panes = function() {
     $('#info-pane').css('width', infoPaneWidth);
   }
 
-  $('#search-pane').css('display', "");
-  $('#display-pane').css('display', "");
+  var suggestPaneWidth = localStorage.getItem('#suggest-resizer');
+  if(suggestPaneWidth !== undefined) {
+    $('#suggest-pane').css('width', suggestPaneWidth);
+  }
+
+  $('#search-pane').show()
+  $('#display-pane').show()
 
   $('#search-pane').resizable({
     handleSelector: "#search-resizer",
@@ -74,40 +84,59 @@ var init_panes = function() {
     resizeHeight: false,
     resizeWidthFrom: 'left'
   })
+
+  $('#suggest-pane').resizable({
+    handleSelector: "#suggest-resizer",
+    resizeHeight: false
+  })
 }
 
 // to initalize search pane section collapsing
 var init_searchpane = function() {
-  $('#favorite-courses').css('max-height', '30vh')
-    // toggle display of favorite things
-  var toggleFavDisplay = function() {
-    var isVisible = $('#favorite-courses').css('display') !== 'none'
+  // make fav section resizable
+  $('#favorite-courses').resizable({
+    handleSelector: '#search-header',
+    resizeWidth: false
+  })
 
-    var icon = $('#fav-display-toggle')
-    icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
-    icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').slideToggle()
+  $('#favorite-courses').css('max-height', '30vh')
+
+  // toggle display of favorite things
+  var toggleFavDisplay = function() {
+    var isVisible = ($('#favorite-courses').height() > 0)
+    $('#fav-display-toggle').removeClass(isVisible ? 'fa-minus' : 'fa-plus').addClass(isVisible ? 'fa-plus' : 'fa-minus')
+
+    // set favorite courses transition start point
+    $('#favorite-courses').addClass('notransition'); // Disable transitions temporarily
+    $('#favorite-courses').css('max-height', $('#favorite-courses').outerHeight()/$(window).outerHeight()*100 + 'vh')
+    $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+    $('#favorite-courses').removeClass('notransition'); // Re-enable transitions
+
+    var favHeight = $('#favs').height()/$(window).height()*100
+    if (favHeight > 30) favHeight = 30
+
+    $('#favorite-courses').css('max-height', (isVisible ? '0vh' : favHeight + 'vh'))
+
+    $('#favorite-courses').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+      function(e) {
+        // set favorite courses end point
+        $('#favorite-courses').addClass('notransition'); // Disable transitions temporarily
+        if (!isVisible) $('#favorite-courses').css('max-height', '30vh')
+        $('#favorite-courses')[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+        $('#favorite-courses').removeClass('notransition'); // Re-enable transitions
+
+        $('#favorite-courses').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend')
+    })
+
+    return false
   }
   $('#fav-display-toggle').click(toggleFavDisplay)
-
-  // toggle display of search result things
-  var toggleSearchDisplay = function() {
-    var isVisible = $('#search-results').is(':visible')
-
-    var icon = $('#search-display-toggle')
-    icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
-    icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
-    $('#favorite-courses').animate({'max-height': (isVisible ? '100vh' : '30vh')})
-
-    $('#search-results').slideToggle()
-  }
-  $('#search-display-toggle').click(toggleSearchDisplay)
 
   // toggle display of advanced search
   var toggleAdvancedDisplay = function() {
     var isVisible = $('#advanced-body').is(':visible')
 
-    $('#advanced-title').text((isVisible ? 'Show' : 'Hide') + ' Advanced Search Options')
+    $('#advanced-title').html((isVisible ? 'More Options' : 'Hide') + ' <i class="fa ' + (isVisible ? 'fa-caret-down' : 'fa-caret-up') + '"></i>')
 
     $('#advanced-body').slideToggle()
   }
@@ -118,11 +147,11 @@ var init_searchpane = function() {
 var init_search = function() {
   // restore sort used
   var savedSort = localStorage.getItem("sort");
-  $('#sort').val((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName")
+  $('#sort').selectpicker('val', ((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName"))
 
   // Every time a key is pressed inside the #searchbox, search
   $('#searchbox').on('input', searchFromBox)
-  $('#semester, #sort, #advanced-grad-hide, #advanced-filter-clashes').change(searchFromBox)
+  $('#semester, #sort, #advanced-filter-clashes').change(searchFromBox)
 
   // Allow clicking the "Search" keyboard button on mobile
   if (document.isMobile) {
@@ -134,19 +163,19 @@ var init_search = function() {
   }
 
   // load the semesters for the dropdown
-  $('#semester').children(":not([disabled])").remove()
+  $('#semester').children().remove()
   $.get('/api/semesters', function (semesters) {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
       $('#semester').append(option)
     }
-    if ($('#semester').data('query')) {
-      $('#semester').children('[value=' + $('#semester').data('query') +']').attr('selected', true)
-    } else {
-      $('#semester').children().eq(1).attr('selected', true)
-    }
-  }).then(init_load)
+
+    // re-render drop down
+    $('#semester').selectpicker('refresh');
+
+    init_load()
+  })
 }
 
 // to initialize global data
@@ -159,9 +188,18 @@ var init_globals = function() {
 var init_favorites = function() {
   // call api to get favorites and display
   document.favorites = []
+  document.pins = []
+
   $.get('/api/user/favorites', function(courses) {
 
-    $('#favorite-header').css('display', (courses === undefined || courses.length === 0) ? 'none' : '')
+    var hasFavorites = (courses !== undefined && courses.length !== 0)
+    if (hasFavorites) {
+      $('#favorite-header').show()
+      $('#favorite-prompt').hide()
+    } else {
+      $('#favorite-header').hide()
+      $('#favorite-prompt').show()
+    }
 
     $('#favs').html('');
     $('#favorite-title').html('');
@@ -173,34 +211,17 @@ var init_favorites = function() {
       // Saving this user's favorite courses to the global scope
       document.favorites.push(thisCourse._id)
 
+      // save local pinned course list
+      if (thisCourse.clashDetectionStatus) document.pins.push(thisCourse._id)
+
       // append favorite into favs pane
-      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1}));
-    }
-  }).done(updateFavIcons).done(displayActive)
-}
+      $('#favs').append(newDOMResult(thisCourse, {"semester": 1, "tags": 1, 'pin': 1}));
 
-// to initialize feedback mechanism
-var init_feedback = function() {
-  // submission
-  $('#feedback-form').submit(function() {
-    if ($('#feedback-text').val().length > 0)
-    {
-      var submitURL = ''
-      submitURL += 'https://docs.google.com/a/princeton.edu/forms/d/e/1FAIpQLSdX3VTSbVfwOOtwMxhWiryQFrlBNuJDUTlp-lUmsV-S0xFM_g/formResponse?'
-      submitURL += 'entry.1257302391=' + document.netid
-      submitURL += '&entry.680057223=' + encodeURIComponent($('#feedback-text').val())
-
-      $(this)[0].action = submitURL
-      $('#feedback-submit').text('Thank You!')
-      $('#feedback-submit').addClass('disabled')
-      $('#feedback-text').attr('disabled', true)
-      setTimeout(toggleFeedback, 1000)
-    }
-    else {
-      $('#feedback-text').attr("placeholder", "Please enter feedback.");
+      updateFavIcons()
+      updatePinIcons()
+      displayActive()
     }
   })
-  $('#feedback-toggle').click(function() {return toggleNavbar('feedback')})
 }
 
 // to initialize demo mechanism
@@ -209,54 +230,20 @@ var init_demo = function() {
   $("#demo-toggle").click(conductInitialDemo)
 }
 
-// to initialize display toggling
+// to initialize display pane
 var init_display = function() {
-  $('#disp-instructors-toggle'  ).click(function() {section_toggle('disp', 'instructors')})
-  $('#disp-description-toggle'  ).click(function() {section_toggle('disp', 'description')})
-  $('#disp-readings-toggle'     ).click(function() {section_toggle('disp', 'readings')})
-  $('#disp-assignments-toggle'  ).click(function() {section_toggle('disp', 'assignments')})
-  $('#disp-grading-toggle'      ).click(function() {section_toggle('disp', 'grading')})
-  $('#disp-prerequisites-toggle').click(function() {section_toggle('disp', 'prerequisites')})
-  $('#disp-equivalent-toggle'   ).click(function() {section_toggle('disp', 'equivalent')})
-  $('#disp-other-toggle'        ).click(function() {section_toggle('disp', 'other')})
-  $('#disp-classes-toggle'      ).click(function() {section_toggle('disp', 'classes')})
+  // nothing here
 }
 
-// to initialize evals toggling
+// to initialize evals pane
 var init_evals = function() {
-  $('#evals-semesters-toggle').click(function() {section_toggle('evals', 'semesters')})
-  $('#evals-numeric-toggle').click(function() {section_toggle('evals', 'numeric')})
-  $('#evals-comments-toggle').click(function() {section_toggle('evals', 'comments')})
-}
-
-// to intialize logout button
-var init_logout = function() {
-  $('#menu-bar').mouseleave(function() {
-    var isNetidInvisible = $('#netid').css('display') === 'none'
-    if (isNetidInvisible) {
-      if (document.isMobile) $('#netid, #logout').slideToggle()
-      else $('#netid, #logout').animate({width: 'toggle'})
-    }
-  })
-
-  $('#netid').click(function() {
-    var isLogoutVisible = $('#logout').css('display') !== 'none'
-    if (!isLogoutVisible) {
-      if (document.isMobile) $('#netid, #logout').slideToggle()
-      else $('#netid, #logout').animate({width: 'toggle'})
-    }
-    return false;
-  })
+  // nothing here
 }
 
 // to initialize suggest display
 var init_suggest = function() {
   suggest_load()
   $('#suggest-toggle').click(toggleSuggest)
-  $('#suggest-allcourses-toggle'   ).click(function() {section_toggle('suggest', 'allcourses')})
-  $('#suggest-distributions-toggle').click(function() {section_toggle('suggest', 'distributions')})
-  $('#suggest-pdfoptions-toggle'   ).click(function() {section_toggle('suggest', 'pdfoptions')})
-  $('#suggest-departments-toggle'  ).click(function() {section_toggle('suggest', 'departments')})
 }
 
 // to initialize updates popup
@@ -287,11 +274,13 @@ var init_updates = function() {
 var section_toggle = function(pane, section) {
   var body = $('#' + pane + '-' + section + '-body')
   var icon = $('#' + pane + '-' + section + '-toggle')
-  var isVisible = (body.css('display') !== 'none')
+  var isVisible = (body.is(':visible'))
 
   icon.removeClass(isVisible ? 'fa-minus' : 'fa-plus')
   icon.addClass(isVisible ? 'fa-plus' : 'fa-minus')
   body.slideToggle();
+
+  return false;
 }
 
 // update is read by the user
@@ -304,7 +293,9 @@ var init_layout = function() {
   // initial layout
   var width = $(window).width()
   document.isMobile = (width < WIDTH_THRESHOLD)
-  if (document.isMobile) layout_mobile()
+  if (document.isMobile) {
+    layout_mobile();
+  }
   else layout_desktop()
 
   layout_initial_show()
@@ -320,6 +311,7 @@ var init_layout = function() {
   $('body').tooltip({
     selector: '[data-toggle="tooltip"]',
     container: 'body',
+    trigger : 'hover',
     delay: 200
   });
 

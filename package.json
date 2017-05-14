@@ -1,20 +1,20 @@
 {
   "name": "princeton-courses",
-  "version": "0.0.1",
+  "version": "1.2.1",
   "description": "An app to explore Princeton University course listings and evaluations.",
   "main": "app.js",
   "dependencies": {
-    "ejs": ">=2.4.1",
-    "express": ">=4.13.3",
-    "cookie-session" : ">=2.0.0-beta.1",
-    "cas": ">=0.0.3",
-    "mongoose": ">=4.1.11",
-    "dotenv": ">=4.0.0",
-    "loglevel" : ">=1.4.1",
-    "body-parser" : ">=1.17.0",
-    "cheerio" : ">=0.22.0",
-    "prompt" : ">=1.0.0",
-    "prompt-promise" : ">=1.0.3"
+    "body-parser": "^1.17.0",
+    "cas": "^0.0.3",
+    "cheerio": "^0.22.0",
+    "cookie-session": "^2.0.0-beta.1",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.4.1",
+    "express": "^4.13.3",
+    "loglevel": "^1.4.1",
+    "mongoose": "^4.1.11",
+    "opbeat": "^4.13.0",
+    "prompt": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -25,14 +25,14 @@
     "url": "git+https://github.com/sebthedev/PrincetonCourses.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sebthedev/PrincetonCourses/issues"
   },
-  "homepage": "https://github.com/sebthedev/PrincetonCourses#readme",
+  "homepage": "https://www.princetoncourses.com",
   "standard": {
-      "globals": [
-          "$"
-      ]
+    "globals": [
+      "$"
+    ]
   }
 }

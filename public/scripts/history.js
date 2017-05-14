@@ -27,16 +27,16 @@ window.onpopstate = function (event) {
   if (event.state && event.state.hasOwnProperty('searchQuery')) {
     var parameters = parseSearchParameters(event.state.searchQuery)
     // perform search
-    searchForCourses(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes, search_noswipe)
+    searchFromURL(parameters.search, parameters.semester, parameters.sort, parameters.track, parameters.filterClashes, search_noswipe)
   }
 
   // handle mobile back button
   if (document.history_id === 0) {
-    $('#menu-brand-abbr').css('display', '')
-    $('#menu-back').css('display', 'none')
+    $('#menu-brand-abbr').show()
+    $('#menu-back').hide()
   } else {
-    $('#menu-brand-abbr').css('display', 'none')
-    $('#menu-back').css('display', '')
+    $('#menu-brand-abbr').hide()
+    $('#menu-back').show()
   }
 }
 
@@ -90,8 +90,8 @@ function history_search(queryURL) {
     window.history.pushState({searchQuery: queryURL, _id: document.history_id}, queryURL, course + queryURL)
 
     // handle mobile back button
-    $('#menu-brand-abbr').css('display', 'none')
-    $('#menu-back').css('display', '')
+    $('#menu-brand-abbr').hide()
+    $('#menu-back').show()
   }, 2000)
 }
 
@@ -109,8 +109,8 @@ function history_display(courseId) {
   window.history.pushState({courseId: courseId, searchQuery: queryURL, _id: document.history_id}, courseId, '/course/' + courseId + queryURL)
 
   // handle mobile back button
-  $('#menu-brand-abbr').css('display', 'none')
-  $('#menu-back').css('display', '')
+  $('#menu-brand-abbr').hide()
+  $('#menu-back').show()
 }
 
 // to debounce search history

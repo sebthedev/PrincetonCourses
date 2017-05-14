@@ -1,0 +1,33 @@
+/* FEEDBACK CSS */
+
+/* MOBILE OVERRIDE */
+@media (max-width: 767px) {
+  #feedback-container {
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+/* DESKTOP OVERRIDE */
+@media (min-width: 768px) {
+  #feedback-container {
+    right: 50px;
+    width: 30vw;
+    min-width: 300px;
+  }
+}
+
+#feedback-container {
+  position: fixed;
+  top: 0;
+  padding-top: 50px;
+  z-index: 700;
+  color: #000;
+  border-color: #f58025;
+  border-width: 2px;
+}
+
+#feedback-text {
+  resize: vertical;
+}

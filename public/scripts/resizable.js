@@ -116,20 +116,31 @@ Licensed under MIT License
 
                 if (!opt.onDrag || opt.onDrag(e, $el, newWidth, newHeight, opt) !== false) {
                     if (opt.resizeHeight) {
-                        // MEL: make it a percentage instead
-                        $el.css('height', 100*newHeight/$el.parent().outerHeight() + '%');
+                        var maxHeight = ($('#search-pane').height()
+                                       - $('#search-form').height()
+                                       - $('#search-header').height()
+                                       - $('#favorite-header').height())
+                        maxHeight = 100*maxHeight/$(window).height()
+                        // MEL: make it a vh instead
+                        var setHeight = 100*newHeight/$(window).height()
+                        if (setHeight < 0) setHeight = 0
+                        if (setHeight > maxHeight) setHeight = maxHeight
+                        setHeight = setHeight + 'vh'
+                        updateFavHeight(setHeight) // set and store (only fav resizer is vertical)
                         //$el.height(newHeight);
                     }
 
                     if (opt.resizeWidth) {
                         // MEL: make it a percentage instead
-                        $el.css('width', 100*newWidth/$el.parent().outerWidth() + '%');
+                        var setWidth = 100*newWidth/$el.parent().outerWidth()
+                        if (setWidth < 0) setWidth = 0
+                        if (setWidth > 100) setWidth = 100
+                        setWidth = setWidth + '%'
+                        $el.css('width', setWidth);
+                        localStorage.setItem(opt.handleSelector, setWidth) // save in localStorage
                         //$el.width(newWidth);
                     }
                 }
-
-                // save percentage in local storage
-                localStorage.setItem(opt.handleSelector, 100*newWidth/$el.parent().outerWidth() + '%')
             }
 
             function stopDragging(e) {
@@ -170,3 +181,14 @@ Licensed under MIT License
         });
     };
 }));
+
+function updateFavHeight(height) {
+  $('#favorite-courses').css('max-height', height);
+  if ($('#favorite-courses').height() > 0 && $('#fav-display-toggle').hasClass('fa-plus')) {
+    $('#fav-display-toggle').removeClass('fa-plus')
+    $('#fav-display-toggle').addClass('fa-minus')
+  } else if ($('#favorite-courses').height() === 0 && $('#fav-display-toggle').hasClass('fa-minus')) {
+    $('#fav-display-toggle').removeClass('fa-minus')
+    $('#fav-display-toggle').addClass('fa-plus')
+  }
+}

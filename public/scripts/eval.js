@@ -1,4 +1,4 @@
-// dependencies: module.js
+// dependencies: icon.js
 
 // display course evals in the eval pane
 function display_evals(course) {
@@ -6,9 +6,9 @@ function display_evals(course) {
   $('#evals-semesters-body').children().remove()
   $('#evals-numeric-body').children().remove()
   $('#evals-comments-body').children().remove()
-  $('#evals-semesters').css('display', '')
-  $('#evals-numeric').css('display', '')
-  $('#evals-comments').css('display', '')
+  $('#evals-semesters').show()
+  $('#evals-numeric').show()
+  $('#evals-comments').show()
 
   // display eval pane
   evals_semesters(course)
@@ -72,16 +72,6 @@ function newDOMsemesterEval (semester) {
   professors = professors.join(', ')
   if (professors.length > 0) professors = '&nbsp;' + professors
 
-  // extract score (if it exists)
-  var hasScore = (semester.hasOwnProperty('scores') && semester.scores.hasOwnProperty('Overall Quality of the Course'))
-  if (hasScore) var score = semester.scores['Overall Quality of the Course']
-
-  var badgeColor = '#ddd' /* light grey */
-  if (hasScore) badgeColor = colorAt(score)
-
-  var badgeText = 'N/A'
-  if (hasScore) badgeText = score.toFixed(2)
-
   var htmlString= (
     '<li class="list-group-item search-result eval-list-item">'
     + '<div class="flex-container-row">'
@@ -89,9 +79,7 @@ function newDOMsemesterEval (semester) {
         + '<strong>' + semester.semester.name + '</strong> '
         + professors
       + '</div>'
-      + '<span class="badge badge-score flex-item-rigid" style="background-color: ' + badgeColor + '">'
-        + badgeText
-      + '</span>'
+      + newHTMLscoreBadge(semester)
     + '</div>'
   + '</li>'
   )

@@ -11,6 +11,10 @@ var userSchema = new mongoose.Schema({
   favoriteCourses: [{
     type: Number,
     ref: 'Course'
+  }],
+  clashDetectionCourses: [{
+    type: Number,
+    ref: 'Course'
   }]
 })
 

@@ -103,13 +103,10 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
   let sectionIndex = [] // index to be used when looking at possible schedules
   let favoriteCourseIDs = []
 
-  // for (let currentCourse = 0; currentCourse < favoriteCourses.length; currentCourse++) {
-  for (let favoriteCourseIndex in favoriteCourses) {
-    let thisFavoriteCourse = favoriteCourses[favoriteCourseIndex]
-
+  favoriteCourses.forEach(function (thisFavoriteCourse) {
     // Ignore courses from other semesters
     if (thisFavoriteCourse.semester._id !== semester) {
-      continue
+      return
     }
 
     // Append this courses' ID to favoriteCourseIDs
@@ -121,8 +118,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     let courseSectionsInc = []
     let maxLengthIndex = 0
 
-    for (let classIndex in thisFavoriteCourse.classes) {
-      let thisClass = thisFavoriteCourse.classes[classIndex]
+    thisFavoriteCourse.classes.forEach(function (thisClass) {
       if (prevSectionType !== '') {
         // new section type within a course, push previous information into arrays
         if (prevSectionType !== thisClass.section.charAt(0)) {
@@ -139,7 +135,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
       courseSectionsInc.push(false)
       prevSectionType = thisClass.section.charAt(0)
       maxLengthIndex++
-    }
+    })
 
     // all sections seen within course, push information into arrays
     if (courseSectionsAll.length > 0) {
@@ -149,7 +145,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
       maxLengthIndex = 0
       sectionIndex.push(0)
     }
-  }
+  })
 
   // if no more than 1 section within all favorite courses (odd but technically possible) return all courses, no clashes
   if (sectionIndex.length === 0) {
@@ -227,6 +223,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
   }
 
   // Check if there is no clash currently, if there is, return all courses, since clash will persist
+  // update values in maxLength to account for dropped sections
   for (let i = 0; i < incFavCourseSections.length; i++) {
     if (incFavCourseSections[i].length <= 0) {
       return {
@@ -234,6 +231,7 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
         courses: courses
       }
     }
+    maxLength[i] = incFavCourseSections[i].length
   }
 
   // now that the original subgraph has been made, run clash on all courses from search results
@@ -292,7 +290,6 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
 
     // now check for all possible schedules to include only possible sections
     // note that if sectionIndex[0] >= maxLengthIndex[0] all possibilities have been checked and the algorithm should terminate
-    // while (!checkedAll(sectionIndex, maxLength)  && !runBack) {
     while (!possibleScheduleFound) {
       while (i < currentSectionIndex.length) {
         for (let j = 0; j < i; j++) {
@@ -324,8 +321,6 @@ let detectCourseClash = function (favoriteCourses, courses, semester) {
     }
     courses[courseIndex].clash = (!possibleScheduleFound)
   }
-
-  // console.log(courses)
 
   // Return the courses array with each course containing a new 'clash' property indicating whether the course clashes with any favorites
   return {

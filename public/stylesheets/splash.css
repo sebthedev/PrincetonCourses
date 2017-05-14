@@ -1,17 +1,243 @@
-.fullpage{
-  height: 100vh;
+/* BENSU: Splash page*/
+
+/* Pagewide CSS */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+h4 {
+  margin: 15px;
+}
+
+/* Navbar */
+
+#navbar-content {
+  width:100%;
+}
+
+.navbar-right {
+  margin: 0; /* to stop things falling off in navbar-fixed-top */
+}
+
+/* Header */
+@media (max-width: 768px) {
+  .header-container h1 {
+    text-align: center;
+    font-size: 1.6em;
+  }
+  .header-container h3 {
+    text-align: center;
+    font-size: 1.2em;
+  }
+  #singlebutton {
+    width:270px;
+    font-size:1.2em;
+    border-width: 2px;
+  }
+}
+@media (min-width: 767px) {
+  #singlebutton {
+    font-size:2em;
+    border-width: 3px;
+    width: 350px;
+  }
+}
+
+.header-container {
+  height:100vh;
+  width:100%;
+  background-color: #fff;
+}
+
+.header-image {
+  background: rgba(255,255,255, 0.5);
+  position:absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+#header-content {
+  padding:20px;
+  /*background-color: rgba(0, 0, 0, .5);*/
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color:#000;
+}
+
+.header-credit {
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  background-color: rgba(0, 0, 0, .5);
+  color:#fff;
+}
+
+.header-credit>p {
+  margin:10px;
+}
+
+.header-credit a {
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.5s;
+  text-decoration: none;
+}
+
+.header-credit a:hover {
+  color: #EE7F2D;
+}
+
+/* Login Button */
+
+#singlebutton {
+  margin: 20px 0 10px 0;
+  left: 50%;
+  background-color: transparent;
+  border-radius: 10;
+  color: #000;
+  border-color:#000;
+
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+#singlebutton:hover {
+  color:#EE7F2D;
+  border-color:#EE7F2D;
+}
+
+/* Slideshow */
+
+.info-container {
+  min-height:100vh;
+  background-color:#fff;
+  padding: 20px;
+}
+
+.info-text > h2 {
+  margin: 30px 0px 20px 0;
+}
+
+.info-image > img {
+  margin: 30px 0 30px 0;
+}
+
+@media (max-width: 767px) {
+  .info-image > img {
+    border:8px solid rgba(0, 0, 0, .5);
+    width:100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .info-image > img {
+    border:15px solid rgba(0, 0, 0, .5);
+    width:85%;
+  }
+}
+
+/* Footer */
+
+.footer {
+  width: 100%;
+  background-color: #ddd;
+  padding: 20px 0 20px 0;
+}
+
+/* Intro Animation */
+/* Adapted from http://codepen.io/dwyermt/pen/avxQqg */
+
+.flex {
   width: 100vw;
+  margin: 0px auto;
+}
+
+i {
+  margin: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-flow: column wrap;
+  justify-content: space-between;
 }
 
-.jumbotron-banner {
-  text-align: center;
-  background-color: #EE7F2D;
-  color: #ffffff;
+.icon-img {
+  opacity: 0.3;
 }
 
-.banner-button {
-  margin-top: 40px;
+.flex i {
+  transform: scale(3);
+  opacity: 0;
+  transform-origin: 0% 0%;
+  animation-name: float_anim;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.float1 {
+  left: 20px;
+  top: 0px;
+  animation-duration: 6s;
+  animation-delay: 0.4s;
+  duration: 2.5s;
+}
+
+.float2 {
+  left: 40px;
+  top: 10px;
+  animation-duration: 7s;
+  animation-delay: 0.5s;
+}
+
+.float3 {
+  left: 60px;
+  transform: translate(50px, 500px);
+  animation-duration: 7.5s;
+  animation-delay: 0.6s;
+  top: 30px;
+}
+
+.float4 {
+  left: 80px;
+  top: 50px;
+  animation-duration: 6s;
+  animation-delay: 0.7s;
+  duration: 2.5s;
+}
+
+.float5 {
+  left: 100px;
+  top: 80px;
+  animation-duration: 5s;
+  animation-delay: 0.8s;
+}
+
+.float6 {
+  left: 60px;
+  top: 70px;
+  animation-duration: 8s;
+  animation-delay: 0.9s;
+}
+
+@keyframes float_anim {
+  0% {
+    transform: translateY(50vh) scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(30vh) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10vh) scale(1.2);
+    opacity: 0;
+  }
 }

@@ -5,6 +5,10 @@
 
 /* MOBILE OVERRIDES */
 @media (max-width: 767px) {
+  .tooltip {
+    display: none !important;
+  }
+
   #menu-header {
     /* flex-container-row */
     display: flex;
@@ -13,7 +17,7 @@
     overflow: hidden;
   }
 
-  #menu-brand, #menu-left, .resizer {
+  #menu-brand, #menu-left, .resizer, .resizer-inactive {
     display: none;
   }
 
@@ -60,27 +64,31 @@
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
   }
 
-  #feedback-container {
-    top: 0;
-    left: 0;
-    right: 0;
+  #demo-toggle {
+    display:none;
   }
 }
 
 /* DESKTOP OVERRIDES */
 @media (min-width: 768px) {
   #menu-back, #menu-form, #menu-brand-abbr {
-    display: none;
+    display: none !important;
   }
 
   #suggest-pane {
-    max-width: 200px;
-    width: 200px;
+    max-width: 30vw;
+    width: 15%;
     order: 10;
+    overflow-y: scroll !important; /* to fix weird right-padding-overlapping-with-scroll bug */
+  }
+
+  #suggest-resizer {
+    order: 15;
   }
 
   #search-pane {
-    padding-right: 5px !important; /* compensate for resizer */
+    padding-right: 5px !important; /* compensate for search resizer */
+    padding-left: 5px !important; /* compensate for suggest resizer */
     min-width: 200px;
     max-width: 40vw;
     width: 25%;
@@ -137,12 +145,6 @@
     border-radius: 17px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
   }
-
-  #feedback-container {
-    right: 50px;
-    width: 30vw;
-    min-width: 300px;
-  }
 }
 
 /* THINGS FOR SLICK CAROUSEL */
@@ -176,20 +178,13 @@
         For now, it is convenient to have all the css in one file. */
 
 /* BOOTSTRAP OVERRIDES */
-.navbar-right {
-  margin: 0; /* to stop things falling off in navbar-fixed-top */
-}
-.navbar-toggle {
-  margin-left: 15px; /* to match the right */
-}
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 .badge-score {
   width: 3.7em;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.150);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .progress {
@@ -210,13 +205,13 @@ body {
 
 .list-group-item.search-result:hover {
   background-color: #fff;
-  transition: background-color 0.4s ease;
+  /* transition: background-color 0.4s ease;*/
 }
 
 .list-group-item.search-result.active:hover {
   background-color: #428bca;
   border-color: #428bca;
-  transition: background-color 0s ease;
+  /* transition: background-color 0s ease; */
 }
 
 /* form focus outline shadow orange */
@@ -225,33 +220,46 @@ body {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(238, 127, 45, 0.6);
 }
 
-/* these are an rgb average of the corresponding bootstrap color and white */
-.text-info-dim {
-  color: #8CC7E0;
+/* from standard Bootstrap */
+.text-muted {
+  color: #636c72;
 }
-.text-warning-dim {
-  color: #F0C993;
+.text-info {
+  color: #5bc0de;
 }
-.text-danger-dim {
-  color: #eca8a7;
+.text-warning {
+  color: #f0ad4e;
 }
-.text-success-dim {
-  color: #94C499;
+.text-danger {
+  color: #d9534f;
 }
-.text-dim {
-  color: #9E9E9E;
-}
-.active .text-dim {
-  color: #fff;
-}
-.active .text-info {
-  color: #9bddfa
-}
-.active .text-danger {
-  color: #ff6764
+.text-success {
+  color: #5cb85c;
 }
 
+/* RGB average of above colors with #fff */
+.active .text-muted {
+  color: #fff; /* #b1b5b8; */
+}
+.active .text-info {
+  color: #addfee;
+}
+.active .text-warning {
+  color: #f7d6a6;
+}
+.active .text-danger {
+  color: #eca9a7;
+}
+.active .text-success {
+  color: #addbad;
+}
 /* PAGEWIDE CSS */
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
 
 .pane-padding {
   height: 15px;
@@ -261,15 +269,30 @@ body {
   margin-top: 50px; /* compensate for navbar */
 }
 
+.resizer-inactive { /* for suggest-resizer when suggest pane is hidden */
+  width: 5px;
+  background-color: #ddd;
+}
+
 .resizer {
   width: 5px;
   background-color: #ddd;
   cursor: col-resize;
 }
+.resizer-v {
+  /*height: 5px;
+  background-color: #ddd;*/
+  cursor: row-resize;
+}
 .resizer:active,
 .resizer:hover {
   background-color: #EE7F2D;
   cursor: col-resize;
+}
+.resizer-v:active,
+.resizer-v:hover {
+  /*background-color: #EE7F2D;*/
+  cursor: row-resize;
 }
 
 body {
@@ -298,6 +321,11 @@ body {
 .flex-item-rigid {
   flex-grow: 0;
   flex-shrink: 0;
+}
+.flex-item-grow {
+  flex-grow: 10000;
+  flex-shrink: 0;
+  flex-basis: auto;
 }
 .flex-item-stretch {
   flex-grow: 10000;
@@ -350,6 +378,17 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
 }
+.page-header > p {
+  opacity: 0;
+  margin:5px;
+  font-size:1em;
+  font-weight: bold;
+  transition: all 0.5s;
+}
+.page-header >img:hover + p {
+  opacity: 0.5;
+}
+
 @media (min-width: 992px) {
   .row-md-flex {
     display: flex;
@@ -378,7 +417,7 @@ body {
 }
 
 .welcome-icon:hover {
-  font-size: 3.6em !important;
+  font-size: 3.3em !important;
 }
 
 /* SEARCH PANE CSS */
@@ -388,8 +427,16 @@ body {
   padding: 10px 10px 15px;
 }
 
+#favorite-courses, #search-results {
+  transition: max-height 0.6s ease-in-out;
+}
+
 #search-resizer {
   z-index: 400;
+}
+
+#advanced-header {
+  margin-top: 5px;
 }
 
 #advanced-form {
@@ -398,7 +445,7 @@ body {
 
 .text-button {
   cursor: pointer;
-  color: #888;
+  color: #636c72;
 }
 .text-button:hover {
   color: #b8b8b8;
@@ -410,7 +457,7 @@ body {
 }
 
 .unfav-icon {
-  color: #d9534f;
+  color: #DE6965;
   cursor: pointer;
   transition: color 0.4s ease;
 }
@@ -423,21 +470,49 @@ body {
   cursor: pointer;
   transition: color 0.4s ease;
 }
+.active .fav-icon {
+  color: #f4f4f4;
+}
 .fav-icon:hover {
-  color: #d9534f;
+  color: #DE6965;
+}
+
+.pin-icon {
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
+.active .pin-icon {
+  color: #f4f4f4;
+}
+.pin-icon:hover {
+  color: #8CC7E0;
+}
+
+.unpin-icon {
+  color: #8CC7E0;
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
+.unpin-icon:hover {
+  color: #C5E4FA;
 }
 
 .instructor-list-item {
   padding: 8px;
   background-color: #f4f4f4;
-  transition: background-color 0.4s ease;
+  /* transition: background-color 0.4s ease; */
 }
 .instructor-list-item:hover {
   padding: 8px;
-  background-color: #eaeaea;
+  background-color: #fff;
   cursor: pointer;
 }
 .instructor-list-item-opened {
+  transition: background-color 0.4s ease;
+  background-color: #eaeaea;
+}
+.instructor-list-item-opened:hover {
   background-color: #eaeaea;
 }
 .instructor-title {
@@ -462,8 +537,17 @@ body {
   overflow-y: auto;
 }
 
+.class-code {
+  opacity:0;
+  transition: all 0.2s;
+}
+.info-list-item:hover .class-code {
+  opacity:1;
+}
+
 .info-list-item {
-  /*background-color:#eee;*/
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* EVALS PANE CSS */
@@ -478,6 +562,11 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+}
+
+.eval-list-item {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .up-icon {
@@ -510,18 +599,30 @@ body {
 }
 .suggest-result:hover {
   background-color: #fff;
-  transition: background-color 0.4s ease;
 }
 
-/* FEEDBACK CSS */
+.suggest-text {
+  margin-right: 8px;
+}
 
-#feedback-container {
-  position: fixed;
-  top: 0;
-  padding-top: 50px;
-  z-index: 700;
-  border-color: #f58025;
-  border-width: 2px;
+.suggest-button {
+  margin: -5px -8px;
+  padding: 5px 8px;
+  background-color: #e8e8e8;
+  color: #888;
+  text-align: center;
+  width: 30px;
+}
+.suggest-button:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+.suggest-button.active {
+  background-color: #337ab7;
+  color: #fff;
+}
+.suggest-button.active:hover {
+  background-color: #428bca;
 }
 
 /* ABOUT POPUP CSS */
