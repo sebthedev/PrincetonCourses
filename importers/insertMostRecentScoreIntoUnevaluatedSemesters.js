@@ -11,6 +11,7 @@ require('../controllers/database.js')
 
 // Find  all the courses for which scores do not exist or scores is {}
 courseModel.find({
+  semester: parseInt(process.argv[2]) || {$gt: 0},
   $or: [
     {
       scores: {}
@@ -22,7 +23,13 @@ courseModel.find({
       scoresFromPreviousSemester: true
     }
   ]
+}, {
+  _id: true,
+  courseID: true,
+  instructors: true,
+  semester: true
 }).then(function (courses) {
+  console.log('Found %d matching courses', courses.length)
   let coursesPending = courses.length
   courses.forEach(function (course, index) {
     let promises = []
@@ -64,31 +71,33 @@ courseModel.find({
       }).sort({_id: -1}).limit(1).exec())
     }
 
-    Promise.all(promises).then(function (results) {
+    Promise.all(promises)/*.then(wait(Math.random() * 30 * 1000))*/.then(function (results) {
       let mostRecentCourseWithRatings
+      console.log('Promises resolved (courses pending: %d)', coursesPending)
 
       // Determine which course evalaution score to use
       if (typeof (results[1]) !== 'undefined' && results[1].length > 0) {
-        mostRecentCourseWithRatings = results[1]
+        mostRecentCourseWithRatings = results[1][0]
       } else {
-        mostRecentCourseWithRatings = results[0]
+        mostRecentCourseWithRatings = results[0][0]
       }
 
       // Insert this score into the course in question
-      if (typeof (mostRecentCourseWithRatings[0]) !== 'undefined') {
+      if (typeof (mostRecentCourseWithRatings) !== 'undefined') {
+        console.log('About to issue update (courses pending: %d)', coursesPending)
         courseModel.update({
           _id: course._id
         }, {
           scores: {
-            'Overall Quality of the Course': mostRecentCourseWithRatings[0].scores['Overall Quality of the Course']
+            'Overall Quality of the Course': mostRecentCourseWithRatings.scores['Overall Quality of the Course']
           },
-          scoresFromPreviousSemesterSemester: mostRecentCourseWithRatings[0].semester._id,
+          scoresFromPreviousSemesterSemester: mostRecentCourseWithRatings.semester._id,
           scoresFromPreviousSemester: true
         }, function (err) {
           if (err) {
             console.log(err)
           } else {
-            console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings[0].scores['Overall Quality of the Course'], 'from', mostRecentCourseWithRatings[0]._id)
+            console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings.scores['Overall Quality of the Course'], 'from', mostRecentCourseWithRatings._id)
             if (--coursesPending === 0) {
               console.log('Done')
               process.exit(0)
@@ -110,85 +119,3 @@ courseModel.find({
   console.log(reason)
   process.exit(0)
 })
-
-/*
-
-courseModel.distinct('courseID', {
-  department: 'COS',
-  catalogNumber: '432',
-  $or: [
-    {
-      scores: {}
-    }, {
-      scores: {
-        $exists: false
-      }
-    }, {
-      scoresFromPreviousSemester: true
-    }
-  ]
-}, function (err, courseIDs) {
-  if (err) {
-    console.log(err)
-  }
-
-  // Iterate over all the coursesIDs
-  for (var courseIDIndex in courseIDs) {
-    var courseID = courseIDs[courseIDIndex]
-
-    let promises = []
-
-    // Find the most recent Overall Quality of the Course score across all the semesters of this course
-    promises.push(courseModel.find({
-      courseID: courseID,
-      'scores.Overall Quality of the Course': {
-        $exists: true
-      },
-      scoresFromPreviousSemester: {
-        $not: {
-          $eq: true
-        }
-      }
-    }, {
-      'scores.Overall Quality of the Course': 1,
-      courseID: 1
-    }).sort({_id: -1}).limit(1).exec())
-
-    Promise.all(promises).then(function (results) {
-      let result = results[0]
-      console.log(result)
-
-      // If a score exists, update the main course with this ID
-      if (typeof (result[0]) !== 'undefined') {
-        courseModel.update({
-          courseID: result[0].courseID,
-          $or: [
-            {
-              scores: {}
-            }, {
-              scores: {
-                $exists: false
-              }
-            }, {
-              scoresFromPreviousSemester: true
-            }
-          ]
-        }, {
-          scores: {
-            'Overall Quality of the Course': result[0].scores['Overall Quality of the Course']
-          },
-          scoresFromPreviousSemester: true
-        }, function (err) {
-          if (err) {
-            console.log(err)
-          } else {
-          // console.log('Completed ' + Math.random())
-          }
-        })
-      }
-    }).catch(function (reason) {
-      console.log(reason)
-      process.exit(0)
-    })
-  }
-}) */

@@ -163,6 +163,10 @@ prompt.get({
               }, {
                 $set: {
                   scores: scores
+                },
+                $unset: {
+                  scoresFromPreviousSemester: '',
+                  scoresFromPreviousSemesterSemester: ''
                 }
               }))
             }
