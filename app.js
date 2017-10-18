@@ -100,6 +100,11 @@ app.get('/app', function (req, res) {
   res.render('pages/app', res.locals.renderLocals)
 })
 
+// Route a request for the main app page
+app.get('/privacy', function (req, res) {
+  res.render('pages/privacy', res.locals.renderLocals)
+})
+
 // Map any files in the /public folder to the root of our domain
 // For example, if there is a file at /public/cat.jpg of this app,
 // it can be accessed on the web at [APP DOMAIN NAME]/cat.jpg

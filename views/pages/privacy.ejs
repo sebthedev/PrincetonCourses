@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <%-
+
+  // Include page-specific scripts and stylesheets with a per-deploy cache-buster
+  include('../partials/staticResources', {
+    scripts: ['logout', 'feedback', 'navbar', 'about'],
+    stylesheets: ['about', 'feedback', 'navbar'],
+    release: release
+  })
+  %>
+</head>
+
+<body>
+  <div id="full-page" class="flex-item-rigid">
+    <!-- Navigation -->
+    <%- include('../partials/navbar', {active: 'home'}) %>
+
+    <section id="team" class="team content-section">
+      <div class="container">
+
+        <div class="row text-center" style="max-width: 700px; margin: auto;">
+          <div class="col-md-12">
+            <h2>Privacy Policy</h2>
+            <p>This privacy policy explains what data Princeton Courses stores about our users and how we use it.</p>
+            <p>When you first register with Princeton Courses we save your Princeton University netID to create your account. When you mark a course as a favorite/pinned course, we save this information so that you can access your list of favourite/pinned courses in the future.</p>
+            <p>When your browser requests resources from our servers, this generates an entry in our server log. These logs contain the name of the requested resource and your IP address, but no other personally-identifiable information. These logs are deleted after 7 days.</p>
+            <p>We use an industry-standard analytics system, Google Analytics, to monitor and analyze how users interact with Princeton Courses. These interactions are tied to each user's unique identifier to help us understand usage patterns and improve our service.</p>
+            <p>All data is stored securely and can only be accessed by authorized Princeton Courses administrators.</p>
+            <p>If you do not consent to this data being collected, please do not use our service.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <% include ../partials/feedback.ejs %>
+
+</html>
