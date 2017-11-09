@@ -164,7 +164,6 @@ var init_search = function() {
 
   // load the semesters for the dropdown
   $('#semester').children().remove()
-  console.log('releaseVersion:', releaseVersion)
   var localReleaseVersion = releaseVersion || 'v1'
   $.get('/api/semesters?v=' + localReleaseVersion, function (semesters) {
     for (var semesterIndex in semesters) {
