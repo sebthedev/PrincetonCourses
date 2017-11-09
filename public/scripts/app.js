@@ -164,7 +164,8 @@ var init_search = function() {
 
   // load the semesters for the dropdown
   $('#semester').children().remove()
-  $.get('/api/semesters', function (semesters) {
+  var releaseVersion = releaseVersion || 'v0'
+  $.get('/api/semesters?v=' + releaseVersion, function (semesters) {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
