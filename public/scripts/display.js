@@ -55,6 +55,12 @@ var displayCourseDetails = function(courseId, noswipe, instructorId) {
       display_evals(course); // in eval.js
       display_past(course);
 
+      // Make a no-cache request for the class enrollment information
+      var cachebust = Math.random().toString().split('.')[1];
+      $.get('/api/course/' + courseId + '/classes' + '?cachebust=' + cachebust, function (classes, status) {
+        display_classes({classes: classes});
+      })
+
       displayActive() // update highlighting of active course
 
       // set scroll to top

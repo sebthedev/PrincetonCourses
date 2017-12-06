@@ -8,6 +8,23 @@ let router = express.Router()
 let courseModel = require.main.require('./models/course.js')
 let userModel = require.main.require('./models/user.js')
 
+// Allow requesting only the classes information
+// (This is used to allow the rest of the class page to be cached by the client, and only request this information on pageload)
+router.use('/:id/classes', function (req, res) {
+  // Validate that the request is correct
+  if ((typeof (req.params.id) === 'undefined') || isNaN(req.params.id)) {
+    res.sendStatus(400)
+    return
+  }
+
+  courseModel.findOne({_id: req.params.id}, {'classes': true}).then(function (course) {
+    res.send(course.classes)
+  }).catch(function (err) {
+    console.log(err)
+    res.sendStatus(500)
+  })
+})
+
 // Return all the information about a specific semester of a course
 router.use('/:id', function (req, res) {
     // Validate that the request is correct
