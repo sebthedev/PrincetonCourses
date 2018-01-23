@@ -116,7 +116,7 @@ var importSubject = function (semester, subject) {
       process.stdout.write(' ' + courseData.catalog_number)
     }
 
-    if (typeof (courseData.catalog_number) === 'undefined' || courseData.catalog_number.length < 3) {
+    if (typeof (courseData.catalog_number) === 'undefined' || courseData.catalog_number.length < 2) {
       continue
     }
 
