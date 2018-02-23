@@ -16,3 +16,6 @@ module.exports.host = host
 // The domain and port on which the app is running
 var port = process.env.PORT || 500
 module.exports.port = port
+
+// The secret used to encrypt session database
+module.exports.sessionSecret = process.env.SESSION_SECRET || 'abcdefghijklmnop'
