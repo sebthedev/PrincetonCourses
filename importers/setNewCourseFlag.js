@@ -25,6 +25,11 @@ Promise.all(promises).then(function (results) {
     console.log('Considering course with ID %s.', thisCourseID)
 
     courseModel.find({courseID: thisCourseID}, function (err, courses) {
+      if (err) {
+        console.log(err)
+        process.exit(1)
+      }
+      console.log('Got result for course ID ', thisCourseID)
       if (courses.length === 1 && courses[0].semester._id === mostRecentSemester._id) {
         courses[0].update({
           $set: {

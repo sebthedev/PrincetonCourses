@@ -3,7 +3,9 @@
 if (typeof (release) === 'undefined') {
   var release = 'v0'
 }
-
+%>
+<script>releaseVersion = '<%= release %>';</script>
+<%
 if (scripts) {
   scripts.forEach(function (script) {
     %>

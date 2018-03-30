@@ -40,8 +40,11 @@ let api = require('./controllers/api.js')
 // Connect to the database
 require('./controllers/database.js')
 
-// Configure the app to save a cookie with two attributes (for netid and status)
-app.use(session({ keys: ['key1', 'key2'] }))
+// Configure the app to save a cookie
+app.use(session({
+  secret: config.sessionSecret,
+  maxAge: 24 * 60 * 60 * 1000 * 365 // 365 days
+}))
 
 // Attempt to load the currently logged-in user
 app.use('*', auth.loadUser)
@@ -98,6 +101,11 @@ app.get('/about', function (req, res) {
 // Route a request for the main app page
 app.get('/app', function (req, res) {
   res.render('pages/app', res.locals.renderLocals)
+})
+
+// Route a request for the main app page
+app.get('/privacy', function (req, res) {
+  res.render('pages/privacy', res.locals.renderLocals)
 })
 
 // Map any files in the /public folder to the root of our domain

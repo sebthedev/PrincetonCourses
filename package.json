@@ -4,15 +4,15 @@
   "description": "An app to explore Princeton University course listings and evaluations.",
   "main": "app.js",
   "dependencies": {
-    "body-parser": "^1.17.0",
+    "body-parser": "^1.18.2",
     "cas": "^0.0.3",
     "cheerio": "^0.22.0",
     "cookie-session": "^2.0.0-beta.1",
     "dotenv": "^4.0.0",
-    "ejs": "^2.4.1",
+    "ejs": "^2.5.7",
     "express": "^4.13.3",
     "loglevel": "^1.4.1",
-    "mongoose": "^4.1.11",
+    "mongoose": "^4.13.6",
     "opbeat": "^4.13.0",
     "prompt": "^1.0.0"
   },

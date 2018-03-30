@@ -164,7 +164,8 @@ var init_search = function() {
 
   // load the semesters for the dropdown
   $('#semester').children().remove()
-  $.get('/api/semesters', function (semesters) {
+  var localReleaseVersion = releaseVersion || 'v1'
+  $.get('/api/semesters?v=' + localReleaseVersion, function (semesters) {
     for (var semesterIndex in semesters) {
       var thisSemester = semesters[semesterIndex]
       var option = $(document.createElement('option')).attr('value', thisSemester._id).text(thisSemester.name)
@@ -248,8 +249,8 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateMessage = 'Princeton Courses is now optimized for mobile and will warn you if courses you\'re searching for have time conflicts with your favorite courses. Happy course selection!'
-  var updateNo = 2 //  BENSU: increment this number for new updates
+  var updateMessage = 'Princeton Courses is now updated with courses for Spring 2018. Happy course selection!'
+  var updateNo = 3 //  BENSU: increment this number for new updates
   var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
   $("#updates-bottom-popup").append(updateMessage);
   if (updateNo != updateNoStored) // new update
