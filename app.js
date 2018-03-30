@@ -120,7 +120,19 @@ app.get('*', function (req, res) {
 // Configure the EJS templating system (http://www.embeddedjs.com)
 app.set('view engine', 'ejs')
 
-// Start listening for requests
-app.listen(config.port, function () {
-  console.log('Listening for reqs on port %d.', config.port)
-})
+const cluster = require('cluster')
+const os = require('os')
+
+if (cluster.isMaster) {
+  const cpus = os.cpus().length
+
+  console.log(`Forking for ${cpus} CPUs`)
+  for (let i = 0; i < cpus; i++) {
+    cluster.fork()
+  }
+} else {
+  // Start listening for requests
+  app.listen(config.port, function () {
+    console.log('Listening for reqs on port %d.', config.port)
+  })
+}
