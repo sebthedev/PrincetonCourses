@@ -121,13 +121,12 @@ app.get('*', function (req, res) {
 app.set('view engine', 'ejs')
 
 const cluster = require('cluster')
-const os = require('os')
-
 if (cluster.isMaster) {
-  const cpus = os.cpus().length
+  const os = require('os')
+  const workers = process.env.WEB_CONCURRENCY || os.cpus().length || 1
 
-  console.log(`Forking for ${cpus} CPUs`)
-  for (let i = 0; i < cpus; i++) {
+  console.log(`Forking for ${workers} workers`)
+  for (let i = 0; i < workers; i++) {
     cluster.fork()
   }
 } else {
