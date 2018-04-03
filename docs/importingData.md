@@ -10,5 +10,5 @@ Princeton courses has a collection of scripts in the `importers` folder that fet
 ## Scripts to Run When Course Listings Are Published
 * `scrapeExtendedCourseDetails.js` populates the database with extended course details (assignments, grading, prerequisites, etc…). This script scrapes the Registrar’s website and is throttled to 20 requests per second. This script takes 7-10 minutes to run.
 * `importDepartments.js` populates the database with the names and codes of all of the academic departments.
-* `insertMostRecentScoreIntoUnevaluatedSemesters.js` inserts, into any course for which course evaluations have not yet been published, the “Overall Quality of the Course” score from the most recent time the instructor for this semester taught this course.
+* `insertMostRecentScoreIntoUnevaluatedSemesters.js` inserts, into any course for which course evaluations have not yet been published, the “Quality of Course” score from the most recent time the instructor for this semester taught this course.
 * `setNewCourseFlag.js` notes in the database whether a course has ever been taught before.
