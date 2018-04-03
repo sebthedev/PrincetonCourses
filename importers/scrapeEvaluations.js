@@ -155,7 +155,8 @@ promptly.prompt('Paste the session cookie output from the developer console and 
           },
           $unset: {
             scoresFromPreviousSemester: '',
-            scoresFromPreviousSemesterSemester: ''
+            scoresFromPreviousSemesterSemester: '',
+            new: ''
           }
         }))
       }
