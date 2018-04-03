@@ -27,21 +27,21 @@ function newHTMLscoreBadge(course, props) {
   if (isTitle) {
     var hasScore = (course.hasOwnProperty('evaluations')
                && course.evaluations.hasOwnProperty('scores')
-               && course.evaluations.scores.hasOwnProperty('Overall Quality of the Course'))
+               && course.evaluations.scores.hasOwnProperty('Quality of Course'))
   } else {
-    var hasScore = (course.hasOwnProperty('scores') && course.scores.hasOwnProperty('Overall Quality of the Course'))
+    var hasScore = (course.hasOwnProperty('scores') && course.scores.hasOwnProperty('Quality of Course'))
   }
   var isPast = course.hasOwnProperty('scoresFromPreviousSemester') && course.scoresFromPreviousSemester
   var isNew = course.hasOwnProperty('new') && course.new
 
   if (hasScore) {
-    if (isTitle) var score = course.evaluations.scores['Overall Quality of the Course']
-    else var score = course.scores['Overall Quality of the Course']
+    if (isTitle) var score = course.evaluations.scores['Quality of Course']
+    else var score = course.scores['Quality of Course']
   }
 
   var tooltip = 'No score available' // default
-  if (hasScore && isPast) tooltip = 'Overall Quality of the Course from the most recent time this instructor taught this course'
-  else if (hasScore) tooltip = 'Overall Quality of the Course'
+  if (hasScore && isPast) tooltip = 'Quality of Course from the most recent time this instructor taught this course'
+  else if (hasScore) tooltip = 'Quality of Course'
   else if (isNew) tooltip = 'New course'
 
   var color = '#ddd' // default light grey

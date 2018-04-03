@@ -34,10 +34,10 @@ courseModel.find({
   courses.forEach(function (course, index) {
     let promises = []
 
-    // Find the most recent Overall Quality of the Course score across all the semesters of this course
+    // Find the most recent Quality of Course score across all the semesters of this course
     promises.push(courseModel.find({
       courseID: course.courseID,
-      'scores.Overall Quality of the Course': {
+      'scores.Quality of Course': {
         $exists: true
       },
       scoresFromPreviousSemester: {
@@ -46,16 +46,16 @@ courseModel.find({
         }
       }
     }, {
-      'scores.Overall Quality of the Course': 1,
+      'scores.Quality of Course': 1,
       courseID: 1,
       'semester': 1
     }).sort({_id: -1}).limit(1).exec())
 
-    // Find the most recent Overall Quality of the Course score taught by this instructor
+    // Find the most recent Quality of Course score taught by this instructor
     if (typeof (course) !== 'undefined' && typeof (course.instructors) !== 'undefined' && course.instructors.length > 0 && (course.instructors[0]._id) !== 'undefined') {
       promises.push(courseModel.find({
         courseID: course.courseID,
-        'scores.Overall Quality of the Course': {
+        'scores.Quality of Course': {
           $exists: true
         },
         scoresFromPreviousSemester: {
@@ -65,7 +65,7 @@ courseModel.find({
         },
         instructors: course.instructors[0]._id
       }, {
-        'scores.Overall Quality of the Course': 1,
+        'scores.Quality of Course': 1,
         courseID: 1,
         'semester': 1
       }).sort({_id: -1}).limit(1).exec())
@@ -89,7 +89,7 @@ courseModel.find({
           _id: course._id
         }, {
           scores: {
-            'Overall Quality of the Course': mostRecentCourseWithRatings.scores['Overall Quality of the Course']
+            'Quality of Course': mostRecentCourseWithRatings.scores['Quality of Course']
           },
           scoresFromPreviousSemesterSemester: mostRecentCourseWithRatings.semester._id,
           scoresFromPreviousSemester: true
@@ -97,7 +97,7 @@ courseModel.find({
           if (err) {
             console.log(err)
           } else {
-            console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings.scores['Overall Quality of the Course'], 'from', mostRecentCourseWithRatings._id)
+            console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings.scores['Quality of Course'], 'from', mostRecentCourseWithRatings._id)
             if (--coursesPending === 0) {
               console.log('Done')
               process.exit(0)

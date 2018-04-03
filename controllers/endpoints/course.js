@@ -82,7 +82,7 @@ router.use('/:id', function (req, res) {
   var semestersPromise = courseModel.find({
     courseID: req.params.id.substring(4)
   }, {
-    'scores.Overall Quality of the Course': 1,
+    'scores.Quality of Course': 1,
     scoresFromPreviousSemester: 1,
     semester: 1,
     instructors: 1,

@@ -355,15 +355,15 @@ router.use('/:query', function (req, res) {
 
       // Then sort by course rating
       // If the course lacks a score it is lower than a course that has a score
-      if (typeof (a.scores) === 'undefined' || typeof (a.scores['Overall Quality of the Course']) === 'undefined') {
+      if (typeof (a.scores) === 'undefined' || typeof (a.scores['Quality of Course']) === 'undefined') {
         return 1
       }
-      if (typeof (b.scores) === 'undefined' || typeof (b.scores['Overall Quality of the Course']) === 'undefined') {
+      if (typeof (b.scores) === 'undefined' || typeof (b.scores['Quality of Course']) === 'undefined') {
         return -1
       }
 
       // Return the difference between the scores
-      return b.scores['Overall Quality of the Course'] - a.scores['Overall Quality of the Course']
+      return b.scores['Quality of Course'] - a.scores['Quality of Course']
     })
 
     // Send the result to the client
