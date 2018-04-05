@@ -149,8 +149,18 @@ var init_search = function() {
   var savedSort = localStorage.getItem("sort");
   $('#sort').selectpicker('val', ((savedSort !== undefined && savedSort !== null) ? savedSort : "commonName"))
 
-  // Every time a key is pressed inside the #searchbox, search
-  $('#searchbox').on('input', searchFromBox)
+  // 200ms after the last keypress inside the searchbox, run the search
+  let mostRecentInputTime
+  const searchDelayMs = 200
+  const inputToSearchBox = function () {
+    mostRecentInputTime = Date.now()
+    setTimeout(function () {
+      if (Date.now() >= mostRecentInputTime + searchDelayMs) {
+        searchFromBox()
+      }
+    }, searchDelayMs)
+  }
+  $('#searchbox').on('input', inputToSearchBox)
   $('#semester, #sort, #advanced-filter-clashes').change(searchFromBox)
 
   // Allow clicking the "Search" keyboard button on mobile
