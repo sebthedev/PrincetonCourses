@@ -82,14 +82,28 @@ app.get('/', function (req, res) {
   }
 })
 
+const crawlerRegex = new RegExp('(facebookexternalhit|twitterbot|facebot)')
+
+const Course = require('./models/course.js')
 // Route a request for a page inside the app
-app.get('/course/:id', function (req, res) {
+app.get('/course/:id', express.urlencoded({extended: true}), function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
-    res.redirect('/auth/login?redirect=' + req.originalUrl)
+    // Dislay a simple page with crawler markup for Facebook, Twitter, and iMessage crawlers
+    if (crawlerRegex.test(req.get('User-Agent')) || req.query.x) {
+      return Course.findById(req.params.id).then(course => {
+        if (!course) {
+          return res.redirect('/auth/login?redirect=' + req.originalUrl)
+        }
+        return res.render('pages/crawlerCourse', {course})
+      })
+    }
+
+    // Redirect to the login URL
+    return res.redirect('/auth/login?redirect=' + req.originalUrl)
   } else {
     // The user has authenticated. Display the app
-    res.render('pages/app', res.locals.renderLocals)
+    return res.render('pages/app', res.locals.renderLocals)
   }
 })
 
