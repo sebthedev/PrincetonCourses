@@ -90,7 +90,7 @@ app.get('/course/:id', express.urlencoded({extended: true}), function (req, res)
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
     // Dislay a simple page with crawler markup for Facebook, Twitter, and iMessage crawlers
-    if (crawlerRegex.test(req.get('User-Agent')) || req.query.x) {
+    if (crawlerRegex.test(req.get('User-Agent'))) {
       return Course.findById(req.params.id).then(course => {
         if (!course) {
           return res.redirect('/auth/login?redirect=' + req.originalUrl)
