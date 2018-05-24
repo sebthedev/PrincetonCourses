@@ -14,7 +14,6 @@
     "express": "^4.13.3",
     "loglevel": "^1.4.1",
     "mongoose": "^4.13.6",
-    "opbeat": "^4.13.0",
     "prompt": "^1.0.0",
     "promptly": "^3.0.3",
     "request": "^2.85.0"
