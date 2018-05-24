@@ -10,7 +10,6 @@ const path = require('path')
 let mongoose = require('mongoose')
 let express = require('express')
 let session = require('cookie-session')
-let bodyParser = require('body-parser')
 
 // Make Mongoose use native promises
 mongoose.Promise = global.Promise
@@ -19,8 +18,8 @@ mongoose.Promise = global.Promise
 let app = express()
 
 // Initialise bodyParser, which parses the data out of web requests
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Load internal modules
 let config = require('./controllers/config')
