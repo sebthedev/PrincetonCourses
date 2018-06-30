@@ -123,17 +123,17 @@ var getCourseListingData = function (semester, courseID, callback) {
       let processedAssignments = assignments.replace(/pp[ .;,]/gi, " pages")
       let assignmentParts = processedAssignments.split(/[,.!;]/g)
       for (let index in assignmentParts) {
-        if (/reading/i.test(assignmentParts[index]) && 
+        if (/reading/i.test(assignmentParts[index]) &&
             /pages/i.test(assignmentParts[index])) {
           numbers = assignmentParts[index].split(/[^0-9]/g)
           for (let part in numbers) {
             if (parseInt(numbers[part]) > maxPages)
-              maxPages = parseInt(numbers[part])  
+              maxPages = parseInt(numbers[part])
           }
         }
-      }     
+      }
       results.readingAmount = maxPages
-      
+
     }
 
     // Get Grading Components
@@ -229,9 +229,11 @@ let query = {}
 if (process.argv.length > 2) {
   query = JSON.parse(process.argv[2])
 }
+console.log('Running query:', query)
 courseModel.find(query, function (error, courses) {
   if (error) {
     console.log(error)
+    process.exit(1)
   }
 
   // Check that the user is aware of the number of requests they are about to send

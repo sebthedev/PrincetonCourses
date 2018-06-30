@@ -3,11 +3,6 @@
 // Greet the world!
 console.log('Launching Princeton Courses.')
 
-// Attach Opbeat
-if (process.env.NODE_ENV === 'production') {
-  var opbeat = require('opbeat').start()
-}
-
 // Load Node.js components
 const path = require('path')
 
@@ -15,7 +10,6 @@ const path = require('path')
 let mongoose = require('mongoose')
 let express = require('express')
 let session = require('cookie-session')
-let bodyParser = require('body-parser')
 
 // Make Mongoose use native promises
 mongoose.Promise = global.Promise
@@ -23,14 +17,9 @@ mongoose.Promise = global.Promise
 // Initialise Express, which makes the server work
 let app = express()
 
-// Configure Opbeat as an error handling middleware
-if (process.env.NODE_ENV === 'production') {
-  app.use(opbeat.middleware.express())
-}
-
 // Initialise bodyParser, which parses the data out of web requests
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Load internal modules
 let config = require('./controllers/config')
@@ -82,14 +71,28 @@ app.get('/', function (req, res) {
   }
 })
 
+const crawlerRegex = new RegExp('(facebookexternalhit|twitterbot|facebot)')
+
+const Course = require('./models/course.js')
 // Route a request for a page inside the app
-app.get('/course/:id', function (req, res) {
+app.get('/course/:id', express.urlencoded({extended: true}), function (req, res) {
   // Check whether the user sending this request is authenticated
   if (!auth.userIsAuthenticated(req)) {
-    res.redirect('/auth/login?redirect=' + req.originalUrl)
+    // Dislay a simple page with crawler markup for Facebook, Twitter, and iMessage crawlers
+    if (crawlerRegex.test(req.get('User-Agent'))) {
+      return Course.findById(req.params.id).then(course => {
+        if (!course) {
+          return res.redirect('/auth/login?redirect=' + req.originalUrl)
+        }
+        return res.render('pages/crawlerCourse', {course})
+      })
+    }
+
+    // Redirect to the login URL
+    return res.redirect('/auth/login?redirect=' + req.originalUrl)
   } else {
     // The user has authenticated. Display the app
-    res.render('pages/app', res.locals.renderLocals)
+    return res.render('pages/app', res.locals.renderLocals)
   }
 })
 

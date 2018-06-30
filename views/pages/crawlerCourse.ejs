@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title><%= course.commonName + ': ' + course.title %></title>
+  <meta name="description" content="<%= course.description %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <link rel="icon" href="https://www.cs.princeton.edu/favicon"/>
+
+  <!-- Open Graph Tags -->
+  <meta property="og:site_name" content="Princeton Courses" />
+  <meta property="og:title" content="<%= course.commonName + ': ' + course.title %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.princetoncourses.com/course/<%= course._id %>" />
+
+</head>
+
+<body>
+    <a href="/auth/login">You must login to view this page</a>.
+</body>
+
+</html>
