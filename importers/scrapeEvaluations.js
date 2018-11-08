@@ -173,7 +173,7 @@ promptly.prompt('Paste the session cookie output from the developer console and 
         console.log(reason)
       })
     })
-  }, 100)
+  }, 500)
 }).catch(err => {
   console.error(err)
   process.exit(1)

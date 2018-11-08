@@ -12,7 +12,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "loglevel": "^1.6.1",
-    "mongoose": "^5.1.2",
+    "mongoose": "^5.1.7",
     "prompt": "^1.0.0",
     "promptly": "^3.0.3",
     "request": "^2.87.0"
