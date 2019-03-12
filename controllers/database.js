@@ -11,7 +11,7 @@ var config = require('./config.js')
 // operations and release them when the connection is complete.
 console.log('Attempting to connect to the database.')
 mongoose.Promise = global.Promise
-mongoose.connect(config.mongoDBURI, function (error, res) {
+mongoose.connect(config.mongoDBURI, { useNewUrlParser: true }, function (error, res) {
   if (error) {
     console.log('Connecting to the database failed. Databse URI: %s, Error: %s.', config.mongoDBURI, error)
     process.exit(1)
