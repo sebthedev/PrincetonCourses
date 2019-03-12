@@ -15,7 +15,7 @@ $(document).ready(function() {
   init_display();
   init_evals();
   init_suggest();
-  init_updates();
+  //init_updates(); // BENSU: Enable to show update popup, but keep the popup information below updated by changing the text and the popup number
 })
 
 // loads course from url
@@ -259,8 +259,8 @@ var init_suggest = function() {
 
 // to initialize updates popup
 var init_updates = function() {
-  var updateMessage = 'Princeton Courses is now updated with courses for Fall 2018. Happy course selection!'
-  var updateNo = 4 //  BENSU: increment this number for new updates
+  var updateMessage = 'Princeton Courses is now updated with courses for Spring 2019. Happy course selection!' // BENSU: Change this message
+  var updateNo = 4 //  BENSU: increment this number to display new updates. This number gets cached locally once the popup is seen by the user, so that the popup is not displayed all the time
   var updateNoStored = localStorage.getItem('updateNo'); //last update seen by user
   $("#updates-bottom-popup").append(updateMessage);
   if (updateNo != updateNoStored) // new update
