@@ -185,9 +185,7 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     })
   }
 
-  courseModel.findOneAndUpdate({
-    _id: data.guid
-  }, {
+  const upsertData = {
     _id: data.guid,
     courseID: data.course_id,
     catalogNumber: data.catalog_number,
@@ -200,7 +198,15 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     crosslistings: crosslistings,
     track: data.detail.track,
     open: openStatus
-  }, {
+  }
+
+  if (data.distribution_area && data.distribution_area.trim().length > 0) {
+    upsertData.distribution = data.distribution_area
+  }
+
+  courseModel.findOneAndUpdate({
+    _id: data.guid
+  }, upsertData, {
     new: true,
     upsert: true,
     runValidators: true,
