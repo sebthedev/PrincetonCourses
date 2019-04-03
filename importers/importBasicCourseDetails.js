@@ -32,7 +32,7 @@ var loadCoursesFromRegistrar = function (query, externalCallback) {
     // Define the HTTP request options
   var options = {
     host: 'etcweb.princeton.edu',
-    path: '/webfeeds/courseofferings/?fmt=json&' + query
+    path: '/webfeeds/courseofferings/?fmt=json&vers=1.5&' + query
   }
 
     // Make the request
