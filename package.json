@@ -15,7 +15,8 @@
     "mongoose": "^5.4.11",
     "prompt": "^1.0.0",
     "promptly": "^3.0.3",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "throttled-request": "^0.1.1"
   },
   "devDependencies": {},
   "scripts": {

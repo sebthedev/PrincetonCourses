@@ -185,9 +185,7 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     })
   }
 
-  courseModel.findOneAndUpdate({
-    _id: data.guid
-  }, {
+  const upsertData = {
     _id: data.guid,
     courseID: data.course_id,
     catalogNumber: data.catalog_number,
@@ -199,8 +197,50 @@ courseSchema.statics.createCourse = function (semester, department, data, callba
     instructors: instructors,
     crosslistings: crosslistings,
     track: data.detail.track,
-    open: openStatus
-  }, {
+    open: openStatus,
+    audit: data.audit,
+    pdf: data.pdf,
+    grading: data.grading
+  }
+
+  if (data.distribution_area && data.distribution_area.trim().length > 0) {
+    upsertData.distribution = data.distribution_area
+  }
+
+  if (data.assignments) {
+    upsertData.assignments = data.assignments
+  }
+
+  if (data.reservedSeats) {
+    upsertData.reservedSeats = data.reservedSeats
+  }
+
+  if (data.readingList) {
+    upsertData.readings = data.readingList
+  }
+
+  if (data.prerequisites && data.prerequisites.trim().length > 0) {
+    upsertData.prerequisites = data.prerequisites.trim()
+  }
+
+  if (data.otherinformation && data.otherinformation.trim().length > 0) {
+    upsertData.otherinformation = data.otherinformation.trim()
+  }
+
+  if (data.otherrequirements && data.otherrequirements.trim().length > 0) {
+    upsertData.otherrequirements = data.otherrequirements.trim()
+  }
+
+  if (data.website && data.website.trim().length > 0) {
+    if (/^https*:\/\//.test(data.website.trim()) === false) {
+      data.website = 'http://' + data.website.trim()
+    }
+    upsertData.website = data.website.trim()
+  }
+
+  courseModel.findOneAndUpdate({
+    _id: data.guid
+  }, upsertData, {
     new: true,
     upsert: true,
     runValidators: true,
