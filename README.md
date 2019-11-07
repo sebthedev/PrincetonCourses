@@ -11,5 +11,7 @@ A screenshot of Princeton Courses in action.
 ## Authors
 This app was made by Bensu Sicim, Caterina Golner, Kara Bressler, Mel Shu, and [Sebastian Hallum Clarke](http://www.zibity.com) as a project for Princeton's [COS 333](http://www.cs.princeton.edu/courses/archive/spring17/cos333/) in Spring 2017.
 
+The app is currently maintained by the Princeton USG [TigerApps](https://www.tigerapps.org/) committee.
+
 ## Install
 To install Princeton Courses on your computer or server, follow [these instructions](docs/installation.md).
