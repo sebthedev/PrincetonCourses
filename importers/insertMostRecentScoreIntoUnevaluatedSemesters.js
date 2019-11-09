@@ -123,6 +123,7 @@ courseModel.find({
           process.exit(0)
         })
       })
+  }
 }).catch(function (reason) {
   console.log(reason)
   process.exit(0)
