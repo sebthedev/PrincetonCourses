@@ -71,49 +71,57 @@ courseModel.find({
       }).sort({_id: -1}).limit(1).exec())
     }
 
-    Promise.all(promises)/*.then(wait(Math.random() * 30 * 1000))*/.then(function (results) {
-      let mostRecentCourseWithRatings
-      console.log('Promises resolved (courses pending: %d)', coursesPending)
+    // Loop 3k batches to avoid timeout
+    const total = promises.length;
+    const batches = Math.ceil(total / 3000)
+    for (let b = 0; b < batches; b++) {
+        const promiseBatch = promises.slice(b*3000, Math.min((b + 1)*3000, total));
+        console.log(`Batch ${b}/${batches}`);
 
-      // Determine which course evalaution score to use
-      if (typeof (results[1]) !== 'undefined' && results[1].length > 0) {
-        mostRecentCourseWithRatings = results[1][0]
-      } else {
-        mostRecentCourseWithRatings = results[0][0]
-      }
+        Promise.all(promises)/*.then(wait(Math.random() * 30 * 1000))*/.then(function (results) {
+          let mostRecentCourseWithRatings
+          console.log('Promises resolved (courses pending: %d)', coursesPending)
 
-      // Insert this score into the course in question
-      if (typeof (mostRecentCourseWithRatings) !== 'undefined') {
-        console.log('About to issue update (courses pending: %d)', coursesPending)
-        courseModel.update({
-          _id: course._id
-        }, {
-          scores: {
-            'Quality of Course': mostRecentCourseWithRatings.scores['Quality of Course']
-          },
-          scoresFromPreviousSemesterSemester: mostRecentCourseWithRatings.semester._id,
-          scoresFromPreviousSemester: true
-        }, function (err) {
-          if (err) {
-            console.log(err)
+          // Determine which course evalaution score to use
+          if (typeof (results[1]) !== 'undefined' && results[1].length > 0) {
+            mostRecentCourseWithRatings = results[1][0]
           } else {
-            console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings.scores['Quality of Course'], 'from', mostRecentCourseWithRatings._id)
+            mostRecentCourseWithRatings = results[0][0]
+          }
+
+          // Insert this score into the course in question
+          if (typeof (mostRecentCourseWithRatings) !== 'undefined') {
+            console.log('About to issue update (courses pending: %d)', coursesPending)
+            courseModel.update({
+              _id: course._id
+            }, {
+              scores: {
+                'Quality of Course': mostRecentCourseWithRatings.scores['Quality of Course']
+              },
+              scoresFromPreviousSemesterSemester: mostRecentCourseWithRatings.semester._id,
+              scoresFromPreviousSemester: true
+            }, function (err) {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings.scores['Quality of Course'], 'from', mostRecentCourseWithRatings._id)
+                if (--coursesPending === 0) {
+                  console.log('Done')
+                  process.exit(0)
+                }
+              }
+            })
+          } else {
             if (--coursesPending === 0) {
               console.log('Done')
               process.exit(0)
             }
           }
-        })
-      } else {
-        if (--coursesPending === 0) {
-          console.log('Done')
+        }).catch(function (reason) {
+          console.log(reason)
           process.exit(0)
-        }
-      }
-    }).catch(function (reason) {
-      console.log(reason)
-      process.exit(0)
-    })
+        })
+    }
   })
 }).catch(function (reason) {
   console.log(reason)
