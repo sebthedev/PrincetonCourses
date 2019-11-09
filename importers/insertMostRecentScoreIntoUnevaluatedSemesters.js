@@ -9,32 +9,7 @@ require('../models/semester.js')
 // Connect to the database
 require('../controllers/database.js')
 
-// Sleep function, in ms
-function sleepFor( sleepDuration ){
-    var now = new Date().getTime();
-    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
-}
-
-// Find  all the courses for which scores do not exist or scores is {}
-courseModel.find({
-  semester: parseInt(process.argv[2]) || {$gt: 0},
-  $or: [
-    {
-      scores: {}
-    }, {
-      scores: {
-        $exists: false
-      }
-    }, {
-      scoresFromPreviousSemester: true
-    }
-  ]
-}, {
-  _id: true,
-  courseID: true,
-  instructors: true,
-  semester: true
-}).then(function (courses) {
+async function batchCourses(courses) {
 
   // Throttle over batches of 3k per min
   const total = courses.length;
@@ -85,7 +60,7 @@ courseModel.find({
           }).sort({_id: -1}).limit(1).exec())
         }
 
-        Promise.all(promises)/*.then(wait(Math.random() * 30 * 1000))*/.then(function (results) {
+        await Promise.all(promises)/*.then(wait(Math.random() * 30 * 1000))*/.then(function (results) {
           let mostRecentCourseWithRatings
           console.log('Promises resolved (courses pending: %d)', coursesPending)
 
@@ -129,10 +104,29 @@ courseModel.find({
           process.exit(0)
         })
       })
-      // Sleep for a minute
-      sleepFor(60 * 1000);
   }
-}).catch(function (reason) {
+}
+
+// Find  all the courses for which scores do not exist or scores is {}
+courseModel.find({
+  semester: parseInt(process.argv[2]) || {$gt: 0},
+  $or: [
+    {
+      scores: {}
+    }, {
+      scores: {
+        $exists: false
+      }
+    }, {
+      scoresFromPreviousSemester: true
+    }
+  ]
+}, {
+  _id: true,
+  courseID: true,
+  instructors: true,
+  semester: true
+}).then(batchCourses).catch(function (reason) {
   console.log(reason)
   process.exit(0)
 })
