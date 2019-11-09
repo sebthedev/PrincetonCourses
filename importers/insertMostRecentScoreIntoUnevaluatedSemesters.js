@@ -88,15 +88,15 @@ async function batchCourses(courses) {
                         } else {
                             console.log('Inserted into course', course._id, 'the score', mostRecentCourseWithRatings.scores['Quality of Course'], 'from', mostRecentCourseWithRatings._id)
                             if (--coursesPending === 0) {
-                                console.log('Done')
-                                process.exit(0)
+                                console.log(`Finished Batch ${b}`);
+                                return;
                             }
                         }
                     })
                 } else {
                     if (--coursesPending === 0) {
-                        console.log('Done')
-                        process.exit(0)
+                        console.log(`Finished Batch ${b}`);
+                        return;
                     }
                 }
             }).catch(function (reason) {
