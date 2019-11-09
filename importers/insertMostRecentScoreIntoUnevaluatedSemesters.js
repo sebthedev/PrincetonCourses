@@ -9,6 +9,12 @@ require('../models/semester.js')
 // Connect to the database
 require('../controllers/database.js')
 
+// Sleep function, in ms
+function sleepFor( sleepDuration ){
+    var now = new Date().getTime();
+    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+}
+
 // Find  all the courses for which scores do not exist or scores is {}
 courseModel.find({
   semester: parseInt(process.argv[2]) || {$gt: 0},
@@ -124,7 +130,7 @@ courseModel.find({
         })
       })
       // Sleep for a minute
-      sleep(60 * 1000);
+      sleepFor(60 * 1000);
   }
 }).catch(function (reason) {
   console.log(reason)
