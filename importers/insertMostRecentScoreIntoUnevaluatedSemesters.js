@@ -17,7 +17,7 @@ async function batchCourses(courses) {
     const batches = Math.ceil(total / 3000)
     for (let b = 0; b < batches; b++) {
         const courseBatch = courses.slice(b*3000, Math.min((b + 1)*3000, total));
-        console.log(`Batch ${b}/${batches}`);
+        console.log(`Batch ${b+1}/${batches}`);
         let coursesPending = courseBatch.length
 
         for (const [index, course] of courseBatch.entries()) {
