@@ -105,6 +105,8 @@ async function batchCourses(courses) {
             })
         }
     }
+    console.log("Done!")
+    process.exit(0)
 }
 
 // Find  all the courses for which scores do not exist or scores is {}
