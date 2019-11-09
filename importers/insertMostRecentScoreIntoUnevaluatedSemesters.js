@@ -29,54 +29,55 @@ courseModel.find({
   instructors: true,
   semester: true
 }).then(function (courses) {
-  console.log('Found %d matching courses', courses.length)
-  let coursesPending = courses.length
-  courses.forEach(function (course, index) {
-    let promises = []
 
-    // Find the most recent Quality of Course score across all the semesters of this course
-    promises.push(courseModel.find({
-      courseID: course.courseID,
-      'scores.Quality of Course': {
-        $exists: true
-      },
-      scoresFromPreviousSemester: {
-        $not: {
-          $eq: true
-        }
-      }
-    }, {
-      'scores.Quality of Course': 1,
-      courseID: 1,
-      'semester': 1
-    }).sort({_id: -1}).limit(1).exec())
+  // Loop over batches of 3k
+  const total = courses.length;
+  console.log('Found %d matching courses', total)
+  const batches = Math.ceil(total / 3000)
+  for (let b = 0; b < batches; b++) {
+      const promiseBatch = courses.slice(b*3000, Math.min((b + 1)*3000, total));
+      console.log(`Batch ${b}/${batches}`);
+      let coursesPending = promiseBatch.length
 
-    // Find the most recent Quality of Course score taught by this instructor
-    if (typeof (course) !== 'undefined' && typeof (course.instructors) !== 'undefined' && course.instructors.length > 0 && (course.instructors[0]._id) !== 'undefined') {
-      promises.push(courseModel.find({
-        courseID: course.courseID,
-        'scores.Quality of Course': {
-          $exists: true
-        },
-        scoresFromPreviousSemester: {
-          $not: {
-            $eq: true
+      promiseBatch.forEach(function (course, index) {
+        let promises = []
+
+        // Find the most recent Quality of Course score across all the semesters of this course
+        promises.push(courseModel.find({
+          courseID: course.courseID,
+          'scores.Quality of Course': {
+            $exists: true
+          },
+          scoresFromPreviousSemester: {
+            $not: {
+              $eq: true
+            }
           }
-        },
-        instructors: course.instructors[0]._id
-      }, {
-        'scores.Quality of Course': 1,
-        courseID: 1,
-        'semester': 1
-      }).sort({_id: -1}).limit(1).exec())
-    }
+        }, {
+          'scores.Quality of Course': 1,
+          courseID: 1,
+          'semester': 1
+        }).sort({_id: -1}).limit(1).exec())
 
-    // Loop 3k batches to avoid timeout
-    const total = promises.length;
-    const batches = Math.ceil(total / 3000)
-    for (let b = 0; b < batches; b++) {
-        const promiseBatch = promises.slice(b*3000, Math.min((b + 1)*3000, total));
-        console.log(`Batch ${b}/${batches}`);
+        // Find the most recent Quality of Course score taught by this instructor
+        if (typeof (course) !== 'undefined' && typeof (course.instructors) !== 'undefined' && course.instructors.length > 0 && (course.instructors[0]._id) !== 'undefined') {
+          promises.push(courseModel.find({
+            courseID: course.courseID,
+            'scores.Quality of Course': {
+              $exists: true
+            },
+            scoresFromPreviousSemester: {
+              $not: {
+                $eq: true
+              }
+            },
+            instructors: course.instructors[0]._id
+          }, {
+            'scores.Quality of Course': 1,
+            courseID: 1,
+            'semester': 1
+          }).sort({_id: -1}).limit(1).exec())
+        }
 
         Promise.all(promises)/*.then(wait(Math.random() * 30 * 1000))*/.then(function (results) {
           let mostRecentCourseWithRatings
@@ -121,8 +122,7 @@ courseModel.find({
           console.log(reason)
           process.exit(0)
         })
-    }
-  })
+      })
 }).catch(function (reason) {
   console.log(reason)
   process.exit(0)
