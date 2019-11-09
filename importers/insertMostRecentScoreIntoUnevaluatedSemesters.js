@@ -30,16 +30,16 @@ courseModel.find({
   semester: true
 }).then(function (courses) {
 
-  // Loop over batches of 3k
+  // Throttle over batches of 3k per min
   const total = courses.length;
   console.log('Found %d matching courses', total)
   const batches = Math.ceil(total / 3000)
   for (let b = 0; b < batches; b++) {
-      const promiseBatch = courses.slice(b*3000, Math.min((b + 1)*3000, total));
+      const courseBatch = courses.slice(b*3000, Math.min((b + 1)*3000, total));
       console.log(`Batch ${b}/${batches}`);
-      let coursesPending = promiseBatch.length
+      let coursesPending = courseBatch.length
 
-      promiseBatch.forEach(function (course, index) {
+      courseBatch.forEach(function (course, index) {
         let promises = []
 
         // Find the most recent Quality of Course score across all the semesters of this course
@@ -123,6 +123,8 @@ courseModel.find({
           process.exit(0)
         })
       })
+      // Sleep for a minute
+      sleep(60 * 1000);
   }
 }).catch(function (reason) {
   console.log(reason)
