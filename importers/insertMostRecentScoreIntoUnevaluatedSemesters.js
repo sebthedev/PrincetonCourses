@@ -20,7 +20,7 @@ async function batchCourses(courses) {
       console.log(`Batch ${b}/${batches}`);
       let coursesPending = courseBatch.length
 
-      courseBatch.forEach(async function (course, index) {
+      for (const [index, course] of courseBatch.entries()) {
         let promises = []
 
         // Find the most recent Quality of Course score across all the semesters of this course
