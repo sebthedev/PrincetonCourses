@@ -92,7 +92,8 @@ console.log(instructions.join('\n'))
 promptly.prompt('Paste the session cookie output from the developer console and hit enter:').then(cookie => {
   sessionCookie = cookie
   return promptly.prompt('Enter the MongoDB-style query for the courses for which you want to import the evaluations:', {
-    default: '{}'
+    default: '{}',
+    validator: JSON.parse
   })
 }).then(query => {
   // Connect to the database
