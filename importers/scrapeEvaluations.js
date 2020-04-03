@@ -100,7 +100,7 @@ promptly.prompt('Paste the session cookie output from the developer console and 
   require('../controllers/database.js')
 
   // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-  return courseModel.find(query, { semester: 1212 })
+  return courseModel.find({ semester: 1212 })
 }).then(returnedCourses => {
   courses = returnedCourses.reverse();
   return promptly.confirm(`You are about to request the course evaluation data for ${courses.length} courses. Are you sure you want to do this? (y/n):`)
