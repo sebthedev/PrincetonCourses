@@ -213,7 +213,7 @@ promptly.prompt(
   })
   .then((dep) => {
     // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-    courseModel.find({ department: dep, semester: 1214 }).then((returnedCourses) => {
+    courseModel.find({ department: dep }).then((returnedCourses) => {
       courses = returnedCourses;
       console.log("length:" + courses.length);
       let coursesPendingProcessing = courses.length;
