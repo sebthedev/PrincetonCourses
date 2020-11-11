@@ -53,14 +53,14 @@ function newHTMLscoreBadge(course, props) {
   else if (hasScore) text = score.toFixed(2)
   else if (isNew) text = 'New'
 
-  console.log(course.title)
-  console.log(course)
+  // console.log(course.title)
+  // console.log(course)
   // console.log(isTitle)
   // console.log(hasScore)
   // console.log(isPast)
   // console.log(tooltip)
   // console.log(text)
-  console.log("")
+  // console.log("")
 
   var htmlString = (
     '<span '
