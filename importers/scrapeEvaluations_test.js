@@ -202,99 +202,101 @@ const departments = {
   WWS: "Woodrow Wilson School",
 };
 const keys = Object.keys(departments);
-console.log(keys);
+
 keys.forEach((dep) => {
   console.log(dep);
   // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-  courses = courseModel.find({ department: dep });
-  console.log('length:' + courses.length);
-  let coursesPendingProcessing = courses.length;
-  let courseIndex = 0;
+  courseModel.find({ department: dep }).then(returnedCourses => {
+    courses = returnedCourses;
+    console.log("length:" + courses.length);
+    let coursesPendingProcessing = courses.length;
+    let courseIndex = 0;
 
-  const interval = setInterval(function () {
-    const thisCourse = courses[courseIndex++];
+    const interval = setInterval(function () {
+      const thisCourse = courses[courseIndex++];
 
-    // If there are no more courses, cease sending requests
-    if (typeof thisCourse === "undefined") {
-      clearInterval(interval);
-      return;
-    }
+      // If there are no more courses, cease sending requests
+      if (typeof thisCourse === "undefined") {
+        clearInterval(interval);
+        return;
+      }
 
-    console.log(
-      `Processing course ${thisCourse.courseID} in semester ${thisCourse.semester._id}. (Course ${courseIndex} of ${courses.length}).`
-    );
+      console.log(
+        `Processing course ${thisCourse.courseID} in semester ${thisCourse.semester._id}. (Course ${courseIndex} of ${courses.length}).`
+      );
 
-    // Fetch the evaluation data
-    getCourseEvaluationData(
-      thisCourse.semester._id,
-      thisCourse.courseID,
-      function (scores, comments) {
-        let promises = [];
+      // Fetch the evaluation data
+      getCourseEvaluationData(
+        thisCourse.semester._id,
+        thisCourse.courseID,
+        function (scores, comments) {
+          let promises = [];
 
-        // Iterate over the comments
-        for (const comment of comments) {
-          // Save the comments to the database
-          promises.push(
-            evaluationModel
-              .findOneAndUpdate(
+          // Iterate over the comments
+          for (const comment of comments) {
+            // Save the comments to the database
+            promises.push(
+              evaluationModel
+                .findOneAndUpdate(
+                  {
+                    comment: comment,
+                    course: thisCourse._id,
+                  },
+                  {
+                    comment: comment,
+                    course: thisCourse._id,
+                  },
+                  {
+                    new: true,
+                    upsert: true,
+                    runValidators: true,
+                    setDefaultsOnInsert: true,
+                  }
+                )
+                .exec()
+            );
+          }
+
+          // Update the course with the newly-fetched evaluation data
+          if (scores !== {}) {
+            promises.push(
+              courseModel.update(
                 {
-                  comment: comment,
-                  course: thisCourse._id,
+                  _id: thisCourse._id,
                 },
                 {
-                  comment: comment,
-                  course: thisCourse._id,
-                },
-                {
-                  new: true,
-                  upsert: true,
-                  runValidators: true,
-                  setDefaultsOnInsert: true,
+                  $set: {
+                    scores: scores,
+                  },
+                  $unset: {
+                    scoresFromPreviousSemester: "",
+                    scoresFromPreviousSemesterSemester: "",
+                  },
                 }
               )
-              .exec()
-          );
-        }
+            );
+          }
 
-        // Update the course with the newly-fetched evaluation data
-        if (scores !== {}) {
-          promises.push(
-            courseModel.update(
-              {
-                _id: thisCourse._id,
-              },
-              {
-                $set: {
-                  scores: scores,
-                },
-                $unset: {
-                  scoresFromPreviousSemester: "",
-                  scoresFromPreviousSemesterSemester: "",
-                },
+          // Wait for all database operations to complete
+          Promise.all(promises)
+            .then(function () {
+              if (coursesPendingProcessing % 10 === 0) {
+                console.log(
+                  `${coursesPendingProcessing} courses still processing…`
+                );
               }
-            )
-          );
+              if (--coursesPendingProcessing === 0) {
+                console.log(
+                  "Fetched and saved all the requested course evaluations."
+                );
+                process.exit(0);
+              }
+            })
+            .catch(function (reason) {
+              console.log(reason);
+            });
         }
-
-        // Wait for all database operations to complete
-        Promise.all(promises)
-          .then(function () {
-            if (coursesPendingProcessing % 10 === 0) {
-              console.log(
-                `${coursesPendingProcessing} courses still processing…`
-              );
-            }
-            if (--coursesPendingProcessing === 0) {
-              console.log(
-                "Fetched and saved all the requested course evaluations."
-              );
-              process.exit(0);
-            }
-          })
-          .catch(function (reason) {
-            console.log(reason);
-          });
-      }
-    );
-  }, 500);
+      );
+    }, 500);
+  });
 });
