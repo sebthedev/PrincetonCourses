@@ -38,6 +38,7 @@ function newHTMLscoreBadge(course, props) {
     if (isTitle) var score = course.evaluations.scores['Quality of Course']
     else var score = course.scores['Quality of Course']
   }
+  console.log(score)
 
   var tooltip = 'No score available' // default
   if (hasScore && isPast) tooltip = 'Quality of Course from the most recent time this instructor taught this course'
