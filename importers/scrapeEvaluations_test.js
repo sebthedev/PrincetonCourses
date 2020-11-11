@@ -299,4 +299,7 @@ keys.forEach((dep) => {
       );
     }, 500);
   });
+  setTimeout(() => {
+    console.log("Wait");
+  }, 500 * courses.length);
 });
