@@ -125,7 +125,7 @@ var importSubject = async function (semester, subject) {
     const courseData = subject.courses[courseIndex]
 
     // Print the catalog number
-    console.log('\t' + courseData.catalog_number)
+    //console.log('\t' + courseData.catalog_number)
 
     if (typeof (courseData.catalog_number) === 'undefined' || courseData.catalog_number.length < 2) {
       continue

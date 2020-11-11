@@ -109,6 +109,7 @@ const departments = {
  'SML': 'Statistics & Machine Learning',
  'SOC': 'Sociology',
  'SPA': 'Spanish',
+ 'SPI': 'School of Public and International Affairs',
  'STC': 'Science and Technology Council',
  'SWA': 'Swahili',
  'THR': 'Theater',
@@ -119,8 +120,7 @@ const departments = {
  'URB': 'Urban Studies',
  'URD': 'Urdu',
  'VIS': 'Visual Arts',
- 'WRI': 'Princeton Writing Program',
- 'WWS': 'Woodrow Wilson School'
+ 'WRI': 'Princeton Writing Program'
 }
 
 // complete list of filters
