@@ -70,7 +70,7 @@ var loadCoursesFromRegistrar = function (query, externalCallback) {
 }
 
 var importDataFromRegistrar = function (data) {
-  log.info('Processing data recieved from the Registrar.')
+  console.log('Processing data recieved from the Registrar.')
 
   for (var termIndex in data.term) {
     var term = data.term[termIndex]
@@ -80,7 +80,7 @@ var importDataFromRegistrar = function (data) {
 
 // Recieve a "term" of data (of the kind produced by the Registrar) and add/update the database to contain this data
 var importTerm = function (term) {
-  log.info('Processing the %s semester.', term.cal_name)
+  console.log('Processing the %s semester.', term.cal_name)
 
   // Update/Add Semesters to the database
   // Existing semesters not in data object will be untouched
@@ -125,7 +125,7 @@ var importSubject = async function (semester, subject) {
     const courseData = subject.courses[courseIndex]
 
     // Print the catalog number
-    log.info('\t' + courseData.catalog_number)
+    console.log('\t' + courseData.catalog_number)
 
     if (typeof (courseData.catalog_number) === 'undefined' || courseData.catalog_number.length < 2) {
       continue
@@ -159,7 +159,7 @@ var importSubject = async function (semester, subject) {
         coursesPendingProcessing--
         return console.log(error)
       }
-      log.info(`Got results for ${courseData.course_id}`)
+      console.log(`Got results for ${courseData.course_id}`)
       let frontEndApiCourseDetails
       try {
         frontEndApiCourseDetails = JSON.parse(body).course_details.course_detail[0]
