@@ -54,7 +54,7 @@ function newHTMLscoreBadge(course, props) {
   else if (isNew) text = 'New'
 
   console.log(course.title)
-  console.log(course.semester)
+  console.log(isTitle)
   console.log(hasScore)
   console.log(isPast)
   console.log(tooltip)
