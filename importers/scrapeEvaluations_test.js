@@ -89,8 +89,6 @@ console.log('Welcome to the script for scraping course evaluations from the Prin
 console.log('Course evaluations are protected behind Princeton\'s Central Authentication System. To scrape the course evaluations, follow these instructions:')
 console.log(instructions[0])
 
-sessionCookie = "ST-757199-Q9wHjjLfZIMQBBpfbbGa-auth-a";
-
 // Connect to the database
 require('../controllers/database.js')
 
@@ -201,105 +199,114 @@ const departments = {
   WRI: "Princeton Writing Program",
   WWS: "Woodrow Wilson School",
 };
-const keys = Object.keys(departments);
-
-keys.forEach((dep) => {
-  console.log(dep);
-  // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-  courseModel.find({ department: dep }).then(returnedCourses => {
-    courses = returnedCourses;
-    console.log("length:" + courses.length);
-    let coursesPendingProcessing = courses.length;
-    let courseIndex = 0;
-
-    const interval = setInterval(function () {
-      const thisCourse = courses[courseIndex++];
-
-      // If there are no more courses, cease sending requests
-      if (typeof thisCourse === "undefined") {
-        clearInterval(interval);
-        return;
+promptly.prompt(
+    "Paste the session cookie output from the developer console and hit enter:"
+  )
+  .then((cookie) => {
+    sessionCookie = cookie;
+    return promptly.prompt(
+      "Enter the department",
+      {
+        default: "COS",
       }
+    );
+  })
+  .then((dep) => {
+    // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
+    courseModel.find({ department: dep }).then((returnedCourses) => {
+      courses = returnedCourses;
+      console.log("length:" + courses.length);
+      let coursesPendingProcessing = courses.length;
+      let courseIndex = 0;
 
-      console.log(
-        `Processing course ${thisCourse.courseID} in semester ${thisCourse.semester._id}. (Course ${courseIndex} of ${courses.length}).`
-      );
+      const interval = setInterval(function () {
+        const thisCourse = courses[courseIndex++];
 
-      // Fetch the evaluation data
-      getCourseEvaluationData(
-        thisCourse.semester._id,
-        thisCourse.courseID,
-        function (scores, comments) {
-          let promises = [];
+        // If there are no more courses, cease sending requests
+        if (typeof thisCourse === "undefined") {
+          clearInterval(interval);
+          return;
+        }
 
-          // Iterate over the comments
-          for (const comment of comments) {
-            // Save the comments to the database
-            promises.push(
-              evaluationModel
-                .findOneAndUpdate(
+        console.log(
+          `Processing course ${thisCourse.courseID} in semester ${thisCourse.semester._id}. (Course ${courseIndex} of ${courses.length}).`
+        );
+
+        // Fetch the evaluation data
+        getCourseEvaluationData(
+          thisCourse.semester._id,
+          thisCourse.courseID,
+          function (scores, comments) {
+            let promises = [];
+
+            // Iterate over the comments
+            for (const comment of comments) {
+              // Save the comments to the database
+              promises.push(
+                evaluationModel
+                  .findOneAndUpdate(
+                    {
+                      comment: comment,
+                      course: thisCourse._id,
+                    },
+                    {
+                      comment: comment,
+                      course: thisCourse._id,
+                    },
+                    {
+                      new: true,
+                      upsert: true,
+                      runValidators: true,
+                      setDefaultsOnInsert: true,
+                    }
+                  )
+                  .exec()
+              );
+            }
+
+            // Update the course with the newly-fetched evaluation data
+            if (scores !== {}) {
+              promises.push(
+                courseModel.update(
                   {
-                    comment: comment,
-                    course: thisCourse._id,
+                    _id: thisCourse._id,
                   },
                   {
-                    comment: comment,
-                    course: thisCourse._id,
-                  },
-                  {
-                    new: true,
-                    upsert: true,
-                    runValidators: true,
-                    setDefaultsOnInsert: true,
+                    $set: {
+                      scores: scores,
+                    },
+                    $unset: {
+                      scoresFromPreviousSemester: "",
+                      scoresFromPreviousSemesterSemester: "",
+                    },
                   }
                 )
-                .exec()
-            );
-          }
+              );
+            }
 
-          // Update the course with the newly-fetched evaluation data
-          if (scores !== {}) {
-            promises.push(
-              courseModel.update(
-                {
-                  _id: thisCourse._id,
-                },
-                {
-                  $set: {
-                    scores: scores,
-                  },
-                  $unset: {
-                    scoresFromPreviousSemester: "",
-                    scoresFromPreviousSemesterSemester: "",
-                  },
+            // Wait for all database operations to complete
+            Promise.all(promises)
+              .then(function () {
+                if (coursesPendingProcessing % 10 === 0) {
+                  console.log(
+                    `${coursesPendingProcessing} courses still processing…`
+                  );
                 }
-              )
-            );
+                if (--coursesPendingProcessing === 0) {
+                  console.log(
+                    "Fetched and saved all the requested course evaluations."
+                  );
+                  process.exit(0);
+                }
+              })
+              .catch(function (reason) {
+                console.log(reason);
+              });
           }
-
-          // Wait for all database operations to complete
-          Promise.all(promises)
-            .then(function () {
-              if (coursesPendingProcessing % 10 === 0) {
-                console.log(
-                  `${coursesPendingProcessing} courses still processing…`
-                );
-              }
-              if (--coursesPendingProcessing === 0) {
-                console.log(
-                  "Fetched and saved all the requested course evaluations."
-                );
-                process.exit(0);
-              }
-            })
-            .catch(function (reason) {
-              console.log(reason);
-            });
-        }
-      );
-    }, 500);
+        );
+      }, 500);
       setTimeout(() => {
         console.log("Wait");
       }, 500 * courses.length);
-  });
-});
+    });
+  })
