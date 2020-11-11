@@ -54,8 +54,7 @@ function newHTMLscoreBadge(course, props) {
   else if (isNew) text = 'New'
 
   console.log(course.title)
-  console.log(course.hasOwnProperty('scores'))
-  console.log(course.scores.hasOwnProperty('Quality of Course'))
+  console.log(course)
   // console.log(isTitle)
   // console.log(hasScore)
   // console.log(isPast)
