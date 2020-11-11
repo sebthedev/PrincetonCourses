@@ -92,15 +92,14 @@ console.log(instructions.join('\n'))
 promptly.prompt('Paste the session cookie output from the developer console and hit enter:').then(cookie => {
   sessionCookie = cookie
   return promptly.prompt('Enter the MongoDB-style query for the courses for which you want to import the evaluations:', {
-    default: '{}',
-    validator: JSON.parse
+    default: '{}'
   })
 }).then(query => {
   // Connect to the database
   require('../controllers/database.js')
-
+  regex_input = "/^(" + query + ")/";
   // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-  return courseModel.find(query)
+  return courseModel.find({ department: { $regex: regex_input } });
 }).then(returnedCourses => {
   courses = returnedCourses;
   return promptly.confirm(`You are about to request the course evaluation data for ${courses.length} courses. Are you sure you want to do this? (y/n):`)
