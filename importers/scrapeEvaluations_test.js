@@ -202,11 +202,10 @@ const departments = {
   WWS: "Woodrow Wilson School",
 };
 const keys = Object.keys(departments);
-console.log(keys);
 keys.forEach((dep) => {
   console.log(dep);
   // Find an array of courses and populate the courses with the course evaluation information from the Registrar. Save the data to the database
-  courses = courseModel.find({ department: dep });
+  courses = courseModel.find({ "department": dep });
   console.log('length:' + courses.length);
   let coursesPendingProcessing = courses.length;
   let courseIndex = 0;
