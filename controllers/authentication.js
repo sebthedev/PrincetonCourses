@@ -13,7 +13,7 @@ var UserModel = require.main.require('./models/user.js')
 var casURL = 'https://fed.princeton.edu/cas/'
 var cas = new CentralAuthenticationService({
   base_url: casURL,
-  service: config.host + '/auth/verify'
+  service: config.host + '/serviceValidate'
 })
 
 router.use('*', function (req, res, next) {
@@ -28,7 +28,7 @@ router.get('/login', function (req, res) {
   }
 
   // Redirect the user to the CAS server
-  res.redirect(casURL + 'login?service=' + config.host + '/auth/verify')
+  res.redirect(casURL + 'login?service=' + config.host + '/serviceValidate')
 })
 
 // Handle replies from Princeton's CAS server about authentication
