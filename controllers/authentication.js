@@ -3,7 +3,7 @@ var router = express.Router()
 
 // Load external dependencies
 require('cookie-session')
-var CentralAuthenticationService = require('cas')
+var CentralAuthenticationService = require('../cas/index');
 
 // Load internal modules
 var config = require('./config.js')
