@@ -414,7 +414,7 @@ CAS.prototype.validate = function(ticket, callback, service, renew)
     res.on('error', function(e) {
       callback(e);
     });
-
+    console.log(req)
     // Read result
     res.setEncoding('utf8');
     var response = '';
