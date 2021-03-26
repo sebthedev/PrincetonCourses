@@ -37,7 +37,7 @@ router.get('/verify', function (req, res) {
   // Check if the user has a redirection destination
   let redirectDestination = req.session.redirect || '/'
   console.log(redirectDestination)
-  console.log(req.session.cas)
+  console.log(req.session)
   // If the user already has a valid CAS session then send them to their destination
   if (req.session.cas) {
     console.log("redirect")
