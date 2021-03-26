@@ -29,16 +29,18 @@ router.get('/login', function (req, res) {
 
   // Redirect the user to the CAS server
   res.redirect(casURL + 'login?service=' + config.host + '/auth/verify')
-  console.log(res)
 })
 
 // Handle replies from Princeton's CAS server about authentication
 router.get('/verify', function (req, res) {
+  console.log("requested /verify")
   // Check if the user has a redirection destination
   let redirectDestination = req.session.redirect || '/'
-  console.log(req)
+  console.log(redirectDestination)
+  console.log(req.session.cas)
   // If the user already has a valid CAS session then send them to their destination
   if (req.session.cas) {
+    console.log("redirect")
     res.redirect(redirectDestination)
     return
   }
