@@ -399,7 +399,7 @@ CAS.prototype.validate = function(ticket, callback, service, renew)
   }
   
   var queryPath = url.format({
-      pathname: this.base_path+'/'+validate_path,
+      pathname: this.base_path+validate_path,
       query: query
     });
 

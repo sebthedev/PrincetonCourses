@@ -10,7 +10,7 @@ var config = require('./config.js')
 var UserModel = require.main.require('./models/user.js')
 
 // Configure CAS authentication
-var casURL = 'https://fed.princeton.edu/cas'
+var casURL = 'https://fed.princeton.edu/cas/'
 var cas = new CentralAuthenticationService({
   base_url: casURL,
   service: config.host + '/auth/verify',
