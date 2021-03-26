@@ -13,7 +13,8 @@ var UserModel = require.main.require('./models/user.js')
 var casURL = 'https://fed.princeton.edu/cas/'
 var cas = new CentralAuthenticationService({
   base_url: casURL,
-  service: config.host + '/auth/verify'
+  service: config.host + '/auth/verify',
+  version: 2.0
 })
 
 router.use('*', function (req, res, next) {
@@ -33,20 +34,17 @@ router.get('/login', function (req, res) {
 
 // Handle replies from Princeton's CAS server about authentication
 router.get('/verify', function (req, res) {
-  console.log("requested /verify")
   // Check if the user has a redirection destination
   let redirectDestination = req.session.redirect || '/'
-  console.log(redirectDestination)
-  console.log(req.session)
+
   // If the user already has a valid CAS session then send them to their destination
   if (req.session.cas) {
-    console.log("redirect")
     res.redirect(redirectDestination)
     return
   }
 
   var ticket = req.query.ticket
-
+  console.log(ticket)
   // If the user does not have a ticket then send them to the homepage
   if (typeof (ticket) === 'undefined') {
     res.redirect('/')
@@ -56,6 +54,7 @@ router.get('/verify', function (req, res) {
   // Check if the user's ticket is valid
   cas.validate(ticket, function (err, status, netid) {
     if (err) {
+      console.log("Failed to Validate Ticket")
       console.log(err)
       res.sendStatus(500)
       return
