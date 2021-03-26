@@ -375,8 +375,8 @@ CAS.prototype.validate = function(ticket, callback, service, renew)
     if (ticket.indexOf('PT-') == 0) {
       validate_path = 'proxyValidate';
     } else {
-      //validate_path = 'serviceValidate';
-      validate_path = 'proxyValidate';
+      validate_path = 'serviceValidate';
+      //validate_path = 'proxyValidate';
     }
   }
   
