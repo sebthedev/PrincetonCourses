@@ -154,8 +154,16 @@ var display_subtitle = function(course) {
            + '?courseid=' + course.courseID
            + '&amp;term=' + course.semester._id
            + '" target="_blank"><i data-placement="bottom" data-toggle="tooltip" title="Registrar\'s page" class="fa fa-external-link"></i></a>'
-
-  $('#disp-subtitle-right').append(link + semester)
+  var snatch_link =
+      ' <a href="https://snatch.tigerapps.org/course' +
+      "?courseid=" +
+      course.courseID +
+      '&skip" target="_blank" style="text-decoration: none;">' +
+      '<span title="View course in TigerSnatch" class="label label-primary">Snatch!' +
+      '<i class="fa fa-external-link" style="margin-left: 5px;"></i>' +
+      "</span></a>" +
+      " &middot; ";
+  $('#disp-subtitle-right').append(snatch_link + link + semester)
 }
 
 // display instructor info
