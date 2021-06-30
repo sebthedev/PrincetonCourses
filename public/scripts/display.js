@@ -147,22 +147,29 @@ var display_subtitle = function(course) {
                                                      + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link"></i></a>')
   $('#disp-subtitle').append(listings + ' ' + tags + ' ' + website)
 
-  var semester = ' &middot; ' + course.semester.name
+  var semester = course.semester.name;
 
   // link to registrar
-  var link = ' <a href="https://registrar.princeton.edu/course-offerings/course_details.xml'
-           + '?courseid=' + course.courseID
-           + '&amp;term=' + course.semester._id
-           + '" target="_blank"><i data-placement="bottom" data-toggle="tooltip" title="Registrar\'s page" class="fa fa-external-link"></i></a>'
+  var link =
+      '<a href="https://registrar.princeton.edu/course-offerings/course_details.xml' +
+      "?courseid=" +
+      course.courseID +
+      "&amp;term=" +
+      course.semester._id +
+      '" target="_blank" style="text-decoration: none;">' +
+      '<span title="View course in Course Offerings" class="label label-primary">Registrar' +
+      '<i class="fa fa-external-link" style="margin-left: 5px;"></i>' +
+      "</span></a>" +
+      " ";
   var snatch_link =
-      ' <a href="https://snatch.tigerapps.org/course' +
+      '<a href="https://snatch.tigerapps.org/course' +
       "?courseid=" +
       course.courseID +
       '&skip" target="_blank" style="text-decoration: none;">' +
-      '<span title="View course in TigerSnatch" class="label label-primary">Snatch!' +
+      '<span title="View course in TigerSnatch" class="label label-warning">Snatch' +
       '<i class="fa fa-external-link" style="margin-left: 5px;"></i>' +
       "</span></a>" +
-      " &middot; ";
+      " ";
   $('#disp-subtitle-right').append(snatch_link + link + semester)
 }
 
