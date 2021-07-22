@@ -62,7 +62,7 @@ throttledRequest.configure({
 var loadCoursesFromRegistrar = function (query, externalCallback) {
   console.log("Preparing to make request to the Registrar for course listings data with query '%s'.", query)
 
-  let args = ["importers/mobileapp.py"];
+  let args = ["importers/mobileapp.py", "importBasicCourseDetails"];
   if (query.length > 0) {
       args.push(query);
   }

@@ -7,6 +7,7 @@ require('dotenv').config()
 // Load external dependencies
 var http = require('http')
 var log = require('loglevel')
+const spawn = require("child_process").spawn;
 var $ = require('cheerio')
 
 // Set the level of the logger to the first command line argument
@@ -22,42 +23,20 @@ var departmentModel = require('../models/department.js')
 require('../controllers/database.js')
 
 let loadDepartmentsFromRegistrar = function (callback) {
-  console.log('Requesting department details from the Registrar')
+  console.log("Requesting department details from the Registrar");
 
-  let options = {
-    host: 'etcweb.princeton.edu',
-    path: '/webfeeds/courseofferings/?fmt=json&subject=list&term=all'
-  }
-
-  // Construct the request
-  let request = http.request(options, function (response) {
-    console.log('Request sent to the Registrar.')
-
-    let result = ''
-
-    // Append received data to already received data
-    response.on('data', function (chunk) {
-      result += chunk
-    })
-
-    response.on('error', function (error) {
-      console.log(error)
-    })
-
-    // Handle data once it has all been received
-    response.on('end', function () {
-      console.log('Departments data recieved from the Registrar.')
-      let parsedResult = JSON.parse(result)
-      callback(parsedResult)
-    })
-  })
-
-  request.on('error', function (error) {
-    console.log(error)
-  })
-
-  // Terminate the request
-  request.end()
+  let args = ["importers/mobileapp.py", "importDepartmentals"];
+  const pythonMobileAppManager = spawn("python", args);
+  res = "";
+  pythonMobileAppManager.stdout.on("data", (data) => {
+      res += data.toString("utf8");
+  });
+  pythonMobileAppManager.stdout.on("end", () => {
+      callback(JSON.parse(res));
+  });
+  pythonMobileAppManager.on("error", (error) => {
+      console.log(error);
+  });
 }
 
 // Decode escaped HTML characters in a string, for example changing "Foo&amp;bar" to "Foo&bar"

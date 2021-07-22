@@ -36,6 +36,11 @@ class MobileApp:
         data = self._getJSON(self.configs.COURSE_COURSES, 'subject=list')
         return ','.join([e['code'] for e in data['term'][0]['subjects']])
 
+    # returns a raw JSON of all department codes
+
+    def get_all_dept_codes_json(self):
+        return self._getJSON(self.configs.COURSE_COURSES, 'subject=list')
+
     '''
     This function allows a user to make a request to 
     a certain endpoint, with the BASE_URL of 
@@ -99,9 +104,21 @@ class Configs:
 
 def main():
     api = MobileApp()
-    all_codes = api.get_all_dept_codes_csv()
-    args = argv[1] if len(argv) > 1 else f'subject={all_codes}'
-    print(dumps(api.get_courses(args)))
+    if argv[1] == 'importBasicCourseDetails':
+        all_codes = api.get_all_dept_codes_csv()
+        '''
+        Add "&term=<TERM_CODE>" to the string below if you need to process
+        courses from a specific term. For example, if you want to process
+        courses from term code 1222, the below line would be:
+
+        args = argv[2] if len(argv) > 2 else f'subject={all_codes}&term=1222'
+
+        Be sure to REVERT this change when done processing new courses!
+        '''
+        args = argv[2] if len(argv) > 2 else f'subject={all_codes}'
+        print(dumps(api.get_courses(args)))
+    elif argv[1] == 'importDepartmentals':
+        print(dumps(api.get_all_dept_codes_json()))
     stdout.flush()
 
 
