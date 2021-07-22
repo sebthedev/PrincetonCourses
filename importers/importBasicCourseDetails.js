@@ -1,5 +1,5 @@
-// This script populates the database with all the courses from Princeton's Registrar
-console.log('Starting script to update our database with latest course listings information from the Registrar.')
+// This script populates the database with all the courses from MobileApp API and Princeton's Registrar
+console.log('Starting script to update our database with latest course listings information from MobileApp API and the Registrar.')
 
 // Load config variables from the .env file
 require('dotenv').config()
@@ -8,7 +8,8 @@ require('dotenv').config()
 const log = require('loglevel')
 const cheerio = require('cheerio')
 const request = require('request')
-const throttledRequest = require('throttled-request')(request)
+const spawn = require("child_process").spawn;
+const throttledRequest = require("throttled-request")(request);
 
 // Set the level of the logger to the first command line argument
 // Valid values: "trace", "debug", "info", "warn", "error"
@@ -59,18 +60,28 @@ throttledRequest.configure({
 // For example, the query "term=1174&subject=COS" will return all COS courses in
 // the Spring 2017 semester. Learn about valid query strings at https://webfeeds.princeton.edu/#feed,19
 var loadCoursesFromRegistrar = function (query, externalCallback) {
-  console.log("Preparing to make request to the Registrar for course listings data with query '%s'.", query)
+  console.log("Preparing to make request to MobileApp API for course listings data");
 
-  request(`http://etcweb.princeton.edu/webfeeds/courseofferings/?fmt=json&vers=1.5&${query}`, function (error, response, body) {
-    if (error) {
-      return console.log(error)
-    }
-    externalCallback(JSON.parse(body))
-  })
+  let args = ["importers/mobileapp.py", "importBasicCourseDetails"];
+  if (query.length > 0) {
+      args.push(query);
+  }
+  const pythonMobileAppManager = spawn("python", args);
+  res = "";
+  pythonMobileAppManager.stdout.on("data", (data) => {
+      res += data.toString("utf8");
+  });
+  pythonMobileAppManager.stdout.on("end", () => {
+      externalCallback(JSON.parse(res));
+  });
+  pythonMobileAppManager.on("error", (error) => {
+      console.log(error);
+  });
 }
 
 var importDataFromRegistrar = function (data) {
-  console.log('Processing data recieved from the Registrar.')
+  console.log('Processing data recieved from MobileApp API.')
+  data.term[0].code = Number(data.term[0].code);
 
   for (var termIndex in data.term) {
     var term = data.term[termIndex]
@@ -78,7 +89,7 @@ var importDataFromRegistrar = function (data) {
   }
 }
 
-// Recieve a "term" of data (of the kind produced by the Registrar) and add/update the database to contain this data
+// Recieve a "term" of data (of the kind produced by MobileApp API) and add/update the database to contain this data
 var importTerm = function (term) {
   console.log('Processing the %s semester.', term.cal_name)
 
@@ -288,7 +299,7 @@ var importSubject = async function (semester, subject) {
 var coursesPendingProcessing = 0
 
 // Get queryString from command line args
-var queryString = 'term=all&subject=all'
+var queryString = "";
 if (process.argv.length > 2) {
   queryString = process.argv[2]
 }
