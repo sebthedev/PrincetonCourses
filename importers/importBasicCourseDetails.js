@@ -8,7 +8,8 @@ require('dotenv').config()
 const log = require('loglevel')
 const cheerio = require('cheerio')
 const request = require('request')
-const throttledRequest = require('throttled-request')(request)
+const spawn = require("child_process").spawn;
+const throttledRequest = require("throttled-request")(request);
 
 // Set the level of the logger to the first command line argument
 // Valid values: "trace", "debug", "info", "warn", "error"
@@ -61,16 +62,26 @@ throttledRequest.configure({
 var loadCoursesFromRegistrar = function (query, externalCallback) {
   console.log("Preparing to make request to the Registrar for course listings data with query '%s'.", query)
 
-  request(`http://etcweb.princeton.edu/webfeeds/courseofferings/?fmt=json&vers=1.5&${query}`, function (error, response, body) {
-    if (error) {
-      return console.log(error)
-    }
-    externalCallback(JSON.parse(body))
-  })
+  let args = ["importers/mobileapp.py"];
+  if (query.length > 0) {
+      args.push(query);
+  }
+  const pythonMobileAppManager = spawn("python", args);
+  res = "";
+  pythonMobileAppManager.stdout.on("data", (data) => {
+      res += data.toString("utf8");
+  });
+  pythonMobileAppManager.stdout.on("end", () => {
+      externalCallback(JSON.parse(res));
+  });
+  pythonMobileAppManager.on("error", (error) => {
+      console.log(error);
+  });
 }
 
 var importDataFromRegistrar = function (data) {
   console.log('Processing data recieved from the Registrar.')
+  data.term[0].code = Number(data.term[0].code);
 
   for (var termIndex in data.term) {
     var term = data.term[termIndex]
@@ -288,7 +299,7 @@ var importSubject = async function (semester, subject) {
 var coursesPendingProcessing = 0
 
 // Get queryString from command line args
-var queryString = 'term=all&subject=all'
+var queryString = "";
 if (process.argv.length > 2) {
   queryString = process.argv[2]
 }
