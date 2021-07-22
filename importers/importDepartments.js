@@ -1,5 +1,5 @@
-// This script populates the database with all the departments from Princeton's Registrar
-console.log('Starting script to update our database with latest course listings information from the Registrar.')
+// This script populates the database with all the departments from MobileApp API
+console.log('Starting script to update our database with latest course listings information from MobileApp API.')
 
 // Load config variables from the .env file
 require('dotenv').config()
@@ -23,7 +23,7 @@ var departmentModel = require('../models/department.js')
 require('../controllers/database.js')
 
 let loadDepartmentsFromRegistrar = function (callback) {
-  console.log("Requesting department details from the Registrar");
+  console.log("Requesting department details from MobileApp API");
 
   let args = ["importers/mobileapp.py", "importDepartmentals"];
   const pythonMobileAppManager = spawn("python", args);
