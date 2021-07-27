@@ -143,8 +143,15 @@ var display_subtitle = function(course) {
   // tags
   var tags = newHTMLtags(course, {'title': 1})
 
-  var website = (course.website === undefined ? '' : '<a href="' + course.website + '" target="_blank">'
-                                                     + '<i data-placement="bottom" data-toggle="tooltip" title="Course website" class="fa fa-external-link"></i></a>')
+  var website =
+      course.website === undefined
+          ? ""
+          : '<a href="' +
+            course.website +
+            '" target="_blank" style="text-decoration: none;">' +
+            '<span title="View course website" class="label label-primary">Course Site' +
+            '<i class="fa fa-external-link" style="margin-left: 5px;"></i></span></a>';
+
   $('#disp-subtitle').append(listings + ' ' + tags + ' ' + website)
 
   var semester = course.semester.name;
