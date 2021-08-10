@@ -4,14 +4,15 @@
 
 // distributions
 const distributions = {
+  'CD': 'Culture and Difference', 
   'EC': 'Epistemology and Cognition',
   'EM': 'Ethical Thought and Moral Values',
   'HA': 'Historical Analysis',
   'LA': 'Literature and the Arts',
   'SA': 'Social Analysis',
-  'QR': 'Quantitative Reasoning',
-  'STL': 'Science and Technology with Lab',
-  'STN': 'Science and Technology without Lab'
+  'QCR': 'Quantitative and Computational Reasoning',
+  'SEL': 'Science and Engineering with Lab',
+  'SEN': 'Science and Engineering without Lab',
 }
 
 // departments
