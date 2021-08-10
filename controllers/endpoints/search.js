@@ -34,7 +34,15 @@ router.use('/:query', function (req, res) {
   // Perform filtering based on explicit keywords
   let queryWords = req.params.query.split(' ')
   var newQueryWords = []
-  const distributionAreas = ['EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
+  const distributionAreas = ['CD', 'QCR', 'SEL', 'SEN', 'EC', 'EM', 'HA', 'LA', 'SA', 'QR', 'STL', 'STN']
+  const distributionCorresp = {
+    'QCR':'QR',
+    'QR' :'QCR',
+    'SEL':'STL',
+    'STL':'SEL',
+    'SEN':'STN',
+    'STN':'SEN'
+  }
   const courseDeptNumberRegexp = /([A-Z]{3})(\d{1,3})/
   const catalogNumberLevel = /\dXX/i
   let departmentsQueried = []
@@ -55,7 +63,10 @@ router.use('/:query', function (req, res) {
           '$in': []
         }
       }
-      courseQuery.distribution['$in'].push(thisQueryWord)
+      courseQuery.distribution['$in'].push(new RegExp(thisQueryWord))
+      if(distributionCorresp.hasOwnProperty(thisQueryWord)) {
+        courseQuery.distribution['$in'].push(new RegExp(distributionCorresp[thisQueryWord]))
+      }
     } else if (isDepartment) {
       departmentsQueried.push(thisQueryWord)
     } else if (thisQueryWord === 'PDF') {

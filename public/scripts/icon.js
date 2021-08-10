@@ -124,17 +124,19 @@ function newHTMLtags(course, props) {
 
   /* DISTRIBUTION TAG */
 
-  var hasDistribution = (course.hasOwnProperty('distribution') && (course.distribution in distributions))
-
   var tag_distribution = ''
-  if (hasDistribution) tag_distribution = newHTMLtag(
-    {
-      'tooltip': distributions[course.distribution],
-      'placement': tipPlacement,
-      'class': tag_type + (isTitle ? 'label-info' : 'text-info'),
-      'text': course.distribution
+  if(course.hasOwnProperty('distribution')) {
+    for(distribution in distributionsAll) {
+      if((new RegExp(distribution)).test(course.distribution)) tag_distribution += ' ' + newHTMLtag(
+        {
+          'tooltip': distributionsAll[distribution],
+          'placement': tipPlacement,
+          'class': tag_type + (isTitle ? 'label-info' : 'text-info'),
+          'text': distribution
+        }
+      )
     }
-  )
+  }
 
   /* PDF TAG */
 

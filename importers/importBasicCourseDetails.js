@@ -281,6 +281,9 @@ var importSubject = async function (semester, subject) {
       // Get other information
       courseData.website = frontEndApiCourseDetails.web_address
 
+      // Get distribution requirements
+      courseData.distribution_area = frontEndApiCourseDetails.distribution_area_short
+
       courseModel.createCourse(semester, subject.code, courseData, function () {
         // Decrement the number of courses pending processing
         coursesPendingProcessing--
