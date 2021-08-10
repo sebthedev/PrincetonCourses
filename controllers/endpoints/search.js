@@ -63,9 +63,9 @@ router.use('/:query', function (req, res) {
           '$in': []
         }
       }
-      courseQuery.distribution['$in'].push(thisQueryWord)
+      courseQuery.distribution['$in'].push(new RegExp(thisQueryWord))
       if(distributionCorresp.hasOwnProperty(thisQueryWord)) {
-        courseQuery.distribution['$in'].push(distributionCorresp[thisQueryWord])
+        courseQuery.distribution['$in'].push(new RegExp(distributionCorresp[thisQueryWord]))
       }
     } else if (isDepartment) {
       departmentsQueried.push(thisQueryWord)

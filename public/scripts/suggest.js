@@ -15,6 +15,16 @@ const distributions = {
   'SEN': 'Science and Engineering without Lab',
 }
 
+const distributionsOld = {
+  'QR': 'Quantitative REasoning',
+  'STL':'Science and Technology with Lab',
+  'STN':'Science and Technology without Lab'
+}
+
+const distributionsAll = {
+  ...distributions, ...distributionsOld
+}
+
 // departments
 const departments = {
  'AAS': 'African American Studies',
