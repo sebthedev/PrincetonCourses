@@ -23,12 +23,14 @@ var courseModel = require('../models/course.js')
 // Connect to the database
 require('../controllers/database.js')
 
-// This is the mapping from assignment keys to their proper titles
+// This is the mapping from assignment keys to their proper titles.
+// Labels follow the registrar's current wording (checked Nov 2026 against
+// URB 385 Fall 2026 on the registrar's course page).
 const assignmentMapping = {
   'grading_mid_exam': 'Mid term exam',
   'grading_paper_mid_exam': 'Paper in lieu of mid term',
   'grading_final_exam': 'Final exam',
-  'grading_paper_final_exam': 'Paper in lieu of final',
+  'grading_paper_final_exam': 'Final paper, problem set, or project',
   'grading_other_exam': 'Other exam',
   'grading_home_mid_exam': 'Take home mid term exam',
   'grading_design_projects': 'Design project',
@@ -36,14 +38,29 @@ const assignmentMapping = {
   'grading_prog_assign': 'Programming assignments',
   'grading_quizzes': 'Quizzes',
   'grading_lab_reports': 'Lab reports',
-  'grading_papers': 'Papers',
+  'grading_papers': 'Papers/writing assignments',
   'grading_oral_pres': 'Oral presentation(s)',
   'grading_term_papers': 'Term paper(s)',
-  'grading_precept_part': 'Class/precept participation',
+  'grading_precept_part': 'Participation',
   'grading_prob_sets': 'Problem set(s)',
   'grading_other': 'Other (see instructor)'
 }
-const assignmentPropertyNames = Object.keys(assignmentMapping)
+
+// Grading categories the registrar sends that are not in assignmentMapping.
+// They are still shown (with a label made from the field name) and listed at
+// the end of the import so a proper label can be added above.
+const unmappedGradingKeys = new Set()
+
+// Every registrar field "grading_<something>" is a weight, except these.
+const nonWeightGradingKeys = new Set(['grading_basis'])
+
+// "grading_group_proj" -> "Group proj"
+const gradingLabel = function (key) {
+  if (assignmentMapping[key]) return assignmentMapping[key]
+  unmappedGradingKeys.add(key)
+  const words = key.replace(/^grading_/, '').split('_').filter(Boolean).join(' ')
+  return words.charAt(0).toUpperCase() + words.slice(1)
+}
 
 // This is how we keep track of the token that is required for accessing api.princeton.edu
 let registrarFrontEndAPIToken
@@ -116,6 +133,9 @@ var importDataFromRegistrar = async function (data) {
   }
 
   console.log('All courses successfully processed. Registrar enrichment: %d enriched, %d saved from OIT data only.', enrichedCount, unenrichedCount)
+  if (unmappedGradingKeys.size > 0) {
+    console.warn('Grading categories with no label in assignmentMapping (shown with a generated label): %s', Array.from(unmappedGradingKeys).sort().join(', '))
+  }
   if (unenrichedCount > 0 && enrichedCount === 0) {
     console.warn('No course received registrar enrichment this run. Provide a valid REGISTRAR_FE_API_TOKEN (from a browser session on registrar.princeton.edu/course-offerings) and re-run to fill grading, reserved seats, prerequisites, and reading lists.')
   }
@@ -258,15 +278,21 @@ var enrichCourseFromRegistrar = async function (semester, courseData) {
   }
 
   // Get Grading
+  // Take every grading_* weight, not only those named in assignmentMapping:
+  // the registrar has added categories, and a fixed list silently dropped
+  // them (breakdowns adding up to 55% or 85%). Weights may arrive as "25",
+  // 25, "25.00", "0", 0, "", or null; keep only real, positive percentages.
   courseData.grading = Object.keys(frontEndApiCourseDetails).filter(function (key) {
-    return assignmentPropertyNames.includes(key)
-  }).filter(function (key) {
-    return frontEndApiCourseDetails[key] !== '0'
+    return key.startsWith('grading_') && !nonWeightGradingKeys.has(key)
   }).map(function (key) {
     return {
-      component: assignmentMapping[key],
+      key: key,
       weight: parseFloat(frontEndApiCourseDetails[key])
     }
+  }).filter(function (grade) {
+    return Number.isFinite(grade.weight) && grade.weight > 0
+  }).map(function (grade) {
+    return { component: gradingLabel(grade.key), weight: grade.weight }
   }).sort(function (a, b) {
     if (a.weight < b.weight) return 1
     if (a.weight > b.weight) return -1

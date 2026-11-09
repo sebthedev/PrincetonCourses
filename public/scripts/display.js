@@ -262,9 +262,14 @@ var display_grading = function(course) {
   $('#disp-grading-body').html('')
 
   var grading = ''
-  for (var index in course.grading) {
-    var grade = course.grading[index]
-    grading += '<div>' + grade.weight + '% ' + grade.component + '</div>'
+  var grades = Array.isArray(course.grading) ? course.grading : []
+  for (var index = 0; index < grades.length; index++) {
+    var grade = grades[index]
+    // Skip bad rows already in the database (0%, NaN%, missing names)
+    // until the next import replaces them.
+    var weight = parseFloat(grade && grade.weight)
+    if (!isFinite(weight) || weight <= 0 || !grade.component) continue
+    grading += '<div>' + (Math.round(weight * 100) / 100) + '% ' + grade.component + '</div>'
   }
   if (grading !== '') grading = '<li class="list-group-item info-list-item">' + grading + '</li>'
 
