@@ -43,8 +43,16 @@ const assignmentMapping = {
   'grading_term_papers': 'Term paper(s)',
   'grading_precept_part': 'Participation',
   'grading_prob_sets': 'Problem set(s)',
-  'grading_other': 'Other (see instructor)'
+  'grading_other': 'Other (see instructor)',
+  // Newer categories use a "pu_" prefix instead of "grading_" (seen Nov 2026:
+  // URB 385 Fall 2026 sends its 45% "Project(s)" weight as pu_projects).
+  'pu_projects': 'Project(s)',
+  'pu_pres_final_exam': 'Presentation in lieu of final exam'
 }
+
+// Registrar "pu_" fields that hold grading weights. Other pu_ fields (such as
+// pu_flag) are not grading, so these are listed by name.
+const puGradingKeys = new Set(['pu_projects', 'pu_pres_final_exam'])
 
 // Grading categories the registrar sends that are not in assignmentMapping.
 // They are still shown (with a label made from the field name) and listed at
@@ -278,12 +286,13 @@ var enrichCourseFromRegistrar = async function (semester, courseData) {
   }
 
   // Get Grading
-  // Take every grading_* weight, not only those named in assignmentMapping:
+  // Take every grading_* weight (and the pu_ weights in puGradingKeys), not
+  // only those named in assignmentMapping:
   // the registrar has added categories, and a fixed list silently dropped
   // them (breakdowns adding up to 55% or 85%). Weights may arrive as "25",
   // 25, "25.00", "0", 0, "", or null; keep only real, positive percentages.
   courseData.grading = Object.keys(frontEndApiCourseDetails).filter(function (key) {
-    return key.startsWith('grading_') && !nonWeightGradingKeys.has(key)
+    return (key.startsWith('grading_') && !nonWeightGradingKeys.has(key)) || puGradingKeys.has(key)
   }).map(function (key) {
     return {
       key: key,
