@@ -39,7 +39,7 @@ const assignmentMapping = {
   'grading_quizzes': 'Quizzes',
   'grading_lab_reports': 'Lab reports',
   'grading_papers': 'Papers/writing assignments',
-  'grading_oral_pres': 'Oral presentation(s)',
+  'grading_oral_pres': 'Presentation or performance',
   'grading_term_papers': 'Term paper(s)',
   'grading_precept_part': 'Participation',
   'grading_prob_sets': 'Problem set(s)',
